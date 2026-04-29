@@ -1,0 +1,3099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>offplan.online — Brandbook v1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Brand tokens — exactly what will ship as CSS variables ── */
+    :root {
+      /* Surface — confirmed values */
+      --surface-bg:        #FAFAF8;  /* Warm white — admin bg */
+      --surface-card:      #FFFFFF;  /* Pure white — cards */
+      --surface-subtle:    #F2F0ED;  /* Very light stone — section bgs */
+      --surface-secondary: #F8F7F5;  /* Figma "Solid/Secondary white" — active level selector */
+      --surface-overlay:   rgba(255,255,255,0.92); /* Nav backdrop */
+
+      /* Stone scale — confirmed from Figma */
+      --stone-700:  #7C7574;  /* ✓ Inactive tab labels, filter nav bg, borders */
+      --stone-600:  #909090;  /* ✓ Cancel/close buttons (Figma Button/Cancel oval) */
+      --stone-500:  #9A9594;  /* Secondary labels */
+      --stone-400:  #C5C8CA;  /* Active tabs, selected states */
+      --stone-200:  #E4E2DF;  /* Dividers, hairlines */
+      --stone-100:  #F2F0ED;  /* Subtle backgrounds */
+
+      /* Glassmorphism overlays — confirmed Figma blur + opacity values */
+      --glass-active:   rgba(90,90,90,0.30);   /* Active state bg (blur 51) */
+      --glass-inactive: rgba(139,139,139,0.31); /* Inactive state bg (blur 41) */
+      --glass-nav:      rgba(124,117,116,0.08); /* Filter nav bg (blur 51.3) */
+      --glass-level:    rgba(174,174,174,0.59); /* Level selector bg (blur 22) */
+
+      /* Text scale — confirmed from Figma + live CSS */
+      --text-900: #323840;  /* Primary UI text — confirmed active tab/body colour */
+      --text-700: #3D3B39;  /* Body text */
+      --text-500: #6A6865;  /* Secondary */
+      --text-300: #A09E9C;  /* Muted / placeholder */
+
+      /* Accent */
+      --gold:      #B8955A;  /* Premium accent — price, highlights */
+      --gold-light:#E8D5B0;  /* Gold tint for backgrounds */
+      --navy:      #1E2E3E;  /* Deep contrast — hero surfaces, dark mode hint */
+
+      /* Status (proposed refresh — replacing traffic lights) */
+      --status-available: #6B8C6E;  /* Muted sage — natural, calm */
+      --status-reserved:  #B8955A;  /* Warm gold — aspirational */
+      --status-sold:      #3A3A3A;  /* Charcoal — definitive, complete */
+      --status-available-bg: rgba(107,140,110,0.10);
+      --status-reserved-bg:  rgba(184,149,90,0.12);
+      --status-sold-bg:      rgba(58,58,58,0.08);
+
+      /* Shadows */
+      --shadow-card:  0 8px 24px rgba(0,0,0,0.10);  /* Main card shadow */
+      --shadow-float: 0 16px 40px rgba(0,0,0,0.14); /* Popup / elevated */
+      --shadow-subtle:0 2px  8px rgba(0,0,0,0.06);  /* Subtle lift */
+
+      /* Typography — product font stack */
+      --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      /* Letter-spacing tokens — Figma confirmed */
+      --tracking-nav:   0.16em;  /* ✓ 1.86px at 11.62px — nav labels (Figma exact) */
+      --tracking-wide:  0.14em;  /* 2.04px at 14px — button labels */
+      --tracking-wider: 0.18em;  /* Section headings, sidebar labels */
+
+      /* Spacing */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+
+      /* Border radius */
+      --radius-sm: 2px;
+      --radius-md: 4px;
+      --radius-lg: 8px;
+      --radius-pill: 100px;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in:  cubic-bezier(0.4, 0, 1, 1);
+      --duration-micro: 120ms;
+      --duration-panel: 280ms;
+    }
+
+    /* ── Document shell ──────────────────────────────────────── */
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--surface-bg);
+      color: var(--text-700);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar nav ─────────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 220px;
+      height: 100vh;
+      background: var(--navy);
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      flex-direction: column;
+      padding: 32px 0;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 0 24px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-logo-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+    }
+
+    .sidebar-logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 8px 24px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 500;
+      transition: color var(--duration-micro) ease;
+    }
+
+    .sidebar nav a:hover { color: rgba(255,255,255,0.9); }
+    .sidebar nav a.active { color: var(--gold); }
+
+    .sidebar-section-label {
+      padding: 20px 24px 8px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── Main content ────────────────────────────────────────── */
+    .main {
+      margin-left: 220px;
+      min-height: 100vh;
+    }
+
+    /* ── Page header ─────────────────────────────────────────── */
+    .page-header {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 64px 64px 56px;
+    }
+
+    .page-header-eyebrow {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .page-header-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .page-header-meta span { display: flex; align-items: center; gap: 6px; }
+
+    .meta-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    /* ── Section wrapper ────────────────────────────────────── */
+    .section {
+      padding: 64px;
+      border-bottom: 1px solid var(--stone-200);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-eyebrow {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--stone-400);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-900);
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-500);
+      max-width: 640px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* ── Subsection ─────────────────────────────────────────── */
+    .subsection {
+      margin-top: 48px;
+    }
+
+    .subsection-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--text-500);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .subsection-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--stone-200);
+    }
+
+    /* ── Callout ─────────────────────────────────────────────── */
+    .callout {
+      background: var(--surface-subtle);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--text-700);
+    }
+
+    .callout strong { color: var(--text-900); }
+
+    .callout-note {
+      background: rgba(30,46,62,0.05);
+      border-left-color: var(--navy);
+    }
+
+    .callout-idea {
+      background: rgba(184,149,90,0.06);
+      border-left: 2px dashed rgba(184,149,90,0.45);
+      padding: 14px 20px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      margin: 24px 0;
+      font-size: 13px;
+      color: var(--text-500);
+    }
+    .callout-idea strong { color: var(--text-700); font-weight: 600; }
+    .callout-idea .idea-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    /* ── Colour palette grid ─────────────────────────────────── */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .swatch-color {
+      height: 80px;
+    }
+
+    .swatch-info {
+      background: var(--surface-card);
+      padding: 12px;
+      border: 1px solid var(--stone-200);
+      border-top: none;
+    }
+
+    .swatch-name {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-900);
+      margin-bottom: 2px;
+    }
+
+    .swatch-hex {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--text-500);
+    }
+
+    .swatch-usage {
+      font-size: 11px;
+      color: var(--text-300);
+      margin-top: 4px;
+    }
+
+    /* ── Two-column layout ──────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .two-col-wide {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    /* ── Type specimen ──────────────────────────────────────── */
+    .type-specimen {
+      background: var(--surface-card);
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 16px;
+    }
+
+    .type-specimen-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-300);
+      margin-bottom: 12px;
+    }
+
+    .type-spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--stone-200);
+    }
+
+    .type-spec-name { font-size: 12px; color: var(--text-500); }
+
+    .type-spec-value {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--text-300);
+    }
+
+    /* ── Status indicators ──────────────────────────────────── */
+    .status-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .status-panel {
+      background: var(--surface-card);
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .status-panel-header {
+      padding: 16px 20px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--stone-200);
+    }
+
+    .status-panel-header.current { color: var(--text-500); background: var(--surface-subtle); }
+    .status-panel-header.proposed { color: #FFFFFF; background: var(--navy); }
+
+    .status-panel-body { padding: 20px; }
+
+    .status-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .status-badge-row:last-child { margin-bottom: 0; }
+
+    /* Current (traffic light) badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .badge-current-available { background: #2ECC71; color: #FFFFFF; }
+    .badge-current-reserved  { background: #F39C12; color: #FFFFFF; }
+    .badge-current-sold      { background: #E74C3C; color: #FFFFFF; }
+
+    /* Proposed (tonal) badges */
+    .badge-available {
+      background: var(--status-available-bg);
+      color: var(--status-available);
+      border: 1px solid rgba(107,140,110,0.25);
+    }
+
+    .badge-reserved {
+      background: var(--status-reserved-bg);
+      color: var(--status-reserved);
+      border: 1px solid rgba(184,149,90,0.25);
+    }
+
+    .badge-sold {
+      background: var(--status-sold-bg);
+      color: var(--status-sold);
+      border: 1px solid rgba(58,58,58,0.15);
+    }
+
+    .status-badge-context {
+      font-size: 12px;
+      color: var(--text-300);
+    }
+
+    /* ── Unit card mockup ────────────────────────────────────── */
+    .unit-card {
+      background: var(--surface-card);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      max-width: 360px;
+    }
+
+    .unit-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .unit-number {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text-900);
+      letter-spacing: -0.01em;
+    }
+
+    .unit-type {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--text-500);
+      margin-top: 4px;
+    }
+
+    .unit-card-divider {
+      height: 1px;
+      background: var(--stone-200);
+      margin: 16px 0;
+    }
+
+    .unit-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .spec-item label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--text-300);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .spec-item span {
+      font-size: 14px;
+      color: var(--text-700);
+    }
+
+    .unit-price {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--gold);
+      margin-top: 16px;
+    }
+
+    /* ── Nav bar mockup ─────────────────────────────────────── */
+    .nav-mockup {
+      background: var(--surface-overlay);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 32px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-900);
+      margin-right: 16px;
+    }
+
+    .nav-item {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--stone-700);
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      cursor: default;
+    }
+
+    .nav-item.active {
+      color: var(--text-900);
+      border-bottom-color: var(--text-900);
+    }
+
+    /* ── Bottom CTA strip ───────────────────────────────────── */
+    .cta-strip {
+      background: rgba(26,25,23,0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 32px;
+      gap: 0;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .cta-item {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      padding: 0 20px;
+      cursor: default;
+    }
+
+    .cta-item.active { color: #FFFFFF; }
+
+    .cta-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ── Component mockup container ─────────────────────────── */
+    .mockup-frame {
+      background: var(--surface-subtle);
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+    }
+
+    .mockup-frame.dark {
+      background: linear-gradient(135deg, var(--navy) 0%, #2A3E52 100%);
+      border-color: transparent;
+    }
+
+    /* ── Code token block ───────────────────────────────────── */
+    .token-block {
+      background: var(--navy);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.75);
+      overflow-x: auto;
+    }
+
+    .token-var { color: #C5C8CA; }
+    .token-val { color: var(--gold); }
+    .token-comment { color: rgba(255,255,255,0.3); }
+
+    /* ── Spacing scale ──────────────────────────────────────── */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .spacing-bar {
+      background: var(--gold);
+      height: 4px;
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    .spacing-label {
+      font-family: 'SF Mono', monospace;
+      font-size: 12px;
+      color: var(--text-500);
+      min-width: 120px;
+    }
+
+    /* ── Motion spec ────────────────────────────────────────── */
+    .motion-row {
+      display: grid;
+      grid-template-columns: 160px 120px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--stone-200);
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .motion-name { color: var(--text-700); font-weight: 500; }
+    .motion-val { font-family: 'SF Mono', monospace; font-size: 12px; color: var(--stone-700); }
+    .motion-use { color: var(--text-500); font-size: 13px; }
+
+    /* ── Comparison table ───────────────────────────────────── */
+    table.comp {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    table.comp th {
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-500);
+      padding: 10px 16px;
+      background: var(--surface-subtle);
+      border-bottom: 1px solid var(--stone-200);
+    }
+
+    table.comp td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--stone-200);
+      color: var(--text-700);
+      vertical-align: top;
+    }
+
+    table.comp tr:last-child td { border-bottom: none; }
+
+    table.comp .keep { color: var(--status-available); font-size: 12px; font-weight: 500; }
+    table.comp .change { color: var(--gold); font-size: 12px; font-weight: 500; }
+    table.comp .new { color: var(--navy); font-size: 12px; font-weight: 500; }
+
+    /* ── Decision cards ─────────────────────────────────────── */
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .decision-card {
+      background: var(--surface-card);
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .decision-card-title {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-900);
+      margin-bottom: 8px;
+    }
+
+    .decision-card p {
+      font-size: 13px;
+      color: var(--text-500);
+      line-height: 1.6;
+    }
+
+    /* ── Button styles ──────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      cursor: default;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--text-900);
+      color: #FFFFFF;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--stone-700);
+      border: 1px solid var(--stone-400);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #FFFFFF;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-500);
+    }
+
+    .btn-disabled {
+      background: var(--stone-200);
+      color: var(--text-300);
+    }
+
+    .btn-label {
+      font-size: 11px;
+      color: var(--text-300);
+      margin-top: 4px;
+    }
+
+    .btn-with-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Filter chip ─────────────────────────────────────────── */
+    .chip-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: default;
+    }
+
+    .chip-default {
+      background: var(--surface-subtle);
+      color: var(--text-500);
+      border: 1px solid var(--stone-200);
+    }
+
+    .chip-active {
+      background: var(--text-900);
+      color: #FFFFFF;
+    }
+
+    /* ── Summary page CTA ─────────────────────────────────────── */
+    .phase-ref {
+      display: inline-block;
+      background: var(--gold-light);
+      color: var(--gold);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-family: 'SF Mono', monospace;
+    }
+
+    /* ── Forms ──────────────────────────────────────────────── */
+    .form-demo { display:flex; flex-direction:column; gap:20px; max-width:460px; }
+    .form-group { display:flex; flex-direction:column; gap:6px; }
+    .form-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-500);
+    }
+    .form-label .required { color: var(--gold); margin-left:2px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-900);
+      outline: none;
+      transition: border-color var(--duration-micro) ease, box-shadow var(--duration-micro) ease;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-300); }
+    .form-input.is-focus, .form-select.is-focus, .form-textarea.is-focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,149,90,0.18);
+    }
+    .form-input.is-error, .form-select.is-error, .form-textarea.is-error {
+      border-color: #B94040;
+      box-shadow: 0 0 0 3px rgba(185,64,64,0.12);
+    }
+    .form-input.is-disabled, .form-select.is-disabled, .form-textarea.is-disabled {
+      background: var(--surface-subtle);
+      color: var(--text-300);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .form-helper { font-size: 12px; color: var(--text-300); margin-top:2px; }
+    .form-error-text { font-size: 12px; color: #B94040; margin-top:2px; }
+
+    /* Select — custom arrow */
+    .form-select-wrap { position: relative; }
+    .form-select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid var(--text-300);
+      pointer-events: none;
+    }
+    .form-select { padding-right: 36px; cursor: pointer; }
+
+    /* Textarea */
+    .form-textarea { resize: vertical; min-height: 96px; line-height: 1.5; }
+
+    /* States grid */
+    .form-states { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .form-state-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-300);
+      margin-bottom: 6px;
+    }
+
+    /* Toggle */
+    .toggle-row { display:flex; align-items:center; gap:12px; }
+    .toggle-switch {
+      position: relative;
+      width: 40px; height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle-track {
+      position: absolute; inset: 0;
+      background: var(--stone-200);
+      border-radius: 11px;
+      transition: background var(--duration-micro) ease;
+    }
+    .toggle-thumb {
+      position: absolute;
+      width: 16px; height: 16px;
+      top: 3px; left: 3px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+      transition: transform var(--duration-micro) ease;
+    }
+    .toggle-switch.on .toggle-track { background: var(--navy); }
+    .toggle-switch.on .toggle-thumb { transform: translateX(18px); }
+    .toggle-label-text { font-size: 14px; color: var(--text-700); }
+    .toggle-sub { font-size: 12px; color: var(--text-300); margin-top:1px; }
+
+    /* Checkbox */
+    .checkbox-row { display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+    .checkbox-box {
+      width: 18px; height: 18px;
+      border: 2px solid var(--stone-200);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      display: flex; align-items:center; justify-content:center;
+      flex-shrink: 0; margin-top:1px;
+      transition: background var(--duration-micro) ease, border-color var(--duration-micro) ease;
+    }
+    .checkbox-box.checked {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .checkbox-box.checked::after {
+      content: '';
+      width: 5px; height: 9px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(40deg) translateY(-1px);
+    }
+    .checkbox-text { font-size:14px; color:var(--text-700); line-height:1.4; }
+
+    /* File upload drop zone */
+    .file-drop {
+      border: 2px dashed var(--stone-200);
+      border-radius: var(--radius-lg);
+      padding: 36px 24px;
+      text-align: center;
+      background: var(--surface-subtle);
+      cursor: pointer;
+      transition: border-color var(--duration-micro) ease, background var(--duration-micro) ease;
+    }
+    .file-drop.hover {
+      border-color: var(--gold);
+      background: rgba(184,149,90,0.04);
+    }
+    .file-drop-icon { font-size:28px; color:var(--text-300); margin-bottom:10px; line-height:1; }
+    .file-drop-title { font-family:var(--font-display); font-size:13px; font-weight:500; letter-spacing:0.06em; color:var(--text-700); text-transform:uppercase; }
+    .file-drop-sub { font-size:12px; color:var(--text-300); margin-top:5px; }
+    .file-drop-types { display:flex; gap:6px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+    .file-type-tag {
+      background:#fff;
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-sm);
+      padding: 2px 8px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-500);
+    }
+
+    /* Form layout grid */
+    .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-section-group {
+      background: #fff;
+      border: 1px solid var(--stone-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .form-section-head {
+      padding: 14px 20px;
+      background: var(--surface-subtle);
+      border-bottom: 1px solid var(--stone-200);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-700);
+    }
+    .form-section-body { padding: 20px; display:flex; flex-direction:column; gap:16px; }
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    /* ── Responsive: hide sidebar on small screens ─────────── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .section { padding: 40px 32px; }
+      .page-header { padding: 40px 32px; }
+      .two-col, .decision-grid, .status-comparison { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ──────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-name">offplan.online</div>
+    <div class="sidebar-logo-sub">Brandbook v1.2 · 2026-04-29</div>
+  </div>
+  <nav>
+    <div class="sidebar-section-label">Overview</div>
+    <a href="#overview">Brand foundation</a>
+    <a href="#principles">Design principles</a>
+
+    <div class="sidebar-section-label">Colour</div>
+    <a href="#current-palette">Current palette</a>
+    <a href="#figma-confirmed">Figma confirmed ✓</a>
+    <a href="#proposed-palette">Proposed refresh</a>
+
+    <div class="sidebar-section-label">Typography</div>
+    <a href="#type-current">Current type</a>
+    <a href="#type-scale">Type scale</a>
+
+    <div class="sidebar-section-label">Tokens</div>
+    <a href="#spacing">Spacing</a>
+    <a href="#shadow">Shadows</a>
+    <a href="#motion">Motion</a>
+    <a href="#css-vars">CSS variables</a>
+
+    <div class="sidebar-section-label">Components</div>
+    <a href="#status">Status indicators</a>
+    <a href="#buttons">Buttons</a>
+    <a href="#cards">Cards</a>
+    <a href="#navigation">Navigation</a>
+    <a href="#filters">Filters</a>
+    <a href="#forms">Forms</a>
+
+    <div class="sidebar-section-label">Appendix</div>
+    <a href="#atmosphere">Atmosphere background</a>
+    <a href="#admin-variants">Admin panel variants</a>
+    <a href="#decisions">Key decisions</a>
+    <a href="#next">Phase 1.1 checklist</a>
+  </nav>
+</aside>
+
+<!-- ── Main ─────────────────────────────────────────────────── -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <header class="page-header" id="overview">
+    <div class="page-header-eyebrow">Phase 1.1 — Visual Redesign · Priority #1</div>
+    <h1>Brand&shy;book<br>v1.1</h1>
+    <p style="color:rgba(255,255,255,0.6); max-width:540px; font-size:15px; line-height:1.7; margin-top:16px;">
+      Colour palette, typography, status indicators, and component direction for
+      offplan.online — the self-serve SaaS platform for off-plan property sales presentations.
+    </p>
+    <div class="page-header-meta">
+      <span><span class="meta-dot"></span> v1.1 · 2026-04-27</span>
+      <span>Figma confirmed — 8 screenshots, live CSS audit</span>
+      <span>Covers: Phase 1.1.1 – 1.1.3</span>
+    </div>
+  </header>
+
+  <!-- ── SECTION: Design principles ──────────────────────────── -->
+  <section class="section" id="principles">
+    <div class="section-eyebrow">Foundation</div>
+    <h2 class="section-title">Design principles</h2>
+    <p class="section-desc">
+      Every UI decision is shaped by one overriding constraint: the product is a frame for
+      high-quality architectural imagery. The UI must <em>recede</em> — not compete.
+    </p>
+
+    <div class="decision-grid">
+      <div class="decision-card">
+        <div class="decision-card-title">Recede from the render</div>
+        <p>The architectural render is always the hero. UI chrome should feel like museum
+        labelling — informative, present, but never louder than the exhibit.</p>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Warm, not cold</div>
+        <p>Stone, sand, and warm greys drawn from the renders themselves. Pure cool grey
+        (#CCCCCC) or clinical blue-whites break the palette harmony when imagery changes.</p>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Confident restraint</div>
+        <p>Premium brands use fewer elements, not more. One accent colour (gold). Two
+        typefaces. Generous whitespace. No gradients on UI surfaces — leave those to
+        the photography.</p>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Status ≠ traffic light</div>
+        <p>AVAILABLE/SOLD/RESERVED are commercial states, not road signs. The current
+        green/red/orange palette signals danger and congestion — wrong register for a
+        luxury purchase decision.</p>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">Uppercase as texture</div>
+        <p>All-caps labels at wide tracking create visual texture and signal "UI layer"
+        vs. "content layer." Used sparingly — navigation, buttons, status — not body copy.</p>
+      </div>
+      <div class="decision-card">
+        <div class="decision-card-title">White-label ready</div>
+        <p>Every token must override cleanly. A studio applying their brandbook swaps
+        gold → their accent, navy → their primary, and the system holds. No hardcoded
+        values in components.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: Current palette ───────────────────────────── -->
+  <section class="section" id="current-palette">
+    <div class="section-eyebrow">Colour · Current state</div>
+    <h2 class="section-title">What's in production today</h2>
+    <p class="section-desc">
+      Extracted from the Côte live build and Figma files. These values are confirmed —
+      not inferred.
+    </p>
+
+    <div class="callout callout-note">
+      <strong>Source:</strong> Figma audit 2026-04-27 — direct reads from design tokens, not
+      eye-dropper approximations. Values marked † are from visible UI elements where
+      the token file wasn't accessible.
+    </div>
+
+    <div class="subsection-title">Confirmed production values</div>
+
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#7C7574;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone UI</div>
+          <div class="swatch-hex">#7C7574</div>
+          <div class="swatch-usage">Buttons, muted surfaces</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C5C8CA;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone Light</div>
+          <div class="swatch-hex">#C5C8CA</div>
+          <div class="swatch-usage">Active tabs, selected states</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#5A5A5A; opacity:0.3;" style="background:#5A5A5A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Grey 30%</div>
+          <div class="swatch-hex">#5A5A5A · 30%</div>
+          <div class="swatch-usage">Overlay, inactive elements</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFFFFF; border: 1px solid #E4E2DF;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">White</div>
+          <div class="swatch-hex">#FFFFFF</div>
+          <div class="swatch-usage">Labels on imagery, cards</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:rgba(0,0,0,0.25); background:#000000;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Shadow</div>
+          <div class="swatch-hex">rgba(0,0,0,0.25)</div>
+          <div class="swatch-usage">Card drop shadows</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Figma typography extract</div>
+    <div class="type-specimen">
+      <div class="type-specimen-label">Confirmed from Figma — active UI label</div>
+      <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:500; font-size:14px; letter-spacing:2.04px; text-transform:uppercase; color:#7C7574;">
+        Floor Plans
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Font family</span>
+        <span class="type-spec-value">Helvetica Neue Medium 500</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Size</span>
+        <span class="type-spec-value">14px</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Letter-spacing</span>
+        <span class="type-spec-value">2.04px → 0.145em</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Transform</span>
+        <span class="type-spec-value">uppercase</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Color (active)</span>
+        <span class="type-spec-value">#FFFFFF</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Color (inactive)</span>
+        <span class="type-spec-value">#FFFFFF · 48% opacity</span>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Current shadow values</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="type-specimen">
+        <div class="type-specimen-label">Card shadow (confirmed)</div>
+        <div style="background:#fff; border-radius:4px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,0.25); display:inline-block; font-size:13px; color:#7C7574;">Unit 1204 · 3BR</div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Y offset</span>
+          <span class="type-spec-value">8px</span>
+        </div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Blur</span>
+          <span class="type-spec-value">24px</span>
+        </div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Opacity</span>
+          <span class="type-spec-value">25%</span>
+        </div>
+      </div>
+      <div class="type-specimen">
+        <div class="type-specimen-label">Proposed card shadow (softened)</div>
+        <div style="background:#fff; border-radius:4px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,0.10); display:inline-block; font-size:13px; color:#7C7574;">Unit 1204 · 3BR</div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Y offset</span>
+          <span class="type-spec-value">8px</span>
+        </div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Blur</span>
+          <span class="type-spec-value">24px</span>
+        </div>
+        <div class="type-spec-row">
+          <span class="type-spec-name">Opacity</span>
+          <span class="type-spec-value">10% (was 25%)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: Figma confirmed values ───────────────────── -->
+  <section class="section" id="figma-confirmed">
+    <div class="section-eyebrow">Colour · Figma confirmed</div>
+    <h2 class="section-title">All confirmed values</h2>
+    <p class="section-desc">
+      Direct reads from 8 Figma screenshots + live CSS bundle. These are not approximations —
+      they are exact values from the Côte design file.
+    </p>
+
+    <table class="comp">
+      <thead>
+        <tr><th>Value</th><th>Where confirmed</th><th>Token / Use</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#323840;border-radius:2px;display:inline-block;"></span> <code>#323840</code></span></td>
+          <td>Active tab text (Gallery modal) · Body CSS</td>
+          <td><code>--text-900</code> — primary UI text</td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#7C7574;border-radius:2px;display:inline-block;"></span> <code>#7C7574</code></span></td>
+          <td>Inactive tab text · Filter nav background (8% opacity)</td>
+          <td><code>--stone-700</code> — confirmed ✓</td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#909090;border-radius:2px;display:inline-block;"></span> <code>#909090</code></span></td>
+          <td>Cancel/close button oval (42×42px)</td>
+          <td><code>--stone-600</code> — close buttons</td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:#F8F7F5;border:1px solid #E4E2DF;border-radius:2px;display:inline-block;"></span> <code>#F8F7F5</code></span></td>
+          <td>Active level selector (named "Solid/Secondary white" in Figma)</td>
+          <td><code>--surface-secondary</code></td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(174,174,174,0.59);border-radius:2px;display:inline-block;border:1px solid #ccc;"></span> <code>#AEAEAE · 59%</code></span></td>
+          <td>Level selector bar background (blur 22.1)</td>
+          <td><code>--glass-level</code></td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(90,90,90,0.30);border-radius:2px;display:inline-block;border:1px solid #ccc;"></span> <code>#5A5A5A · 30%</code></span></td>
+          <td>Active building/area selector button (blur 51, border 1.21px white)</td>
+          <td><code>--glass-active</code></td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(139,139,139,0.31);border-radius:2px;display:inline-block;border:1px solid #ccc;"></span> <code>#8B8B8B · 31%</code></span></td>
+          <td>Inactive building/area selector button (blur 41)</td>
+          <td><code>--glass-inactive</code></td>
+        </tr>
+        <tr>
+          <td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:14px;height:14px;background:rgba(124,117,116,0.08);border-radius:2px;display:inline-block;border:1px solid #ccc;"></span> <code>#7C7574 · 8%</code></span></td>
+          <td>Filter nav rectangle background (blur 51.3, radius 7.74px)</td>
+          <td><code>--glass-nav</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      These are <strong>Figma-exact values</strong> — not approximations.
+      If the tech team uses the <strong>Tokens Studio</strong> or <strong>Figma Variables → CSS</strong>
+      plugin, these values could be exported from the Figma file directly, bypassing manual entry.
+      All token names here follow a consistent naming convention (prefix-scale), so they'd survive an
+      automated export without renaming.
+      Product side has no action — this table is the single source of truth for the handoff.
+    </div>
+
+    <div class="subsection-title" style="margin-top:40px;">Typography — confirmed from Figma</div>
+    <div class="type-specimen">
+      <div class="type-specimen-label">Navigation tab label · Figma exact (Gallery modal, Level nav)</div>
+      <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:700; font-size:11.62px; letter-spacing:1.86px; text-transform:uppercase; color:#323840;">
+        Floor Plates
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Font / Weight</span>
+        <span class="type-spec-value">Helvetica Neue · <strong>700 Bold</strong> (was Medium 500 in v1)</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Size</span>
+        <span class="type-spec-value">11.62px</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Letter-spacing</span>
+        <span class="type-spec-value">1.86px = 0.16em at 11.62px</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Case</span>
+        <span class="type-spec-value">Uppercase</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Active colour</span>
+        <span class="type-spec-value">#323840</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Inactive colour</span>
+        <span class="type-spec-value">#7C7574</span>
+      </div>
+      <div class="type-spec-row">
+        <span class="type-spec-name">Tab container</span>
+        <span class="type-spec-value">192×44px</span>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Glassmorphism overlay — confirmed component specs</div>
+    <div style="background:linear-gradient(135deg,#2a3e52,#1E2E3E); border-radius:8px; padding:32px; display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+      <!-- Active button -->
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+        <div style="background:rgba(90,90,90,0.30); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1.21px solid rgba(255,255,255,1); border-radius:5.23px; padding:9px 17px; width:170px; display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:10px; font-weight:700; letter-spacing:1.86px; text-transform:uppercase; color:#FFFFFF;">Sunrise Tower</span>
+        </div>
+        <span style="font-size:11px; color:rgba(255,255,255,0.5);">Active — glass-active</span>
+      </div>
+      <!-- Inactive button -->
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+        <div style="background:rgba(139,139,139,0.31); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:5.23px; padding:9px 17px; width:170px; display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:10px; font-weight:700; letter-spacing:1.86px; text-transform:uppercase; color:rgba(255,255,255,0.6);">Sunset Tower</span>
+        </div>
+        <span style="font-size:11px; color:rgba(255,255,255,0.5);">Inactive — glass-inactive</span>
+      </div>
+      <!-- Level selector -->
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+        <div style="background:rgba(174,174,174,0.59); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border-radius:5px; padding:8px; width:52px; display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:4px;">Level</span>
+          <div style="background:#F8F7F5; border-radius:3px; width:36px; height:20px; display:flex;align-items:center;justify-content:center; font-size:10px; font-weight:700; color:#323840; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">8</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.7);">7</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.5);">6</div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.4);">5</div>
+        </div>
+        <span style="font-size:11px; color:rgba(255,255,255,0.5);">Level selector</span>
+      </div>
+    </div>
+
+    <table class="comp" style="margin-top:24px;">
+      <thead><tr><th>Token</th><th>Value</th><th>Blur</th><th>Border</th><th>Used on</th></tr></thead>
+      <tbody>
+        <tr><td><code>--glass-active</code></td><td>rgba(90,90,90,0.30)</td><td>51px</td><td>1.21px white</td><td>Active building/area selector</td></tr>
+        <tr><td><code>--glass-inactive</code></td><td>rgba(139,139,139,0.31)</td><td>41px</td><td>—</td><td>Inactive building/area selector</td></tr>
+        <tr><td><code>--glass-nav</code></td><td>rgba(124,117,116,0.08)</td><td>51.3px</td><td>—</td><td>Filter bar nav background</td></tr>
+        <tr><td><code>--glass-level</code></td><td>rgba(174,174,174,0.59)</td><td>22px</td><td>—</td><td>Level selector bar</td></tr>
+        <tr><td><code>--surface-secondary</code></td><td>#F8F7F5</td><td>—</td><td>—</td><td>Active level highlight, radius 5px</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      The <strong>blur values</strong> in this table (51 px, 41 px, 22 px) are not CSS custom properties yet —
+      they live alongside the fill token.
+      One option the tech team could consider: pair each <code>--glass-*</code> fill token with a
+      matching <code>--blur-*</code> token so both sides of <code>backdrop-filter</code> are token-controlled.
+      The border on <code>--glass-active</code> (1.21 px white) could similarly become a
+      <code>--glass-border</code> token.
+      No action needed from the product side — these values are already Figma-confirmed and ready
+      whenever the tech team wants to formalise them.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Proposed palette ──────────────────────────── -->
+  <section class="section" id="proposed-palette">
+    <div class="section-eyebrow">Colour · Proposed refresh</div>
+    <h2 class="section-title">Extended palette</h2>
+    <p class="section-desc">
+      The core stone values are kept — they're right. What's missing is a complete system:
+      a warm surface colour, a premium accent, a deep contrast anchor, and a proper text scale.
+    </p>
+
+    <div class="callout">
+      <strong>Rule:</strong> Warm throughout. No cool greys. The property imagery will always
+      contain warm stone tones — cool UI greys will clash when renders change between projects.
+    </div>
+
+    <div class="subsection-title">Surface scale</div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FAFAF8; border:1px solid #E4E2DF;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface BG</div>
+          <div class="swatch-hex">#FAFAF8</div>
+          <div class="swatch-usage">Admin panel background</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFFFFF; border:1px solid #E4E2DF;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface Card</div>
+          <div class="swatch-hex">#FFFFFF</div>
+          <div class="swatch-usage">Cards, modals</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F2F0ED;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface Subtle</div>
+          <div class="swatch-hex">#F2F0ED</div>
+          <div class="swatch-usage">Section backgrounds, table rows</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;" id="atmosphere">Atmosphere background scale</div>
+    <p style="font-size:14px; color:var(--text-500); margin-bottom:18px; line-height:1.65;">
+      Used as the page background when a building photo is not yet uploaded, and as the base for
+      the crafted-gradient variant (admin panel v7). Five stops derived directly from the Côte
+      exterior render palette — sky → warm plaster → stone mid → deep stone → anchor.
+      The middle stop (<strong>#C8C1B6</strong>) matches the live site's image-placeholder colour.
+    </p>
+    <div class="palette-grid" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#BBC8D6;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Atmo Sky</div>
+          <div class="swatch-hex">#BBC8D6</div>
+          <div class="swatch-usage">Gradient 0% — soft sky</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D4CBBF;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Atmo Plaster</div>
+          <div class="swatch-hex">#D4CBBF</div>
+          <div class="swatch-usage">Gradient 22% — warm plaster</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C8C1B6;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Atmo Stone</div>
+          <div class="swatch-hex">#C8C1B6</div>
+          <div class="swatch-usage">Gradient 45% — stone mid · ✓ VV image placeholder</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B8B0A8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Atmo Deep</div>
+          <div class="swatch-hex">#B8B0A8</div>
+          <div class="swatch-usage">Gradient 68% — deeper stone</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#A8A29C;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Atmo Anchor</div>
+          <div class="swatch-hex">#A8A29C</div>
+          <div class="swatch-usage">Gradient 100% — depth anchor</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live gradient preview -->
+    <div style="
+      margin-top:16px; border-radius:8px; height:72px;
+      background:
+        radial-gradient(ellipse 80% 55% at 68% 18%, rgba(210,220,230,0.75) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 60% at 50% 58%, rgba(210,200,188,0.65) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 70% at 8% 92%, rgba(140,130,122,0.55) 0%, transparent 55%),
+        linear-gradient(158deg, #BBC8D6 0%, #D4CBBF 22%, #C8C1B6 45%, #B8B0A8 68%, #A8A29C 100%);
+      border: 1px solid var(--stone-200);
+    "></div>
+    <div style="font-size:11px; color:var(--text-300); margin-top:6px;">
+      Live gradient — as rendered in admin panel v7 (radial blooms + linear base)
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Stone scale (keep + extend)</div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#7C7574;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone 700 ✓</div>
+          <div class="swatch-hex">#7C7574</div>
+          <div class="swatch-usage">Buttons, borders, labels</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#9A9594;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone 500</div>
+          <div class="swatch-hex">#9A9594</div>
+          <div class="swatch-usage">Secondary labels (new)</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C5C8CA;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone 400 ✓</div>
+          <div class="swatch-hex">#C5C8CA</div>
+          <div class="swatch-usage">Active tabs, selected</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E4E2DF;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Stone 200</div>
+          <div class="swatch-hex">#E4E2DF</div>
+          <div class="swatch-usage">Dividers, hairlines (new)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Text scale</div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#323840;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text 900 ✓</div>
+          <div class="swatch-hex">#323840</div>
+          <div class="swatch-usage">Primary UI text — Figma confirmed</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#3D3B39;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text 700</div>
+          <div class="swatch-hex">#3D3B39</div>
+          <div class="swatch-usage">Body text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#6A6865;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text 500</div>
+          <div class="swatch-hex">#6A6865</div>
+          <div class="swatch-usage">Secondary text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#A09E9C;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text 300</div>
+          <div class="swatch-hex">#A09E9C</div>
+          <div class="swatch-usage">Muted / placeholder</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Accent + depth</div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B8955A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gold</div>
+          <div class="swatch-hex">#B8955A</div>
+          <div class="swatch-usage">Price, premium accent, CTA</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E8D5B0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Gold Light</div>
+          <div class="swatch-hex">#E8D5B0</div>
+          <div class="swatch-usage">Gold tint backgrounds</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1E2E3E;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Navy</div>
+          <div class="swatch-hex">#1E2E3E</div>
+          <div class="swatch-usage">Deep contrast, hero surfaces</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Colour decisions at a glance</div>
+    <table class="comp">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Current</th>
+          <th>Proposed</th>
+          <th>Action</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Stone 700 · #7C7574</td>
+          <td>Button bg, labels</td>
+          <td>Same, now named</td>
+          <td><span class="keep">KEEP</span></td>
+          <td>Correct warm tone, good contrast</td>
+        </tr>
+        <tr>
+          <td>Stone 400 · #C5C8CA</td>
+          <td>Active tab</td>
+          <td>Same, now named</td>
+          <td><span class="keep">KEEP</span></td>
+          <td>Works with imagery, subtle selected state</td>
+        </tr>
+        <tr>
+          <td>Card shadow 25%</td>
+          <td>rgba(0,0,0,0.25)</td>
+          <td>rgba(0,0,0,0.10)</td>
+          <td><span class="change">LIGHTEN</span></td>
+          <td>25% reads heavy on light backgrounds; 10% is sufficient contrast</td>
+        </tr>
+        <tr>
+          <td>Background</td>
+          <td>Not defined (white)</td>
+          <td>#FAFAF8</td>
+          <td><span class="new">ADD</span></td>
+          <td>Admin panel needs warm off-white, not clinical white</td>
+        </tr>
+        <tr>
+          <td>Gold accent</td>
+          <td>Not in palette</td>
+          <td>#B8955A</td>
+          <td><span class="new">ADD</span></td>
+          <td>Premium property category expects a warm metal tone</td>
+        </tr>
+        <tr>
+          <td>Navy / depth</td>
+          <td>Not in palette</td>
+          <td>#1E2E3E</td>
+          <td><span class="new">ADD</span></td>
+          <td>Nav bar, sidebar, dark surfaces — gives depth without pure black</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      The <span class="keep">KEEP</span> / <span class="change">LIGHTEN</span> / <span class="new">ADD</span>
+      column maps directly to the migration work:
+      <strong>KEEP</strong> values are already in the codebase and just need a token name wrapped around them;
+      <strong>LIGHTEN</strong> values need a find-and-replace of the old hex;
+      <strong>ADD</strong> values are net-new and can be dropped in as new CSS custom properties.
+      A one-time global search for the old hex values (e.g. <code>rgba(0,0,0,0.25)</code>) would catch
+      every hardcoded instance across the codebase — the tech team knows whether a codemods script or
+      manual pass makes more sense for this project.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Typography ────────────────────────────────── -->
+  <section class="section" id="type-current">
+    <div class="section-eyebrow">Typography</div>
+    <h2 class="section-title">Type system</h2>
+    <p class="section-desc">
+      Helvetica Neue is the right choice for UI labels — precise, neutral, widely available
+      on Mac + Windows. We supplement with Inter for body copy and admin text, where
+      readability at small sizes matters more than visual character.
+    </p>
+
+    <div class="callout callout-note">
+      <strong>Decision:</strong> Two-font system. Helvetica Neue for all UI chrome labels
+      (uppercase, tracked). Inter for body copy, admin text, and data. This is the
+      distinction between "interface" and "content."
+    </div>
+
+    <div class="two-col" id="type-scale">
+      <div>
+        <div class="subsection-title">Display — Helvetica Neue</div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Display Large · page titles</div>
+          <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:300; font-size:40px; letter-spacing:-0.02em; color:#323840; line-height:1.1;">Côte Résidence</div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Size / Weight</span>
+            <span class="type-spec-value">40px / 300 Light</span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Tracking</span>
+            <span class="type-spec-value">-0.02em (tight)</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Heading · section titles</div>
+          <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:400; font-size:24px; color:#323840;">Unit Overview</div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Size / Weight</span>
+            <span class="type-spec-value">24px / 400 Regular</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Label · navigation tabs, buttons, badges — Figma confirmed</div>
+          <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:700; font-size:11.62px; letter-spacing:1.86px; text-transform:uppercase; color:#323840;">Floor Plans</div>
+          <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:700; font-size:11.62px; letter-spacing:1.86px; text-transform:uppercase; color:#7C7574; margin-top:6px;">Floor Plates</div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Size / Weight</span>
+            <span class="type-spec-value">11.62px / <strong>700 Bold</strong></span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Letter-spacing</span>
+            <span class="type-spec-value">1.86px = 0.16em</span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Transform</span>
+            <span class="type-spec-value">Uppercase — always</span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Active / Inactive</span>
+            <span class="type-spec-value">#323840 / #7C7574</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="subsection-title">Body — Inter</div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Body Regular · descriptions, admin text</div>
+          <div style="font-family:'Inter',sans-serif; font-size:15px; color:#3D3B39; line-height:1.6;">
+            3-bedroom apartment with panoramic sea views.
+            High ceilings, open-plan living, premium fixtures throughout.
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Size / Weight</span>
+            <span class="type-spec-value">15px / 400</span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Line height</span>
+            <span class="type-spec-value">1.6</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Body Small · metadata, specs</div>
+          <div style="font-family:'Inter',sans-serif; font-size:13px; color:#6A6865; line-height:1.5;">
+            Floor 12 · East wing · 142 m² · Available Q3 2026
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Size / Weight</span>
+            <span class="type-spec-value">13px / 400</span>
+          </div>
+        </div>
+
+        <div class="type-specimen">
+          <div class="type-specimen-label">Price · gold accent</div>
+          <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:22px; font-weight:400; color:#B8955A;">AED 4,200,000</div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Font</span>
+            <span class="type-spec-value">Helvetica Neue · gold</span>
+          </div>
+          <div class="type-spec-row">
+            <span class="type-spec-name">Note</span>
+            <span class="type-spec-value">Never bold — quiet confidence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: Spacing ──────────────────────────────────── -->
+  <section class="section" id="spacing">
+    <div class="section-eyebrow">Tokens</div>
+    <h2 class="section-title">Spacing scale</h2>
+    <p class="section-desc">Base unit: 4px. All spacing values are multiples.</p>
+
+    <div style="max-width:480px;">
+      <div class="spacing-row">
+        <span class="spacing-label">--space-1: 4px</span>
+        <div class="spacing-bar" style="width:4px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Icon gap, tight pairs</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-2: 8px</span>
+        <div class="spacing-bar" style="width:8px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Inline elements, badge padding</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-3: 12px</span>
+        <div class="spacing-bar" style="width:12px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Compact items, list rows</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-4: 16px</span>
+        <div class="spacing-bar" style="width:16px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Component gap, form fields</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-5: 24px</span>
+        <div class="spacing-bar" style="width:24px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Card padding, section gap</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-6: 32px</span>
+        <div class="spacing-bar" style="width:32px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Large component separation</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-7: 48px</span>
+        <div class="spacing-bar" style="width:48px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Section top/bottom padding</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">--space-8: 64px</span>
+        <div class="spacing-bar" style="width:64px;"></div>
+        <span style="font-size:12px; color:#A09E9C;">Page padding, hero sections</span>
+      </div>
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      These values follow a strict 4 px base-unit grid and are already in CSS custom property format.
+      They map directly onto popular spacing systems —
+      <strong>Tailwind's spacing scale</strong>, MUI's <code>theme.spacing()</code>,
+      or a Style Dictionary token set — without translation.
+      Product side just defines the values; the tech team decides when and how to wire them in.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Shadow ──────────────────────────────────── -->
+  <section class="section" id="shadow">
+    <div class="section-eyebrow">Tokens</div>
+    <h2 class="section-title">Shadow scale</h2>
+    <p class="section-desc">
+      Three levels: subtle lift, standard card, elevated popup. Warm-biased — never
+      pure blue-grey drop shadows.
+    </p>
+
+    <div style="display:flex; gap:32px; align-items:flex-end; flex-wrap:wrap; margin-bottom:24px;">
+      <div style="background:#fff; padding:20px 24px; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.06); font-size:13px; color:#6A6865;">
+        Subtle<br><span style="font-size:11px; color:#A09E9C;">--shadow-subtle</span>
+      </div>
+      <div style="background:#fff; padding:20px 24px; border-radius:4px; box-shadow:0 8px 24px rgba(0,0,0,0.10); font-size:13px; color:#6A6865;">
+        Card<br><span style="font-size:11px; color:#A09E9C;">--shadow-card</span>
+      </div>
+      <div style="background:#fff; padding:20px 24px; border-radius:4px; box-shadow:0 16px 40px rgba(0,0,0,0.14); font-size:13px; color:#6A6865;">
+        Float / Popup<br><span style="font-size:11px; color:#A09E9C;">--shadow-float</span>
+      </div>
+    </div>
+
+    <div class="token-block">
+      <span class="token-var">--shadow-subtle</span>: <span class="token-val">0  2px  8px rgba(0,0,0,0.06)</span>;<br>
+      <span class="token-var">--shadow-card</span>:   <span class="token-val">0  8px 24px rgba(0,0,0,0.10)</span>;<br>
+      <span class="token-var">--shadow-float</span>:  <span class="token-val">0 16px 40px rgba(0,0,0,0.14)</span>;
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      These shadow values are a deliberate departure from framework defaults —
+      the <strong>warm-biased rgba</strong> (no blue tint) is what separates them from
+      Tailwind's or MUI's built-in shadows.
+      If the tech team uses either framework, the shadow config is the natural override point;
+      these three levels replace <code>shadow-sm / shadow-md / shadow-lg</code> equivalents.
+      No changes needed on the product side.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Motion ──────────────────────────────────── -->
+  <section class="section" id="motion">
+    <div class="section-eyebrow">Tokens</div>
+    <h2 class="section-title">Motion</h2>
+    <p class="section-desc">
+      Premium products move with restraint. Fast micro-interactions, measured panel
+      transitions. No bounce, no spring — those read as consumer/playful, not premium.
+    </p>
+
+    <div class="motion-row" style="border-top:1px solid var(--stone-200);">
+      <span class="motion-name">Micro</span>
+      <span class="motion-val">120ms ease-out</span>
+      <span class="motion-use">Hover states, opacity, colour transitions</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Panel</span>
+      <span class="motion-val">280ms ease-out</span>
+      <span class="motion-use">Sidebar open/close, modal entrance</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Page</span>
+      <span class="motion-val">200ms ease-in-out</span>
+      <span class="motion-use">View transitions, filter result updates</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Ease-out curve</span>
+      <span class="motion-val">cubic-bezier(0.16, 1, 0.3, 1)</span>
+      <span class="motion-use">All entrances — starts fast, settles gently</span>
+    </div>
+    <div class="motion-row" style="border-bottom:none;">
+      <span class="motion-name">Ease-in curve</span>
+      <span class="motion-val">cubic-bezier(0.4, 0, 1, 1)</span>
+      <span class="motion-use">Exits — quick departure, no lingering</span>
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      The ease-out curve <strong>cubic-bezier(0.16, 1, 0.3, 1)</strong> is the same curve used in
+      Radix UI and shadcn/ui — if the codebase already uses either, this is a no-op.
+      The durations (120 ms / 280 ms / 200 ms) differ from Framer Motion defaults; a one-line
+      override in the animation config is all that is needed.
+      Product side just defines the feel; the tech team wires it in whenever makes sense.
+    </div>
+  </section>
+
+  <!-- ── SECTION: CSS variables ──────────────────────────── -->
+  <section class="section" id="css-vars">
+    <div class="section-eyebrow">Tokens</div>
+    <h2 class="section-title">Full CSS variable set</h2>
+    <p class="section-desc">
+      Copy this :root block into the project's base stylesheet. All component styles
+      reference these tokens — never hardcode hex values in components.
+    </p>
+
+    <div class="token-block" style="font-size:11px;">
+      <span class="token-comment">/* offplan.online design tokens v1 — 2026-04-27 */</span><br>
+      :root {<br>
+      &nbsp;&nbsp;<span class="token-comment">/* Surface */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--surface-bg</span>:       <span class="token-val">#FAFAF8</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--surface-card</span>:     <span class="token-val">#FFFFFF</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--surface-subtle</span>:   <span class="token-val">#F2F0ED</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--surface-overlay</span>:  <span class="token-val">rgba(255,255,255,0.92)</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Stone scale — Figma confirmed ✓ */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--stone-700</span>:  <span class="token-val">#7C7574</span>;  <span class="token-comment">/* ✓ inactive labels */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--stone-600</span>:  <span class="token-val">#909090</span>;  <span class="token-comment">/* ✓ cancel/close buttons */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--stone-500</span>:  <span class="token-val">#9A9594</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--stone-400</span>:  <span class="token-val">#C5C8CA</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--stone-200</span>:  <span class="token-val">#E4E2DF</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--stone-100</span>:  <span class="token-val">#F2F0ED</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Atmosphere background — gradient stops (admin panel v7) */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--atmo-sky</span>:     <span class="token-val">#BBC8D6</span>;  <span class="token-comment">/* gradient 0%  — soft sky */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--atmo-plaster</span>: <span class="token-val">#D4CBBF</span>;  <span class="token-comment">/* gradient 22% — warm plaster */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--atmo-stone</span>:   <span class="token-val">#C8C1B6</span>;  <span class="token-comment">/* gradient 45% — stone mid · VV image placeholder */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--atmo-deep</span>:    <span class="token-val">#B8B0A8</span>;  <span class="token-comment">/* gradient 68% — deeper stone */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--atmo-anchor</span>:  <span class="token-val">#A8A29C</span>;  <span class="token-comment">/* gradient 100% — depth anchor */</span><br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Glassmorphism — Figma confirmed ✓ */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--glass-active</span>:    <span class="token-val">rgba(90,90,90,0.30)</span>;    <span class="token-comment">/* blur 51 + 1.21px white border */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--glass-inactive</span>:  <span class="token-val">rgba(139,139,139,0.31)</span>; <span class="token-comment">/* blur 41 */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--glass-nav</span>:       <span class="token-val">rgba(124,117,116,0.08)</span>; <span class="token-comment">/* filter bar, blur 51.3 */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--glass-level</span>:     <span class="token-val">rgba(174,174,174,0.59)</span>; <span class="token-comment">/* level selector, blur 22 */</span><br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Text scale — Figma confirmed ✓ */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--text-900</span>: <span class="token-val">#323840</span>;  <span class="token-comment">/* ✓ primary UI text, active labels */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--text-700</span>: <span class="token-val">#3D3B39</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--text-500</span>: <span class="token-val">#6A6865</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--text-300</span>: <span class="token-val">#A09E9C</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Accent + depth */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--gold</span>:       <span class="token-val">#B8955A</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--gold-light</span>: <span class="token-val">#E8D5B0</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--navy</span>:       <span class="token-val">#1E2E3E</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Status */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--status-available</span>:    <span class="token-val">#6B8C6E</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--status-available-bg</span>: <span class="token-val">rgba(107,140,110,0.10)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--status-reserved</span>:     <span class="token-val">#B8955A</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--status-reserved-bg</span>:  <span class="token-val">rgba(184,149, 90,0.12)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--status-sold</span>:          <span class="token-val">#3A3A3A</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--status-sold-bg</span>:       <span class="token-val">rgba( 58, 58, 58,0.08)</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Shadows */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--shadow-subtle</span>: <span class="token-val">0  2px  8px rgba(0,0,0,0.06)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--shadow-card</span>:   <span class="token-val">0  8px 24px rgba(0,0,0,0.10)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--shadow-float</span>:  <span class="token-val">0 16px 40px rgba(0,0,0,0.14)</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Typography — Figma confirmed ✓ */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--font-display</span>: <span class="token-val">'Helvetica Neue', Helvetica, Arial, sans-serif</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--font-body</span>:    <span class="token-val">'Inter', -apple-system, BlinkMacSystemFont, sans-serif</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--tracking-nav</span>:   <span class="token-val">0.16em</span>;  <span class="token-comment">/* ✓ 1.86px at 11.62px — nav labels */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--tracking-wide</span>:  <span class="token-val">0.14em</span>;  <span class="token-comment">/* button labels */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--tracking-wider</span>: <span class="token-val">0.18em</span>;  <span class="token-comment">/* sidebar section labels */</span><br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Border radius */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--radius-sm</span>:   <span class="token-val">2px</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--radius-md</span>:   <span class="token-val">4px</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--radius-lg</span>:   <span class="token-val">8px</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--radius-pill</span>: <span class="token-val">100px</span>;<br>
+      <br>
+      &nbsp;&nbsp;<span class="token-comment">/* Motion */</span><br>
+      &nbsp;&nbsp;<span class="token-var">--ease-out</span>:        <span class="token-val">cubic-bezier(0.16, 1, 0.3, 1)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--ease-in</span>:         <span class="token-val">cubic-bezier(0.4, 0, 1, 1)</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--duration-micro</span>: <span class="token-val">120ms</span>;<br>
+      &nbsp;&nbsp;<span class="token-var">--duration-panel</span>: <span class="token-val">280ms</span>;<br>
+      }
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      This <code>:root</code> block is copy-paste ready — drop it into the project's base stylesheet
+      (<code>globals.css</code> / <code>index.css</code>) and every component can reference
+      <code>var(--token-name)</code> immediately.
+      If the project uses <strong>Style Dictionary</strong> or the
+      <strong>Figma Tokens plugin</strong>, the same values can be exported from those tools;
+      the token names here are already structured to survive that migration without renaming.
+      No action needed from the product side — this block is here when the tech team is ready to pick it up.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Status indicators ────────────────────────── -->
+  <section class="section" id="status">
+    <div class="section-eyebrow">Components · Phase 1.1.2</div>
+    <h2 class="section-title">Status indicators</h2>
+    <p class="section-desc">
+      The current AVAILABLE/SOLD/RESERVED traffic-light palette (bright green, orange,
+      red) clashes with the warm stone aesthetic and signals urgency where there should be
+      composure. The proposed tonal approach uses the existing warm palette.
+    </p>
+
+    <div class="status-comparison">
+      <div class="status-panel">
+        <div class="status-panel-header current">Current — traffic light palette</div>
+        <div class="status-panel-body">
+          <div class="status-badge-row">
+            <span class="badge badge-current-available">Available</span>
+            <span class="status-badge-context">Bright green #2ECC71 — traffic signal register</span>
+          </div>
+          <div class="status-badge-row">
+            <span class="badge badge-current-reserved">Reserved</span>
+            <span class="status-badge-context">Amber/orange — warning register</span>
+          </div>
+          <div class="status-badge-row">
+            <span class="badge badge-current-sold">Sold</span>
+            <span class="status-badge-context">Red — danger/error register</span>
+          </div>
+          <div style="margin-top:20px; font-size:12px; color:#A09E9C; line-height:1.6;">
+            Problems: saturated colours compete with imagery.
+            Red/green pattern creates accessibility concerns.
+            "Sold" shown in danger red — wrong connotation
+            (sold = success for the developer).
+          </div>
+        </div>
+      </div>
+
+      <div class="status-panel">
+        <div class="status-panel-header proposed">Proposed — tonal palette</div>
+        <div class="status-panel-body">
+          <div class="status-badge-row">
+            <span class="badge badge-available">Available</span>
+            <span class="status-badge-context">#6B8C6E · Muted sage — natural, calm</span>
+          </div>
+          <div class="status-badge-row">
+            <span class="badge badge-reserved">Reserved</span>
+            <span class="status-badge-context">#B8955A · Warm gold — aspirational</span>
+          </div>
+          <div class="status-badge-row">
+            <span class="badge badge-sold">Sold</span>
+            <span class="status-badge-context">#3A3A3A · Charcoal — definitive, complete</span>
+          </div>
+          <div style="margin-top:20px; font-size:12px; color:#A09E9C; line-height:1.6;">
+            All tones drawn from the warm stone palette.
+            No red = no danger register.
+            Sold in charcoal = complete + authoritative.
+            Works on white cards AND over imagery.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:40px;">In context — unit card</div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+      <div>
+        <div style="font-size:12px; color:#A09E9C; margin-bottom:12px; text-align:center;">Current</div>
+        <div class="unit-card">
+          <div class="unit-card-header">
+            <div>
+              <div class="unit-number">1204</div>
+              <div class="unit-type">3 Bedroom · East View</div>
+            </div>
+            <span class="badge badge-current-available">Available</span>
+          </div>
+          <div class="unit-card-divider"></div>
+          <div class="unit-specs">
+            <div class="spec-item"><label>Floor</label><span>12</span></div>
+            <div class="spec-item"><label>Area</label><span>142 m²</span></div>
+            <div class="spec-item"><label>View</label><span>Sea</span></div>
+            <div class="spec-item"><label>Handover</label><span>Q3 2026</span></div>
+          </div>
+          <div class="unit-price">AED 4,200,000</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; color:#A09E9C; margin-bottom:12px; text-align:center;">Proposed</div>
+        <div class="unit-card">
+          <div class="unit-card-header">
+            <div>
+              <div class="unit-number">1204</div>
+              <div class="unit-type">3 Bedroom · East View</div>
+            </div>
+            <span class="badge badge-available">Available</span>
+          </div>
+          <div class="unit-card-divider"></div>
+          <div class="unit-specs">
+            <div class="spec-item"><label>Floor</label><span>12</span></div>
+            <div class="spec-item"><label>Area</label><span>142 m²</span></div>
+            <div class="spec-item"><label>View</label><span>Sea</span></div>
+            <div class="spec-item"><label>Handover</label><span>Q3 2026</span></div>
+          </div>
+          <div class="unit-price">AED 4,200,000</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; color:#A09E9C; margin-bottom:12px; text-align:center;">Sold state</div>
+        <div class="unit-card" style="opacity:0.75;">
+          <div class="unit-card-header">
+            <div>
+              <div class="unit-number">0803</div>
+              <div class="unit-type">2 Bedroom · Garden View</div>
+            </div>
+            <span class="badge badge-sold">Sold</span>
+          </div>
+          <div class="unit-card-divider"></div>
+          <div class="unit-specs">
+            <div class="spec-item"><label>Floor</label><span>8</span></div>
+            <div class="spec-item"><label>Area</label><span>98 m²</span></div>
+            <div class="spec-item"><label>View</label><span>Garden</span></div>
+            <div class="spec-item"><label>Handover</label><span>Q3 2026</span></div>
+          </div>
+          <div class="unit-price" style="color:#A09E9C;">AED 2,800,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:40px;">Status token values</div>
+    <div class="token-block">
+      <span class="token-comment">/* Status colours — tonal, warm-palette derived */</span><br>
+      <span class="token-var">--status-available</span>:     <span class="token-val">#6B8C6E</span>;   <span class="token-comment">/* Muted sage */</span><br>
+      <span class="token-var">--status-available-bg</span>:  <span class="token-val">rgba(107,140,110, 0.10)</span>;<br>
+      <br>
+      <span class="token-var">--status-reserved</span>:      <span class="token-val">#B8955A</span>;   <span class="token-comment">/* Warm gold */</span><br>
+      <span class="token-var">--status-reserved-bg</span>:   <span class="token-val">rgba(184,149, 90, 0.12)</span>;<br>
+      <br>
+      <span class="token-var">--status-sold</span>:           <span class="token-val">#3A3A3A</span>;   <span class="token-comment">/* Charcoal */</span><br>
+      <span class="token-var">--status-sold-bg</span>:        <span class="token-val">rgba( 58, 58, 58, 0.08)</span>;
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      Each status has a paired <strong>fill + background</strong> token (e.g. <code>--status-available</code>
+      + <code>--status-available-bg</code>).
+      The background values are just the fill at 10–12% opacity — so if the tech team's token system
+      supports <strong>alpha modifiers</strong> (e.g. Tailwind's <code>text-opacity</code> utilities or
+      Style Dictionary's alpha transform), the <code>-bg</code> tokens could be derived automatically
+      rather than stored separately.
+      Either way works — this is purely an implementation convenience, not a design requirement.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Buttons ───────────────────────────────────── -->
+  <section class="section" id="buttons">
+    <div class="section-eyebrow">Components</div>
+    <h2 class="section-title">Buttons</h2>
+    <p class="section-desc">
+      All button labels follow the label style — Helvetica Neue 500, uppercase, tracked.
+      Four variants cover all product contexts.
+    </p>
+
+    <div class="subsection-title">Button variants</div>
+    <div class="btn-row">
+      <div class="btn-with-label">
+        <div class="btn btn-primary">Request Info</div>
+        <div class="btn-label">Primary</div>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn btn-secondary">View Floorplan</div>
+        <div class="btn-label">Secondary</div>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn btn-gold">Book Viewing</div>
+        <div class="btn-label">Gold / CTA</div>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn btn-ghost">Cancel</div>
+        <div class="btn-label">Ghost</div>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn btn-disabled">Unavailable</div>
+        <div class="btn-label">Disabled</div>
+      </div>
+    </div>
+
+    <div class="subsection-title" style="margin-top:32px;">Usage rules</div>
+    <table class="comp">
+      <thead>
+        <tr><th>Variant</th><th>When to use</th><th>When NOT to use</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="btn btn-primary" style="padding:4px 12px; font-size:10px;">Primary</span></td>
+          <td>One per view — the single most important action</td>
+          <td>Multiple primaries on the same screen</td>
+        </tr>
+        <tr>
+          <td><span class="btn btn-secondary" style="padding:4px 12px; font-size:10px;">Secondary</span></td>
+          <td>Supporting actions (view detail, download, share)</td>
+          <td>Destructive actions</td>
+        </tr>
+        <tr>
+          <td><span class="btn btn-gold" style="padding:4px 12px; font-size:10px;">Gold CTA</span></td>
+          <td>Conversion CTAs: Book Viewing, Contact Sales</td>
+          <td>Admin / utility actions — reserve for conversion</td>
+        </tr>
+        <tr>
+          <td><span class="btn btn-ghost" style="padding:4px 12px; font-size:10px;">Ghost</span></td>
+          <td>Dismissal, cancel, back — low visual weight needed</td>
+          <td>Primary actions</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      All four variants (plus Disabled) are best implemented as <strong>one component</strong>
+      with a <code>variant</code> prop — e.g. <code>&lt;Button variant="primary | secondary | gold | ghost"&gt;</code>
+      — rather than four separate components. Keeps usage consistent and lets future variants
+      (icon-only, sizes) plug into the same API.
+      <ul style="margin:10px 0 0; padding-left:20px;">
+        <li><strong>Library options</strong> the tech team might find useful: shadcn/ui Button (Radix-based, most flexible), Radix UI primitives (lower-level control), MUI Button (if already in the codebase), or Tailwind + class-variance-authority for variant management.</li>
+        <li><strong>States — all five required:</strong> default · hover · active (pressed) · focus (visible ring for a11y) · disabled. Hover and focus often share visual treatment; active is a darker step.</li>
+        <li><strong>Accessibility:</strong> visible focus ring is non-negotiable (WCAG 2.4.7), use <code>aria-label</code> for icon-only buttons, prefer <code>aria-disabled</code> over the native <code>disabled</code> attribute when the disabled control should still be focusable (e.g. with explanatory tooltip).</li>
+        <li><strong>Gold variant guardrails:</strong> reserve for conversion CTAs only (Book Viewing, Contact Sales). If the codebase ends up with multiple golds on the same view, the variant is being misused — consider eslint rule or design review checkpoint.</li>
+      </ul>
+      No action needed from product side — this is purely a reference list. If the existing button system already covers these patterns, ignore.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Cards ────────────────────────────────────── -->
+  <section class="section" id="cards">
+    <div class="section-eyebrow">Components</div>
+    <h2 class="section-title">Cards</h2>
+
+    <div class="subsection-title">Card anatomy</div>
+    <div class="callout">
+      Cards are the primary data container in both the Sales App (unit info popup) and
+      the Admin Panel. One radius size (4px), one shadow level per elevation tier.
+    </div>
+
+    <table class="comp">
+      <thead>
+        <tr><th>Property</th><th>Value</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Background</td><td>#FFFFFF</td><td>Pure white — not warm white (cards sit over imagery)</td></tr>
+        <tr><td>Border radius</td><td>4px</td><td>Subtle — not zero (too industrial), not 8px+ (too app-like)</td></tr>
+        <tr><td>Shadow — default</td><td>0 8px 24px rgba(0,0,0,0.10)</td><td>Softened from production 25% → 10%</td></tr>
+        <tr><td>Shadow — elevated</td><td>0 16px 40px rgba(0,0,0,0.14)</td><td>Popups, modals, dropdowns</td></tr>
+        <tr><td>Padding</td><td>24px</td><td>Minimum; 32px for wider cards</td></tr>
+        <tr><td>Internal dividers</td><td>1px · #E4E2DF (Stone 200)</td><td>Not full grey lines — hairline only</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      Every value in this table is already covered by a named token —
+      <code>--surface-card</code> (white), <code>--radius-md</code> (4px),
+      <code>--shadow-card</code> / <code>--shadow-float</code>, <code>--space-5</code> (24px padding),
+      <code>--stone-200</code> (divider colour).
+      A card component that references only tokens — no hardcoded values — would automatically
+      inherit any white-label theme override by a studio. The tech team can decide the component API;
+      this table is the spec they need to do it.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Navigation ─────────────────────────────────── -->
+  <section class="section" id="navigation">
+    <div class="section-eyebrow">Components</div>
+    <h2 class="section-title">Navigation patterns</h2>
+
+    <div class="subsection-title">Top navigation bar</div>
+    <div class="mockup-frame dark">
+      <div style="width:100%;">
+        <div class="nav-mockup">
+          <span class="nav-logo">Côte Résidence</span>
+          <span class="nav-item active">Overview</span>
+          <span class="nav-item">Building</span>
+          <span class="nav-item">Gallery</span>
+          <span class="nav-item">Location</span>
+        </div>
+        <div class="cta-strip">
+          <span class="cta-item active">Floor Plates</span>
+          <div class="cta-sep"></div>
+          <span class="cta-item">Gallery</span>
+          <div class="cta-sep"></div>
+          <span class="cta-item">Unit List</span>
+        </div>
+      </div>
+    </div>
+
+    <table class="comp" style="margin-top:24px;">
+      <thead>
+        <tr><th>Element</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nav height</td><td>56px</td></tr>
+        <tr><td>Background</td><td>rgba(255,255,255,0.92) + backdrop-filter: blur(8px)</td></tr>
+        <tr><td>Label style</td><td>Helvetica Neue 500 · 11px · uppercase · tracking 0.14em</td></tr>
+        <tr><td>Active indicator</td><td>2px bottom border · Text 900</td></tr>
+        <tr><td>Bottom strip bg</td><td>rgba(26,25,23,0.85) — warm dark, not pure black</td></tr>
+        <tr><td>Strip label active</td><td>#FFFFFF</td></tr>
+        <tr><td>Strip label inactive</td><td>rgba(255,255,255,0.55)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      Several values in this table aren't yet named tokens — the nav <code>backdrop-filter: blur(8px)</code>,
+      the bottom strip background <code>rgba(26,25,23,0.85)</code>, and the inactive label opacity.
+      One option the tech team could consider: a <code>--nav-blur</code> token and a
+      <code>--nav-strip-bg</code> token, so the nav component contains zero hardcoded values.
+      This would also make it trivial for a studio white-label to swap the strip to their brand dark colour
+      without touching component code.
+      No action needed from the product side.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Filters ───────────────────────────────────── -->
+  <section class="section" id="filters">
+    <div class="section-eyebrow">Components · Phase 1.8</div>
+    <h2 class="section-title">Filter chips</h2>
+    <p class="section-desc">
+      The unit filter row (Nadezhda / Phase 1.8) uses chip-style selectors for bedroom
+      count, view type, price range. Chips replace complex hotspot navigation for the
+      common "show me all 2BR with sea view" use case.
+    </p>
+
+    <div class="subsection-title">Bedroom filter (example)</div>
+    <div class="mockup-frame" style="flex-direction:column; align-items:flex-start; gap:16px;">
+      <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#A09E9C;">Bedrooms</div>
+      <div class="chip-row">
+        <span class="chip chip-default">Studio</span>
+        <span class="chip chip-default">1BR</span>
+        <span class="chip chip-active">2BR</span>
+        <span class="chip chip-active">3BR</span>
+        <span class="chip chip-default">4BR+</span>
+      </div>
+      <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#A09E9C; margin-top:8px;">View</div>
+      <div class="chip-row">
+        <span class="chip chip-default">All</span>
+        <span class="chip chip-active">Sea</span>
+        <span class="chip chip-default">Garden</span>
+        <span class="chip chip-default">City</span>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <strong>Phase note:</strong> Filter-based selection is the fast path (Phase 1.8.1).
+      Hotspot / floor-plate navigation (Phase 1.8.2–1.8.4) delivers richer context but
+      requires scope estimation by the tech team before committing to a timeline.
+    </div>
+  </section>
+
+  <!-- ── SECTION: Forms ────────────────────────────────────── -->
+  <section class="section" id="forms">
+    <div class="section-eyebrow">Components · Admin Panel</div>
+    <h2 class="section-title">Forms</h2>
+    <p class="section-desc">
+      The operator admin panel is ~80% forms — project setup, team management, asset uploads,
+      billing, feature flags. Form language borrows VV Sales App's rhythm (compact labels,
+      thin lines, clean white fields) and applies our Navy + Gold token system for interactive
+      states. The result reads as the same product family, but clearly the operator side.
+    </p>
+
+    <!-- ── Input anatomy ──────────────────────────────────── -->
+    <div class="subsection-title">Input anatomy</div>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="display:flex; flex-direction:column; gap:32px; width:100%; max-width:560px;">
+
+        <!-- Anatomy diagram -->
+        <div style="position:relative;">
+          <div class="form-label" style="margin-bottom:6px;">Project name <span class="required">*</span></div>
+          <div class="form-input is-focus" style="display:block; pointer-events:none;">Tapestry Residences</div>
+          <div class="form-helper">Displayed on the sales-app landing page and shared links.</div>
+          <!-- Annotation lines -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-top:24px; border-top:1px solid var(--stone-200); padding-top:16px;">
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-300); margin-bottom:4px;">Label</div>
+              <div style="font-size:12px; color:var(--text-500);">11px · uppercase · tracked</div>
+            </div>
+            <div style="text-align:center; border-left:1px solid var(--stone-200); border-right:1px solid var(--stone-200);">
+              <div style="font-family:var(--font-display); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:4px;">Field (focus)</div>
+              <div style="font-size:12px; color:var(--text-500);">Gold border · 3px glow ring</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:var(--font-display); font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-300); margin-bottom:4px;">Helper</div>
+              <div style="font-size:12px; color:var(--text-500);">12px · muted · below field</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── States ─────────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">All input states</div>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div class="form-states" style="width:100%;">
+
+        <div>
+          <div class="form-state-label">Default</div>
+          <div class="form-group">
+            <div class="form-label">Subdomain</div>
+            <div class="form-input" style="display:block; pointer-events:none;">tapestry</div>
+            <div class="form-helper">yourname.offplan.online</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-label">Focus</div>
+          <div class="form-group">
+            <div class="form-label">Subdomain</div>
+            <div class="form-input is-focus" style="display:block; pointer-events:none;">tapestry|</div>
+            <div class="form-helper">yourname.offplan.online</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-label">Error</div>
+          <div class="form-group">
+            <div class="form-label">Subdomain</div>
+            <div class="form-input is-error" style="display:block; pointer-events:none;">tapestry 2024</div>
+            <div class="form-error-text">No spaces or special characters</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-label">Disabled</div>
+          <div class="form-group">
+            <div class="form-label">Subdomain</div>
+            <div class="form-input is-disabled" style="display:block;">tapestry</div>
+            <div class="form-helper">Contact support to change</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Select ─────────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">Select / Dropdown</div>
+    <p class="section-desc" style="font-size:13px; margin-top:0; margin-bottom:16px;">
+      Same field dimensions as text input. Custom arrow replaces native browser control.
+      Matches VV Sales App filter dropdowns in height and weight — different colour system.
+    </p>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; width:100%;">
+
+        <div class="form-group">
+          <div class="form-label">Currency</div>
+          <div class="form-select-wrap">
+            <div class="form-select" style="display:block; pointer-events:none;">USD — US Dollar</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">Billing cycle</div>
+          <div class="form-select-wrap">
+            <div class="form-select is-focus" style="display:block; pointer-events:none;">Monthly</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">Plan</div>
+          <div class="form-select-wrap">
+            <div class="form-select is-disabled" style="display:block;">Enterprise (contact us)</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Textarea ────────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">Textarea</div>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="max-width:460px; width:100%;">
+        <div class="form-group">
+          <div class="form-label">Project description</div>
+          <div class="form-textarea" style="display:block; pointer-events:none; min-height:96px;">
+            Tapestry Residences — a 28-storey residential tower in Macquarie Park offering studio to 4BR apartments with panoramic city views.
+          </div>
+          <div class="form-helper">Used in meta tags and the public listing. Max 300 characters.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Toggles + Checkboxes ────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">Toggle &amp; Checkbox</div>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; width:100%;">
+
+        <!-- Toggles -->
+        <div>
+          <div class="form-state-label" style="margin-bottom:16px;">Toggles — feature flags</div>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+
+            <div class="toggle-row">
+              <div class="toggle-switch on">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">360° Walkthrough</div>
+                <div class="toggle-sub">Enabled for this project</div>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-switch">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">Unit enquiry form</div>
+                <div class="toggle-sub">Disabled — no CRM connected</div>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-switch on">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">Floor plates</div>
+                <div class="toggle-sub">Enabled for this project</div>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-switch">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">Price visibility</div>
+                <div class="toggle-sub">Hidden from public view</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Checkboxes -->
+        <div>
+          <div class="form-state-label" style="margin-bottom:16px;">Checkboxes — permissions</div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+
+            <div class="checkbox-row">
+              <div class="checkbox-box checked"></div>
+              <div>
+                <div class="checkbox-text">View projects</div>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <div class="checkbox-box checked"></div>
+              <div>
+                <div class="checkbox-text">Upload assets</div>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <div class="checkbox-box"></div>
+              <div>
+                <div class="checkbox-text">Manage team members</div>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <div class="checkbox-box"></div>
+              <div>
+                <div class="checkbox-text">Billing &amp; subscription</div>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <div class="checkbox-box"></div>
+              <div>
+                <div class="checkbox-text">Delete projects</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── File upload ─────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">File upload — asset drop zone</div>
+    <p class="section-desc" style="font-size:13px; margin-top:0; margin-bottom:16px;">
+      Core admin action: operators upload renders, floor plans, and 360° panoramas.
+      Drop zone collapses to a compact button variant inside form sections.
+    </p>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%;">
+
+        <div>
+          <div class="form-state-label" style="margin-bottom:10px;">Default</div>
+          <div class="file-drop">
+            <div class="file-drop-icon">↑</div>
+            <div class="file-drop-title">Drop files here</div>
+            <div class="file-drop-sub">or click to browse</div>
+            <div class="file-drop-types">
+              <span class="file-type-tag">JPG</span>
+              <span class="file-type-tag">PNG</span>
+              <span class="file-type-tag">WebP</span>
+              <span class="file-type-tag">MP4</span>
+              <span class="file-type-tag">360°</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-label" style="margin-bottom:10px;">Hover / drag active</div>
+          <div class="file-drop hover">
+            <div class="file-drop-icon" style="color:var(--gold);">↑</div>
+            <div class="file-drop-title" style="color:var(--gold);">Release to upload</div>
+            <div class="file-drop-sub">12 files ready</div>
+            <div class="file-drop-types">
+              <span class="file-type-tag" style="border-color:var(--gold); color:var(--gold);">JPG</span>
+              <span class="file-type-tag" style="border-color:var(--gold); color:var(--gold);">PNG</span>
+              <span class="file-type-tag" style="border-color:var(--gold); color:var(--gold);">WebP</span>
+              <span class="file-type-tag" style="border-color:var(--gold); color:var(--gold);">MP4</span>
+              <span class="file-type-tag" style="border-color:var(--gold); color:var(--gold);">360°</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Form layout ─────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">Form layout — project settings panel</div>
+    <p class="section-desc" style="font-size:13px; margin-top:0; margin-bottom:16px;">
+      Admin forms use a grouped card layout: each logical group (General, Access, Billing) is
+      a white card with a stone header row. Single-column inside groups; 2-column grid for
+      short paired fields (e.g. First name / Last name, City / Country).
+    </p>
+    <div class="mockup-frame" style="align-items:flex-start; padding:32px;">
+      <div style="display:flex; flex-direction:column; gap:20px; width:100%; max-width:560px;">
+
+        <!-- Group: General -->
+        <div class="form-section-group">
+          <div class="form-section-head">General</div>
+          <div class="form-section-body">
+            <div class="form-group">
+              <div class="form-label">Project name <span class="required">*</span></div>
+              <div class="form-input" style="display:block; pointer-events:none;">Tapestry Residences</div>
+            </div>
+            <div class="form-group">
+              <div class="form-label">Subdomain <span class="required">*</span></div>
+              <div class="form-input" style="display:block; pointer-events:none;">tapestry</div>
+              <div class="form-helper">tapestry.offplan.online</div>
+            </div>
+            <div class="form-grid-2">
+              <div class="form-group">
+                <div class="form-label">City</div>
+                <div class="form-input" style="display:block; pointer-events:none;">Sydney</div>
+              </div>
+              <div class="form-group">
+                <div class="form-label">Country</div>
+                <div class="form-select-wrap">
+                  <div class="form-select" style="display:block; pointer-events:none;">Australia</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group: Access -->
+        <div class="form-section-group">
+          <div class="form-section-head">Access &amp; Visibility</div>
+          <div class="form-section-body">
+            <div class="toggle-row">
+              <div class="toggle-switch on">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">Published</div>
+                <div class="toggle-sub">Publicly accessible at your subdomain</div>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-switch">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </div>
+              <div>
+                <div class="toggle-label-text">Password protect</div>
+                <div class="toggle-sub">Require password to view</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <div class="btn btn-primary" style="padding:10px 24px; font-size:11px;">Save changes</div>
+          <div class="btn btn-ghost" style="padding:10px 20px; font-size:11px;">Cancel</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Token table ─────────────────────────────────────── -->
+    <div class="subsection-title" style="margin-top:40px;">Form token values</div>
+    <table class="comp">
+      <thead>
+        <tr><th>State</th><th>Border</th><th>Box-shadow</th><th>Background</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Default</td>
+          <td><code>--stone-200</code> (#E4E2DF)</td>
+          <td>none</td>
+          <td>#FFFFFF</td>
+        </tr>
+        <tr>
+          <td>Focus</td>
+          <td><code>--gold</code> (#B8955A)</td>
+          <td>0 0 0 3px rgba(184,149,90,0.18)</td>
+          <td>#FFFFFF</td>
+        </tr>
+        <tr>
+          <td>Error</td>
+          <td>#B94040</td>
+          <td>0 0 0 3px rgba(185,64,64,0.12)</td>
+          <td>#FFFFFF</td>
+        </tr>
+        <tr>
+          <td>Disabled</td>
+          <td><code>--stone-200</code></td>
+          <td>none</td>
+          <td><code>--surface-subtle</code> (#F2F0ED)</td>
+        </tr>
+        <tr>
+          <td>Toggle ON</td>
+          <td>—</td>
+          <td>—</td>
+          <td><code>--navy</code> (#1E2E3E)</td>
+        </tr>
+        <tr>
+          <td>Checkbox checked</td>
+          <td><code>--navy</code></td>
+          <td>—</td>
+          <td><code>--navy</code> (#1E2E3E)</td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>—</td>
+          <td>—</td>
+          <td><code>--text-500</code> (#6A6865) · 11px uppercase</td>
+        </tr>
+        <tr>
+          <td>Placeholder</td>
+          <td>—</td>
+          <td>—</td>
+          <td><code>--text-300</code> (#A09E9C)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      All inputs share one base component — variant props handle select/textarea differences.
+      The <strong>Gold focus ring</strong> is the single interactive signal across the entire admin panel:
+      inputs, selects, textareas all use the same <code>box-shadow: 0 0 0 3px rgba(184,149,90,0.18)</code>
+      on focus — which means implementing it once at the CSS variable level is enough.
+      <ul style="margin:10px 0 0; padding-left:20px;">
+        <li><strong>Toggles</strong> map directly to feature flag booleans in the project settings API —
+          each toggle is a single PATCH call with the flag key. Navy = <code>true</code>, stone = <code>false</code>.</li>
+        <li><strong>File upload</strong>: the drop zone is the primary entry point; browsers also need a
+          fallback <code>&lt;input type="file"&gt;</code> for accessibility and iOS. Max file size + accepted MIME
+          types enforced client-side first, then validated again on the upload endpoint.</li>
+        <li><strong>Validation</strong>: prefer inline real-time validation (on blur) over submit-time
+          error dumps. Error text replaces helper text in the same slot — no layout shift.</li>
+        <li><strong>Form groups</strong> (the white card layout) correspond to logical API resources —
+          General = project record, Access = visibility flags, Billing = subscription object.
+          Grouping by resource makes partial save (save just General) natural and avoids
+          one giant form submit touching unrelated data.</li>
+      </ul>
+      No action needed from product side — reference only if useful.
+    </div>
+  </section>
+
+  <!-- ── APPENDIX A: Admin panel variants ────────────────────── -->
+  <section class="section" id="admin-variants">
+    <div class="section-eyebrow">Appendix A</div>
+    <h2 class="section-title">Admin panel — three visual directions</h2>
+    <p class="section-desc">
+      All three variants share the same HTML structure, brandbook v1.1 tokens, and interaction model.
+      Only the background treatment and glass layer differ. Use these as reference when deciding
+      the default experience per studio's white-label configuration.
+    </p>
+
+    <div style="display:flex; flex-direction:column; gap:40px; margin-top:8px;">
+
+      <!-- v5 -->
+      <div>
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:10px;">
+          <div style="font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">v5 — Solid</div>
+          <div style="font-size:13px; color:var(--text-500);">Flat brandbook colours · no glass · full readability · default for embedded/low-end contexts</div>
+        </div>
+        <div style="border:1px solid var(--stone-200); border-radius:10px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.07);">
+          <iframe src="../mockups/admin-panel-v5.html" width="100%" height="520"
+            style="display:block; border:none; pointer-events:none;"
+            loading="lazy" title="Admin panel v5 — solid"></iframe>
+        </div>
+        <div style="margin-top:8px; font-size:12px; color:var(--text-300);">
+          Background <span style="font-family:monospace; background:var(--stone-100); padding:1px 5px; border-radius:3px;">#FAFAF8</span> ·
+          Cards <span style="font-family:monospace; background:var(--stone-100); padding:1px 5px; border-radius:3px;">#FFFFFF</span> ·
+          No backdrop-filter · Works in all browsers including Safari &lt;14
+        </div>
+      </div>
+
+      <!-- v6 -->
+      <div>
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:10px;">
+          <div style="font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">v6 — Photo + Glass</div>
+          <div style="font-size:13px; color:var(--text-500);">Uploaded building photo as full viewport background · glassmorphic panels · maximum immersion</div>
+        </div>
+        <div style="border:1px solid var(--stone-200); border-radius:10px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.07);">
+          <iframe src="../mockups/admin-panel-v6.html" width="100%" height="520"
+            style="display:block; border:none; pointer-events:none;"
+            loading="lazy" title="Admin panel v6 — photo background"></iframe>
+        </div>
+        <div style="margin-top:8px; font-size:12px; color:var(--text-300);">
+          Background: studio's uploaded building photo · Panel opacity ~0.65 · <span style="font-family:monospace; background:var(--stone-100); padding:1px 5px; border-radius:3px;">backdrop-filter: blur(20px)</span> ·
+          Warm tone overlay <span style="font-family:monospace; background:var(--stone-100); padding:1px 5px; border-radius:3px;">rgba(30,22,14,0.28)</span>
+        </div>
+      </div>
+
+      <!-- v7 -->
+      <div>
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:10px;">
+          <div style="font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">v7 — Gradient + Glass</div>
+          <div style="font-size:13px; color:var(--text-500);">Atmosphere gradient background · glassmorphic panels · premium look · no image dependency</div>
+        </div>
+        <div style="border:1px solid var(--stone-200); border-radius:10px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.07);">
+          <iframe src="../mockups/admin-panel-v7.html" width="100%" height="520"
+            style="display:block; border:none; pointer-events:none;"
+            loading="lazy" title="Admin panel v7 — gradient background"></iframe>
+        </div>
+        <div style="margin-top:8px; font-size:12px; color:var(--text-300);">
+          Background: atmosphere gradient
+          <span style="display:inline-block; width:60px; height:12px; border-radius:3px; vertical-align:middle; margin:0 4px;
+            background:linear-gradient(90deg,#BBC8D6,#C8C1B6,#A8A29C);"></span>
+          <span style="font-family:monospace; background:var(--stone-100); padding:1px 5px; border-radius:3px;">#BBC8D6 → #C8C1B6 → #A8A29C</span> ·
+          Same glass tokens as v6 · No image required
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Comparison table -->
+    <div class="subsection-title" style="margin-top:48px;">When to use each</div>
+    <table style="width:100%; border-collapse:collapse; font-size:13px; margin-top:12px;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--stone-200);">
+          <th style="padding:10px 14px; text-align:left; font-family:'Helvetica Neue',Arial,sans-serif; font-size:9px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">Variant</th>
+          <th style="padding:10px 14px; text-align:left; font-family:'Helvetica Neue',Arial,sans-serif; font-size:9px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">When</th>
+          <th style="padding:10px 14px; text-align:left; font-family:'Helvetica Neue',Arial,sans-serif; font-size:9px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-300);">Constraint</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--stone-200);">
+          <td style="padding:12px 14px; font-weight:500; color:var(--text-900);">v5 Solid</td>
+          <td style="padding:12px 14px; color:var(--text-700);">Default; embedded iframes; older browser targets; accessibility-first</td>
+          <td style="padding:12px 14px; color:var(--text-500);">None — safe in all environments</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--stone-200);">
+          <td style="padding:12px 14px; font-weight:500; color:var(--text-900);">v6 Photo</td>
+          <td style="padding:12px 14px; color:var(--text-700);">Studio has uploaded a building hero image; full-screen admin experience</td>
+          <td style="padding:12px 14px; color:var(--text-500);">Requires photo upload; <code style="font-size:11px;">backdrop-filter</code> support</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 14px; font-weight:500; color:var(--text-900);">v7 Gradient</td>
+          <td style="padding:12px 14px; color:var(--text-700);">New studio, no photo yet; branded empty state; default premium feel</td>
+          <td style="padding:12px 14px; color:var(--text-500);"><code style="font-size:11px;">backdrop-filter</code> support; no image needed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:48px; padding-top:32px; border-top:1px solid var(--stone-200); display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#A09E9C;">
+      <span>offplan.online · Brandbook v1.1 · Appendix A</span>
+      <span>Admin panel v5 / v6 / v7</span>
+    </div>
+  </section>
+
+  <!-- ── SECTION: Key decisions ─────────────────────────────── -->
+  <section class="section" id="decisions">
+    <div class="section-eyebrow">Appendix B</div>
+    <h2 class="section-title">Key decisions</h2>
+
+    <table class="comp">
+      <thead>
+        <tr>
+          <th>Decision</th>
+          <th>Choice</th>
+          <th>Rationale</th>
+          <th>Plan ref</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Primary UI font</td>
+          <td>Helvetica Neue — keep</td>
+          <td>Correct tone; system font on Mac means no FOUT, no CDN dependency for core labels</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+        </tr>
+        <tr>
+          <td>Body / data font</td>
+          <td>Inter — add</td>
+          <td>Open source, excellent small-size readability, covers admin text & multi-language</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+        </tr>
+        <tr>
+          <td>Colour philosophy</td>
+          <td>Warm throughout</td>
+          <td>Architectural imagery always trends warm — cool greys clash when project changes</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+        </tr>
+        <tr>
+          <td>Gold accent</td>
+          <td>#B8955A — add</td>
+          <td>Premium property market expects a warm metal tone; price display + CTAs</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+        </tr>
+        <tr>
+          <td>Status palette</td>
+          <td>Tonal (sage/gold/charcoal) replaces traffic-light (green/orange/red)</td>
+          <td>Traffic lights are road-safety register — wrong for a luxury sales context</td>
+          <td><span class="phase-ref">1.1.2</span></td>
+        </tr>
+        <tr>
+          <td>Shadow opacity</td>
+          <td>10% (was 25%)</td>
+          <td>25% reads heavy on light admin surfaces; retain current values on dark overlay UI</td>
+          <td><span class="phase-ref">1.1.3</span></td>
+        </tr>
+        <tr>
+          <td>Card radius</td>
+          <td>4px fixed</td>
+          <td>Single value = system coherence; not zero (harsh), not 8+ (too mobile-app)</td>
+          <td><span class="phase-ref">1.1.3</span></td>
+        </tr>
+        <tr>
+          <td>White-label readiness</td>
+          <td>All values as CSS custom properties</td>
+          <td>Studio applies their brand by overriding :root tokens — no component changes needed</td>
+          <td><span class="phase-ref">1.2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ── SECTION: Phase 1.1 checklist ──────────────────────── -->
+  <section class="section" id="next">
+    <div class="section-eyebrow">Appendix C</div>
+    <h2 class="section-title">Phase 1.1 delivery checklist</h2>
+    <p class="section-desc">
+      What the tech team ships to complete Phase 1.1 — Visual Redesign.
+    </p>
+
+    <table class="comp">
+      <thead>
+        <tr><th>Task</th><th>Phase</th><th>Deliverable</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Create CSS token file with all :root variables</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+          <td><code>tokens.css</code> or <code>_tokens.scss</code></td>
+          <td>⏱ To estimate</td>
+        </tr>
+        <tr>
+          <td>Update Admin Panel palette to token system</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+          <td>All hardcoded colours → CSS vars</td>
+          <td>⏱ To estimate</td>
+        </tr>
+        <tr>
+          <td>Replace AVAILABLE/SOLD/RESERVED badge colours</td>
+          <td><span class="phase-ref">1.1.2</span></td>
+          <td>Badge component uses --status-* tokens</td>
+          <td>⏱ To estimate</td>
+        </tr>
+        <tr>
+          <td>Update card shadow to --shadow-card (10%)</td>
+          <td><span class="phase-ref">1.1.3</span></td>
+          <td>Card component uses token</td>
+          <td>⏱ To estimate</td>
+        </tr>
+        <tr>
+          <td>Add Inter font for body/admin text</td>
+          <td><span class="phase-ref">1.1.1</span></td>
+          <td>Font loaded, applied to body + admin</td>
+          <td>⏱ To estimate</td>
+        </tr>
+        <tr>
+          <td>Brandbook review with Ilya</td>
+          <td><span class="phase-ref">1.1</span></td>
+          <td>Feedback session — adjust tokens if needed</td>
+          <td>Next step</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="margin-top:32px;">
+      <strong>Next action:</strong> Share this brandbook with Ilya for Phase 1.1 visual
+      review (Monday agenda item #6). Ilya's feedback may adjust accent colour choice and
+      confirm or revise the status badge direction before tech team estimates begin.
+    </div>
+
+    <div style="margin-top:48px; padding-top:32px; border-top:1px solid var(--stone-200); display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#A09E9C;">
+      <span>offplan.online · Brandbook v1.1 · 2026-04-27</span>
+      <span>Phase 1.1.1 – 1.1.3 · Priority #1</span>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

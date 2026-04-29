@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — offplan.online mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; height: 100vh; overflow: hidden; background: #f5f6fa; color: #1a1a2e; font-size: 14px; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 220px; min-width: 220px; background: #1a2151; color: #fff;
+    display: flex; flex-direction: column; padding: 0; overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 8px;
+    font-size: 22px; font-weight: 700; letter-spacing: 1px; color: #fff;
+  }
+  .sidebar-project {
+    padding: 4px 20px 20px;
+    display: flex; align-items: center; gap: 6px; cursor: pointer; color: #c5cae9; font-size: 14px;
+  }
+  .sidebar-project svg { width: 16px; height: 16px; fill: #c5cae9; }
+  .sidebar-section-label {
+    padding: 16px 20px 6px;
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px; color: #7986cb; text-transform: uppercase;
+  }
+  .sidebar a {
+    display: block; padding: 8px 20px; color: #c5cae9; text-decoration: none;
+    font-size: 14px; transition: background 0.15s, color 0.15s; border-radius: 0;
+  }
+  .sidebar a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .sidebar a.active { color: #fff; font-weight: 700; background: rgba(255,255,255,0.06); }
+  .sidebar-bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-bottom a { color: #7986cb; }
+
+  /* ── MAIN AREA ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── CONTENT SPLIT ── */
+  .content-area { flex: 1; display: flex; overflow: hidden; }
+
+  /* ── LIST PANEL ── */
+  .list-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid #e0e3ef; }
+  .list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px; border-bottom: 1px solid #e0e3ef; background: #fff;
+  }
+  .list-header h1 { font-size: 18px; font-weight: 600; color: #1a1a2e; }
+  .list-header-actions { display: flex; align-items: center; gap: 12px; }
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    border: 1.5px solid #d0d4e8; border-radius: 8px; padding: 7px 14px;
+    background: #fff; color: #8892b0; font-size: 14px; width: 220px;
+  }
+  .search-box input { border: none; outline: none; background: transparent; font-size: 14px; color: #1a1a2e; width: 100%; }
+  .btn-create {
+    background: #fff; color: #1a2151; border: 2px solid #1a2151; border-radius: 8px;
+    padding: 7px 22px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-create:hover { background: #1a2151; color: #fff; }
+
+  /* ── TABLE ── */
+  .table-wrap { flex: 1; overflow-y: auto; background: #fff; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    padding: 12px 20px; text-align: left; font-size: 12px; font-weight: 500;
+    color: #8892b0; border-bottom: 1.5px solid #e0e3ef; background: #fff;
+    position: sticky; top: 0; z-index: 1;
+  }
+  tbody tr { border-bottom: 1px solid #f0f2f9; cursor: pointer; transition: background 0.1s; }
+  tbody tr:hover { background: #f7f8fc; }
+  tbody tr.active-row { background: #eef0fa; }
+  tbody tr.sub-row td:first-child { padding-left: 44px; color: #5c6bc0; }
+  tbody td { padding: 14px 20px; font-size: 14px; color: #1a1a2e; }
+  .expand-toggle { color: #8892b0; font-size: 10px; margin-right: 8px; cursor: pointer; }
+  .tag-image {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    background: #eef0fa; color: #3f51b5; font-size: 12px; font-weight: 500;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    width: 480px; min-width: 380px; background: #fff;
+    display: flex; flex-direction: column; padding: 28px 28px 20px;
+    border-left: 1px solid #e0e3ef; overflow-y: auto;
+  }
+  .right-panel h2 { font-size: 18px; font-weight: 600; color: #1a1a2e; margin-bottom: 24px; }
+
+  .form-field { margin-bottom: 20px; }
+  .form-field label { display: block; font-size: 12px; font-weight: 600; color: #8892b0; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .select-row {
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1.5px solid #d0d4e8; border-radius: 8px; padding: 10px 14px;
+    cursor: pointer; background: #fff;
+  }
+  .select-row span { font-size: 14px; color: #1a1a2e; }
+  .select-row .label-right { color: #8892b0; display: flex; align-items: center; gap: 6px; }
+  .select-row svg { width: 14px; height: 14px; fill: #8892b0; }
+
+  .asset-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .asset-header span { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+  .asset-header a { color: #e53935; font-size: 13px; text-decoration: none; font-weight: 500; }
+  .asset-header a:hover { text-decoration: underline; }
+
+  .file-input-row {
+    display: flex; align-items: center; border: 1.5px solid #d0d4e8; border-radius: 8px;
+    overflow: hidden; margin-bottom: 14px;
+  }
+  .file-input-row .filename {
+    flex: 1; padding: 10px 14px; font-size: 13px; color: #8892b0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .file-input-row .filetype {
+    padding: 10px 12px; font-size: 13px; color: #8892b0; border-left: 1px solid #e0e3ef;
+    border-right: 1px solid #e0e3ef;
+  }
+  .file-input-row .btn-browse {
+    padding: 10px 16px; font-size: 13px; font-weight: 600; color: #3f51b5;
+    background: #fff; border: none; cursor: pointer;
+  }
+  .file-input-row .btn-browse:hover { background: #f0f2ff; }
+
+  .asset-preview {
+    width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid #e0e3ef;
+    margin-bottom: 20px;
+  }
+  .asset-preview img { width: 100%; display: block; object-fit: cover; max-height: 220px; }
+  .asset-preview-empty {
+    width: 100%; height: 160px; border-radius: 8px; border: 2px dashed #d0d4e8;
+    display: flex; align-items: center; justify-content: center;
+    color: #b0b8d0; font-size: 13px; margin-bottom: 20px; cursor: pointer;
+  }
+  .asset-preview-empty:hover { border-color: #7986cb; color: #7986cb; }
+
+  .panel-actions { display: flex; justify-content: space-between; margin-top: auto; padding-top: 16px; border-top: 1px solid #f0f2f9; }
+  .btn-discard {
+    background: #fff; color: #8892b0; border: 1.5px solid #d0d4e8; border-radius: 8px;
+    padding: 10px 28px; font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-discard:hover { border-color: #8892b0; color: #1a1a2e; }
+  .btn-save {
+    background: #1a2151; color: #fff; border: none; border-radius: 8px;
+    padding: 10px 36px; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-save:hover { background: #2d3a8c; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d0d4e8; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">COTE</div>
+  <div class="sidebar-project">
+    Tower IX
+    <svg viewBox="0 0 20 20"><path d="M5 8l5 5 5-5z"/></svg>
+  </div>
+
+  <div class="sidebar-section-label">Structure</div>
+  <a href="#units">Units</a>
+  <a href="#floor-plans">Floor Plans</a>
+  <a href="#levels">Levels</a>
+  <a href="#amenities">Amenities</a>
+  <a href="#buildings" class="active">Buildings</a>
+
+  <div class="sidebar-section-label">Media</div>
+  <a href="#location">Location</a>
+  <a href="#galleries">Galleries</a>
+  <a href="#branding">Branding</a>
+
+  <div class="sidebar-section-label">Settings</div>
+  <a href="#features">Features</a>
+  <a href="#labels">Labels &amp; Terms</a>
+
+  <div class="sidebar-bottom">
+    <a href="#signout">Sign Out</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="content-area">
+
+    <!-- LIST PANEL -->
+    <div class="list-panel">
+      <div class="list-header">
+        <h1>11 Buildings</h1>
+        <div class="list-header-actions">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8892b0" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search">
+          </div>
+          <button class="btn-create">Create</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:50%">Name</th>
+              <th style="width:25%">Angles</th>
+              <th style="width:25%">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="selectBuilding(this, 'Development')">
+              <td>Development</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower IX')">
+              <td>Tower IX</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower III')">
+              <td>Tower III</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower IV')">
+              <td>Tower IV</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower VII')">
+              <td>Tower VII</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower X')">
+              <td>Tower X</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower VI')">
+              <td>Tower VI</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="selectBuilding(this, 'Tower VIII')">
+              <td>Tower VIII</td>
+              <td>0</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr onclick="toggleExpand(this, 'tower-ii-angles')">
+              <td><span class="expand-toggle">▶</span>Tower II</td>
+              <td>1</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr id="tower-ii-angles" class="sub-row" style="display:none">
+              <td colspan="3">North-East</td>
+            </tr>
+            <tr class="active-row" onclick="toggleExpand(this, 'new-tower-angles')">
+              <td><span class="expand-toggle">▼</span>New tower</td>
+              <td>1</td>
+              <td><span class="tag-image">Image</span></td>
+            </tr>
+            <tr id="new-tower-angles" class="sub-row">
+              <td colspan="3">East-West</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <h2>Exterior Angle Creation</h2>
+
+      <div class="form-field">
+        <div class="select-row">
+          <span>East</span>
+          <span class="label-right">
+            Angle Name
+            <svg viewBox="0 0 20 20"><path d="M5 8l5 5 5-5z"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="asset-header">
+        <span>Asset</span>
+        <a href="#">Remove</a>
+      </div>
+
+      <div class="file-input-row">
+        <span class="filename">1-JPEG_streetscape_1_cote_palm_beach_3D...</span>
+        <span class="filetype">Image</span>
+        <button class="btn-browse">Browse</button>
+      </div>
+
+      <div class="asset-preview">
+        <!-- Replace src with actual asset path -->
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Building preview" onerror="this.parentElement.innerHTML='<div style=\'padding:40px;text-align:center;color:#b0b8d0\'>Image preview</div>'">
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-discard">Discard</button>
+        <button class="btn-save">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function selectBuilding(row, name) {
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+    row.classList.add('active-row');
+    document.querySelector('.right-panel h2').textContent = 'Exterior Angle Creation';
+  }
+
+  function toggleExpand(row, targetId) {
+    const target = document.getElementById(targetId);
+    const toggle = row.querySelector('.expand-toggle');
+    if (!target) return;
+    const isVisible = target.style.display !== 'none';
+    target.style.display = isVisible ? 'none' : 'table-row';
+    toggle.textContent = isVisible ? '▶' : '▼';
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+    row.classList.add('active-row');
+  }
+</script>
+</body>
+</html>

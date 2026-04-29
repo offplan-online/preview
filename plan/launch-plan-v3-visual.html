@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Plan v3 — Visual Appendix A: Admin Panel Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:   #faf7f2;
+    --sand-100:  #f4ede0;
+    --sand-200:  #ebe0cc;
+    --sand-300:  #ddd0b8;
+    --sand-400:  #c8b898;
+    --gold:      #a07840;
+    --gold-mid:  #b8904a;
+    --gold-light:#d4aa6a;
+    --navy:      #1a2040;
+    --navy-mid:  #212840;
+    --navy-light:#2a3252;
+    --text-dark: #1e1a14;
+    --text-mid:  #5a5040;
+    --text-dim:  #9a8e7a;
+    --border:    rgba(160,140,110,0.22);
+    --border-mid:rgba(160,140,110,0.38);
+    --red:       #c05050;
+    --amber:     #c07820;
+    --green:     #4a9e6a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--sand-100);
+    color: var(--text-dark);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 80px 40px 60px;
+    text-align: center;
+  }
+  .hero-kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 18px;
+    line-height: 1.15;
+  }
+  .hero .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .hero-meta {
+    margin-top: 32px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+  section { margin-bottom: 80px; }
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--navy);
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 14px; color: var(--text-mid); }
+  p.lead { font-size: 17px; color: var(--text-dark); max-width: 780px; }
+
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── PROBLEM BOX ── */
+  .problem-box {
+    background: var(--sand-50);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold-mid);
+    padding: 24px 28px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+  }
+  .problem-box h4 { margin-bottom: 8px; }
+  .problem-box p { margin-bottom: 0; color: var(--text-dark); }
+  .problem-box p + p { margin-top: 10px; }
+
+  /* ── 3 VIEW CARDS ── */
+  .views-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .view-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 26px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .view-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(30,30,30,0.08);
+  }
+  .view-card .view-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  .view-card.classic .view-tag { background: var(--sand-200); color: var(--text-mid); }
+  .view-card.power .view-tag { background: var(--gold-light); color: var(--navy); }
+  .view-card.visual .view-tag { background: var(--navy); color: #fff; }
+
+  .view-card h3 { margin-bottom: 14px; }
+  .view-card p { font-size: 14px; line-height: 1.55; margin-bottom: 12px; color: var(--text-mid); }
+  .view-card .use-cases {
+    list-style: none;
+    padding: 0;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .view-card .use-cases li {
+    font-size: 13px;
+    color: var(--text-dark);
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .view-card .use-cases li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── PALETTE ── */
+  .palette-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 30px;
+  }
+  .palette-group {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .palette-group.current { border-left: 4px solid var(--red); }
+  .palette-group.proposed { border-left: 4px solid var(--gold-mid); }
+  .palette-group h4 { margin-bottom: 16px; }
+  .palette-group.current h4 { color: var(--red); }
+  .palette-group.proposed h4 { color: var(--gold); }
+
+  .swatch-row {
+    display: flex;
+    gap: 8px;
+    margin: 14px 0;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 70px;
+  }
+  .swatch-color {
+    width: 100%;
+    height: 52px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .swatch-label {
+    font-size: 10px;
+    margin-top: 6px;
+    color: var(--text-dim);
+    font-family: 'SF Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .status-demo {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .status-old {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .dot-green { background: #00cc44; box-shadow: 0 0 8px rgba(0,204,68,0.5); }
+  .dot-amber { background: #ffaa00; box-shadow: 0 0 8px rgba(255,170,0,0.5); }
+  .dot-red { background: #ff3333; box-shadow: 0 0 8px rgba(255,51,51,0.5); }
+
+  .status-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 14px;
+    font-weight: 500;
+  }
+  .status-new.available { background: rgba(74,158,106,0.12); color: var(--green); }
+  .status-new.reserved { background: rgba(192,120,32,0.12); color: var(--amber); }
+  .status-new.sold { background: rgba(192,80,80,0.12); color: var(--red); }
+  .status-new-bar {
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+  }
+  .status-new.available .status-new-bar { background: var(--green); }
+  .status-new.reserved .status-new-bar { background: var(--amber); }
+  .status-new.sold .status-new-bar { background: var(--red); }
+
+  /* ── WIZARD PREVIEW ── */
+  .wizard-preview {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .wizard-sidebar {
+    background: var(--navy);
+    padding: 24px 20px;
+    color: #fff;
+  }
+  .wizard-sidebar-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .wiz-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+  }
+  .wiz-step.done { color: #fff; }
+  .wiz-step.active { color: var(--gold-light); font-weight: 600; }
+  .wiz-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1.5px solid rgba(255,255,255,0.25);
+  }
+  .wiz-step.done .wiz-circle {
+    background: var(--gold-mid);
+    border-color: var(--gold-mid);
+    color: #fff;
+  }
+  .wiz-step.active .wiz-circle {
+    background: rgba(212,170,106,0.2);
+    border-color: var(--gold-light);
+    color: var(--gold-light);
+  }
+  .wizard-body {
+    padding: 32px 30px;
+  }
+  .wizard-body h4 { margin-bottom: 8px; }
+  .wizard-body h3 { margin-bottom: 10px; }
+  .wizard-hint {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--sand-50);
+    border-left: 3px solid var(--gold-mid);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  /* ── MOCKUP SECTION ── */
+  .mockup-frame {
+    width: 100%;
+    height: 700px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 24px;
+    background: #fff;
+    box-shadow: 0 12px 48px rgba(30,30,30,0.1);
+  }
+  .mockup-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--sand-50);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+  .mockup-note a {
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    background: var(--sand-200);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text-dark);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    padding: 40px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: var(--gold-light); }
+  footer .links {
+    margin-top: 14px;
+  }
+  footer .links a {
+    margin: 0 10px;
+  }
+
+  @media (max-width: 840px) {
+    .hero h1 { font-size: 32px; }
+    .views-grid { grid-template-columns: 1fr; }
+    .palette-compare { grid-template-columns: 1fr; }
+    .wizard-preview { grid-template-columns: 1fr; }
+    .wizard-sidebar { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-kicker">Launch Plan v3 — Visual Appendix A</div>
+  <h1>Admin Panel Concept</h1>
+  <p class="subtitle">
+    Подход к редизайну админки: не переделываем, добавляем views. Три параллельных режима работы
+    поверх существующего продукта, каждый со своей задачей.
+  </p>
+  <div class="hero-meta">
+    offplan.online · 2026-04-28 (обновлено) · Обсуждение: product team + tech team
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════ PROBLEM ═══════ -->
+<section id="problem">
+  <h2>Проблема и подход</h2>
+  <p class="lead">
+    Текущий admin работает и покрывает 90% функционала, нужного студиям. Переделывать всё с нуля
+    дорого и рискованно. Подход tech team: не заменяем classic view — добавляем два новых, каждый
+    под свой use case.
+  </p>
+
+  <div class="problem-box">
+    <h4>Ключевой принцип</h4>
+    <p>
+      <strong>Admin = не один UI, а три режима на общем API.</strong> Classic view для детального
+      редактирования (всё что уже есть). Power Editor для массовых изменений. Visual Editor для
+      inline правок на публичной стороне.
+    </p>
+    <p>
+      Каждый режим — это отдельный workstream с независимым циклом разработки. Пилот идёт на
+      classic, Power Editor появляется в Стадии 4, Visual Editor ещё позже.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ 3 VIEWS ═══════ -->
+<section id="views">
+  <h2>Три view параллельно</h2>
+
+  <div class="views-grid">
+
+    <div class="view-card classic">
+      <span class="view-tag">View 1 · Сейчас</span>
+      <h3>Classic View</h3>
+      <p>
+        Текущий admin. Левый sidebar с разделами, правая панель с формой редактирования.
+        Подходит для детальной работы с одним entity: создать здание, настроить юнит, залить
+        panorama с hotspots.
+      </p>
+      <p>
+        Продолжает улучшаться инкрементально — в Стадии 1 закрываем критичные баги из UX-аудита,
+        дальше UX-improvements по фидбеку пилота.
+      </p>
+      <ul class="use-cases">
+        <li>Детальное редактирование entity</li>
+        <li>Заливка контента / panoramas</li>
+        <li>Настройка feature toggles</li>
+        <li>Branding / labels & terms</li>
+      </ul>
+    </div>
+
+    <div class="view-card power">
+      <span class="view-tag">View 2 · Новый</span>
+      <h3>Power Editor</h3>
+      <p>
+        Excel-подобный grid всех юнитов проекта. Inline edit, copy-paste из Excel, bulk actions,
+        CSV import/export. Позволяет обновить 50 юнитов за 5 минут вместо 50 кликов.
+      </p>
+      <p>
+        Это также база для AI-mode: когда видно всё сразу, AI-агент может применить
+        <code>«обнови цены всех 2BR юнитов на +5%»</code> с preview перед apply. Tech team уже
+        ведёт работу над новой админкой с использованием AI — этот view ляжет в неё естественно.
+      </p>
+      <ul class="use-cases">
+        <li>Initial bulk setup нового проекта</li>
+        <li>Ежеквартальные price updates</li>
+        <li>Mass status sync (продажи)</li>
+        <li>CSV import от застройщика</li>
+        <li>AI-editing (будущее)</li>
+      </ul>
+    </div>
+
+    <div class="view-card visual">
+      <span class="view-tag">View 3 · Новый</span>
+      <h3>Visual Editor</h3>
+      <p>
+        Inline-редактирование прямо на публичной странице проекта. Толкаешь «Edit Mode»,
+        кликаешь на заголовок или цену, правишь in-place. Light-touch — для быстрых правок
+        после того как контент уже залит через Classic.
+      </p>
+      <p>
+        Запрос product team после демо на похожем продукте — редактирование прямо на публичной
+        странице проекта. Scope — только labels, prices, descriptions. Не замена classic для complex ops.
+      </p>
+      <ul class="use-cases">
+        <li>Быстрая правка заголовка</li>
+        <li>Смена цены / статуса юнита</li>
+        <li>Замена описания</li>
+        <li>Light customisation (font, button radius)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ PALETTE ═══════ -->
+<section id="palette">
+  <h2>Визуальный язык</h2>
+
+  <h3>Палитра v1.1 (brandbook confirmed)</h3>
+  <p>Финальные токены — подтверждены Figma + live CSS. <a href="../brandbook/v1.html" target="_blank">Полный brandbook →</a></p>
+
+  <div class="palette-group" style="margin-top:20px;">
+    <h4>Surface + Stone (основа)</h4>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-color" style="background:#FAFAF8; border:1px solid #E4E2DF;"></div><div class="swatch-label">#FAFAF8<br><span style="font-size:10px;color:#aaa;">surface-bg</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F2F0ED;"></div><div class="swatch-label">#F2F0ED<br><span style="font-size:10px;color:#aaa;">surface-subtle</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#C5C8CA;"></div><div class="swatch-label">#C5C8CA<br><span style="font-size:10px;color:#aaa;">stone-400</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#9A9594;"></div><div class="swatch-label">#9A9594<br><span style="font-size:10px;color:#aaa;">stone-500</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7C7574;"></div><div class="swatch-label">#7C7574<br><span style="font-size:10px;color:#aaa;">stone-700 ✓</span></div></div>
+    </div>
+
+    <h4 style="margin-top:22px;">Atmosphere background (gradient stops)</h4>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-color" style="background:#BBC8D6;"></div><div class="swatch-label">#BBC8D6<br><span style="font-size:10px;color:#aaa;">atmo-sky</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#D4CBBF;"></div><div class="swatch-label">#D4CBBF<br><span style="font-size:10px;color:#aaa;">atmo-plaster</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#C8C1B6;"></div><div class="swatch-label">#C8C1B6<br><span style="font-size:10px;color:#aaa;">atmo-stone ✓</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#B8B0A8;"></div><div class="swatch-label">#B8B0A8<br><span style="font-size:10px;color:#aaa;">atmo-deep</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A8A29C;"></div><div class="swatch-label">#A8A29C<br><span style="font-size:10px;color:#aaa;">atmo-anchor</span></div></div>
+    </div>
+    <div style="margin-top:10px; height:32px; border-radius:6px; border:1px solid #E4E2DF;
+      background:
+        radial-gradient(ellipse 80% 55% at 68% 18%, rgba(210,220,230,0.75) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 60% at 50% 58%, rgba(210,200,188,0.65) 0%, transparent 65%),
+        linear-gradient(158deg, #BBC8D6 0%, #D4CBBF 22%, #C8C1B6 45%, #B8B0A8 68%, #A8A29C 100%);
+    "></div>
+    <div style="font-size:11px;color:#aaa;margin-top:4px;">Live gradient — as used in admin panel v7</div>
+
+    <h4 style="margin-top:22px;">Gold (акцент)</h4>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-color" style="background:#B8955A;"></div><div class="swatch-label">#B8955A<br><span style="font-size:10px;color:#aaa;">gold ✓</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:rgba(184,149,90,0.30);"></div><div class="swatch-label">30% gold<br><span style="font-size:10px;color:#aaa;">gold-border</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:rgba(184,149,90,0.10);"></div><div class="swatch-label">10% gold<br><span style="font-size:10px;color:#aaa;">gold-dim</span></div></div>
+    </div>
+
+    <h4 style="margin-top:22px;">Navy (sidebar / depth)</h4>
+    <div class="swatch-row">
+      <div class="swatch"><div class="swatch-color" style="background:#1E2E3E;"></div><div class="swatch-label">#1E2E3E<br><span style="font-size:10px;color:#aaa;">navy</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#323840;"></div><div class="swatch-label">#323840<br><span style="font-size:10px;color:#aaa;">text-900 ✓</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A09E9C;"></div><div class="swatch-label">#A09E9C<br><span style="font-size:10px;color:#aaa;">text-300</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ WIZARD ═══════ -->
+<section id="wizard">
+  <h2>Numbered Wizard 1→10 в sidebar</h2>
+  <p class="lead">
+    Вторая идея из v4 — встроенный onboarding wizard прямо в sidebar, показывающий последовательность
+    шагов настройки проекта. Студия всегда видит «где я сейчас» и «что дальше». Решает главный
+    UX gap из аудита — отсутствие порядка действий.
+  </p>
+
+  <div class="wizard-preview">
+    <div class="wizard-sidebar">
+      <div class="wizard-sidebar-title">Setup Progress</div>
+
+      <div class="wiz-step done">
+        <div class="wiz-circle">✓</div>
+        <span>Theme & Branding</span>
+      </div>
+      <div class="wiz-step done">
+        <div class="wiz-circle">✓</div>
+        <span>Feature Toggles</span>
+      </div>
+      <div class="wiz-step done">
+        <div class="wiz-circle">✓</div>
+        <span>Labels & Terms</span>
+      </div>
+      <div class="wiz-step active">
+        <div class="wiz-circle">4</div>
+        <span>Buildings</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">5</div>
+        <span>Levels</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">6</div>
+        <span>Floor Plates</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">7</div>
+        <span>Floor Plans</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">8</div>
+        <span>Units</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">9</div>
+        <span>Panoramas</span>
+      </div>
+      <div class="wiz-step">
+        <div class="wiz-circle">10</div>
+        <span>Hotspots</span>
+      </div>
+    </div>
+
+    <div class="wizard-body">
+      <h4>Step 4 of 10</h4>
+      <h3>Add Buildings to your project</h3>
+      <p>
+        Загрузите exterior views для каждой стороны здания (East, West, North, South).
+        Hotspots на фасаде ставятся в <strong>Step 10</strong> — после того как units заведены.
+        Пока что можно пропустить.
+      </p>
+
+      <div class="wizard-hint">
+        💡 <strong>Heads up:</strong> ожидаемые форматы — JPEG/PNG/WebP до 5 MB. Для panorama
+        нужен spherical (2:1 aspect). PDF не поддерживается — конвертируйте в PNG (белый фон, ≤100 KB).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ MOCKUP ═══════ -->
+<section id="mockup">
+  <h2>Admin panel — три визуальных направления</h2>
+  <p class="lead">
+    Все три варианта работают на одних токенах (brandbook v1.1) и одной HTML-структуре.
+    Только фоновый слой и степень стекла отличаются.
+  </p>
+
+  <h3>v5 — Solid (плоские цвета, без стекла)</h3>
+  <p>Default. Работает в любом браузере, подходит для embedded-контекстов.</p>
+  <iframe
+    src="../mockups/admin-panel-v5.html"
+    class="mockup-frame"
+    title="Admin Panel v5 — Solid"
+    sandbox="allow-same-origin"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/admin-panel-v5.html</code> · фон #FAFAF8 · без backdrop-filter</span>
+    <a href="../mockups/admin-panel-v5.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+
+  <h3 style="margin-top:48px;">v6 — Photo + Glass (фото здания как фон)</h3>
+  <p>Включается после загрузки фотографии. Максимальное погружение.</p>
+  <iframe
+    src="../mockups/admin-panel-v6.html"
+    class="mockup-frame"
+    title="Admin Panel v6 — Photo background"
+    sandbox="allow-same-origin"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/admin-panel-v6.html</code> · фото здания · blur(20px) · overlay rgba(30,22,14,0.28)</span>
+    <a href="../mockups/admin-panel-v6.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+
+  <h3 style="margin-top:48px;">v7 — Gradient + Glass (атмосферный градиент, без фото)</h3>
+  <p>Премиальный вид без зависимости от загруженного фото. Лучший empty-state default.</p>
+  <iframe
+    src="../mockups/admin-panel-v7.html"
+    class="mockup-frame"
+    title="Admin Panel v7 — Gradient background"
+    sandbox="allow-same-origin"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/admin-panel-v7.html</code> · атмосферный градиент #BBC8D6→#C8C1B6→#A8A29C · blur(20px)</span>
+    <a href="../mockups/admin-panel-v7.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+</section>
+
+<section id="staff-mockup">
+  <h2>Operator Panel (staff.offplan.online) — v1, обновлённый мокап</h2>
+  <p class="lead">
+    Внутренний инструмент для команды offplan.online (см. <a href="launch-plan-v3-full.html#phase-1-9">Фаза 1.9</a>).
+    <strong>Не build-from-scratch:</strong> tech team подтвердила, что Super Admin Panel уже существует и
+    работает в продакшене (список проектов, переключатели feature-флагов, asset uploads, action log).
+    Operator Panel = надстройка над этой панелью для multi-tenant управления клиентами-студиями
+    (subscription / payment / audit log / client list с drawer'ом).
+    Отдельный subdomain, отдельный auth, брендбук v1.1 (navy + gold + sand, без traffic-light светофоров).
+  </p>
+
+  <h3>Operator Panel v1 — multi-page mockup</h3>
+  <p>
+    5 страниц через JS-роутинг: <strong>Overview</strong> (KPI-row + recent signups + attention needed),
+    <strong>Clients</strong> (фильтруемая таблица 8 студий-заглушек),
+    <strong>Payments</strong> (revenue KPIs + transaction history + provider status badge),
+    <strong>Audit Log</strong> (expandable row details + tenant filter),
+    <strong>Settings</strong> (Payment Provider секция как Phase 1.5 placeholder).
+    Slide-out drawer с 5 вкладками: Overview, Projects (с full project settings — feature flag toggles,
+    Information, Assets), Subscription, Users, Payments.
+  </p>
+  <iframe
+    src="../mockups/operator-panel-v1.html"
+    class="mockup-frame"
+    title="Operator Panel v1 — multi-page mockup"
+    sandbox="allow-same-origin allow-scripts"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/operator-panel-v1.html</code> · navy sidebar #1E2E3E · gold accent · denser tables · "STAFF" persistent banner · 13 feature-флагов на проект</span>
+    <a href="../mockups/operator-panel-v1.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+
+  <div style="margin-top:32px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
+    <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Что нового в v1 (по сравнению с предыдущим preview)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Multi-page структура</strong> — 5 страниц через JS-роутинг вместо single-page preview (Overview / Clients / Payments / Audit Log / Settings)</li>
+      <li><strong>Project settings внутри drawer</strong> — расширяет существующую Super Admin Panel: переключатели feature-флагов на каждый проект (13+ флагов), Information section (домен, тема, менеджеры), Assets section (логотип, видео)</li>
+      <li><strong>Settings → Payment Provider</strong> placeholder — карточки Stripe / Paddle / PayTabs / Telr (disabled, маркировка Phase 1.5) + текущий статус ("Manual entry · Active") + поля API keys / webhook URL (отображаются disabled до подключения провайдера)</li>
+      <li><strong>Provider status badge</strong> на странице Payments — указатель "Provider: Manual entry · Change provider →" со ссылкой на Settings</li>
+      <li><strong>Drawer компактнее</strong> — 5 вкладок вместо 7 (объединили Activity → Audit Log на основной странице, Notes → Overview как inline-блок)</li>
+    </ul>
+  </div>
+
+  <div style="margin-top:24px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
+    <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Итерация 1 (включено в Фазу 1.9) vs отложено</div>
+    <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left; padding:8px 12px 8px 0; color:var(--navy);">Итерация 1 (Фаза 1.9)</th>
+          <th style="text-align:left; padding:8px 0; color:var(--text-mid);">Итерация 2 / Стадия 2 / Стадия 4</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Clients list + detail drawer (5 вкладок)</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Operator role hierarchy: sales / support / finance (Стадия 4)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">User actions: reset password / change email / suspend</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Глубокая аналитика выручки: MRR / churn / cohort retention (Стадия 4)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Payments page — manual entry adapter (provider-neutral schema)</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Реальный provider plug-in: Stripe / Paddle / PayTabs / Telr (Фаза 1.5)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Audit log: базовое логирование + простой viewer</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Full-text search, JSON diff display, real-time tail (Итерация 2)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Operator auth + поддомен (email + пароль + session)</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">2FA (TOTP) + IP allowlist (Итерация 2)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Settings stub: Payment Provider placeholder</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Полноценный Settings: operator team management + email-шаблоны (Стадия 2)</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 12px 6px 0; vertical-align:top;">Project settings в drawer (feature flags, info, assets)</td>
+          <td style="padding:6px 0; vertical-align:top; color:var(--text-mid);">Impersonation ("login as user") + mobile-responsive layout (Стадия 4)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+
+</div>
+
+<footer>
+  <div>Launch Plan v3 — Visual Appendix A · offplan.online · 2026-04-28 (обновлено)</div>
+  <div class="links">
+    <a href="../../plans/launch-plan-v3.md">Полный план (markdown)</a>
+    <a href="../../plans/launch-plan-v2.html">Launch Plan v2 (архив)</a>
+    <a href="../research/ux-audit-vv-admin-2026-04-23.md">UX-аудит VV Admin</a>
+    <a href="#mockup">Admin panel v5/v6/v7</a>
+    <a href="#staff-mockup">Operator Panel v1</a>
+  </div>
+</footer>
+
+</body>
+</html>

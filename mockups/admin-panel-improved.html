@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Improved Concept</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; height: 100vh; overflow: hidden; background: #f5f6fa; color: #1a1a2e; font-size: 14px; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { width: 220px; min-width: 220px; background: #1a2151; color: #fff; display: flex; flex-direction: column; overflow-y: auto; }
+  .sidebar-logo { padding: 24px 20px 6px; font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+  .sidebar-project { padding: 4px 20px 18px; display: flex; align-items: center; gap: 6px; cursor: pointer; color: #c5cae9; font-size: 14px; }
+  .sidebar-section-label { padding: 14px 20px 5px; font-size: 10px; font-weight: 600; letter-spacing: 1.2px; color: #7986cb; text-transform: uppercase; }
+
+  /* ── IMPROVEMENT 1: step numbers in sidebar ── */
+  .sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 20px; color: #c5cae9; text-decoration: none; font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .sidebar a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .sidebar a.active { color: #fff; font-weight: 700; background: rgba(255,255,255,0.07); }
+  .sidebar a.done .step-num { background: #43a047; color: #fff; }
+  .sidebar a.active .step-num { background: #fff; color: #1a2151; }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 700;
+    background: rgba(255,255,255,0.15); color: #c5cae9; flex-shrink: 0;
+  }
+  .step-check { font-size: 11px; }
+  .sidebar-bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-bottom a { color: #7986cb; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── IMPROVEMENT 2: workflow progress bar ── */
+  .workflow-bar {
+    background: #fff; border-bottom: 1px solid #e0e3ef;
+    padding: 10px 28px; display: flex; align-items: center; gap: 0;
+    overflow-x: auto;
+  }
+  .wf-step {
+    display: flex; align-items: center; gap: 0; flex-shrink: 0;
+  }
+  .wf-label {
+    font-size: 11px; padding: 5px 12px; border-radius: 20px;
+    color: #8892b0; background: transparent; font-weight: 500; white-space: nowrap;
+  }
+  .wf-label.done { color: #43a047; }
+  .wf-label.active { background: #1a2151; color: #fff; font-weight: 600; }
+  .wf-label.upcoming { color: #b0b8d0; }
+  .wf-arrow { color: #d0d4e8; font-size: 12px; padding: 0 2px; }
+
+  /* ── CONTENT SPLIT ── */
+  .content-area { flex: 1; display: flex; overflow: hidden; }
+  .list-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid #e0e3ef; }
+
+  .list-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid #e0e3ef; background: #fff; }
+  .list-header-left h1 { font-size: 18px; font-weight: 600; }
+
+  /* ── IMPROVEMENT 3: completion summary ── */
+  .completion-hint { font-size: 12px; color: #e65100; margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+  .completion-hint.ok { color: #43a047; }
+
+  .list-header-actions { display: flex; align-items: center; gap: 12px; }
+  .search-box { display: flex; align-items: center; gap: 8px; border: 1.5px solid #d0d4e8; border-radius: 8px; padding: 7px 14px; background: #fff; width: 200px; }
+  .search-box input { border: none; outline: none; background: transparent; font-size: 14px; color: #1a1a2e; width: 100%; }
+  .btn-create { background: #fff; color: #1a2151; border: 2px solid #1a2151; border-radius: 8px; padding: 7px 22px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .btn-create:hover { background: #1a2151; color: #fff; }
+
+  /* ── TABLE ── */
+  .table-wrap { flex: 1; overflow-y: auto; background: #fff; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { padding: 10px 20px; text-align: left; font-size: 11px; font-weight: 600; color: #8892b0; border-bottom: 1.5px solid #e0e3ef; background: #fff; position: sticky; top: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+  tbody tr { border-bottom: 1px solid #f0f2f9; cursor: pointer; transition: background 0.1s; }
+  tbody tr:hover { background: #f7f8fc; }
+  tbody tr.active-row { background: #eef0fa; }
+  tbody tr.sub-row td { padding: 10px 20px 10px 48px; background: #fafbff; color: #3f51b5; font-size: 13px; border-bottom: 1px solid #f0f2f9; }
+  tbody td { padding: 13px 20px; }
+  .expand-toggle { color: #8892b0; font-size: 10px; margin-right: 8px; }
+  .tag-image { display: inline-block; padding: 3px 10px; border-radius: 12px; background: #eef0fa; color: #3f51b5; font-size: 12px; font-weight: 500; }
+
+  /* ── IMPROVEMENT 4: status badges ── */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 500;
+  }
+  .status-badge.warning { background: #fff3e0; color: #e65100; }
+  .status-badge.ok { background: #e8f5e9; color: #2e7d32; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel { width: 440px; min-width: 360px; background: #fff; display: flex; flex-direction: column; padding: 24px 24px 20px; overflow-y: auto; }
+  .right-panel h2 { font-size: 17px; font-weight: 600; color: #1a1a2e; margin-bottom: 6px; }
+
+  /* ── IMPROVEMENT 5: contextual hint in panel ── */
+  .panel-hint {
+    background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px;
+    padding: 10px 14px; font-size: 12px; color: #7b5e00; margin-bottom: 18px;
+    line-height: 1.5;
+  }
+  .panel-hint strong { font-weight: 600; }
+
+  .form-field { margin-bottom: 16px; }
+  .form-field label { display: block; font-size: 11px; font-weight: 600; color: #8892b0; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.6px; }
+
+  /* ── IMPROVEMENT 6: angle name dropdown with compass presets ── */
+  .select-styled {
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1.5px solid #d0d4e8; border-radius: 8px; padding: 10px 14px; cursor: pointer; background: #fff; position: relative;
+  }
+  .select-styled:hover { border-color: #7986cb; }
+  .select-styled span { font-size: 14px; color: #1a1a2e; }
+  .select-styled .hint { color: #8892b0; font-size: 12px; }
+
+  .angle-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .angle-preset {
+    padding: 4px 12px; border-radius: 20px; border: 1.5px solid #d0d4e8;
+    font-size: 12px; font-weight: 500; color: #5c6bc0; cursor: pointer; background: #fff;
+    transition: all 0.1s;
+  }
+  .angle-preset:hover, .angle-preset.selected { background: #1a2151; color: #fff; border-color: #1a2151; }
+
+  /* ── IMPROVEMENT 7: upload with format hints ── */
+  .upload-zone {
+    border: 2px dashed #d0d4e8; border-radius: 10px; padding: 20px;
+    text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 6px;
+  }
+  .upload-zone:hover { border-color: #7986cb; background: #f7f8ff; }
+  .upload-zone.has-file { border-style: solid; border-color: #7986cb; background: #f7f8ff; padding: 14px 16px; text-align: left; display: flex; align-items: center; gap: 12px; }
+  .upload-icon { font-size: 24px; margin-bottom: 8px; }
+  .upload-cta { font-size: 13px; font-weight: 600; color: #3f51b5; }
+  .upload-filename { font-size: 13px; font-weight: 500; color: #1a1a2e; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-change { font-size: 12px; color: #3f51b5; cursor: pointer; flex-shrink: 0; }
+  .upload-change:hover { text-decoration: underline; }
+
+  /* ── IMPROVEMENT 8: format rules shown inline ── */
+  .format-rules {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+  }
+  .format-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 6px; background: #f0f2f9;
+    font-size: 11px; color: #5c6bc0; font-weight: 500;
+  }
+
+  .asset-preview { width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid #e0e3ef; margin-bottom: 16px; }
+  .asset-preview img { width: 100%; display: block; object-fit: cover; max-height: 180px; }
+
+  .panel-actions { display: flex; justify-content: space-between; padding-top: 14px; border-top: 1px solid #f0f2f9; margin-top: auto; }
+  .btn-discard { background: #fff; color: #8892b0; border: 1.5px solid #d0d4e8; border-radius: 8px; padding: 9px 24px; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-discard:hover { border-color: #8892b0; color: #1a1a2e; }
+  .btn-save { background: #1a2151; color: #fff; border: none; border-radius: 8px; padding: 9px 32px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-save:hover { background: #2d3a8c; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: #d0d4e8; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR — with step numbers -->
+<nav class="sidebar">
+  <div class="sidebar-logo">COTE</div>
+  <div class="sidebar-project">
+    Tower IX
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="#c5cae9"><path d="M5 8l5 5 5-5z"/></svg>
+  </div>
+
+  <div class="sidebar-section-label">Setup order</div>
+  <a href="#" class="done"><span class="step-num">✓</span>Theme</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Features</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Labels &amp; Terms</a>
+  <a href="#" class="active"><span class="step-num">4</span>Buildings</a>
+  <a href="#"><span class="step-num">5</span>Levels</a>
+  <a href="#"><span class="step-num">6</span>Floor Plates</a>
+  <a href="#"><span class="step-num">7</span>Floor Plans</a>
+  <a href="#"><span class="step-num">8</span>Units</a>
+  <a href="#"><span class="step-num">9</span>360 Panoramas</a>
+  <a href="#"><span class="step-num">10</span>Unit Hotspots</a>
+
+  <div class="sidebar-section-label">Media</div>
+  <a href="#">Location</a>
+  <a href="#">Galleries</a>
+  <a href="#">Branding</a>
+
+  <div class="sidebar-bottom">
+    <a href="#">Sign Out</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- IMPROVEMENT 2: workflow progress strip -->
+  <div class="workflow-bar">
+    <div class="wf-step"><span class="wf-label done">✓ Theme</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Features</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Labels</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label active">4 · Buildings</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Levels</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plates</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plans</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Units</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">360 Panoramas</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Unit Hotspots</span></div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- LIST PANEL -->
+    <div class="list-panel">
+      <div class="list-header">
+        <div class="list-header-left">
+          <h1>11 Buildings</h1>
+          <!-- IMPROVEMENT 3: completion summary -->
+          <div class="completion-hint">
+            ⚠ 9 buildings have no angles configured yet
+          </div>
+        </div>
+        <div class="list-header-actions">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8892b0" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search buildings">
+          </div>
+          <button class="btn-create">+ Add Building</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:45%">Name</th>
+              <th style="width:15%">Angles</th>
+              <th style="width:20%">Type</th>
+              <th style="width:20%">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="selectRow(this)">
+              <td>Development</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower IX</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower III</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower IV</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower VII</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower X</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower VI</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="selectRow(this)">
+              <td>Tower VIII</td><td>0</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge warning"><span class="status-dot"></span>No angles</span></td>
+            </tr>
+            <tr onclick="toggleExpand(this, 'tower-ii-sub')">
+              <td><span class="expand-toggle">▶</span>Tower II</td><td>1</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td>
+            </tr>
+            <tr id="tower-ii-sub" class="sub-row" style="display:none">
+              <td colspan="4">North-East · <span style="color:#8892b0;font-size:12px">Image uploaded</span></td>
+            </tr>
+            <tr class="active-row" onclick="toggleExpand(this, 'new-tower-sub')">
+              <td><span class="expand-toggle">▼</span>New tower</td><td>1</td><td><span class="tag-image">Image</span></td>
+              <td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td>
+            </tr>
+            <tr id="new-tower-sub" class="sub-row">
+              <td colspan="4">East-West · <span style="color:#8892b0;font-size:12px">Image uploaded</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <h2>Exterior Angle</h2>
+
+      <!-- IMPROVEMENT 5: contextual hint -->
+      <div class="panel-hint">
+        <strong>Tip:</strong> Add one angle per side of the building (e.g. North, South, East, West). Unit hotspots are placed <em>after</em> you finish setting up Units — come back to this step then.
+      </div>
+
+      <!-- IMPROVEMENT 6: angle name with quick presets -->
+      <div class="form-field">
+        <label>Angle Name</label>
+        <div class="select-styled">
+          <span>East</span>
+          <span class="hint">rename ›</span>
+        </div>
+        <div class="angle-presets" style="margin-top:8px">
+          <button class="angle-preset selected">East</button>
+          <button class="angle-preset">West</button>
+          <button class="angle-preset">North</button>
+          <button class="angle-preset">South</button>
+          <button class="angle-preset">North-East</button>
+          <button class="angle-preset">North-West</button>
+          <button class="angle-preset">South-East</button>
+          <button class="angle-preset">South-West</button>
+          <button class="angle-preset">Front</button>
+          <button class="angle-preset">Back</button>
+        </div>
+      </div>
+
+      <!-- IMPROVEMENT 7 & 8: upload with format rules shown -->
+      <div class="form-field">
+        <label>Exterior Image</label>
+
+        <!-- Format rules BEFORE the upload field — not discovered on failure -->
+        <div class="format-rules">
+          <span class="format-tag">PNG or JPG</span>
+          <span class="format-tag">Max 5 MB</span>
+          <span class="format-tag">Landscape recommended</span>
+          <span class="format-tag">No text overlays</span>
+        </div>
+
+        <div class="upload-zone has-file">
+          <div style="font-size:22px">🖼</div>
+          <span class="upload-filename">1-JPEG_streetscape_1_cote_palm_beach_3D_render.jpg</span>
+          <span class="upload-change">Replace</span>
+        </div>
+      </div>
+
+      <div class="asset-preview">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Building preview"
+          onerror="this.parentElement.innerHTML='<div style=\'padding:40px;text-align:center;color:#b0b8d0\'>Preview unavailable</div>'">
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-discard">Discard</button>
+        <button class="btn-save">Save Angle</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function selectRow(row) {
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+    row.classList.add('active-row');
+  }
+  function toggleExpand(row, id) {
+    const sub = document.getElementById(id);
+    const toggle = row.querySelector('.expand-toggle');
+    if (!sub) return;
+    const open = sub.style.display !== 'none';
+    sub.style.display = open ? 'none' : 'table-row';
+    if (toggle) toggle.textContent = open ? '▶' : '▼';
+    selectRow(row);
+  }
+  document.querySelectorAll('.angle-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.angle-preset').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.querySelector('.select-styled span').textContent = btn.textContent;
+    });
+  });
+</script>
+</body>
+</html>

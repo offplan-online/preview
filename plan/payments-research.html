@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Исследование платёжных провайдеров — offplan.online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:#faf7f2; --sand-100:#f4ede0; --sand-200:#ebe0cc; --sand-300:#ddd0b8;
+    --gold:#a07840; --gold-mid:#b8904a; --gold-light:#d4aa6a;
+    --navy:#1a2040; --navy-mid:#212840; --navy-light:#2a3252;
+    --text-dark:#1e1a14; --text-mid:#5a5040; --text-dim:#9a8e7a;
+    --border:rgba(160,140,110,.22); --border-mid:rgba(160,140,110,.38);
+    --red:#c05050; --amber:#c07820; --green:#4a9e6a;
+    --stripe:#635bff; --paddle:#0c4b33; --checkout:#00b3e6;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--sand-100); color:var(--text-dark); font-size:14.5px; line-height:1.65; }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:70px 40px 50px; text-align:center; }
+  .hero-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:10px; font-weight:600; }
+  .hero h1 { font-size:38px; font-weight:800; letter-spacing:-0.5px; margin-bottom:14px; line-height:1.15; }
+  .hero .subtitle { font-size:16px; color:rgba(255,255,255,.75); max-width:700px; margin:0 auto 20px; line-height:1.55; }
+  .hero-meta { margin-top:20px; font-size:12px; color:rgba(255,255,255,.45); }
+  .hero-tags { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .hero-tag { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); color:rgba(255,255,255,.85); padding:5px 14px; border-radius:20px; font-size:12px; font-weight:500; }
+
+  /* NAV */
+  .topnav { background:var(--sand-50); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; padding:10px 20px; overflow-x:auto; white-space:nowrap; }
+  .topnav a { display:inline-block; padding:6px 14px; margin-right:4px; font-size:12px; font-weight:600; color:var(--text-mid); text-decoration:none; border-radius:16px; letter-spacing:.3px; }
+  .topnav a:hover { background:var(--sand-200); color:var(--navy); }
+
+  /* LAYOUT */
+  .wrap { max-width:980px; margin:0 auto; padding:44px 36px 70px; }
+  section { margin-bottom:64px; scroll-margin-top:24px; }
+
+  /* TYPOGRAPHY */
+  h2 { font-size:26px; font-weight:700; letter-spacing:-0.3px; margin-bottom:16px; color:var(--navy); padding-bottom:10px; border-bottom:2px solid var(--gold-light); }
+  h3 { font-size:19px; font-weight:600; margin:32px 0 12px; color:var(--navy); }
+  h4 { font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--gold); margin:20px 0 8px; }
+  p { margin-bottom:12px; }
+  p.lead { font-size:15.5px; color:var(--text-dark); max-width:800px; }
+  strong { font-weight:700; color:var(--navy); }
+  a { color:var(--gold); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { font-family:'SF Mono',Consolas,monospace; font-size:12.5px; background:var(--sand-200); padding:2px 6px; border-radius:4px; color:var(--text-dark); }
+  ul { padding-left:20px; margin-bottom:12px; }
+  ul li { margin-bottom:5px; }
+  ol { padding-left:20px; margin-bottom:12px; }
+  ol li { margin-bottom:6px; }
+
+  /* TABLES */
+  .table-wrap { overflow-x:auto; margin:16px 0; border-radius:10px; border:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; background:#fff; }
+  th, td { padding:11px 15px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+  th { background:var(--sand-50); font-weight:600; color:var(--navy); font-size:12px; letter-spacing:.4px; text-transform:uppercase; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--sand-50); }
+  td.center, th.center { text-align:center; }
+
+  /* PROVIDER CARDS */
+  .provider-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin:20px 0; }
+  .provider-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:24px 22px; }
+  .provider-card.stripe { border-top:4px solid var(--stripe); }
+  .provider-card.paddle { border-top:4px solid var(--paddle); }
+  .provider-card.checkout { border-top:4px solid var(--checkout); }
+  .provider-logo { font-size:18px; font-weight:800; margin-bottom:6px; }
+  .provider-logo.stripe { color:var(--stripe); }
+  .provider-logo.paddle { color:var(--paddle); }
+  .provider-logo.checkout { color:var(--checkout); }
+  .provider-tagline { font-size:12px; color:var(--text-dim); margin-bottom:16px; }
+  .provider-badge { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:12px; margin-bottom:14px; }
+  .badge-mor { background:rgba(12,75,51,.1); color:var(--paddle); }
+  .badge-gateway { background:rgba(99,91,255,.1); color:var(--stripe); }
+  .badge-local { background:rgba(0,179,230,.1); color:var(--checkout); }
+  .provider-stat { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .provider-stat:last-child { border-bottom:none; }
+  .provider-stat-label { color:var(--text-mid); }
+  .provider-stat-val { font-weight:600; color:var(--text-dark); }
+
+  /* PROS / CONS */
+  .pros-cons { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0 24px; }
+  .pros, .cons { background:#fff; border:1px solid var(--border); border-radius:10px; padding:18px 20px; }
+  .pros { border-left:4px solid var(--green); }
+  .cons { border-left:4px solid var(--red); }
+  .pros-title { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--green); margin-bottom:10px; }
+  .cons-title { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--red); margin-bottom:10px; }
+  .pros ul, .cons ul { padding-left:16px; margin:0; }
+  .pros ul li, .cons ul li { margin-bottom:7px; font-size:13.5px; color:var(--text-dark); }
+
+  /* CURRENCY MATRIX */
+  .currency-check { font-size:18px; }
+  .check-yes { color:var(--green); }
+  .check-no { color:var(--red); }
+  .check-partial { color:var(--amber); }
+
+  /* CALLOUT BOXES */
+  .callout { border-radius:10px; padding:18px 22px; margin:18px 0; border-left:4px solid; }
+  .callout-gold { background:rgba(160,120,64,.07); border-color:var(--gold); }
+  .callout-green { background:rgba(74,158,106,.07); border-color:var(--green); }
+  .callout-amber { background:rgba(192,120,32,.08); border-color:var(--amber); }
+  .callout-red { background:rgba(192,80,80,.07); border-color:var(--red); }
+  .callout-navy { background:rgba(26,32,64,.06); border-color:var(--navy); }
+  .callout-title { font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:8px; }
+  .callout-gold .callout-title { color:var(--gold); }
+  .callout-green .callout-title { color:var(--green); }
+  .callout-amber .callout-title { color:var(--amber); }
+  .callout-red .callout-title { color:var(--red); }
+  .callout-navy .callout-title { color:var(--navy); }
+  .callout p { margin-bottom:6px; }
+  .callout p:last-child { margin-bottom:0; }
+
+  /* PHASE BLOCKS */
+  .phase-block { background:#fff; border:1px solid var(--border); border-radius:12px; margin:20px 0; overflow:hidden; }
+  .phase-head { background:var(--navy); color:#fff; padding:18px 24px; display:flex; align-items:center; gap:16px; }
+  .phase-num-badge { background:var(--gold); color:#fff; font-size:12px; font-weight:800; padding:5px 12px; border-radius:20px; white-space:nowrap; }
+  .phase-head-title { font-size:17px; font-weight:700; }
+  .phase-head-sub { font-size:13px; color:rgba(255,255,255,.65); margin-top:3px; }
+  .phase-body { padding:22px 24px; }
+  .phase-provider-row { display:flex; align-items:center; gap:12px; margin:10px 0; padding:12px 14px; background:var(--sand-50); border-radius:8px; border:1px solid var(--border); }
+  .phase-provider-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+  .dot-stripe { background:var(--stripe); }
+  .dot-paddle { background:var(--paddle); }
+  .dot-checkout { background:var(--checkout); }
+  .phase-provider-name { font-weight:700; font-size:13.5px; color:var(--navy); min-width:120px; }
+  .phase-provider-desc { font-size:13px; color:var(--text-mid); }
+  .phase-trigger { font-size:12px; color:var(--text-dim); margin-top:3px; }
+  .task-list { list-style:none; padding:0; margin:12px 0 0; }
+  .task-list li { padding:7px 0; border-bottom:1px solid var(--border); font-size:13.5px; display:flex; gap:10px; }
+  .task-list li:last-child { border-bottom:none; }
+  .task-num { font-family:'SF Mono',monospace; font-size:11px; color:var(--gold); font-weight:700; min-width:24px; }
+
+  /* PAYMENT PAGE CONCEPT */
+  .payment-page-mockup { background:var(--navy); border-radius:14px; padding:30px; margin:20px 0; color:#fff; }
+  .mockup-browser { background:rgba(255,255,255,.08); border-radius:10px; overflow:hidden; }
+  .mockup-bar { background:rgba(0,0,0,.3); padding:10px 14px; display:flex; align-items:center; gap:8px; }
+  .mockup-dot { width:10px; height:10px; border-radius:50%; }
+  .mockup-url { font-size:11px; font-family:'SF Mono',monospace; color:rgba(255,255,255,.5); margin-left:8px; }
+  .mockup-content { padding:24px; }
+  .mockup-content h4 { color:#fff; font-size:16px; margin-bottom:6px; letter-spacing:0; text-transform:none; }
+  .mockup-content p { color:rgba(255,255,255,.7); font-size:13px; margin-bottom:16px; }
+  .currency-buttons { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .currency-btn { padding:8px 16px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; }
+  .currency-btn.active { background:var(--gold); border-color:var(--gold); }
+  .mockup-providers { display:flex; gap:10px; }
+  .mockup-provider-chip { padding:8px 14px; border-radius:8px; font-size:12px; font-weight:600; background:rgba(255,255,255,.1); color:rgba(255,255,255,.8); border:1px solid rgba(255,255,255,.15); }
+  .mockup-provider-chip.active-chip { background:rgba(255,255,255,.2); border-color:rgba(255,255,255,.4); color:#fff; }
+
+  /* COMPETITOR TABLE */
+  .competitor-known { color:var(--green); font-weight:600; }
+  .competitor-unknown { color:var(--text-dim); font-style:italic; }
+  .competitor-enterprise { color:var(--amber); }
+
+  /* ROUTING DIAGRAM */
+  .routing-diagram { background:#fff; border:1px solid var(--border); border-radius:12px; padding:24px; margin:18px 0; }
+  .routing-flow { display:flex; align-items:stretch; gap:0; margin:16px 0; }
+  .routing-node { flex:1; text-align:center; padding:14px 10px; border-radius:8px; font-size:13px; }
+  .routing-node-title { font-weight:700; font-size:13px; color:var(--navy); margin-bottom:4px; }
+  .routing-node-sub { font-size:12px; color:var(--text-dim); }
+  .routing-node.geo { background:var(--sand-100); border:1px solid var(--border); }
+  .routing-node.stripe-node { background:rgba(99,91,255,.08); border:1px solid rgba(99,91,255,.2); }
+  .routing-node.paddle-node { background:rgba(12,75,51,.08); border:1px solid rgba(12,75,51,.2); }
+  .routing-node.checkout-node { background:rgba(0,179,230,.08); border:1px solid rgba(0,179,230,.2); }
+  .routing-arrow { display:flex; align-items:center; padding:0 8px; color:var(--text-dim); font-size:18px; font-weight:300; }
+  .routing-row { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .routing-row:last-child { border-bottom:none; }
+  .routing-geo { min-width:160px; font-size:13.5px; font-weight:600; color:var(--navy); }
+  .routing-currency { min-width:100px; font-size:13px; color:var(--text-mid); font-family:'SF Mono',monospace; }
+  .routing-to { font-size:12px; color:var(--text-dim); margin-right:6px; }
+  .routing-provider { font-size:13px; font-weight:700; padding:4px 12px; border-radius:12px; }
+  .rp-stripe { background:rgba(99,91,255,.1); color:var(--stripe); }
+  .rp-paddle { background:rgba(12,75,51,.1); color:var(--paddle); }
+  .rp-checkout { background:rgba(0,179,230,.1); color:var(--checkout); }
+  .routing-reason { font-size:12px; color:var(--text-dim); flex:1; }
+
+  /* DECISION BOX */
+  .decision-box { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; border-radius:14px; padding:32px 36px; margin:24px 0; }
+  .decision-box h3 { color:#fff; margin-top:0; font-size:22px; }
+  .decision-box p { color:rgba(255,255,255,.8); }
+  .decision-box strong { color:#fff; }
+  .decision-steps { list-style:none; padding:0; margin:16px 0 0; }
+  .decision-steps li { display:flex; gap:14px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.1); align-items:flex-start; }
+  .decision-steps li:last-child { border-bottom:none; }
+  .ds-num { background:var(--gold); color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; margin-top:1px; }
+  .ds-text { font-size:14px; color:rgba(255,255,255,.9); }
+  .ds-text strong { color:#fff; }
+  .ds-text .trigger { font-size:12px; color:rgba(255,255,255,.5); display:block; margin-top:3px; }
+
+  /* VAT SECTION */
+  .vat-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:16px 0; }
+  .vat-card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:18px 20px; }
+  .vat-card-title { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .vat-card .complexity { display:inline-block; font-size:11px; font-weight:600; padding:2px 10px; border-radius:10px; margin-bottom:10px; }
+  .complexity-zero { background:rgba(74,158,106,.1); color:var(--green); }
+  .complexity-low { background:rgba(160,120,64,.1); color:var(--gold); }
+  .complexity-med { background:rgba(192,120,32,.1); color:var(--amber); }
+  .complexity-high { background:rgba(192,80,80,.1); color:var(--red); }
+
+  /* FOOTER */
+  footer { background:var(--navy); color:rgba(255,255,255,.55); padding:36px 40px; text-align:center; font-size:13px; margin-top:60px; }
+  footer a { color:var(--gold-light); }
+
+  @media (max-width:800px) {
+    .provider-grid { grid-template-columns:1fr; }
+    .pros-cons { grid-template-columns:1fr; }
+    .vat-grid { grid-template-columns:1fr; }
+    .hero h1 { font-size:28px; }
+    .wrap { padding:24px 18px; }
+    .phase-head { flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-kicker">offplan.online · Исследование · 2026-04-29</div>
+  <h1>Платёжные провайдеры</h1>
+  <p class="subtitle">Полный анализ Stripe, Paddle и Checkout.com для кипрской компании с клиентами в ЕС, ОАЭ и Австралии. Сравнение, плюсы и минусы, стратегия подключения по фазам.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">Кипр (EU)</span>
+    <span class="hero-tag">USD · EUR · AED · AUD</span>
+    <span class="hero-tag">B2B: Студии + Девелоперы</span>
+    <span class="hero-tag">EU · ОАЭ · Австралия</span>
+  </div>
+  <div class="hero-meta">Подготовлено: CONV-12 · Статус: рабочий документ · Версия 1.0</div>
+</div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a href="#context">Контекст</a>
+  <a href="#currencies">Валюты</a>
+  <a href="#stripe">Stripe</a>
+  <a href="#paddle">Paddle</a>
+  <a href="#checkout">Checkout.com</a>
+  <a href="#vat">НДС / VAT</a>
+  <a href="#competitors">Конкуренты</a>
+  <a href="#routing">Маршрутизация</a>
+  <a href="#phases">Фазы</a>
+  <a href="#payment-page">Страница оплаты</a>
+  <a href="#decision">Решение</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- КОНТЕКСТ -->
+  <section id="context">
+    <h2>Контекст и требования</h2>
+    <p class="lead">offplan.online — SaaS-платформа для продажи off-plan недвижимости. Юрлицо на Кипре (ЕС). Клиенты: рендер-студии и девелоперы в Европе, ОАЭ и Австралии. Все клиенты — <strong>B2B</strong>. Биллинг отложен до пилота (~20 студий), затем открываем для девелоперов.</p>
+
+    <div class="callout callout-gold">
+      <div class="callout-title">Ключевые требования к платёжной системе</div>
+      <p><strong>4 валюты:</strong> USD · EUR · AED (дирхам, ОАЭ) · AUD (Австралия)</p>
+      <p><strong>3 рынка:</strong> Европа (ЕС) · ОАЭ · Австралия + глобально</p>
+      <p><strong>Trial без карты</strong> — frictionless онбординг на старте</p>
+      <p><strong>Самообслуживание</strong> — клиент подписывается сам, без нашего участия</p>
+      <p><strong>Масштаб пилота:</strong> ~20 студий → затем девелоперы → сотни клиентов</p>
+    </div>
+  </section>
+
+  <!-- МАТРИЦА ВАЛЮТ -->
+  <section id="currencies">
+    <h2>Матрица валют</h2>
+    <p>Наше решение: поддержка <strong>4 валют</strong> (USD / EUR / AED / AUD). Это главный фильтр при выборе провайдера. Локальные провайдеры (PayTabs, Telr) отсеяны — они сфокусированы на MENA и не поддерживают AUD и EUR в полной мере.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Провайдер</th>
+            <th class="center">USD</th>
+            <th class="center">EUR</th>
+            <th class="center">AED</th>
+            <th class="center">AUD</th>
+            <th class="center">Выплаты в AED</th>
+            <th>Вывод</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--stripe)">Stripe</strong></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-partial">~</span></td>
+            <td>Все 4 валюты. AED принимает, конвертирует в EUR для выплаты на Кипр.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--paddle)">Paddle</strong></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-no">✗</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-no">✗</span></td>
+            <td><strong style="color:var(--red)">Не поддерживает AED.</strong> Клиенты из ОАЭ платят в USD/EUR.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--checkout)">Checkout.com</strong></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td class="center"><span class="currency-check check-yes">✓</span></td>
+            <td>Все 4. Локальный эквайринг в ОАЭ — выплаты прямо в AED на UAE-счёт.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">Про AED и Paddle — важный нюанс</div>
+      <p>Paddle — MoR (merchant of record), они продают от своего имени. AED нет в их списке поддерживаемых валют для приёма платежей. Клиент из ОАЭ с Paddle будет видеть цену в USD или EUR. Для B2B (студии, девелоперы) это может быть приемлемо — международный B2B в ОАЭ часто работает в USD. Но для UX лендинга с AED-ценником это проблема.</p>
+    </div>
+  </section>
+
+  <!-- STRIPE -->
+  <section id="stripe">
+    <h2>Stripe — детальный разбор</h2>
+
+    <div class="provider-grid" style="grid-template-columns:1fr;">
+      <div class="provider-card stripe">
+        <div class="provider-logo stripe">Stripe</div>
+        <div class="provider-tagline">Платёжный процессор · stripe.com/en-cy/</div>
+        <span class="provider-badge badge-gateway">Платёжный шлюз — вы Merchant of Record</span>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px;">
+          <div>
+            <div class="provider-stat"><span class="provider-stat-label">Комиссия (ЕС-карта)</span><span class="provider-stat-val">1.5% + €0.25</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Премиум ЕС-карта</span><span class="provider-stat-val">1.9% + €0.25</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Международная карта</span><span class="provider-stat-val">3.25% + €0.25</span></div>
+          </div>
+          <div>
+            <div class="provider-stat"><span class="provider-stat-label">Конвертация валюты</span><span class="provider-stat-val">+2%</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Stripe Tax (опция)</span><span class="provider-stat-val">+0.5% / транз.</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Instant Payout</span><span class="provider-stat-val">1%, мин €0.50</span></div>
+          </div>
+          <div>
+            <div class="provider-stat"><span class="provider-stat-label">Поддержка валют</span><span class="provider-stat-val">135+</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Страны</span><span class="provider-stat-val">195</span></div>
+            <div class="provider-stat"><span class="provider-stat-label">Кипр</span><span class="provider-stat-val">✓ полная поддержка</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Кипр и Stripe — специфика</h3>
+    <p>Stripe имеет отдельное соглашение для Кипра (<code>stripe.com/en-cy/legal/ssa</code>) и отдельную страницу цен. Кипр — член ЕЭЗ, поэтому применяются европейские тарифы, а не "международные". Выплаты — в EUR на кипрский банковский счёт.</p>
+
+    <div class="callout callout-navy">
+      <div class="callout-title">Как работает AED через Stripe с кипрской компанией</div>
+      <p>Stripe <strong>принимает</strong> платежи в AED от клиентов из ОАЭ (минимальная сумма 2.00 AED). Карта клиента обрабатывается как международная (комиссия 3.25% + €0.25). Stripe конвертирует AED → EUR и переводит на ваш кипрский счёт (~1% FX-комиссия). Вам <strong>не нужно юрлицо в ОАЭ</strong> для приёма AED-платежей.</p>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">💡 К обсуждению — USD-счёт для избежания конвертации</div>
+      <p>Stripe поддерживает <strong>мульти-валютный settlement</strong>: можно открыть USD-счёт в кипрском банке и подключить его в Stripe как дополнительный расчётный счёт. Тогда USD-платежи от клиентов (США, часть UAE, глобал) приходят напрямую в USD <strong>без конвертации и без +2% FX-комиссии</strong>.</p>
+      <p>EUR-платежи идут на EUR-счёт. USD-платежи — на USD-счёт. AED всё равно конвертируется (AED-счёт Stripe даёт только при наличии UAE-юрлица).</p>
+      <p><strong>Потенциальная экономия:</strong> если 50% выручки приходит в USD (глобал + часть UAE) при обороте $10,000/мес → экономия $200/мес только на FX. При $50,000/мес → $1,000/мес.</p>
+      <p><strong>Требует решения:</strong> нужен ли нам USD-счёт на Кипре с первого дня, или открываем по достижению объёма? Большинство кипрских банков (Bank of Cyprus, Hellenic Bank, RCB) открывают мульти-валютные счета бизнесу без ограничений. Стоит уточнить у банка условия и нет ли месячного обслуживания за дополнительную валюту.</p>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-title">✓ Плюсы Stripe</div>
+        <ul>
+          <li>Все 4 нужных валюты (USD/EUR/AED/AUD)</li>
+          <li>Кипр — полноценно поддерживаемая страна, EEA-тарифы</li>
+          <li>Лучший API для SaaS-биллинга (подписки, trial, metering, proration)</li>
+          <li>Trial без карты — нативная поддержка</li>
+          <li>Stripe Tax — автоматический расчёт НДС при B2C</li>
+          <li>Самая широкая экосистема: библиотеки, интеграции, документация</li>
+          <li>Stripe Billing: прерывания, dunning, паузы, апгрейды — всё из коробки</li>
+          <li>Kuula (конкурент) использует Stripe — индустриальный стандарт</li>
+          <li>Stripe купил Lemon Squeezy — движется в сторону MoR в будущем</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <div class="cons-title">✗ Минусы Stripe</div>
+        <ul>
+          <li>Вы — Merchant of Record: сами отвечаете за НДС/VAT/GST</li>
+          <li>Для EU B2C нужна регистрация в EU OSS (Кипр) — квартальная отчётность</li>
+          <li>AED-выплат нет — только EUR на Кипр (Stripe конвертирует)</li>
+          <li>Международные карты (ОАЭ, AU) = 3.25% + €0.25 — дороже ЕС-карт</li>
+          <li>При росте объёма VAT-compliance требует бухгалтера или сервиса</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PADDLE -->
+  <section id="paddle">
+    <h2>Paddle — детальный разбор</h2>
+
+    <div class="provider-card paddle">
+      <div class="provider-logo paddle">Paddle</div>
+      <div class="provider-tagline">Merchant of Record · paddle.com</div>
+      <span class="provider-badge badge-mor">MoR — Paddle продаёт от своего имени</span>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px;">
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">Комиссия</span><span class="provider-stat-val">5% + $0.50</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Транзакции < $10</span><span class="provider-stat-val">10% + $0.50</span></div>
+        </div>
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">VAT/НДС</span><span class="provider-stat-val">Paddle платит за вас</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Валют для оплаты</span><span class="provider-stat-val">30+</span></div>
+        </div>
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">AED</span><span class="provider-stat-val" style="color:var(--red)">✗ нет</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Кипр (клиент)</span><span class="provider-stat-val">✓ поддерживается</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Что такое MoR и почему это важно</h3>
+    <p>Когда Paddle — Merchant of Record, <strong>юридически продаёт Paddle</strong>, а не вы. Это означает:</p>
+    <ul style="margin:10px 0 16px;">
+      <li>Paddle рассчитывает и платит НДС/GST/Sales Tax в 200+ юрисдикциях сам</li>
+      <li>На инвойсе клиента написано "Paddle.com" — не ваша компания</li>
+      <li>Вы получаете выплату за минусом комиссии и налогов</li>
+      <li>Paddle берёт на себя споры, возвраты, fraud — в рамках своей политики</li>
+    </ul>
+
+    <div class="callout callout-red">
+      <div class="callout-title">Критичная проблема — AED отсутствует</div>
+      <p>Официальная документация Paddle (developer.paddle.com/concepts/sell/supported-currencies) не включает AED ни в список валют для приёма платежей, ни в список валют для выплат. Клиент из ОАЭ, открыв вашу страницу оплаты через Paddle, увидит цену в USD или EUR. Для UAE-рынка (Emaar, DAMAC, нишевые студии) это означает потерю доверия на checkout-шаге.</p>
+    </div>
+
+    <h3>Выплатные валюты Paddle</h3>
+    <p>Вы можете держать баланс и получать выплаты в: <code>USD</code> · <code>EUR</code> · <code>GBP</code> · <code>AUD</code> · <code>CAD</code> · <code>CHF</code> · <code>CNY</code> · <code>CZK</code> · <code>DKK</code> · <code>HUF</code> · <code>PLN</code> · <code>SEK</code> · <code>ZAR</code>. AED в списке нет.</p>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-title">✓ Плюсы Paddle</div>
+        <ul>
+          <li>Paddle платит все налоги за вас — VAT, GST, Sales Tax глобально</li>
+          <li>Не нужна регистрация EU OSS — Paddle берёт на себя</li>
+          <li>Нет риска налоговых ошибок при B2C-продажах</li>
+          <li>AUD поддерживается (и для оплаты, и для выплат)</li>
+          <li>Хорошее SaaS-billing API: подписки, меню тарифов, trial</li>
+          <li>Эффективно при росте: одна комиссия 5% покрывает всё</li>
+          <li>Отличный выбор при большой доле B2C-клиентов</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <div class="cons-title">✗ Минусы Paddle</div>
+        <ul>
+          <li><strong>AED не поддерживается</strong> — UAE-клиенты платят в USD/EUR</li>
+          <li>5% + $0.50 дороже Stripe при B2B (где VAT и так не нужен — reverse charge)</li>
+          <li>Paddle — продавец на чеке, а не вы: некоторые B2B-клиенты хотят видеть вашу компанию</li>
+          <li>Меньше гибкости в кастомизации checkout</li>
+          <li>Менее зрелый API по сравнению со Stripe</li>
+          <li>Кипр как страна продавца — условия не полностью задокументированы</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-title">Когда Paddle оправдан</div>
+      <p>Paddle становится оправданным при значительном объёме <strong>EU B2C</strong>-продаж (не B2B). Тогда OSS-отчётность через Stripe становится реальной нагрузкой, а Paddle снимает её полностью. Триггер: EU B2C &gt; €3,000/мес или 50+ B2C-транзакций в месяц.</p>
+    </div>
+  </section>
+
+  <!-- CHECKOUT.COM -->
+  <section id="checkout">
+    <h2>Checkout.com — детальный разбор</h2>
+
+    <div class="provider-card checkout">
+      <div class="provider-logo checkout">Checkout.com</div>
+      <div class="provider-tagline">Платёжный процессор · checkout.com · Лицензия CBUAE (ОАЭ)</div>
+      <span class="provider-badge badge-local">Локальный эквайринг в ОАЭ · вы Merchant of Record</span>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px;">
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">Комиссия</span><span class="provider-stat-val">Договорная</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Минимальный объём</span><span class="provider-stat-val">Нет строгого</span></div>
+        </div>
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">AED — эквайринг</span><span class="provider-stat-val" style="color:var(--green)">✓ локальный</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Выплаты в AED</span><span class="provider-stat-val" style="color:var(--green)">✓ напрямую</span></div>
+        </div>
+        <div>
+          <div class="provider-stat"><span class="provider-stat-label">Лицензия ОАЭ</span><span class="provider-stat-val">CBUAE</span></div>
+          <div class="provider-stat"><span class="provider-stat-label">Крупные клиенты</span><span class="provider-stat-val">Emaar, DAMAC и др.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Почему Checkout.com интересен именно для ОАЭ</h3>
+    <p>Checkout.com имеет <strong>лицензию Центрального банка ОАЭ (CBUAE)</strong> и <strong>локальный эквайринг в ОАЭ</strong>. Это означает:</p>
+    <ul style="margin:10px 0 16px;">
+      <li>Когда UAE-клиент платит картой в AED → транзакция идёт через локальную UAE-инфраструктуру, не через европейскую</li>
+      <li>Ниже interchange-комиссии для UAE-карт (нет "international card surcharge")</li>
+      <li>Можно получать выплаты напрямую в AED на UAE-банковский счёт (при наличии UAE-сущности)</li>
+      <li>Emaar, DAMAC, Sobha и другие UAE-девелоперы — уже их клиенты. Высокий уровень доверия в регионе.</li>
+    </ul>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">Важный момент по SaaS-биллингу</div>
+      <p>Checkout.com — сильный платёжный шлюз, но <strong>инструменты для SaaS-подписок слабее Stripe</strong>. Trial-периоды, proration, dunning, гибкие тарифные планы — всё это требует дополнительных усилий. Используйте Checkout.com для UAE-сегмента, а Stripe как основной движок подписок.</p>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-title">✓ Плюсы Checkout.com</div>
+        <ul>
+          <li>Единственный из трёх с локальным AED-эквайрингом в ОАЭ</li>
+          <li>Лицензия CBUAE — максимальное доверие в UAE-рынке</li>
+          <li>Можно получать выплаты в AED напрямую</li>
+          <li>Используется крупнейшими UAE-девелоперами и fintech</li>
+          <li>Все 4 нужных валюты поддерживаются</li>
+          <li>Хорошая поддержка Apple Pay / Google Pay / local UAE методов</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <div class="cons-title">✗ Минусы Checkout.com</div>
+        <ul>
+          <li>SaaS-подписки и биллинг слабее Stripe — нужна доработка</li>
+          <li>Вы Merchant of Record — сами управляете VAT (как Stripe)</li>
+          <li>Комиссия договорная — непрозрачно на старте</li>
+          <li>Требует UAE-банковского счёта для AED-выплат</li>
+          <li>Третья интеграция = третья точка отказа, третий дашборд</li>
+          <li>Менее известен для SaaS — меньше готовых библиотек</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VAT / НДС -->
+  <section id="vat">
+    <h2>НДС / VAT — ситуация для кипрской компании</h2>
+
+    <p class="lead">Наши клиенты — <strong>B2B</strong>. Это фундаментально упрощает налоговую картину. Большинство налоговых сложностей возникают при B2C-продажах физлицам.</p>
+
+    <div class="vat-grid">
+      <div class="vat-card">
+        <div class="vat-card-title">EU B2B (студия/девелопер с VAT-номером)</div>
+        <span class="complexity complexity-zero">Сложность: Ноль</span>
+        <p>Reverse charge — вы выставляете инвойс без НДС (0%), клиент сам учитывает VAT у себя. Вы получаете VAT-номер клиента, указываете в инвойсе. Stripe или Paddle — без разницы.</p>
+        <p><strong>Действие:</strong> проверять VAT-номер на checkout (Stripe умеет это нативно).</p>
+      </div>
+      <div class="vat-card">
+        <div class="vat-card-title">EU B2C (физлицо без VAT-номера)</div>
+        <span class="complexity complexity-med">Сложность: Средняя</span>
+        <p>Вы обязаны взимать НДС по ставке страны клиента. Вариант 1: EU OSS — регистрация на Кипре, одна квартальная декларация покрывает весь ЕС. Вариант 2: Paddle MoR — Paddle делает всё за вас. EU B2C для нас минимален на старте.</p>
+        <p><strong>Триггер EU OSS:</strong> EU B2C-оборот превысил €10,000/год.</p>
+      </div>
+      <div class="vat-card">
+        <div class="vat-card-title">ОАЭ (UAE VAT 5%)</div>
+        <span class="complexity complexity-low">Сложность: Низкая</span>
+        <p>UAE VAT в размере 5% применяется, если у вас есть юрлицо в ОАЭ. Кипрская компания, продающая B2B-сервис UAE-клиенту = reverse charge / место поставки вне ОАЭ. На старте: никакой UAE-регистрации не нужно.</p>
+        <p><strong>Триггер UAE-регистрации:</strong> при открытии UAE-офиса или UAE-оборот > AED 375,000/год.</p>
+      </div>
+      <div class="vat-card">
+        <div class="vat-card-title">Австралия (GST 10%)</div>
+        <span class="complexity complexity-low">Сложность: Низкая</span>
+        <p>GST (10%) применяется при продаже в Австралию, если оборот с AU-клиентами превышает AUD 75,000/год. До этого порога — не нужна регистрация. Это Phase 1.6.7 в плане.</p>
+        <p><strong>Действие:</strong> мониторить AU-оборот, зарегистрироваться в ATO до превышения порога.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-title">Вывод по НДС для пилота</div>
+      <p>В пилотной фазе (20 B2B-студий) налоговая нагрузка практически нулевая. EU B2B = reverse charge. UAE = нет обязательства. AU = ниже порога. <strong>Это главный аргумент против переплаты за Paddle (MoR) на старте</strong> — основная ценность Paddle (tax handling) минимальна для B2B-бизнеса с EU OSS-порогом в €10,000.</p>
+    </div>
+  </section>
+
+  <!-- КОНКУРЕНТЫ -->
+  <section id="competitors">
+    <h2>Что используют конкуренты</h2>
+    <p>Анализ публично доступной информации о платёжных системах прямых конкурентов.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Конкурент</th>
+            <th>Позиционирование</th>
+            <th>Платёжный провайдер</th>
+            <th>Модель продажи</th>
+            <th>Источник</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Kuula</strong></td>
+            <td>Масс-маркет 360° туры, $16-20/мес</td>
+            <td><span class="competitor-known">Stripe + PayPal</span></td>
+            <td>Полностью self-serve</td>
+            <td>Подтверждено: документация help.kuula.co</td>
+          </tr>
+          <tr>
+            <td><strong>Matterport</strong></td>
+            <td>Глобальный лидер 3D/digital twins</td>
+            <td><span class="competitor-unknown">Неизвестно (вероятно Stripe или кастомный)</span></td>
+            <td>Self-serve + Enterprise</td>
+            <td>Публично не раскрыто</td>
+          </tr>
+          <tr>
+            <td><strong>Spaceform.io</strong></td>
+            <td>Прямой конкурент, UK, off-plan</td>
+            <td><span class="competitor-enterprise">Счёт / invoice (нет self-serve)</span></td>
+            <td>Enterprise, contact-for-pricing</td>
+            <td>Pricing page: "contact us"</td>
+          </tr>
+          <tr>
+            <td><strong>VRX Studio</strong></td>
+            <td>UAE premium (Emaar, DAMAC, Sobha)</td>
+            <td><span class="competitor-enterprise">Invoice / wire transfer</span></td>
+            <td>Проектная, не SaaS</td>
+            <td>Позиционирование + отсутствие checkout</td>
+          </tr>
+          <tr>
+            <td><strong>Display Sweet</strong></td>
+            <td>Enterprise off-plan SaaS, AU/UK</td>
+            <td><span class="competitor-unknown">Вероятно invoice, нет данных</span></td>
+            <td>Enterprise, демо-driven</td>
+            <td>Публично не раскрыто</td>
+          </tr>
+          <tr>
+            <td><strong>iCreate</strong></td>
+            <td>Property presentation, AU</td>
+            <td><span class="competitor-unknown">Нет данных</span></td>
+            <td>Enterprise</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Sensoreal</strong></td>
+            <td>3D/VR для застройщиков</td>
+            <td><span class="competitor-unknown">Нет данных</span></td>
+            <td>Проектная / Enterprise</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-gold">
+      <div class="callout-title">Стратегический вывод по конкурентам</div>
+      <p><strong>Только Kuula использует Stripe и self-serve checkout.</strong> Все остальные прямые конкуренты в сегменте off-plan property — enterprise, invoice-based, не self-serve. Это наше конкурентное преимущество: мы строим то, за что Spaceform берёт enterprise-деньги, но с self-serve онбордингом как у Kuula. Stripe — стандарт в этой нише.</p>
+    </div>
+  </section>
+
+  <!-- МАРШРУТИЗАЦИЯ -->
+  <section id="routing">
+    <h2>Стратегия маршрутизации клиентов</h2>
+    <p>При наличии двух или трёх провайдеров — маршрутизация строится на <strong>двух факторах</strong>: страна выставления счёта клиента + желаемая валюта. Логика простая и не требует сложного геодетекта — клиент сам указывает страну компании при регистрации.</p>
+
+    <div class="routing-diagram">
+      <h4 style="margin-top:0">Таблица маршрутизации</h4>
+      <div class="routing-row" style="border-bottom:2px solid var(--border); padding-bottom:14px; margin-bottom:6px;">
+        <div class="routing-geo" style="color:var(--text-dim); font-size:12px; font-weight:600; text-transform:uppercase;">Страна клиента</div>
+        <div class="routing-currency" style="color:var(--text-dim); font-size:12px; font-weight:600; text-transform:uppercase;">Валюта</div>
+        <div style="flex:1; color:var(--text-dim); font-size:12px; font-weight:600; text-transform:uppercase;">Провайдер</div>
+        <div style="flex:2; color:var(--text-dim); font-size:12px; font-weight:600; text-transform:uppercase;">Причина</div>
+      </div>
+
+      <div class="routing-row">
+        <div class="routing-geo">ОАЭ (B2B)</div>
+        <div class="routing-currency">AED / USD</div>
+        <div style="flex:1;"><span class="routing-provider rp-checkout">Checkout.com</span></div>
+        <div class="routing-reason">Локальный AED-эквайринг, лицензия CBUAE, доверие UAE-рынка. При наличии только Stripe → Stripe (AED принимает, выплата в EUR)</div>
+      </div>
+      <div class="routing-row">
+        <div class="routing-geo">Европа (B2B)</div>
+        <div class="routing-currency">EUR / USD</div>
+        <div style="flex:1;"><span class="routing-provider rp-stripe">Stripe</span></div>
+        <div class="routing-reason">Reverse charge — VAT не нужен. EEA-тариф 1.5%+€0.25. Stripe идеален.</div>
+      </div>
+      <div class="routing-row">
+        <div class="routing-geo">Европа (B2C)</div>
+        <div class="routing-currency">EUR</div>
+        <div style="flex:1;"><span class="routing-provider rp-paddle">Paddle</span></div>
+        <div class="routing-reason">Paddle-MoR берёт VAT на себя. Избегаем EU OSS-отчётности при B2C-объёме.</div>
+      </div>
+      <div class="routing-row">
+        <div class="routing-geo">Австралия</div>
+        <div class="routing-currency">AUD</div>
+        <div style="flex:1;"><span class="routing-provider rp-stripe">Stripe</span></div>
+        <div class="routing-reason">AUD поддерживается. GST-порог (AUD 75K) — мониторим отдельно. Paddle тоже умеет AUD.</div>
+      </div>
+      <div class="routing-row">
+        <div class="routing-geo">Остальной мир</div>
+        <div class="routing-currency">USD</div>
+        <div style="flex:1;"><span class="routing-provider rp-stripe">Stripe</span></div>
+        <div class="routing-reason">Default — Stripe как основной движок. 195 стран, 135+ валют.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-navy">
+      <div class="callout-title">Архитектурное решение — абстракция провайдера</div>
+      <p>Не интегрируйте Stripe и Paddle напрямую в бизнес-логику. С первого дня оберните в интерфейс:</p>
+      <p><code>PaymentProvider → createSubscription · cancelSubscription · updatePlan · getInvoices · createPaymentLink</code></p>
+      <p>Реализации: <code>StripeProvider</code> · <code>PaddleProvider</code> · <code>CheckoutProvider</code>. На записи клиента храните <code>payment_provider: "stripe" | "paddle" | "checkout"</code> + его <code>external_customer_id</code>. Один агрегированный отчёт по MRR поверх всех трёх. Добавить новый провайдер = одна новая реализация интерфейса, никакого рефакторинга.</p>
+    </div>
+  </section>
+
+  <!-- ФАЗЫ ПОДКЛЮЧЕНИЯ -->
+  <section id="phases">
+    <h2>Фазы подключения провайдеров</h2>
+    <p>Двойная (и тройная) интеграция — правильное решение. Но не всё сразу. Подключаем последовательно, с чёткими триггерами.</p>
+
+    <div class="phase-block">
+      <div class="phase-head">
+        <span class="phase-num-badge">Фаза 1</span>
+        <div>
+          <div class="phase-head-title">Stripe — основа. Только Stripe.</div>
+          <div class="phase-head-sub">Пилот: ~20 студий · Биллинг запускается · Все 4 валюты через Stripe</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-stripe"></div>
+          <div class="phase-provider-name">Stripe</div>
+          <div>
+            <div class="phase-provider-desc">USD, EUR, AED (принимает), AUD. Подписки, trial без карты, dunning, инвойсы — всё из Stripe Billing.</div>
+            <div class="phase-trigger">AED-клиенты платят в AED, Stripe конвертирует в EUR на кипрский счёт.</div>
+          </div>
+        </div>
+        <h4 style="margin-top:16px">Задачи фазы 1</h4>
+        <ol class="task-list">
+          <li><span class="task-num">1.1</span>Реализовать абстракцию <code>PaymentProvider</code> с пустыми заглушками для Paddle и Checkout</li>
+          <li><span class="task-num">1.2</span>Подключить Stripe Billing: тарифные планы, checkout, trial без карты, вебхуки</li>
+          <li><span class="task-num">1.3</span>Добавить Stripe Tax (+0.5%/транз.) — автоматический расчёт НДС для B2C-страховки</li>
+          <li><span class="task-num">1.4</span>VAT-номер на checkout — валидация через VIES (Stripe умеет нативно)</li>
+          <li><span class="task-num">1.5</span>Мониторинг: EU B2C-оборот (триггер OSS), AU-оборот (триггер GST)</li>
+          <li><span class="task-num">1.6</span>На записи оператора: <code>payment_provider: "stripe"</code>, <code>billing_currency</code>, <code>billing_country</code></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-head">
+        <span class="phase-num-badge">Фаза 2</span>
+        <div>
+          <div class="phase-head-title">+ Paddle для EU B2C-сегмента</div>
+          <div class="phase-head-sub">Триггер: EU B2C &gt; €3,000/мес или появляются EU B2C-лиды массово</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-stripe"></div>
+          <div class="phase-provider-name">Stripe</div>
+          <div class="phase-provider-desc">EU B2B + UAE + AU + все остальные. Остаётся основным движком.</div>
+        </div>
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-paddle"></div>
+          <div class="phase-provider-name">Paddle</div>
+          <div>
+            <div class="phase-provider-desc">EU B2C (физлица без VAT-номера). Paddle-MoR снимает OSS-отчётность.</div>
+            <div class="phase-trigger">Маршрутизация: billing_country = EU + нет VAT-номера → Paddle.</div>
+          </div>
+        </div>
+        <h4 style="margin-top:16px">Задачи фазы 2</h4>
+        <ol class="task-list">
+          <li><span class="task-num">2.1</span>Реализовать <code>PaddleProvider</code> в абстракции</li>
+          <li><span class="task-num">2.2</span>Добавить логику маршрутизации: EU + нет VAT → Paddle checkout</li>
+          <li><span class="task-num">2.3</span>Агрегированный MRR-дашборд: Stripe + Paddle</li>
+          <li><span class="task-num">2.4</span>Тест: убедиться, что EU B2C-клиент видит Paddle-checkout, B2B — Stripe</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-head">
+        <span class="phase-num-badge">Фаза 3</span>
+        <div>
+          <div class="phase-head-title">+ Checkout.com для UAE-сегмента</div>
+          <div class="phase-head-sub">Триггер: AED-биллинг &gt; $5,000/мес или UAE-девелоперы требуют AED-checkout</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-stripe"></div>
+          <div class="phase-provider-name">Stripe</div>
+          <div class="phase-provider-desc">EU B2B + AU + остальной мир.</div>
+        </div>
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-paddle"></div>
+          <div class="phase-provider-name">Paddle</div>
+          <div class="phase-provider-desc">EU B2C.</div>
+        </div>
+        <div class="phase-provider-row">
+          <div class="phase-provider-dot dot-checkout"></div>
+          <div class="phase-provider-name">Checkout.com</div>
+          <div>
+            <div class="phase-provider-desc">UAE-клиенты (AED). Локальный эквайринг — ниже комиссия, выше конверсия.</div>
+            <div class="phase-trigger">Требует UAE-банковского счёта для AED-выплат. Иначе выплата в USD/EUR.</div>
+          </div>
+        </div>
+        <h4 style="margin-top:16px">Задачи фазы 3</h4>
+        <ol class="task-list">
+          <li><span class="task-num">3.1</span>Реализовать <code>CheckoutProvider</code> в абстракции</li>
+          <li><span class="task-num">3.2</span>Маршрутизация: billing_country = UAE / валюта = AED → Checkout.com</li>
+          <li><span class="task-num">3.3</span>Страница выбора валюты (см. следующий раздел)</li>
+          <li><span class="task-num">3.4</span>Агрегированный дашборд: Stripe + Paddle + Checkout.com</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- СТРАНИЦА ОПЛАТЫ -->
+  <section id="payment-page">
+    <h2>Идея: кастомная страница оплаты</h2>
+    <p class="lead">В будущем — генерировать для клиентов (студий, девелоперов) персонализированную платёжную страницу, где они выбирают валюту, а система под капотом направляет транзакцию в нужный провайдер.</p>
+
+    <h3>Как это работает</h3>
+    <p>Клиент (например, студия из Дубая) получает ссылку вида <code>pay.offplan.online/studio-dubai</code>. На странице — выбор валюты и метода оплаты. Под капотом система сама выбирает провайдера по логике маршрутизации из фазы 2-3. Клиент не знает, через что прошёл платёж.</p>
+
+    <!-- MOCKUP -->
+    <div class="payment-page-mockup">
+      <div class="mockup-browser">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background:#ff5f56;"></div>
+          <div class="mockup-dot" style="background:#ffbd2e;"></div>
+          <div class="mockup-dot" style="background:#27c93f;"></div>
+          <span class="mockup-url">pay.offplan.online/studio-dubai-2026</span>
+        </div>
+        <div class="mockup-content">
+          <h4>Dubai Renders Studio · offplan.online Pro</h4>
+          <p>Выберите удобную валюту для оплаты подписки</p>
+          <div class="currency-buttons">
+            <div class="currency-btn active">🇦🇪 AED</div>
+            <div class="currency-btn">🇺🇸 USD</div>
+            <div class="currency-btn">🇪🇺 EUR</div>
+            <div class="currency-btn">🇦🇺 AUD</div>
+          </div>
+          <p style="font-size:12px; color:rgba(255,255,255,.5); margin-bottom:10px;">Доступные способы оплаты для AED:</p>
+          <div class="mockup-providers">
+            <div class="mockup-provider-chip active-chip">💳 Карта (AED)</div>
+            <div class="mockup-provider-chip active-chip">🍎 Apple Pay</div>
+            <div class="mockup-provider-chip">PayPal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Сценарии использования</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Сценарий</th>
+            <th>Клиент выбирает</th>
+            <th>Система направляет</th>
+            <th>Ценность</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>UAE-студия хочет платить в AED</td>
+            <td>AED · карта</td>
+            <td>→ Checkout.com (локальный AED)</td>
+            <td>Нет валютной конвертации, локальные ставки</td>
+          </tr>
+          <tr>
+            <td>EU B2B-студия с VAT-номером</td>
+            <td>EUR · карта</td>
+            <td>→ Stripe (reverse charge, 0% VAT)</td>
+            <td>Инвойс с VAT-номером, без НДС</td>
+          </tr>
+          <tr>
+            <td>EU индивидуальный пользователь</td>
+            <td>EUR · карта</td>
+            <td>→ Paddle (VAT handled)</td>
+            <td>VAT включён автоматически</td>
+          </tr>
+          <tr>
+            <td>AU-студия</td>
+            <td>AUD · карта</td>
+            <td>→ Stripe (AUD)</td>
+            <td>Локальная валюта, без FX</td>
+          </tr>
+          <tr>
+            <td>Любой клиент · резервный вариант</td>
+            <td>USD (default)</td>
+            <td>→ Stripe (default)</td>
+            <td>Работает всегда</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Резервирование при отказе провайдера</h3>
+    <p>Это реальный — хотя и редкий — сценарий. При наличии двух провайдеров можно переключить <strong>новые</strong> подписки на резервный. Важно понимать ограничение: существующих клиентов перенести нельзя — их карты хранятся у провайдера. Переключение работает только для новых регистраций.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ситуация</th>
+            <th>Что происходит</th>
+            <th>Реальное влияние</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Stripe недоступен (5-60 мин)</td>
+            <td>Новые подписки → Paddle/Checkout. Существующие — ждут.</td>
+            <td>Минимально: Stripe SLA 99.99% (~52 мин/год)</td>
+          </tr>
+          <tr>
+            <td>Paddle недоступен</td>
+            <td>EU B2C → временно на Stripe (+ ручная OSS-корректировка)</td>
+            <td>Небольшое налоговое осложнение</td>
+          </tr>
+          <tr>
+            <td>Checkout.com недоступен</td>
+            <td>UAE AED → Stripe (AED принимает, выплата в EUR)</td>
+            <td>Незначительно: чуть выше комиссия</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-title">Честно о резервировании</div>
+      <p>Резервирование провайдеров — реальное преимущество, но не главный аргумент для двойной интеграции. Главный аргумент — <strong>покрытие валют и рынков</strong>: Paddle не умеет AED, Stripe не имеет локального UAE-эквайринга. Резервирование — приятный бонус, а не основная причина.</p>
+    </div>
+  </section>
+
+  <!-- ИТОГОВОЕ РЕШЕНИЕ -->
+  <section id="decision">
+    <h2>Итоговое решение</h2>
+
+    <div class="decision-box">
+      <h3>Стратегия: три провайдера, три фазы, один интерфейс</h3>
+      <p>Архитектура с абстракцией провайдера с первого дня. Запуск на Stripe, добавление по мере роста рынков.</p>
+
+      <ol class="decision-steps">
+        <li>
+          <div class="ds-num">1</div>
+          <div class="ds-text">
+            <strong>Запуск — Stripe только.</strong> Все 4 валюты через один провайдер. Абстракция уже в коде — заглушки для Paddle и Checkout. Trial без карты. Stripe Tax подключён.
+            <span class="trigger">Когда: при запуске биллинга (Фаза 1.5 в launch-plan)</span>
+          </div>
+        </li>
+        <li>
+          <div class="ds-num">2</div>
+          <div class="ds-text">
+            <strong>+ Paddle при росте EU B2C.</strong> Маршрутизация: EU + нет VAT-номера → Paddle. EU B2B остаётся на Stripe.
+            <span class="trigger">Триггер: EU B2C > €3,000/мес или >50 B2C-транзакций/мес</span>
+          </div>
+        </li>
+        <li>
+          <div class="ds-num">3</div>
+          <div class="ds-text">
+            <strong>+ Checkout.com при росте UAE-сегмента.</strong> AED-клиенты → Checkout.com (локальный эквайринг). Страница выбора валюты.
+            <span class="trigger">Триггер: AED-биллинг > $5,000/мес или UAE-девелоперы массово требуют AED</span>
+          </div>
+        </li>
+        <li>
+          <div class="ds-num">4</div>
+          <div class="ds-text">
+            <strong>Страница оплаты с выбором валюты</strong> — запускается с Фазой 3. Клиент выбирает AED/USD/EUR/AUD, система сама маршрутизирует. Публичный URL вида <code>pay.offplan.online/&lt;slug&gt;</code>.
+            <span class="trigger">Параллельно с подключением Checkout.com</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <h3>Открытый вопрос для решения</h3>
+    <div class="callout callout-red">
+      <div class="callout-title">⚠ Требует решения до лендинга</div>
+      <p><strong>Единица тарификации</strong> — по чему считаем: проекты / рендеры / рабочие места? Это критично для лендинга: без тарифных планов нельзя показать цены. Stripe, Paddle и Checkout.com поддерживают все три модели — провайдер не ограничивает выбор. Решение нужно принять сейчас.</p>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Провайдер</th>
+            <th>Роль</th>
+            <th>Фаза</th>
+            <th>Основание</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:var(--stripe)">Stripe</strong></td>
+            <td>Основной движок (EU B2B + AU + глобально)</td>
+            <td>Фаза 1 — сейчас</td>
+            <td>Все 4 валюты, лучший API, Кипр полностью поддерживается</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--paddle)">Paddle</strong></td>
+            <td>EU B2C (MoR, нет OSS-отчётности)</td>
+            <td>Фаза 2 — при росте B2C</td>
+            <td>Снимает налоговую нагрузку для B2C-сегмента</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--checkout)">Checkout.com</strong></td>
+            <td>UAE (AED, локальный эквайринг)</td>
+            <td>Фаза 3 — при росте UAE</td>
+            <td>Единственный с локальным AED-эквайрингом и CBUAE-лицензией</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div>offplan.online · Исследование платёжных провайдеров · CONV-12 · 2026-04-29</div>
+  <div style="margin-top:8px;">
+    <a href="launch-plan-v3-full.html">Launch Plan v3.2</a> ·
+    <a href="../brandbook/v1.html">Brandbook v1.1</a> ·
+    <a href="../mockups/operator-panel-v1.html">Operator Panel v1</a>
+  </div>
+</footer>
+
+</body>
+</html>

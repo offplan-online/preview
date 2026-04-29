@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>offplan.online — Self-serve sales-presentation software for off-plan property</title>
+<meta name="description" content="Sales presentation software, productised. The same engine that powers premium developer projects, now self-serve for rendering studios and sales agencies. No commitment, ready in minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Brand tokens (brandbook v1.2) ─────────────────── */
+:root {
+  --surface-bg:        #FAFAF8;
+  --surface-card:      #FFFFFF;
+  --surface-subtle:    #F2F0ED;
+  --surface-secondary: #F8F7F5;
+
+  --stone-700: #7C7574;
+  --stone-500: #9A9594;
+  --stone-400: #C5C8CA;
+  --stone-200: #E4E2DF;
+  --stone-100: #F2F0ED;
+
+  --text-900: #323840;
+  --text-700: #3D3B39;
+  --text-500: #6A6865;
+  --text-300: #A09E9C;
+
+  --gold:        #B8955A;
+  --gold-light:  #E8D5B0;
+  --gold-pale:   #F5EDD8;
+  --navy:        #1E2E3E;
+  --navy-light:  #253647;
+
+  --status-available: #6B8C6E;
+  --status-available-bg: rgba(107,140,110,0.10);
+
+  --shadow-sm:   0 2px  8px rgba(0,0,0,0.06);
+  --shadow-md:   0 8px 24px rgba(0,0,0,0.10);
+  --shadow-lg:   0 16px 40px rgba(0,0,0,0.14);
+
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --tracking-nav:   0.16em;
+  --tracking-wide:  0.14em;
+  --tracking-wider: 0.18em;
+
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 32px;
+  --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 100px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--surface-bg);
+  color: var(--text-700);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ── Layout helpers ───────────────────────────────── */
+.container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 44px; font-weight: 300;
+  letter-spacing: -0.015em;
+  color: var(--text-900);
+  line-height: 1.15;
+  margin-bottom: 18px;
+  max-width: 720px;
+}
+.section-sub {
+  font-size: 17px;
+  color: var(--text-500);
+  max-width: 640px;
+  line-height: 1.6;
+  margin-bottom: 56px;
+}
+
+/* ── Header ────────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--stone-200);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  text-decoration: none;
+}
+.brand .dot { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 32px; align-items: center;
+}
+.nav-link {
+  font-family: var(--font-display);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--text-700);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-link:hover { color: var(--gold); }
+
+/* ── Buttons ───────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px;
+  padding: 0 24px;
+  font-family: var(--font-display);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: #A18047; }
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy-light); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-900);
+  border-color: var(--stone-400);
+}
+.btn-ghost:hover { background: var(--surface-subtle); border-color: var(--text-700); }
+.btn-large { height: 52px; padding: 0 32px; font-size: 13px; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+  padding: 80px 0 0;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.hero-eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 56px; font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--text-900);
+  line-height: 1.08;
+  margin-bottom: 24px;
+}
+.hero-title em { color: var(--gold); font-style: normal; font-weight: 400; }
+.hero-sub {
+  font-size: 19px;
+  color: var(--text-500);
+  line-height: 1.55;
+  margin-bottom: 36px;
+  max-width: 540px;
+}
+.hero-ctas { display: flex; gap: 14px; margin-bottom: 32px; }
+.hero-meta {
+  display: flex; gap: 28px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--text-300);
+}
+.hero-meta-item { display: flex; align-items: center; gap: 8px; }
+.hero-meta-item::before {
+  content: ''; width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--status-available);
+}
+.hero-image {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 16/10;
+}
+.hero-image img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ── USP strip ────────────────────────────────────── */
+.usp {
+  padding: 96px 0;
+  border-top: 1px solid var(--stone-200);
+  border-bottom: 1px solid var(--stone-200);
+  background: var(--surface-secondary);
+  margin-top: 96px;
+}
+.usp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+.usp-item { padding: 0 16px; }
+.usp-num {
+  font-family: var(--font-display);
+  font-size: 12px; font-weight: 500;
+  color: var(--gold);
+  letter-spacing: var(--tracking-wider);
+  margin-bottom: 12px;
+}
+.usp-title {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 400;
+  color: var(--text-900);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.usp-body { font-size: 15px; color: var(--text-500); line-height: 1.6; }
+
+/* ── Features ─────────────────────────────────────── */
+.features {
+  padding: 120px 0;
+}
+.features-header { text-align: left; margin-bottom: 80px; max-width: 720px; }
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 120px;
+}
+.feature-row.reverse { grid-template-columns: 1.2fr 1fr; }
+.feature-row.reverse .feature-text { order: 2; }
+.feature-row.reverse .feature-visual { order: 1; }
+.feature-row:last-child { margin-bottom: 0; }
+
+.feature-num {
+  font-family: var(--font-display);
+  font-size: 12px; font-weight: 500;
+  color: var(--gold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 300;
+  color: var(--text-900);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+.feature-body {
+  font-size: 16px;
+  color: var(--text-500);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.feature-tags {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.feature-tag {
+  display: inline-block;
+  padding: 5px 12px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--text-700);
+}
+
+.feature-visual {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: var(--surface-subtle);
+  aspect-ratio: 16/10;
+}
+.feature-visual img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ── Pricing ──────────────────────────────────────── */
+.pricing {
+  padding: 120px 0;
+  background: var(--surface-secondary);
+  border-top: 1px solid var(--stone-200);
+  border-bottom: 1px solid var(--stone-200);
+}
+.pricing-header { text-align: center; margin-bottom: 64px; }
+.pricing-header .section-title { margin: 0 auto 18px; }
+.pricing-header .section-sub { margin: 0 auto; text-align: center; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tier-card {
+  background: #fff;
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.tier-card.featured {
+  border: 2px solid var(--gold);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+}
+.tier-badge {
+  position: absolute;
+  top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+}
+.tier-name {
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-700);
+  margin-bottom: 16px;
+}
+.tier-price {
+  font-family: var(--font-display);
+  font-size: 48px; font-weight: 300;
+  color: var(--text-900);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 4px;
+}
+.tier-price .currency { font-size: 28px; vertical-align: top; line-height: 1.5; color: var(--text-500); margin-right: 4px; }
+.tier-price-suffix {
+  font-size: 14px;
+  color: var(--text-500);
+  margin-bottom: 28px;
+}
+.tier-tagline {
+  font-size: 14px;
+  color: var(--text-500);
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--stone-200);
+  line-height: 1.5;
+}
+.tier-features { list-style: none; margin-bottom: 32px; flex: 1; }
+.tier-features li {
+  font-size: 14px;
+  color: var(--text-700);
+  padding: 8px 0;
+  position: relative;
+  padding-left: 22px;
+}
+.tier-features li::before {
+  content: '✓';
+  position: absolute; left: 0;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 14px;
+}
+.tier-features li.muted { color: var(--text-300); }
+.tier-features li.muted::before { color: var(--text-300); }
+.tier-cta { width: 100%; }
+
+.pricing-note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 13px;
+  color: var(--text-500);
+}
+
+/* ── Why offplan.online ───────────────────────────── */
+.why { padding: 120px 0; }
+.why-header { text-align: center; margin-bottom: 64px; }
+.why-header .section-title { margin: 0 auto 18px; }
+.why-header .section-sub { margin: 0 auto; text-align: center; }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.why-card {
+  padding: 32px 24px;
+  background: var(--surface-card);
+  border: 1px solid var(--stone-200);
+  border-radius: var(--radius-lg);
+  text-align: left;
+}
+.why-icon {
+  width: 36px; height: 36px;
+  background: var(--gold-pale);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+.why-title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 500;
+  color: var(--text-900);
+  margin-bottom: 8px;
+}
+.why-body { font-size: 14px; color: var(--text-500); line-height: 1.6; }
+
+/* ── Final CTA ────────────────────────────────────── */
+.final-cta {
+  padding: 120px 0;
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+}
+.final-cta .section-title {
+  color: #fff;
+  font-size: 44px;
+  margin: 0 auto 18px;
+}
+.final-cta-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.final-cta-buttons { display: flex; gap: 14px; justify-content: center; }
+.final-cta .btn-ghost {
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+}
+.final-cta .btn-ghost:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.6);
+}
+
+/* ── Footer ───────────────────────────────────────── */
+.site-footer {
+  padding: 64px 0 32px;
+  background: #14202C;
+  color: rgba(255,255,255,0.5);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(4, 1fr);
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.footer-brand .dot { color: var(--gold); }
+.footer-tagline { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; max-width: 280px; }
+.footer-col-title {
+  font-family: var(--font-display);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.footer-link {
+  display: block;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  padding: 5px 0;
+  transition: color 0.15s;
+}
+.footer-link:hover { color: #fff; }
+.footer-bottom {
+  display: flex; justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.powered {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+.powered strong { color: var(--gold); font-weight: 500; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 960px) {
+  .hero-grid, .feature-row, .feature-row.reverse { grid-template-columns: 1fr; gap: 40px; }
+  .feature-row.reverse .feature-text, .feature-row.reverse .feature-visual { order: 0; }
+  .hero-title { font-size: 40px; }
+  .section-title { font-size: 32px; }
+  .usp-grid, .pricing-grid { grid-template-columns: 1fr; gap: 32px; }
+  .why-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="brand">offplan<span class="dot">.</span>online</a>
+    <nav class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#why" class="nav-link">Why us</a>
+      <a href="#" class="nav-link">Sign in</a>
+    </nav>
+    <a href="#" class="btn btn-gold">Get started</a>
+  </div>
+</header>
+
+<!-- ─── HERO ───────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">Self-serve · Powered by Volume Vision</div>
+      <h1 class="hero-title">
+        Sales-presentation software, <em>productised</em>.
+      </h1>
+      <p class="hero-sub">
+        The same engine that powers premium developer projects — now self-serve
+        for rendering studios, sales agencies, and brokers selling off-plan property.
+        No commitment. Ready in minutes.
+      </p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-gold btn-large">Get started</a>
+        <a href="#" class="btn btn-ghost btn-large">Book a demo</a>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-meta-item">No credit card</span>
+        <span class="hero-meta-item">Setup in minutes</span>
+        <span class="hero-meta-item">Cancel any time</span>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="../assets/landing/exterior.png" alt="Sales-presentation interface — exterior view of a residential project">
+    </div>
+  </div>
+</section>
+
+<!-- ─── USP STRIP ──────────────────────────────────── -->
+<section class="usp">
+  <div class="container">
+    <div class="usp-grid">
+      <div class="usp-item">
+        <div class="usp-num">01 — Universal</div>
+        <h3 class="usp-title">Works on any device</h3>
+        <p class="usp-body">No heavy app downloads. Sales agents present from a tablet, laptop, or phone — buyers join from a single link, no installs required.</p>
+      </div>
+      <div class="usp-item">
+        <div class="usp-num">02 — Efficient</div>
+        <h3 class="usp-title">All-in-one — minus the legwork</h3>
+        <p class="usp-body">Replaces the 6+ disparate links agents juggle today: building tour, units, floorplates, gallery, location. One surface, every module.</p>
+      </div>
+      <div class="usp-item">
+        <div class="usp-num">03 — Photoreal</div>
+        <h3 class="usp-title">Real renders, not games</h3>
+        <p class="usp-body">High-fidelity photoreal visuals — not real-time gaming-engine graphics. The quality your developers' marketing already invests in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ───────────────────────────────────── -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="eyebrow">Modules</div>
+      <h2 class="section-title">Built with — and for — sales agents.</h2>
+      <p class="section-sub">
+        A clean interface, the functionality follows the sales track step by step.
+        Every module is feature-flagged: each project shows exactly what it needs, nothing more.
+      </p>
+    </div>
+
+    <!-- Feature 1: Exterior -->
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="feature-num">01 — Exterior</div>
+        <h3 class="feature-title">Hero render that does the first sell.</h3>
+        <p class="feature-body">
+          Showcase the development with photorealistic exterior renders.
+          Hotspots reveal amenities, level views, and unit availability — buyers
+          orient themselves visually before a single number is read.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Multi-angle</span>
+          <span class="feature-tag">Hotspot navigation</span>
+          <span class="feature-tag">Day / dusk</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/exterior.png" alt="Exterior view of Tapestry residences">
+      </div>
+    </div>
+
+    <!-- Feature 2: Floor Plans -->
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <div class="feature-num">02 — Floor Plans</div>
+        <h3 class="feature-title">Floor plates linked to live availability.</h3>
+        <p class="feature-body">
+          Deep-dive into the floor plates of your development and explore
+          individual floor plans. Dynamically linked to your unit list, so
+          availability and key features are always reflected accurately.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Per-level navigation</span>
+          <span class="feature-tag">Live availability</span>
+          <span class="feature-tag">Unit metrics</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/floor-plan.png" alt="Floor plan with unit details and level selector">
+      </div>
+    </div>
+
+    <!-- Feature 3: Unit List -->
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="feature-num">03 — Unit List</div>
+        <h3 class="feature-title">Find the right unit in seconds.</h3>
+        <p class="feature-body">
+          Filterable, sortable availability table — STATUS, LEVELS, TYPE, ASPECT,
+          BEDS, BATHS, CAR PARKS. Sales agents move from "what does the buyer want"
+          to "here are 4 matches" without leaving the room.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Smart filters</span>
+          <span class="feature-tag">Live status</span>
+          <span class="feature-tag">Sortable</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/unit-list.png" alt="Unit list with filterable availability table">
+      </div>
+    </div>
+
+    <!-- Feature 4: Amenities -->
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <div class="feature-num">04 — Amenities</div>
+        <h3 class="feature-title">Communal spaces deserve their own stage.</h3>
+        <p class="feature-body">
+          Does your project have a stand-out amenity space — rooftop, gym,
+          pool deck, lobby? Feature it in its own module. Stunning amenity
+          walkthroughs or static renders make these spaces sell themselves.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Walkthrough</span>
+          <span class="feature-tag">Static renders</span>
+          <span class="feature-tag">Multi-area</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/amenities.png" alt="Amenity space — rooftop with palms and seating">
+      </div>
+    </div>
+
+    <!-- Feature 5: Location -->
+    <div class="feature-row">
+      <div class="feature-text">
+        <div class="feature-num">05 — Location</div>
+        <h3 class="feature-title">Where it sits on the map matters.</h3>
+        <p class="feature-body">
+          Aerial context shot showing the development in its real-world setting.
+          Annotated points of interest — beach, transit, schools, dining — let
+          buyers picture life there before signing anything.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Aerial view</span>
+          <span class="feature-tag">POI overlay</span>
+          <span class="feature-tag">Annotations</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/location.png" alt="Aerial location view of Tapestry Residences">
+      </div>
+    </div>
+
+    <!-- Feature 6: Gallery -->
+    <div class="feature-row reverse">
+      <div class="feature-text">
+        <div class="feature-num">06 — Gallery</div>
+        <h3 class="feature-title">Every render in one place.</h3>
+        <p class="feature-body">
+          A clean asset library — exterior, interior, amenities — organised by
+          category, searchable, downloadable. No more digging through Dropbox
+          folders mid-presentation.
+        </p>
+        <div class="feature-tags">
+          <span class="feature-tag">Categorised</span>
+          <span class="feature-tag">Search</span>
+          <span class="feature-tag">Download</span>
+        </div>
+      </div>
+      <div class="feature-visual">
+        <img src="../assets/landing/gallery.png" alt="Gallery — exterior and interior render library">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── PRICING ────────────────────────────────────── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="eyebrow" style="text-align:center;">Pricing</div>
+      <h2 class="section-title">One platform, three tiers.</h2>
+      <p class="section-sub">
+        Per account, per month. No long-term commitment.
+        Includes hosting, updates, and support — across as many projects as your tier allows.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Foundation -->
+      <div class="tier-card">
+        <div class="tier-name">Foundation</div>
+        <div class="tier-price"><span class="currency">$</span>390</div>
+        <div class="tier-price-suffix">per account / month</div>
+        <div class="tier-tagline">For small studios getting their first project online — the essentials to present and close.</div>
+        <ul class="tier-features">
+          <li>Welcome screen</li>
+          <li>3D apartment walkthrough</li>
+          <li>Gallery</li>
+          <li>Location page</li>
+          <li>1 active project</li>
+          <li>3 team seats</li>
+          <li class="muted">Floor plates &amp; unit list</li>
+          <li class="muted">Exterior renders</li>
+          <li class="muted">360° unit / level views</li>
+        </ul>
+        <a href="#" class="btn btn-ghost tier-cta">Start free trial</a>
+      </div>
+
+      <!-- Advanced (featured) -->
+      <div class="tier-card featured">
+        <div class="tier-badge">Most popular</div>
+        <div class="tier-name">Advanced</div>
+        <div class="tier-price"><span class="currency">$</span>1,200</div>
+        <div class="tier-price-suffix">per account / month</div>
+        <div class="tier-tagline">Everything in Foundation, plus the modules that drive sales velocity for active developments.</div>
+        <ul class="tier-features">
+          <li>Everything in Foundation</li>
+          <li>Exterior renders + hotspots</li>
+          <li>Floor plates &amp; floor plans</li>
+          <li>Unit list / availability</li>
+          <li>Admin panel</li>
+          <li>Unit / level views (360°)</li>
+          <li>Up to 5 active projects</li>
+          <li>10 team seats</li>
+          <li>API + webhooks</li>
+        </ul>
+        <a href="#" class="btn btn-gold tier-cta">Start free trial</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="tier-card">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">Custom</div>
+        <div class="tier-price-suffix">tailored to your portfolio</div>
+        <div class="tier-tagline">Multi-building portfolios, custom integrations, dedicated support, white-label options.</div>
+        <ul class="tier-features">
+          <li>Everything in Advanced</li>
+          <li>Unlimited projects</li>
+          <li>Unlimited seats</li>
+          <li>Custom modules</li>
+          <li>White-label / custom domain</li>
+          <li>Dedicated success manager</li>
+          <li>SSO + advanced security</li>
+          <li>SLA + priority support</li>
+          <li>Onboarding &amp; training</li>
+        </ul>
+        <a href="mailto:hello@offplan.online" class="btn btn-ghost tier-cta">Contact sales</a>
+      </div>
+    </div>
+
+    <p class="pricing-note">
+      All plans include a 14-day free trial — no credit card required. Cancel any time.
+    </p>
+  </div>
+</section>
+
+<!-- ─── WHY ────────────────────────────────────────── -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="why-header">
+      <div class="eyebrow" style="text-align:center;">Why offplan.online</div>
+      <h2 class="section-title">Built for the channel, not the boardroom.</h2>
+      <p class="section-sub">
+        Volume Vision sells direct to enterprise developers.
+        We're the self-serve channel for rendering studios, agencies, and brokers
+        who need the same product without the enterprise contract.
+      </p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">Self-serve onboarding</div>
+        <p class="why-body">Sign up, upload your renders, configure modules, go live. No sales call required.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">↻</div>
+        <div class="why-title">No commitment</div>
+        <p class="why-body">Monthly billing, cancel any time. Pay only for what you use, when you use it.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⌥</div>
+        <div class="why-title">Built for studios &amp; agents</div>
+        <p class="why-body">Designed for the channel: rendering studios bundle it for clients, agencies use it for portfolios.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">★</div>
+        <div class="why-title">Powered by Volume Vision</div>
+        <p class="why-body">The same proven engine powering premium developer projects worldwide. Battle-tested in production.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ──────────────────────────────────── -->
+<section class="final-cta">
+  <div class="container">
+    <h2 class="section-title">Ready to see it in action?</h2>
+    <p class="final-cta-sub">
+      Book a 20-minute demo or start your trial today —
+      we'll have your first project live this week.
+    </p>
+    <div class="final-cta-buttons">
+      <a href="#" class="btn btn-gold btn-large">Get started</a>
+      <a href="#" class="btn btn-ghost btn-large">Book a demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">offplan<span class="dot">.</span>online</div>
+        <p class="footer-tagline">
+          Self-serve sales-presentation software for off-plan property —
+          rendering studios, sales agencies, brokerages.
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#pricing" class="footer-link">Pricing</a>
+        <a href="#" class="footer-link">Demo</a>
+        <a href="#" class="footer-link">Changelog</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <a href="#" class="footer-link">About</a>
+        <a href="#" class="footer-link">Contact</a>
+        <a href="#" class="footer-link">Careers</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <a href="#" class="footer-link">Help centre</a>
+        <a href="#" class="footer-link">API docs</a>
+        <a href="#" class="footer-link">Onboarding guide</a>
+        <a href="#" class="footer-link">Status</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Cookies</a>
+        <a href="#" class="footer-link">GDPR</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 offplan.online — All rights reserved.</span>
+      <span class="powered">Powered by <strong>Volume Vision</strong></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

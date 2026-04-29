@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — offplan.online v4</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:   #faf7f2;
+    --sand-100:  #f4ede0;
+    --sand-200:  #ebe0cc;
+    --sand-300:  #ddd0b8;
+    --sand-400:  #c8b898;
+    --gold:      #a07840;
+    --gold-mid:  #b8904a;
+    --gold-light:#d4aa6a;
+    --gold-dim:  rgba(160,120,64,0.12);
+    --navy:      #1a2040;
+    --navy-mid:  #212840;
+    --navy-light:#2a3252;
+    --text-dark: #1e1a14;
+    --text-mid:  #5a5040;
+    --text-dim:  #9a8e7a;
+    --border:    rgba(160,140,110,0.22);
+    --border-mid:rgba(160,140,110,0.38);
+    --green:     #4a9e6a;
+    --amber:     #c07820;
+    --red:       #c05050;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex; height: 100vh; overflow: hidden;
+    background: var(--sand-100);
+    color: var(--text-dark); font-size: 14px;
+  }
+
+  /* ══ SIDEBAR ══ */
+  .sidebar {
+    width: 224px; min-width: 224px;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.15);
+  }
+  .sidebar-top {
+    padding: 28px 22px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-logo {
+    font-size: 20px; font-weight: 700;
+    letter-spacing: 3px; color: #fff;
+    text-transform: uppercase;
+  }
+  .sidebar-project {
+    margin-top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer; transition: background 0.2s;
+  }
+  .sidebar-project:hover { background: rgba(255,255,255,0.1); }
+  .sidebar-project-name { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 500; }
+  .sidebar-project svg { fill: rgba(255,255,255,0.35); width: 14px; height: 14px; }
+
+  .sidebar-section-label {
+    padding: 18px 22px 6px;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.8px; color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+  }
+  .sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 22px; color: rgba(255,255,255,0.5);
+    text-decoration: none; font-size: 13px; font-weight: 400;
+    border-left: 2px solid transparent;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .sidebar a:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.05); }
+  .sidebar a.done  { color: var(--green); }
+  .sidebar a.done .step-num  { background: rgba(74,158,106,0.18); color: var(--green); }
+  .sidebar a.active {
+    color: var(--gold-light); font-weight: 600;
+    border-left-color: var(--gold-light);
+    background: rgba(160,120,64,0.12);
+  }
+  .sidebar a.active .step-num { background: rgba(160,120,64,0.22); color: var(--gold-light); }
+
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3);
+  }
+  .sidebar-bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.07); padding: 4px 0; }
+  .sidebar-bottom a { color: rgba(255,255,255,0.3); }
+  .sidebar-bottom a:hover { color: var(--red); border-left-color: transparent; background: rgba(192,80,80,0.07); }
+
+  /* ══ MAIN ══ */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ══ WORKFLOW STRIP ══ */
+  .workflow-bar {
+    background: var(--sand-200);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    display: flex; align-items: center;
+    overflow-x: auto; flex-shrink: 0; height: 42px;
+  }
+  .wf-step { display: flex; align-items: center; flex-shrink: 0; }
+  .wf-label {
+    font-size: 11px; font-weight: 500; padding: 5px 11px;
+    border-radius: 20px; white-space: nowrap; transition: all 0.15s;
+  }
+  .wf-label.done    { color: var(--green); }
+  .wf-label.active  { background: var(--navy); color: var(--gold-light); font-weight: 600; }
+  .wf-label.upcoming{ color: var(--text-dim); }
+  .wf-arrow { color: var(--sand-400); font-size: 12px; padding: 0 3px; }
+
+  /* ══ CONTENT ══ */
+  .content-area { flex: 1; display: flex; overflow: hidden; gap: 0; padding: 20px; gap: 16px; }
+
+  /* ══ LIST PANEL ══ */
+  .list-panel {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    background: var(--sand-50);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 8px rgba(100,80,40,0.06);
+  }
+  .list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    background: var(--sand-50);
+    border-radius: 14px 14px 0 0;
+  }
+  .list-header h1 { font-size: 18px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.3px; }
+  .completion-hint { margin-top: 3px; font-size: 12px; font-weight: 500; color: var(--amber); display: flex; align-items: center; gap: 4px; }
+  .list-header-actions { display: flex; align-items: center; gap: 10px; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--border-mid); border-radius: 9px;
+    padding: 7px 13px; background: var(--sand-100); width: 190px;
+  }
+  .search-box input {
+    border: none; outline: none; background: transparent;
+    font-size: 13px; color: var(--text-dark); width: 100%; font-family: inherit;
+  }
+  .search-box input::placeholder { color: var(--text-dim); }
+
+  .btn-create {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--navy); color: var(--gold-light);
+    border: none; border-radius: 9px; padding: 8px 18px;
+    font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(26,32,64,0.2);
+  }
+  .btn-create:hover { background: var(--navy-light); }
+
+  /* ══ TABLE ══ */
+  .table-wrap { flex: 1; overflow-y: auto; border-radius: 0 0 14px 14px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    padding: 10px 22px; text-align: left;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-dim); background: var(--sand-100);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 2;
+  }
+  tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.1s; }
+  tbody tr:hover { background: var(--sand-100); }
+  tbody tr.active-row { background: var(--gold-dim); }
+  tbody td { padding: 13px 22px; font-size: 13px; color: var(--text-dark); }
+  .expand-toggle { color: var(--text-dim); font-size: 9px; margin-right: 8px; }
+
+  tbody tr.sub-row td {
+    padding: 9px 22px 9px 48px;
+    background: var(--sand-100); color: var(--gold);
+    font-size: 12px; border-bottom: 1px solid var(--border);
+  }
+
+  .tag-type {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px; border-radius: 20px;
+    background: var(--sand-200); color: var(--text-mid);
+    font-size: 11px; font-weight: 600; border: 1px solid var(--border);
+  }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .status-badge.warn { background: rgba(192,120,32,0.1); color: var(--amber); }
+  .status-badge.ok   { background: rgba(74,158,106,0.1); color: var(--green); }
+  .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* ══ RIGHT PANEL ══ */
+  .right-panel {
+    width: 430px; min-width: 360px;
+    background: var(--sand-100);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 8px rgba(100,80,40,0.06);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .panel-inner { padding: 24px 22px; flex: 1; overflow-y: auto; }
+
+  .panel-title { font-size: 16px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.2px; margin-bottom: 3px; }
+  .panel-subtitle { font-size: 12px; color: var(--text-dim); margin-bottom: 18px; }
+
+  .panel-hint {
+    background: rgba(160,120,64,0.08);
+    border: 1px solid rgba(160,120,64,0.25);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12px; color: var(--gold); line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .panel-hint strong { font-weight: 600; color: var(--gold-mid); }
+
+  .form-field { margin-bottom: 18px; }
+  .form-label {
+    display: block; font-size: 10px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 7px;
+  }
+  .select-styled {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--sand-50); border: 1.5px solid var(--border-mid);
+    border-radius: 10px; padding: 11px 14px; cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .select-styled:hover { border-color: var(--gold); }
+  .select-styled .val { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+  .select-styled .hint { font-size: 11px; color: var(--text-dim); }
+
+  .angle-presets { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+  .angle-preset {
+    padding: 5px 13px; border-radius: 20px;
+    border: 1.5px solid var(--border-mid);
+    font-size: 12px; font-weight: 500; color: var(--text-mid);
+    cursor: pointer; background: var(--sand-50); font-family: inherit;
+    transition: all 0.15s;
+  }
+  .angle-preset:hover { border-color: var(--gold-mid); color: var(--gold); background: var(--gold-dim); }
+  .angle-preset.selected { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
+
+  .format-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 9px; }
+  .format-tag {
+    padding: 3px 9px; border-radius: 6px;
+    background: var(--sand-200); border: 1px solid var(--border);
+    font-size: 11px; color: var(--text-mid); font-weight: 500;
+  }
+  .format-tag.warn { background: rgba(192,120,32,0.1); color: var(--amber); border-color: rgba(192,120,32,0.25); }
+
+  .upload-zone {
+    border: 2px dashed var(--border-mid); border-radius: 12px;
+    padding: 22px; text-align: center; cursor: pointer;
+    background: var(--sand-50);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .upload-zone:hover { border-color: var(--gold-mid); background: var(--gold-dim); }
+  .upload-zone.has-file {
+    border-style: solid; border-color: var(--gold-mid);
+    background: var(--gold-dim);
+    text-align: left; padding: 13px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .upload-filename { flex: 1; font-size: 12px; font-weight: 500; color: var(--text-dark); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload-replace { font-size: 11px; color: var(--gold); cursor: pointer; flex-shrink: 0; font-weight: 600; }
+  .upload-replace:hover { text-decoration: underline; }
+
+  .preview-wrap {
+    margin-top: 14px; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); position: relative;
+    box-shadow: 0 4px 16px rgba(100,80,40,0.1);
+  }
+  .preview-wrap img { width: 100%; display: block; object-fit: cover; max-height: 185px; }
+  .preview-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(26,32,64,0.82); backdrop-filter: blur(6px);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 11px; color: var(--gold-light); font-weight: 600;
+  }
+
+  .panel-actions {
+    padding: 16px 22px 18px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--sand-200);
+    border-radius: 0 0 14px 14px;
+  }
+  .btn-discard {
+    background: transparent; color: var(--text-mid);
+    border: 1.5px solid var(--border-mid); border-radius: 9px;
+    padding: 9px 22px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+  }
+  .btn-discard:hover { border-color: var(--text-mid); color: var(--text-dark); }
+  .btn-save {
+    background: var(--navy); color: var(--gold-light);
+    border: none; border-radius: 9px;
+    padding: 10px 30px; font-size: 13px; font-weight: 700;
+    cursor: pointer; font-family: inherit; letter-spacing: 0.3px;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 3px 12px rgba(26,32,64,0.25);
+  }
+  .btn-save:hover { background: var(--navy-light); transform: translateY(-1px); }
+  .btn-save:active { transform: translateY(0); }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--sand-300); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">COTE</div>
+    <div class="sidebar-project">
+      <span class="sidebar-project-name">Tower IX</span>
+      <svg viewBox="0 0 20 20"><path d="M5 8l5 5 5-5z"/></svg>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label">Setup</div>
+  <a href="#" class="done"><span class="step-num">✓</span>Theme</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Features</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Labels &amp; Terms</a>
+  <a href="#" class="active"><span class="step-num">4</span>Buildings</a>
+  <a href="#"><span class="step-num">5</span>Levels</a>
+  <a href="#"><span class="step-num">6</span>Floor Plates</a>
+  <a href="#"><span class="step-num">7</span>Floor Plans</a>
+  <a href="#"><span class="step-num">8</span>Units</a>
+  <a href="#"><span class="step-num">9</span>360 Panoramas</a>
+  <a href="#"><span class="step-num">10</span>Unit Hotspots</a>
+
+  <div class="sidebar-section-label">Media</div>
+  <a href="#">Location</a>
+  <a href="#">Galleries</a>
+  <a href="#">Branding</a>
+
+  <div class="sidebar-bottom">
+    <a href="#">Sign Out</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- WORKFLOW STRIP -->
+  <div class="workflow-bar">
+    <div class="wf-step"><span class="wf-label done">✓ Theme</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Features</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Labels</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label active">4 · Buildings</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Levels</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plates</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plans</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Units</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">360 Panoramas</span><span class="wf-arrow"> › </span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Unit Hotspots</span></div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- LIST PANEL -->
+    <div class="list-panel">
+      <div class="list-header">
+        <div>
+          <h1>11 Buildings</h1>
+          <div class="completion-hint">⚠ 9 buildings need angles</div>
+        </div>
+        <div class="list-header-actions">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9a8e7a" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search buildings">
+          </div>
+          <button class="btn-create">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Building
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:42%">Name</th>
+              <th style="width:14%">Angles</th>
+              <th style="width:18%">Type</th>
+              <th style="width:26%">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="selectRow(this,'Development')"><td>Development</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower IX')"><td>Tower IX</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower III')"><td>Tower III</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower IV')"><td>Tower IV</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VII')"><td>Tower VII</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower X')"><td>Tower X</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VI')"><td>Tower VI</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VIII')"><td>Tower VIII</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="toggleExpand(this,'towerII')"><td><span class="expand-toggle">▶</span>Tower II</td><td>1</td><td><span class="tag-type">Image</span></td><td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td></tr>
+            <tr id="towerII" class="sub-row" style="display:none"><td colspan="4">North-East &nbsp;·&nbsp; <span style="opacity:.55">Image uploaded</span></td></tr>
+            <tr class="active-row" onclick="toggleExpand(this,'newTower')"><td><span class="expand-toggle">▼</span>New tower</td><td>1</td><td><span class="tag-type">Image</span></td><td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td></tr>
+            <tr id="newTower" class="sub-row"><td colspan="4">East-West &nbsp;·&nbsp; <span style="opacity:.55">Image uploaded</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="panel-inner">
+        <div class="panel-title">Exterior Angle</div>
+        <div class="panel-subtitle" id="panel-sub">New tower · East-West</div>
+
+        <div class="panel-hint">
+          <strong>Heads up:</strong> Add one angle per visible side (East, West, North…). Unit hotspots are pinned here in <strong>Step 10</strong> — after Units are set up. Skip hotspots for now.
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Angle Name</label>
+          <div class="select-styled">
+            <span class="val" id="angle-val">East</span>
+            <span class="hint">pick below or rename</span>
+          </div>
+          <div class="angle-presets">
+            <button class="angle-preset selected" onclick="pickAngle(this)">East</button>
+            <button class="angle-preset" onclick="pickAngle(this)">West</button>
+            <button class="angle-preset" onclick="pickAngle(this)">North</button>
+            <button class="angle-preset" onclick="pickAngle(this)">South</button>
+            <button class="angle-preset" onclick="pickAngle(this)">NE</button>
+            <button class="angle-preset" onclick="pickAngle(this)">NW</button>
+            <button class="angle-preset" onclick="pickAngle(this)">SE</button>
+            <button class="angle-preset" onclick="pickAngle(this)">SW</button>
+            <button class="angle-preset" onclick="pickAngle(this)">Front</button>
+            <button class="angle-preset" onclick="pickAngle(this)">Back</button>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Exterior Image</label>
+          <div class="format-tags">
+            <span class="format-tag">PNG or JPG</span>
+            <span class="format-tag">Max 5 MB</span>
+            <span class="format-tag warn">No PDF</span>
+            <span class="format-tag">Landscape preferred</span>
+          </div>
+          <div class="upload-zone has-file">
+            <span style="font-size:18px">🖼</span>
+            <span class="upload-filename">1-JPEG_streetscape_1_cote_palm_beach_3D_render.jpg</span>
+            <span class="upload-replace">Replace</span>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=80" alt="Building"
+            onerror="this.parentElement.innerHTML='<div style=\'padding:50px;text-align:center;color:var(--text-dim)\'>Preview unavailable</div>'">
+          <span class="preview-badge" id="preview-badge">East angle</span>
+        </div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-discard">Discard</button>
+        <button class="btn-save">Save Angle</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function selectRow(row, name) {
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+    row.classList.add('active-row');
+    document.getElementById('panel-sub').textContent = name + ' · East-West';
+  }
+  function toggleExpand(row, id) {
+    const sub = document.getElementById(id);
+    const t = row.querySelector('.expand-toggle');
+    if (!sub) return;
+    const open = sub.style.display !== 'none';
+    sub.style.display = open ? 'none' : 'table-row';
+    if (t) t.textContent = open ? '▶' : '▼';
+    selectRow(row, row.querySelector('td').textContent.replace(/[▶▼]/g,'').trim());
+  }
+  function pickAngle(btn) {
+    document.querySelectorAll('.angle-preset').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('angle-val').textContent = btn.textContent;
+    document.getElementById('preview-badge').textContent = btn.textContent + ' angle';
+  }
+</script>
+</body>
+</html>

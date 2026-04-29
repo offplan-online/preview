@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Plan v3 — Visual Appendix B: Landing Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:   #faf7f2;
+    --sand-100:  #f4ede0;
+    --sand-200:  #ebe0cc;
+    --sand-300:  #ddd0b8;
+    --gold:      #a07840;
+    --gold-mid:  #b8904a;
+    --gold-light:#d4aa6a;
+    --navy:      #1a2040;
+    --navy-mid:  #212840;
+    --navy-light:#2a3252;
+    --text-dark: #1e1a14;
+    --text-mid:  #5a5040;
+    --text-dim:  #9a8e7a;
+    --border:    rgba(160,140,110,0.22);
+    --green:     #4a9e6a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--sand-100);
+    color: var(--text-dark);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 80px 40px 60px;
+    text-align: center;
+  }
+  .hero-kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 18px;
+    line-height: 1.15;
+  }
+  .hero .subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .hero-meta {
+    margin-top: 32px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .hero-back {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .hero-back:hover { color: var(--gold-light); }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+  section { margin-bottom: 80px; }
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+    color: var(--text-dark);
+  }
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--navy);
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 14px; color: var(--text-mid); }
+  p.lead { font-size: 17px; color: var(--text-dark); max-width: 780px; }
+
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  ul { margin: 0 0 16px 22px; color: var(--text-mid); }
+  ul li { margin-bottom: 6px; }
+
+  /* ── CONTEXT BOX ── */
+  .context-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold-mid);
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-top: 24px;
+  }
+  .context-box h4 { margin-bottom: 8px; }
+  .context-box p:last-child { margin-bottom: 0; }
+
+  /* ── COMPARE TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(30,30,30,0.04);
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .compare-table th {
+    background: var(--sand-50);
+    color: var(--navy);
+    text-align: left;
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-mid);
+    vertical-align: top;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child { color: var(--navy); font-weight: 600; width: 22%; }
+
+  /* ── MOCKUP SECTION ── */
+  .variant-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-top: 56px;
+    margin-bottom: 8px;
+  }
+  .variant-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .variant-tag.preferred {
+    background: var(--gold-mid);
+    color: #fff;
+  }
+  .variant-header h3 { margin-bottom: 0; font-size: 22px; }
+
+  .mockup-frame {
+    width: 100%;
+    height: 760px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 24px;
+    background: #fff;
+    box-shadow: 0 12px 48px rgba(30,30,30,0.1);
+  }
+  .mockup-note {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--sand-50);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-mid);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .mockup-note a {
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  code {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    background: var(--sand-200);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--navy);
+  }
+
+  @media (max-width: 840px) {
+    .hero h1 { font-size: 32px; }
+    .container { padding: 40px 20px; }
+    .mockup-frame { height: 560px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a href="launch-plan-v3-full.html" class="hero-back">← Launch Plan v3</a>
+  <div class="hero-kicker">Launch Plan v3 — Visual Appendix B</div>
+  <h1>Landing Page Concept</h1>
+  <p class="subtitle">
+    Маркетинговая страница offplan.online — три направления оформления.
+    Цель: за 8&nbsp;секунд донести что мы делаем, для кого и почему это работает.
+  </p>
+  <div class="hero-meta">
+    offplan.online · 2026-04-29 · Структура частично заимствована у parent-продукта volume.vision/sales-presentation-software
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════ CONTEXT ═══════ -->
+<section id="context">
+  <h2>Зачем нужен лендинг</h2>
+  <p class="lead">
+    Лендинг — единственная точка входа для холодного трафика и outreach до того, как студия попадает
+    в админку. Должен ответить на четыре вопроса: «что это», «для кого», «почему лучше альтернатив»
+    и «что я получу за деньги».
+  </p>
+
+  <div class="context-box">
+    <h4>Базовая структура (одинакова для обоих вариантов)</h4>
+    <p>
+      Hero → USP-strip («Why us») → Features (7&nbsp;модулей: Exterior, 3D&nbsp;Walkthrough, Floor Plans,
+      Unit List, Amenities, Location, Gallery) → Pricing (3&nbsp;тарифа: Foundation $390, Advanced $1,200,
+      Enterprise POA — заглушка, цены в обсуждении) → Why us → CTA → Footer.
+    </p>
+    <p>
+      <strong>Killer feature — 3D Walkthrough.</strong> Интерактивный обход квартиры до сдачи дома.
+      Главный дифференциатор от типового presentation-софта.
+    </p>
+  </div>
+
+  <h4 style="margin-top:32px;">Чем отличаются три варианта</h4>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Параметр</th>
+        <th>v1 — Split hero</th>
+        <th>v2 — Full-bleed cinematic</th>
+        <th>v3 — Demo-led hybrid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hero</td>
+        <td>Текст + статичная preview-карточка</td>
+        <td>Полноэкранное фото 313&nbsp;Pipis с overlay</td>
+        <td>Как в v2 + новый мессадж «Click a real project»</td>
+      </tr>
+      <tr>
+        <td>Под hero</td>
+        <td>USP-стрип</td>
+        <td>USP-стрип</td>
+        <td><strong>Live iframe реального проекта</strong> + social-proof stats</td>
+      </tr>
+      <tr>
+        <td>Walkthrough</td>
+        <td>Один из 7 одинаковых блоков</td>
+        <td>Один из 7 одинаковых блоков</td>
+        <td><strong>Hero-фича №1</strong> с тегом «Killer feature»</td>
+      </tr>
+      <tr>
+        <td>Остальные модули</td>
+        <td>Чередование image left/right</td>
+        <td>Stacked, картинка во всю ширину</td>
+        <td>Компактный 3+3 grid карточек</td>
+      </tr>
+      <tr>
+        <td>White-label</td>
+        <td>Спрятан в Enterprise tier</td>
+        <td>Спрятан в Enterprise tier</td>
+        <td><strong>Отдельная dark-секция</strong> с URL-стеком</td>
+      </tr>
+      <tr>
+        <td>Pricing</td>
+        <td>3 тарифа</td>
+        <td>3 тарифа</td>
+        <td>3 тарифа + «Talk to us» bridge между Advanced и Enterprise</td>
+      </tr>
+      <tr>
+        <td>CTA</td>
+        <td>«Get started» / «Book a demo»</td>
+        <td>«Get started» / «Book a demo»</td>
+        <td>«See a real project» / «Set up your first — 5 min»</td>
+      </tr>
+      <tr>
+        <td>Длина прокрутки</td>
+        <td>Короткая</td>
+        <td>Длинная</td>
+        <td>Средняя — короче v2 за счёт grid</td>
+      </tr>
+      <tr>
+        <td>Когда лучше</td>
+        <td>Outreach к рендер-студиям, B2B</td>
+        <td>Агентства/брокеры, end-buyer tier</td>
+        <td>Холодный трафик — wow-эффект до прочтения</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════ MOCKUP ═══════ -->
+<section id="mockup">
+  <h2>Три варианта в живом превью</h2>
+  <p class="lead">
+    Все три собраны на токенах brandbook&nbsp;v1.1 (navy + gold + stone). HTML отдельный
+    под каждый — структура hero и feature-блоков различается. Контент одинаковый,
+    но в v3 переписан под demo-first нарратив.
+  </p>
+
+  <div class="variant-header">
+    <span class="variant-tag">v1</span>
+    <h3>Split hero · alternating feature blocks</h3>
+  </div>
+  <p>
+    Классический B2B SaaS-паттерн. Hero делится на текст и preview-карточку. Feature-блоки
+    чередуются — изображение слева, потом справа. Плотная компоновка, быстро читается.
+  </p>
+  <iframe
+    src="landing-v1.html"
+    class="mockup-frame"
+    title="Landing v1 — Split hero"
+    sandbox="allow-same-origin allow-scripts"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/plan/landing-v1.html</code> · split hero · alternating layout · короче по высоте</span>
+    <a href="landing-v1.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+
+  <div class="variant-header">
+    <span class="variant-tag">v2</span>
+    <h3>Full-bleed cinematic · dominant feature screenshots</h3>
+  </div>
+  <p>
+    Hero на фотографии проекта 313&nbsp;Pipis (golden hour) с тёмным overlay. Feature-блоки —
+    картинка во всю ширину, eyebrow и заголовок сверху, описание и теги снизу. Премиальный тон,
+    больше воздуха, лучше работает на full-screen presentation.
+  </p>
+  <iframe
+    src="landing-v2.html"
+    class="mockup-frame"
+    title="Landing v2 — Full-bleed cinematic"
+    sandbox="allow-same-origin allow-scripts"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/plan/landing-v2.html</code> · beachfront hero · full-width visuals · текст сверху → картинка → описание снизу</span>
+    <a href="landing-v2.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+
+  <div class="variant-header">
+    <span class="variant-tag preferred">v3 · current</span>
+    <h3>Demo-led hybrid · interactive product surface</h3>
+  </div>
+  <p>
+    Hero как в v2, но мессадж переписан: «Don't read about it. Click a real project.»
+    Сразу под hero — embedded iframe с реальным проектом (Tapestry на VV-продакшене):
+    посетитель кликает Exterior / Walkthrough / Floor Plates / Unit List прямо на лендинге.
+    Walkthrough вынесен hero-фичей с тегом «Killer feature». Остальные 6 модулей — компактный
+    3+3 grid. Плюс отдельный dark-блок white-label с URL-стеком и «Talk to us» bridge между
+    тарифами. Самый сильный wow-эффект для холодного трафика.
+  </p>
+  <iframe
+    src="landing-v3.html"
+    class="mockup-frame"
+    title="Landing v3 — Demo-led hybrid"
+    sandbox="allow-same-origin allow-scripts"
+  ></iframe>
+  <div class="mockup-note">
+    <span><code>docs/plan/landing-v3.html</code> · live iframe · walkthrough hero feature · 3+3 grid · white-label section · pricing bridge</span>
+    <a href="landing-v3.html" target="_blank">Открыть в новой вкладке ↗</a>
+  </div>
+</section>
+
+<!-- ═══════ NEXT ═══════ -->
+<section id="next">
+  <h2>Следующие шаги</h2>
+  <ul>
+    <li>Выбрать направление (v1 или v2) или зафиксировать гибрид — после фидбэка от Ильи и пилотных студий.</li>
+    <li>Финализировать ценовую сетку (сейчас тарифы — заглушка, привязаны к Volume Vision pricing tiers).</li>
+    <li>Дизайн логотипа — пока wordmark «offplan.online». Логотип-знак на отдельной итерации.</li>
+    <li>Перевести в реальный фронтенд (фреймворк определится в Фазе&nbsp;1.7).</li>
+    <li>Подключить аналитику (события CTA, scroll-depth, выбор тарифа).</li>
+  </ul>
+</section>
+
+</div>
+
+</body>
+</html>

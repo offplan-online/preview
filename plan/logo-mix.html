@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>offplan.online — Logo Mix</title>
+<style>
+:root {
+  --gold:       #B8955A;
+  --gold-light: #E8D5B0;
+  --navy:       #1E2E3E;
+  --navy-deep:  #14202C;
+  --stone-100:  #F5F3F0;
+  --stone-200:  #E8E4DE;
+  --stone-300:  #D4CFC8;
+  --text-900:   #323840;
+  --text-500:   #6B7280;
+  --text-300:   #9CA3AF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: var(--stone-100);
+  color: var(--text-900);
+  padding: 64px 48px 120px;
+}
+
+.page-header { margin-bottom: 60px; }
+.page-kicker {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text-500); margin-bottom: 10px;
+}
+.page-title { font-size: 30px; font-weight: 300; letter-spacing: -0.02em; }
+.page-title strong { font-weight: 700; color: var(--gold); }
+.page-meta { font-size: 13px; color: var(--text-500); margin-top: 8px; }
+.page-meta a { color: var(--gold); text-decoration: none; }
+
+/* ── Card layout ── */
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+
+.card-swatches {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.swatch {
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px 36px;
+}
+.swatch.light  { background: #fff; border-right: 1px solid var(--stone-100); }
+.swatch.stone  { background: var(--stone-100); border-right: 1px solid var(--stone-200); }
+.swatch.dark   { background: var(--navy-deep); }
+
+.card-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  padding: 16px 20px 18px;
+  border-top: 1px solid var(--stone-100);
+  gap: 24px;
+}
+
+.card-label {
+  font-size: 10px; font-weight: 700; color: var(--gold);
+  letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px;
+}
+.card-name { font-size: 16px; font-weight: 600; color: var(--text-900); letter-spacing: -0.01em; }
+.card-desc { font-size: 12px; color: var(--text-500); margin-top: 4px; line-height: 1.55; }
+
+.card-recipe {
+  text-align: right;
+  font-size: 11px; color: var(--text-300);
+  white-space: nowrap;
+  padding-top: 2px;
+  line-height: 1.7;
+}
+.card-recipe span { color: var(--gold); font-weight: 600; }
+
+/* ── Scale demo strip ── */
+.scale-strip {
+  background: var(--stone-100);
+  border-top: 1px solid var(--stone-200);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.scale-label {
+  font-size: 10px; font-weight: 600; color: var(--text-300);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  width: 40px; flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-kicker">offplan.online · Brand Identity · Mix</div>
+  <div class="page-title">Logo <strong>Mix</strong></div>
+  <div class="page-meta">5 hybrids · D1 + B4 + C3 + E2 · <a href="logo-explorations.html">← Full explorations</a></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MX1 — D1 refined: dot as floor plan grid
+═══════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-swatches">
+
+    <div class="swatch light">
+      <div style="display:flex;align-items:center;">
+        <span style="font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;">offplan</span>
+        <svg width="13" height="13" viewBox="0 0 13 13" style="margin:0 2.5px;flex-shrink:0;position:relative;top:-1.5px;">
+          <rect x="0" y="0" width="13" height="13" fill="#B8955A"/>
+          <line x1="8" y1="0" x2="8" y2="13" stroke="white" stroke-width="1"/>
+          <line x1="8" y1="8" x2="13" y2="8" stroke="white" stroke-width="1"/>
+        </svg>
+        <span style="font-size:24px;font-weight:300;color:var(--text-500);letter-spacing:-0.015em;">online</span>
+      </div>
+    </div>
+
+    <div class="swatch stone">
+      <div style="display:flex;align-items:center;">
+        <span style="font-size:24px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;">offplan</span>
+        <svg width="13" height="13" viewBox="0 0 13 13" style="margin:0 2.5px;flex-shrink:0;position:relative;top:-1.5px;">
+          <rect x="0" y="0" width="13" height="13" fill="#B8955A"/>
+          <line x1="8" y1="0" x2="8" y2="13" stroke="white" stroke-width="1"/>
+          <line x1="8" y1="8" x2="13" y2="8" stroke="white" stroke-width="1"/>
+        </svg>
+        <span style="font-size:24px;font-weight:300;color:var(--text-500);letter-spacing:-0.015em;">online</span>
+      </div>
+    </div>
+
+    <div class="swatch dark">
+      <div style="display:flex;align-items:center;">
+        <span style="font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.025em;">offplan</span>
+        <svg width="13" height="13" viewBox="0 0 13 13" style="margin:0 2.5px;flex-shrink:0;position:relative;top:-1.5px;">
+          <rect x="0" y="0" width="13" height="13" fill="#B8955A"/>
+          <line x1="8" y1="0" x2="8" y2="13" stroke="#14202C" stroke-width="1"/>
+          <line x1="8" y1="8" x2="13" y2="8" stroke="#14202C" stroke-width="1"/>
+        </svg>
+        <span style="font-size:24px;font-weight:300;color:rgba(255,255,255,0.45);letter-spacing:-0.015em;">online</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- scale strip -->
+  <div class="scale-strip">
+    <div class="scale-label">at scale</div>
+    <!-- 14px -->
+    <div style="display:flex;align-items:center;">
+      <span style="font-size:14px;font-weight:700;color:var(--navy);letter-spacing:-0.02em;">offplan</span>
+      <svg width="7" height="7" viewBox="0 0 7 7" style="margin:0 1.5px;position:relative;top:-1px;flex-shrink:0;">
+        <rect x="0" y="0" width="7" height="7" fill="#B8955A"/>
+        <line x1="4.5" y1="0" x2="4.5" y2="7" stroke="white" stroke-width="0.6"/>
+        <line x1="4.5" y1="4.5" x2="7" y2="4.5" stroke="white" stroke-width="0.6"/>
+      </svg>
+      <span style="font-size:14px;font-weight:300;color:var(--text-500);">online</span>
+    </div>
+    <!-- 11px -->
+    <div style="display:flex;align-items:center;">
+      <span style="font-size:11px;font-weight:700;color:var(--navy);letter-spacing:-0.01em;">offplan</span>
+      <svg width="5" height="5" viewBox="0 0 5 5" style="margin:0 1px;position:relative;top:-1px;flex-shrink:0;">
+        <rect x="0" y="0" width="5" height="5" fill="#B8955A"/>
+        <line x1="3.2" y1="0" x2="3.2" y2="5" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <span style="font-size:11px;font-weight:300;color:var(--text-500);">online</span>
+    </div>
+  </div>
+
+  <div class="card-bottom">
+    <div>
+      <div class="card-label">MX1</div>
+      <div class="card-name">The Dot</div>
+      <div class="card-desc">The period in .online becomes a micro floor plan grid. Nothing added — the mark is already inside the name. Bold/light weight contrast keeps the two words distinct without colour.</div>
+    </div>
+    <div class="card-recipe">
+      <span>D1</span> dot concept<br>
+      <span>A2</span> weight contrast
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MX2 — op. with floor plan dot (display)
+═══════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-swatches">
+
+    <div class="swatch light">
+      <div style="text-align:center;">
+        <div style="display:flex;align-items:flex-end;justify-content:center;">
+          <span style="font-size:52px;font-weight:800;color:var(--navy);letter-spacing:-0.05em;line-height:1;">op</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" style="margin-bottom:9px;margin-left:2px;flex-shrink:0;">
+            <rect x="0" y="0" width="16" height="16" fill="#B8955A"/>
+            <line x1="10" y1="0" x2="10" y2="16" stroke="white" stroke-width="1.2"/>
+            <line x1="10" y1="10" x2="16" y2="10" stroke="white" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div style="font-size:10px;font-weight:500;color:var(--text-300);letter-spacing:0.16em;text-transform:uppercase;margin-top:6px;">offplan.online</div>
+      </div>
+    </div>
+
+    <div class="swatch stone">
+      <div style="text-align:center;">
+        <div style="display:flex;align-items:flex-end;justify-content:center;">
+          <span style="font-size:52px;font-weight:800;color:var(--navy);letter-spacing:-0.05em;line-height:1;">op</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" style="margin-bottom:9px;margin-left:2px;flex-shrink:0;">
+            <rect x="0" y="0" width="16" height="16" fill="#B8955A"/>
+            <line x1="10" y1="0" x2="10" y2="16" stroke="white" stroke-width="1.2"/>
+            <line x1="10" y1="10" x2="16" y2="10" stroke="white" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div style="font-size:10px;font-weight:500;color:var(--text-300);letter-spacing:0.16em;text-transform:uppercase;margin-top:6px;">offplan.online</div>
+      </div>
+    </div>
+
+    <div class="swatch dark">
+      <div style="text-align:center;">
+        <div style="display:flex;align-items:flex-end;justify-content:center;">
+          <span style="font-size:52px;font-weight:800;color:#fff;letter-spacing:-0.05em;line-height:1;">op</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" style="margin-bottom:9px;margin-left:2px;flex-shrink:0;">
+            <rect x="0" y="0" width="16" height="16" fill="#B8955A"/>
+            <line x1="10" y1="0" x2="10" y2="16" stroke="#14202C" stroke-width="1.2"/>
+            <line x1="10" y1="10" x2="16" y2="10" stroke="#14202C" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);letter-spacing:0.16em;text-transform:uppercase;margin-top:6px;">offplan.online</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-bottom">
+    <div>
+      <div class="card-label">MX2</div>
+      <div class="card-name">op[grid]</div>
+      <div class="card-desc">Display-size shortform. "op" black + floor plan grid as the period. Full name below in small caps as clarifier. Works as a hero element, a cover, a slide title — anywhere you need presence.</div>
+    </div>
+    <div class="card-recipe">
+      <span>E2</span> op. shortform<br>
+      <span>D1</span> dot concept
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MX3 — Filled mark + stacked + gold rule
+═══════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-swatches">
+
+    <div class="swatch light">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="34" height="28" viewBox="0 0 34 28">
+          <rect x="0" y="0" width="34" height="28" fill="#B8955A"/>
+          <line x1="21" y1="0" x2="21" y2="28" stroke="white" stroke-width="1.8"/>
+          <line x1="21" y1="16" x2="34" y2="16" stroke="white" stroke-width="1.8"/>
+        </svg>
+        <div>
+          <div style="font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;line-height:1;">offplan</div>
+          <div style="width:32px;height:2px;background:var(--gold);margin:6px 0 5px;"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-300);letter-spacing:0.14em;text-transform:uppercase;">.online</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch stone">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="34" height="28" viewBox="0 0 34 28">
+          <rect x="0" y="0" width="34" height="28" fill="#B8955A"/>
+          <line x1="21" y1="0" x2="21" y2="28" stroke="white" stroke-width="1.8"/>
+          <line x1="21" y1="16" x2="34" y2="16" stroke="white" stroke-width="1.8"/>
+        </svg>
+        <div>
+          <div style="font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;line-height:1;">offplan</div>
+          <div style="width:32px;height:2px;background:var(--gold);margin:6px 0 5px;"></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-300);letter-spacing:0.14em;text-transform:uppercase;">.online</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch dark">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <svg width="34" height="28" viewBox="0 0 34 28">
+          <rect x="0" y="0" width="34" height="28" fill="#B8955A"/>
+          <line x1="21" y1="0" x2="21" y2="28" stroke="#14202C" stroke-width="1.8"/>
+          <line x1="21" y1="16" x2="34" y2="16" stroke="#14202C" stroke-width="1.8"/>
+        </svg>
+        <div>
+          <div style="font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.025em;line-height:1;">offplan</div>
+          <div style="width:32px;height:2px;background:var(--gold);margin:6px 0 5px;"></div>
+          <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:0.14em;text-transform:uppercase;">.online</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-bottom">
+    <div>
+      <div class="card-label">MX3</div>
+      <div class="card-name">Mark + Rule</div>
+      <div class="card-desc">Filled gold floor plan mark anchors the left. "offplan" bold, thin gold rule as separator, ".online" in small caps below. The mark and the rule share the same gold — one system, two uses.</div>
+    </div>
+    <div class="card-recipe">
+      <span>C3</span> filled mark<br>
+      <span>B4</span> gold rule stack
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MX4 — App icon + clean wordmark
+═══════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-swatches">
+
+    <div class="swatch light">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+        <div style="width:64px;height:64px;background:var(--gold);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1.5" y="1.5" width="33" height="33" stroke="white" stroke-width="2.5"/>
+            <line x1="1.5" y1="18" x2="34.5" y2="18" stroke="white" stroke-width="2"/>
+            <line x1="22" y1="1.5" x2="22" y2="34.5" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:15px;font-weight:600;color:var(--navy);letter-spacing:-0.01em;">offplan</div>
+          <div style="font-size:10px;font-weight:500;color:var(--text-300);letter-spacing:0.1em;margin-top:1px;">.online</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch stone">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+        <div style="width:64px;height:64px;background:var(--gold);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(184,149,90,0.35);">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1.5" y="1.5" width="33" height="33" stroke="white" stroke-width="2.5"/>
+            <line x1="1.5" y1="18" x2="34.5" y2="18" stroke="white" stroke-width="2"/>
+            <line x1="22" y1="1.5" x2="22" y2="34.5" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:15px;font-weight:600;color:var(--navy);letter-spacing:-0.01em;">offplan</div>
+          <div style="font-size:10px;font-weight:500;color:var(--text-300);letter-spacing:0.1em;margin-top:1px;">.online</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch dark">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+        <div style="width:64px;height:64px;background:var(--gold);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="1.5" y="1.5" width="33" height="33" stroke="#14202C" stroke-width="2.5"/>
+            <line x1="1.5" y1="18" x2="34.5" y2="18" stroke="#14202C" stroke-width="2"/>
+            <line x1="22" y1="1.5" x2="22" y2="34.5" stroke="#14202C" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em;">offplan</div>
+          <div style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.3);letter-spacing:0.1em;margin-top:1px;">.online</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-bottom">
+    <div>
+      <div class="card-label">MX4</div>
+      <div class="card-name">Icon + Wordmark</div>
+      <div class="card-desc">Gold rounded-square app icon with floor plan glyph. Wordmark stacked below. The icon reads perfectly at 16px (favicon) and 1024px (App Store). Middle swatch shows a real phone-screen context.</div>
+    </div>
+    <div class="card-recipe">
+      <span>F4</span> app icon<br>
+      <span>E1</span> clean wordmark
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MX5 — Full system: icon + MX1 wordmark
+═══════════════════════════════════════════ -->
+<div class="card">
+  <div class="card-swatches">
+
+    <div class="swatch light">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="1" y="1" width="24" height="24" stroke="white" stroke-width="2"/>
+            <line x1="1" y1="13" x2="25" y2="13" stroke="white" stroke-width="1.5"/>
+            <line x1="16" y1="1" x2="16" y2="25" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span style="font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;">offplan</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" style="margin:0 2px;flex-shrink:0;position:relative;top:-1.5px;">
+            <rect x="0" y="0" width="11" height="11" fill="#B8955A"/>
+            <line x1="7" y1="0" x2="7" y2="11" stroke="white" stroke-width="0.9"/>
+            <line x1="7" y1="7" x2="11" y2="7" stroke="white" stroke-width="0.9"/>
+          </svg>
+          <span style="font-size:20px;font-weight:300;color:var(--text-500);letter-spacing:-0.015em;">online</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch stone">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="1" y="1" width="24" height="24" stroke="white" stroke-width="2"/>
+            <line x1="1" y1="13" x2="25" y2="13" stroke="white" stroke-width="1.5"/>
+            <line x1="16" y1="1" x2="16" y2="25" stroke="white" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span style="font-size:20px;font-weight:700;color:var(--navy);letter-spacing:-0.025em;">offplan</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" style="margin:0 2px;flex-shrink:0;position:relative;top:-1.5px;">
+            <rect x="0" y="0" width="11" height="11" fill="#B8955A"/>
+            <line x1="7" y1="0" x2="7" y2="11" stroke="white" stroke-width="0.9"/>
+            <line x1="7" y1="7" x2="11" y2="7" stroke="white" stroke-width="0.9"/>
+          </svg>
+          <span style="font-size:20px;font-weight:300;color:var(--text-500);letter-spacing:-0.015em;">online</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="swatch dark">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:44px;height:44px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="1" y="1" width="24" height="24" stroke="#14202C" stroke-width="2"/>
+            <line x1="1" y1="13" x2="25" y2="13" stroke="#14202C" stroke-width="1.5"/>
+            <line x1="16" y1="1" x2="16" y2="25" stroke="#14202C" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span style="font-size:20px;font-weight:700;color:#fff;letter-spacing:-0.025em;">offplan</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" style="margin:0 2px;flex-shrink:0;position:relative;top:-1.5px;">
+            <rect x="0" y="0" width="11" height="11" fill="#B8955A"/>
+            <line x1="7" y1="0" x2="7" y2="11" stroke="#14202C" stroke-width="0.9"/>
+            <line x1="7" y1="7" x2="11" y2="7" stroke="#14202C" stroke-width="0.9"/>
+          </svg>
+          <span style="font-size:20px;font-weight:300;color:rgba(255,255,255,0.4);letter-spacing:-0.015em;">online</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="card-bottom">
+    <div>
+      <div class="card-label">MX5 — Full system</div>
+      <div class="card-name">Icon + The Dot</div>
+      <div class="card-desc">Gold app icon left + MX1 wordmark right. The floor plan glyph appears twice — once large in the icon, once tiny as the dot. One visual language, two scales. This is a complete logo system.</div>
+    </div>
+    <div class="card-recipe">
+      <span>MX1</span> wordmark<br>
+      <span>MX4</span> icon<br>
+      one system
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

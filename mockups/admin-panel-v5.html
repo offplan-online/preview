@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — offplan.online v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Brand tokens (brandbook v1.1 · 2026-04-27) ────────── */
+  :root {
+    /* Surface */
+    --surface-bg:        #FAFAF8;
+    --surface-card:      #FFFFFF;
+    --surface-subtle:    #F2F0ED;
+    --surface-secondary: #F8F7F5;  /* ✓ Figma "Solid/Secondary white" */
+
+    /* Stone scale */
+    --stone-700: #7C7574;   /* ✓ inactive labels */
+    --stone-600: #909090;   /* ✓ cancel/close buttons */
+    --stone-500: #9A9594;
+    --stone-400: #C5C8CA;
+    --stone-200: #E4E2DF;
+    --stone-100: #F2F0ED;
+
+    /* Text scale — Figma + live CSS confirmed */
+    --text-900: #323840;  /* ✓ primary UI text */
+    --text-700: #3D3B39;
+    --text-500: #6A6865;
+    --text-300: #A09E9C;
+
+    /* Accent */
+    --gold:        #B8955A;
+    --gold-dim:    rgba(184,149,90,0.10);
+    --gold-border: rgba(184,149,90,0.30);
+    --navy:        #1E2E3E;
+
+    /* Status (tonal — brandbook v1.1) */
+    --status-ok:         #6B8C6E;
+    --status-ok-bg:      rgba(107,140,110,0.10);
+    --status-ok-border:  rgba(107,140,110,0.25);
+    --status-warn:       #B8955A;
+    --status-warn-bg:    rgba(184,149,90,0.10);
+    --status-warn-border:rgba(184,149,90,0.28);
+
+    /* Glassmorphism — ✓ Figma confirmed */
+    --glass-active:   rgba(90,90,90,0.30);     /* active tab: blur 51 + 1.21px white border */
+    --glass-inactive: rgba(139,139,139,0.31);  /* inactive tab: blur 41 */
+    --glass-nav:      rgba(124,117,116,0.08);  /* filter bar: blur 51.3 */
+    --glass-level:    rgba(174,174,174,0.59);  /* level selector: blur 22 */
+
+    /* Shadows */
+    --shadow-card:  0 8px 24px rgba(0,0,0,0.08);
+    --shadow-subtle:0 2px  8px rgba(0,0,0,0.05);
+
+    /* Typography */
+    --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --tracking-ui:    0.16em;  /* ✓ 1.86px at 11.62px — Figma nav confirmed */
+    --tracking-wide:  0.14em;
+    --tracking-wider: 0.18em;
+
+    /* Radius */
+    --radius-md:   4px;
+    --radius-lg:   8px;
+    --radius-pill: 100px;
+
+    /* Motion */
+    --dur-micro: 120ms;
+  }
+
+  /* ── Reset ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    display: flex; height: 100vh; overflow: hidden;
+    background: var(--surface-bg);
+    color: var(--text-700);
+    font-size: 14px;
+    font-weight: 500;        /* ✓ live CSS confirmed */
+    letter-spacing: 0.25px;  /* ✓ live CSS confirmed */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── SIDEBAR ────────────────────────────────────────────── */
+  .sidebar {
+    width: 220px; min-width: 220px;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .sidebar-top {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .sidebar-logo {
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: var(--tracking-ui);
+    color: #FFFFFF; text-transform: uppercase;
+  }
+
+  .sidebar-project {
+    margin-top: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    cursor: pointer;
+    transition: background var(--dur-micro) ease;
+  }
+  .sidebar-project:hover { background: rgba(255,255,255,0.09); }
+  .sidebar-project-name {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font-body);
+  }
+  .sidebar-project svg { fill: rgba(255,255,255,0.3); width: 14px; height: 14px; flex-shrink: 0; }
+
+  .sidebar-section-label {
+    padding: 20px 22px 6px;
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); color: rgba(255,255,255,0.22);
+    text-transform: uppercase;
+  }
+
+  .sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 22px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 13px; font-weight: 400;
+    border-left: 2px solid transparent;
+    transition: color var(--dur-micro) ease, background var(--dur-micro) ease;
+  }
+  .sidebar a:hover { color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.04); }
+
+  .sidebar a.done { color: var(--status-ok); }
+  .sidebar a.done .step-num { background: rgba(107,140,110,0.15); color: var(--status-ok); }
+
+  .sidebar a.active {
+    color: var(--gold);
+    border-left-color: var(--gold);
+    background: var(--gold-dim);
+    font-weight: 500;
+  }
+  .sidebar a.active .step-num { background: rgba(184,149,90,0.18); color: var(--gold); }
+
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 600; flex-shrink: 0;
+    background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.28);
+  }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 4px 0;
+  }
+  .sidebar-bottom a { color: rgba(255,255,255,0.28); font-size: 12px; }
+  .sidebar-bottom a:hover { color: rgba(255,255,255,0.55); background: transparent; }
+
+  /* ── MAIN ───────────────────────────────────────────────── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── WORKFLOW STRIP ─────────────────────────────────────── */
+  .workflow-bar {
+    background: var(--surface-subtle);
+    border-bottom: 1px solid var(--stone-200);
+    padding: 0 24px;
+    display: flex; align-items: center;
+    overflow-x: auto; flex-shrink: 0; height: 40px;
+    gap: 2px;
+  }
+
+  .wf-step { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+
+  .wf-label {
+    font-family: var(--font-display);
+    font-size: 11.62px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    padding: 4px 10px; border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+  .wf-label.done    { color: var(--status-ok); }
+  .wf-label.active  { background: var(--navy); color: var(--gold); }
+  .wf-label.upcoming{ color: var(--text-300); }
+  .wf-arrow { color: var(--stone-400); font-size: 10px; padding: 0 2px; }
+
+  /* ── CONTENT AREA ───────────────────────────────────────── */
+  .content-area {
+    flex: 1; display: flex; overflow: hidden;
+    padding: 16px; gap: 14px;
+  }
+
+  /* ── LIST PANEL ─────────────────────────────────────────── */
+  .list-panel {
+    flex: 1; display: flex; flex-direction: column; overflow: hidden;
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--stone-200);
+    box-shadow: var(--shadow-card);
+  }
+
+  .list-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--stone-200);
+    flex-shrink: 0;
+  }
+
+  .list-header h1 {
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 300;
+    color: var(--text-900); letter-spacing: -0.01em;
+  }
+
+  .completion-hint {
+    margin-top: 4px;
+    font-size: 12px; color: var(--status-warn);
+    display: flex; align-items: center; gap: 5px;
+  }
+
+  .list-header-actions { display: flex; align-items: center; gap: 10px; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    border: 1px solid var(--stone-200);
+    border-radius: var(--radius-md);
+    padding: 7px 12px;
+    background: var(--surface-bg);
+    width: 186px;
+    transition: border-color var(--dur-micro) ease;
+  }
+  .search-box:focus-within { border-color: var(--stone-400); }
+  .search-box input {
+    border: none; outline: none; background: transparent;
+    font-size: 13px; color: var(--text-700); width: 100%;
+    font-family: var(--font-body);
+  }
+  .search-box input::placeholder { color: var(--text-300); }
+
+  .btn-primary {
+    display: flex; align-items: center; gap: 7px;
+    background: var(--text-900); color: #FFFFFF;
+    border: none; border-radius: var(--radius-md);
+    padding: 8px 16px;
+    font-family: var(--font-display);
+    font-size: 11.62px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity var(--dur-micro) ease;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* ── TABLE ──────────────────────────────────────────────── */
+  .table-wrap { flex: 1; overflow-y: auto; }
+  table { width: 100%; border-collapse: collapse; }
+
+  thead th {
+    padding: 9px 22px; text-align: left;
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--text-300);
+    background: var(--surface-bg);
+    border-bottom: 1px solid var(--stone-200);
+    position: sticky; top: 0; z-index: 2;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--stone-200);
+    cursor: pointer;
+    transition: background var(--dur-micro) ease;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface-subtle); }
+  tbody tr.active-row { background: var(--gold-dim); }
+
+  tbody td { padding: 12px 22px; font-size: 13px; color: var(--text-700); }
+
+  .expand-toggle { color: var(--text-300); font-size: 8px; margin-right: 8px; }
+
+  tbody tr.sub-row td {
+    padding: 8px 22px 8px 46px;
+    background: var(--surface-subtle);
+    color: var(--stone-700);
+    font-size: 12px;
+  }
+
+  .tag-type {
+    display: inline-flex; align-items: center;
+    padding: 3px 9px; border-radius: var(--radius-pill);
+    background: var(--surface-subtle);
+    color: var(--text-500);
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    border: 1px solid var(--stone-200);
+  }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+  .status-badge.warn {
+    background: var(--status-warn-bg);
+    color: var(--status-warn);
+    border-color: var(--status-warn-border);
+  }
+  .status-badge.ok {
+    background: var(--status-ok-bg);
+    color: var(--status-ok);
+    border-color: var(--status-ok-border);
+  }
+  .status-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+
+  /* ── RIGHT PANEL ────────────────────────────────────────── */
+  .right-panel {
+    width: 420px; min-width: 360px;
+    background: var(--surface-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--stone-200);
+    box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-inner { padding: 24px 22px; flex: 1; overflow-y: auto; }
+
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 400;
+    color: var(--text-900); letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+
+  .panel-subtitle { font-size: 12px; color: var(--text-300); margin-bottom: 20px; }
+
+  .panel-hint {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: 12px; color: var(--stone-700); line-height: 1.65;
+    margin-bottom: 22px;
+  }
+  .panel-hint strong { font-weight: 600; color: var(--text-700); }
+
+  /* ── FORM ELEMENTS ──────────────────────────────────────── */
+  .form-field { margin-bottom: 20px; }
+
+  .form-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--text-300); margin-bottom: 8px;
+  }
+
+  .select-styled {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-bg);
+    border: 1px solid var(--stone-200);
+    border-radius: var(--radius-md);
+    padding: 10px 14px; cursor: pointer;
+    transition: border-color var(--dur-micro) ease;
+  }
+  .select-styled:hover { border-color: var(--stone-400); }
+  .select-styled .val { font-size: 14px; color: var(--text-900); }
+  .select-styled .hint { font-size: 11px; color: var(--text-300); }
+
+  .angle-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .angle-preset {
+    padding: 5px 12px; border-radius: var(--radius-pill);
+    border: 1px solid var(--stone-200);
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--text-500);
+    cursor: pointer; background: var(--surface-bg);
+    transition: all var(--dur-micro) ease;
+  }
+  .angle-preset:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+  .angle-preset.selected { background: var(--text-900); color: #FFFFFF; border-color: var(--text-900); }
+
+  .format-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .format-tag {
+    padding: 3px 9px; border-radius: var(--radius-pill);
+    background: var(--surface-subtle);
+    border: 1px solid var(--stone-200);
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--text-500);
+  }
+  .format-tag.warn {
+    background: var(--status-warn-bg);
+    color: var(--status-warn);
+    border-color: var(--status-warn-border);
+  }
+
+  .upload-zone {
+    border: 1.5px dashed var(--stone-200);
+    border-radius: var(--radius-md);
+    padding: 20px; text-align: center; cursor: pointer;
+    background: var(--surface-bg);
+    font-size: 13px; color: var(--text-300);
+    transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+  }
+  .upload-zone:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .upload-zone.has-file {
+    border-style: solid; border-color: var(--gold);
+    background: var(--gold-dim); text-align: left;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .upload-filename {
+    flex: 1; font-size: 12px; color: var(--text-700);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .upload-replace {
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--gold); cursor: pointer; flex-shrink: 0;
+  }
+  .upload-replace:hover { text-decoration: underline; }
+
+  .preview-wrap {
+    margin-top: 14px; border-radius: var(--radius-md);
+    overflow: hidden; border: 1px solid var(--stone-200);
+    position: relative; box-shadow: var(--shadow-subtle);
+  }
+  .preview-wrap img { width: 100%; display: block; object-fit: cover; max-height: 180px; }
+  .preview-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(30,46,62,0.88); backdrop-filter: blur(6px);
+    border-radius: var(--radius-md); padding: 4px 10px;
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── PANEL ACTIONS ──────────────────────────────────────── */
+  .panel-actions {
+    padding: 14px 22px 16px;
+    border-top: 1px solid var(--stone-200);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface-subtle); flex-shrink: 0;
+  }
+
+  .btn-secondary {
+    background: transparent; color: var(--stone-600);
+    border: 1px solid var(--stone-200);
+    border-radius: var(--radius-md); padding: 9px 20px;
+    font-family: var(--font-display);
+    font-size: 11.62px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color var(--dur-micro) ease, color var(--dur-micro) ease;
+  }
+  .btn-secondary:hover { border-color: var(--stone-400); color: var(--text-500); }
+
+  .btn-save {
+    background: var(--text-900); color: #FFFFFF;
+    border: none; border-radius: var(--radius-md);
+    padding: 10px 28px;
+    font-family: var(--font-display);
+    font-size: 11.62px; font-weight: 700;
+    letter-spacing: var(--tracking-ui); text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: var(--shadow-subtle);
+    transition: opacity var(--dur-micro) ease, transform var(--dur-micro) ease;
+  }
+  .btn-save:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-save:active { transform: translateY(0); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--stone-200); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">Côte</div>
+    <div class="sidebar-project">
+      <span class="sidebar-project-name">Tower IX</span>
+      <svg viewBox="0 0 20 20"><path d="M5 8l5 5 5-5z"/></svg>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label">Setup</div>
+  <a href="#" class="done"><span class="step-num">✓</span>Theme</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Features</a>
+  <a href="#" class="done"><span class="step-num">✓</span>Labels &amp; Terms</a>
+  <a href="#" class="active"><span class="step-num">4</span>Buildings</a>
+  <a href="#"><span class="step-num">5</span>Levels</a>
+  <a href="#"><span class="step-num">6</span>Floor Plates</a>
+  <a href="#"><span class="step-num">7</span>Floor Plans</a>
+  <a href="#"><span class="step-num">8</span>Units</a>
+  <a href="#"><span class="step-num">9</span>360 Panoramas</a>
+  <a href="#"><span class="step-num">10</span>Unit Hotspots</a>
+
+  <div class="sidebar-section-label">Media</div>
+  <a href="#">Location</a>
+  <a href="#">Galleries</a>
+  <a href="#">Branding</a>
+
+  <div class="sidebar-bottom">
+    <a href="#">Sign Out</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- WORKFLOW STRIP -->
+  <div class="workflow-bar">
+    <div class="wf-step"><span class="wf-label done">✓ Theme</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Features</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label done">✓ Labels</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label active">4 · Buildings</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Levels</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plates</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Floor Plans</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Units</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">360 Panoramas</span><span class="wf-arrow">›</span></div>
+    <div class="wf-step"><span class="wf-label upcoming">Unit Hotspots</span></div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- LIST PANEL -->
+    <div class="list-panel">
+      <div class="list-header">
+        <div>
+          <h1>11 Buildings</h1>
+          <div class="completion-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            9 buildings need angles
+          </div>
+        </div>
+        <div class="list-header-actions">
+          <div class="search-box">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" placeholder="Search buildings">
+          </div>
+          <button class="btn-primary">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Building
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:42%">Name</th>
+              <th style="width:12%">Angles</th>
+              <th style="width:18%">Type</th>
+              <th style="width:28%">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="selectRow(this,'Development')"><td>Development</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower IX')"><td>Tower IX</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower III')"><td>Tower III</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower IV')"><td>Tower IV</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VII')"><td>Tower VII</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower X')"><td>Tower X</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VI')"><td>Tower VI</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="selectRow(this,'Tower VIII')"><td>Tower VIII</td><td>0</td><td><span class="tag-type">Image</span></td><td><span class="status-badge warn"><span class="status-dot"></span>No angles</span></td></tr>
+            <tr onclick="toggleExpand(this,'towerII')"><td><span class="expand-toggle">▶</span>Tower II</td><td>1</td><td><span class="tag-type">Image</span></td><td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td></tr>
+            <tr id="towerII" class="sub-row" style="display:none"><td colspan="4">North-East &nbsp;·&nbsp; <span style="opacity:.5">Image uploaded</span></td></tr>
+            <tr class="active-row" onclick="toggleExpand(this,'newTower')"><td><span class="expand-toggle">▼</span>New tower</td><td>1</td><td><span class="tag-type">Image</span></td><td><span class="status-badge ok"><span class="status-dot"></span>1 angle</span></td></tr>
+            <tr id="newTower" class="sub-row"><td colspan="4">East-West &nbsp;·&nbsp; <span style="opacity:.5">Image uploaded</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="panel-inner">
+        <div class="panel-title">Exterior Angle</div>
+        <div class="panel-subtitle" id="panel-sub">New tower · East-West</div>
+
+        <div class="panel-hint">
+          <strong>Note:</strong> Add one angle per visible side (East, West, North…). Unit hotspots are pinned here in <strong>Step 10</strong> — after Units are set up. Skip hotspots for now.
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Angle Name</label>
+          <div class="select-styled">
+            <span class="val" id="angle-val">East</span>
+            <span class="hint">pick below or rename</span>
+          </div>
+          <div class="angle-presets">
+            <button class="angle-preset selected" onclick="pickAngle(this)">East</button>
+            <button class="angle-preset" onclick="pickAngle(this)">West</button>
+            <button class="angle-preset" onclick="pickAngle(this)">North</button>
+            <button class="angle-preset" onclick="pickAngle(this)">South</button>
+            <button class="angle-preset" onclick="pickAngle(this)">NE</button>
+            <button class="angle-preset" onclick="pickAngle(this)">NW</button>
+            <button class="angle-preset" onclick="pickAngle(this)">SE</button>
+            <button class="angle-preset" onclick="pickAngle(this)">SW</button>
+            <button class="angle-preset" onclick="pickAngle(this)">Front</button>
+            <button class="angle-preset" onclick="pickAngle(this)">Back</button>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label">Exterior Image</label>
+          <div class="format-tags">
+            <span class="format-tag">PNG or JPG</span>
+            <span class="format-tag">Max 5 MB</span>
+            <span class="format-tag warn">No PDF</span>
+            <span class="format-tag">Landscape preferred</span>
+          </div>
+          <div class="upload-zone has-file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span class="upload-filename">1-JPEG_streetscape_1_cote_palm_beach_3D_render.jpg</span>
+            <span class="upload-replace">Replace</span>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=80" alt="Building"
+            onerror="this.parentElement.innerHTML='<div style=\'padding:50px;text-align:center;color:#A09E9C;font-size:13px\'>Preview unavailable</div>'">
+          <span class="preview-badge" id="preview-badge">East angle</span>
+        </div>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-secondary">Discard</button>
+        <button class="btn-save">Save Angle</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function selectRow(row, name) {
+    document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+    row.classList.add('active-row');
+    document.getElementById('panel-sub').textContent = name + ' · East-West';
+  }
+  function toggleExpand(row, id) {
+    const sub = document.getElementById(id);
+    const t = row.querySelector('.expand-toggle');
+    if (!sub) return;
+    const open = sub.style.display !== 'none';
+    sub.style.display = open ? 'none' : 'table-row';
+    if (t) t.textContent = open ? '▶' : '▼';
+    selectRow(row, row.querySelector('td').textContent.replace(/[▶▼]/g,'').trim());
+  }
+  function pickAngle(btn) {
+    document.querySelectorAll('.angle-preset').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('angle-val').textContent = btn.textContent;
+    document.getElementById('preview-badge').textContent = btn.textContent + ' angle';
+  }
+</script>
+</body>
+</html>
