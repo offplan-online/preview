@@ -591,7 +591,7 @@
     <li>Динамический контент (reacts to empty state) или статика?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -784,7 +784,7 @@
     <li>Что показывать если wizard прерван и пользователь возвращается через сутки?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.2.1, 1.4.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.2.1, 1.4.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -1031,7 +1031,7 @@
 <div id="phase-1-4" class="phase"><span class="phase-num">Фаза 1.4</span><h3>Admin UX Critical Blockers <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Прямой результат UX-аудита (CONV-7) + заметок из ручного тестирования. Баги, которые потенциально будут блокировать студий в первую неделю — после верификации tech team на проде.</p></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.2</span><span class="task-name">Form reliability</span></div>
+  <div class="task-title"><span class="task-id">1.4.1</span><span class="task-name">Form reliability</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+QA</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
   <p class="task-desc">Формы работают непредсказуемо: ввёл-сохранил-пропало, ошибка валидации стирает работу, уникальность проверяется криво.</p>
   <details>
@@ -1047,18 +1047,17 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Используется ли form library (react-hook-form / formik) или raw useState?</li><li>Готовы переписать form architecture или только точечные fix?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.4.3</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.4.2</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.3</span><span class="task-name">Navigation + project creation path</span></div>
+  <div class="task-title"><span class="task-id">1.4.2</span><span class="task-name">Navigation + project creation path</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
-  <p class="task-desc">Студия не может сама создать проект, <code>/levels</code> ведёт в <code>/views</code>, post-save navigation прыгает на другой проект.</p>
+  <p class="task-desc">Студия не может сама создать проект, post-save navigation прыгает на другой проект.</p>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(3)</span></summary>
   <ul>
     <li>UI для создания нового проекта (self-serve — сейчас отсутствует)</li>
-    <li>Fix routing: <code>/levels</code> → <code>/levels</code></li>
     <li>Post-save navigation при создании building: не прыгать на другой проект (🔬)</li>
     <li>Project switcher — явно видимый, с «+ Create new project»</li>
   </ul>
@@ -1067,11 +1066,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Совместим ли project creation UI с multi-tenant лимитами по плану?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.2 · Блокирует: 1.2.4</div>
+  <div class="task-deps">Зависит от: 1.4.1 · Блокирует: 1.2.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.4</span><span class="task-name">Asset upload clarity</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.3</span><span class="task-name">Asset upload clarity</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично → возможно отпадает</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc"><strong>Tech team уже работает над backend-инфраструктурой</strong>, которая авто-обрабатывает любые форматы (PDF / HEIC / etc.). Если Илья подтвердит готовность — эта sub-phase может стать неактуальной. Дождаться апдейта. Текущее: неясно что можно загружать: PDF молча отвергается, размеры скрыты, форматы не указаны, preview нет.</p>
   <details>
@@ -1090,11 +1089,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Все лимиты известны команде? Если нет — нужен audit</li><li>Когда backend выкатывает auto-обработку форматов (вопрос Илье)?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.4.6</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.4.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.6</span><span class="task-name">Preview + sticky validation UX</span></div>
+  <div class="task-title"><span class="task-id">1.4.4</span><span class="task-name">Preview + sticky validation UX</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">UX-улучшения поверх критичных блокеров — click-to-enlarge, valid validation feedback, предотвращение accidental loss.</p>
   <details>
@@ -1111,11 +1110,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Cmd+S shortcuts для power users?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.3 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.7</span><span class="task-name">Hotspot placement broken</span></div>
+  <div class="task-title"><span class="task-id">1.4.5</span><span class="task-name">Hotspot placement broken</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">На проде нельзя расставить hotspots на здании мышкой — клик/драг не регистрирует позицию. Блокер для любого проекта с building hotspots. ✅ Подтверждено на проде 2026-04-30.</p>
   <details>
@@ -2901,7 +2900,7 @@
     <li>Cap: unlimited или 10/year?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.3 · Блокирует: —</div>
 </div>
 
 <div id="phase-3-3" class="phase"><span class="phase-num">Фаза 3.3</span><h3>Admin UX v2 Improvements</h3><p class="phase-desc">Улучшения, приоритизированные по фидбеку пилота. Часть начата в 2.5.2 — здесь финализация.</p></div>
@@ -3356,7 +3355,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Policy после 8 дней: downgrade / full block / данные через 90 дней?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.3, 1.4.6 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.2, 1.4.4 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -3967,10 +3966,10 @@
 <tr><td>11</td><td>После create building → photo → переход на другое здание</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.3</td></tr>
 <tr><td>12</td><td>File conversion на upload (jpeg/png → webp drag-and-drop)</td><td>Feature request</td><td>Фаза 3.1.4</td></tr>
 <tr><td>13</td><td>Локализация — первый EN, потом?</td><td>Планируется</td><td>Фаза 4.4.4</td></tr>
-<tr><td>14</td><td>Form validation сбрасывает прогресс ввода юнита (дублирующее название)</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.2</td></tr>
+<tr><td>14</td><td>Form validation сбрасывает прогресс ввода юнита (дублирующее название)</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.1</td></tr>
 <tr><td>15</td><td>Unit создан но не виден в меню</td><td>❌ Не воспроизвелось на проде 2026-04-30</td><td>—</td></tr>
 <tr><td>16</td><td>Hotspots на здании — полупрозрачные + hover status</td><td><span class="marker m-done">✅ Tech team</span></td><td>Фаза 4.5.5</td></tr>
-<tr><td>17</td><td>Hotspots: расстановка мышкой вместо значений</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.7</td></tr>
+<tr><td>17</td><td>Hotspots: расстановка мышкой вместо значений</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.5</td></tr>
 </tbody>
 </table>
 
@@ -3987,7 +3986,7 @@
 <table>
 <thead><tr><th style="width:40px;">#</th><th>Тема</th><th>Что нужно</th><th style="width:160px;">Кто</th><th style="width:60px;">Фаза</th></tr></thead>
 <tbody>
-<tr><td>Q1</td><td>Stripe vs Paddle</td><td>Сравнение EU VAT / MoR</td><td>Product team + Legal</td><td>1.4.3</td></tr>
+<tr><td>Q1</td><td>Stripe vs Paddle</td><td>Сравнение EU VAT / MoR</td><td>Product team + Legal</td><td>1.4.2</td></tr>
 <tr><td>Q2</td><td>EU Rep vs EU-юрлицо</td><td>Стоимость + юрисдикция</td><td>Legal + Product team</td><td>1.5.5</td></tr>
 <tr><td>Q3</td><td>Внешний security audit vs внутренний</td><td>Бюджет + объективность</td><td>Tech team + Product team</td><td>1.1.1</td></tr>
 <tr><td>Q4</td><td>DDoS protection: Cloudflare план</td><td>Нагрузочный профиль + стоимость</td><td>Ops + Tech team</td><td>1.1.5</td></tr>
@@ -3996,7 +3995,7 @@
 <tr><td>Q7</td><td>MFA обязателен или опционален</td><td>Security posture</td><td>Tech team</td><td>1.2.1</td></tr>
 <tr><td>Q8</td><td>Email provider</td><td>SendGrid / Postmark / Resend</td><td>Marketing + Tech team</td><td>1.2.6</td></tr>
 <tr><td>Q9</td><td>Demo-проект vs empty-state tutorial</td><td>Product decision</td><td>Product team</td><td>1.2.5</td></tr>
-<tr><td>Q10</td><td>Финальные тарифы (цены и лимиты)</td><td>Pricing research</td><td>Product team + Finance</td><td>1.4.2</td></tr>
+<tr><td>Q10</td><td>Финальные тарифы (цены и лимиты)</td><td>Pricing research</td><td>Product team + Finance</td><td>1.4.1</td></tr>
 <tr><td>Q11</td><td>Trial без карты vs с картой</td><td>Conversion vs качество</td><td>Product team</td><td>1.4.5</td></tr>
 <tr><td>Q12</td><td>Block vs read-only при истечении trial</td><td>UX trade-off</td><td>Product team</td><td>1.4.5</td></tr>
 <tr><td>Q13</td><td>Chat platform</td><td>Crisp / Intercom / Tawk.to</td><td>Product team + Ops</td><td>2.3.1</td></tr>
@@ -4024,7 +4023,7 @@
 <tr><td>Q35</td><td>Channel strategy: direct / partners / marketplace</td><td>Channel mix + partner structure</td><td>Product team + Marketing + Sales</td><td>3.2</td></tr>
 <tr><td>Q36</td><td>Accessibility (WCAG) compliance</td><td>Уровень + timing + audit</td><td>Design + Tech team + Legal</td><td>3.1</td></tr>
 <tr><td>Q37</td><td>Incident communication + SLA credits</td><td>Структура credits + policy</td><td>Legal + Ops + Finance</td><td>3.5</td></tr>
-<tr><td>Q38</td><td>White label depth</td><td>Policy per tarif</td><td>Product team + Marketing + Legal</td><td>1.4.2 + 4.3.6</td></tr>
+<tr><td>Q38</td><td>White label depth</td><td>Policy per tarif</td><td>Product team + Marketing + Legal</td><td>1.4.1 + 4.3.6</td></tr>
 </tbody>
 </table>
 
@@ -4280,7 +4279,7 @@
 <!-- Q38 -->
 <div class="task">
   <div class="task-title"><span class="task-id">Q38</span><span class="task-name">White label depth</span></div>
-  <div class="markers"><span class="marker m-dept">Product team + Marketing + Legal</span><span class="marker m-q">Фаза 1.4.2 + 4.3.6</span></div>
+  <div class="markers"><span class="marker m-dept">Product team + Marketing + Legal</span><span class="marker m-q">Фаза 1.4.1 + 4.3.6</span></div>
   <p class="task-desc"><strong>В чём суть:</strong> Сколько VV-бренда видит <strong>конечный покупатель квартиры</strong> на странице студии? От heavy branded («Powered by VV» в header) до полной invisibility.</p>
   <details>
   <summary class="task-label">3 уровня white-label <span class="count">(3)</span></summary>
@@ -4494,7 +4493,7 @@
     <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
       <li><strong>1.2 Onboarding</strong> — 6 правок: 1.2.1 expanded with 5-уровневой архитектурой tenant access; 1.2.2 переписана как <em>per-project</em> subdomain (не per-studio); 1.2.3 переписана как custom domain для проектов; 1.2.4 wizard упрощён (без поля «тип проекта», без Slack invite, обязательный); 1.2.5 — оба подхода через Claude Design; 1.2.6 — отложен в Стадию 3; 1.2.7 — significantly expanded с 5-level access model</li>
       <li><strong>1.5.8 Flat-fee tier</strong> — новая sub-phase. Альтернатива subscription для клиентов «настроили проект, дальше не меняем»</li>
-      <li><strong>1.4 Admin UX</strong> — banner: conditional, требует верификации tech team. <strong>1.4.4 Asset upload</strong> — note: tech team уже работает над backend auto-обработкой, может стать неактуальной</li>
+      <li><strong>1.4 Admin UX</strong> — banner: conditional, требует верификации tech team. <strong>1.4.3 Asset upload</strong> — note: tech team уже работает над backend auto-обработкой, может стать неактуальной</li>
       <li><strong>1.7 Security</strong> — banner: baseline, ответственность tech team. Не первоочередная задача со стороны product team</li>
     </ul>
 
