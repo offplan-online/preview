@@ -98,7 +98,7 @@
 </div>
 
 <nav class="topnav">
-  <a href="#our-docs">📄 Наши документы</a>
+  <a href="#our-docs">📄 Драфты →</a>
   <a href="#au">🇦🇺 AU layer</a>
   <a href="#eu">🇪🇺 EU / GDPR</a>
   <a href="#uae">🇦🇪 UAE / DIFC</a>
@@ -118,105 +118,20 @@
   <span><span class="card-tag tag-red">⚖️ official</span> правовой источник</span>
 </div>
 
-<!-- ───────────── OUR DOCUMENTS ───────────── -->
+<!-- ───────────── OUR DOCUMENTS — POINTER ───────────── -->
 <section id="our-docs">
-<h2>📄 Наши черновые документы (Draft v0.1)</h2>
+<h2>📄 Драфты документов</h2>
 
-<div class="callout callout-warn">
-  <strong>Статус</strong>
-  Все документы — Draft v0.1. Созданы как структурированные черновики для проверки юристом. Не передавать клиентам и не публиковать без юридического review. Governing law: Cyprus.
-</div>
-
-<p class="lead">Полный индекс: <a href="../legal/index.html">docs/legal/index.html</a> — там статус каждого документа и чеклист для юриста.</p>
-
-<h3>Публичные документы (customer-facing)</h3>
-<table>
-  <thead><tr><th style="width:28%;">Документ</th><th>Что покрывает</th><th style="width:120px;">Приоритет</th></tr></thead>
-  <tbody>
-    <tr>
-      <td><a href="../legal/tos.html">Terms of Service</a></td>
-      <td>B2B declaration, service scope, no-refund clause (usage-based), IP, liability cap, 17 sections. Cyprus governing law.</td>
-      <td><span class="card-tag tag-red">P0 — до запуска</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/privacy-policy.html">Privacy Policy</a></td>
-      <td>GDPR (Cyprus/EU), Art. 6 legal bases, data subject rights, retention table, AU Privacy Act notice, UAE PDPL notice. Sub-processors disclosed.</td>
-      <td><span class="card-tag tag-red">P0 — до запуска</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/cookie-policy.html">Cookie Policy</a></td>
-      <td>4 категории cookies (Essential / Functional / Analytics / Marketing). Таблица cookies с названием, целью, сроком. Требования к consent banner. Покрывает white-label deployments.</td>
-      <td><span class="card-tag tag-red">P0 — до запуска</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/aup.html">Acceptable Use Policy</a></td>
-      <td>Запрещённые виды использования: фиктивная информация, обход защиты, API abuse, нелегальный контент. Enforcement: suspension без refund.</td>
-      <td><span class="card-tag tag-amber">P1</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/sla.html">Service Level Agreement</a></td>
-      <td>99.5% uptime. Credit table (10–100% от monthly fee). Support tiers по плану. P1–P4 приоритеты. RPO ≤24h / RTO ≤4h. Status page.</td>
-      <td><span class="card-tag tag-amber">P1</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/end-user-notice.html">End-User Notice</a></td>
-      <td>Прозрачность для покупателей недвижимости. Два варианта: short-form (footer) и full-page. GDPR Art. 13/14 sub-processor disclosure. Шаблон с заполняемыми полями для ресселеров.</td>
-      <td><span class="card-tag tag-amber">P2</span></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>B2B / Data Protection (для customer contracts)</h3>
-<table>
-  <thead><tr><th style="width:28%;">Документ</th><th>Что покрывает</th><th style="width:120px;">Приоритет</th></tr></thead>
-  <tbody>
-    <tr>
-      <td><a href="../legal/dpa.html">Data Processing Agreement (DPA)</a></td>
-      <td>GDPR Art. 28. Controller/Processor разделение. 72h breach notification. Sub-processors (Annex C). SCCs для non-EEA transfers. Audit rights. Deletion по завершении. Автоматически применяется к каждой подписке.</td>
-      <td><span class="card-tag tag-red">P0 — GDPR required</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/reseller-agreement.html">Reseller Agreement</a></td>
-      <td>White-label rights. "Powered by offplan.online" attribution. Client-relationship ownership у ресселера. First-line support обязательство. Brand guidelines. Pricing floor. Termination + migration.</td>
-      <td><span class="card-tag tag-amber">P1 — до первого ресселера</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/nda-template.html">NDA Template</a></td>
-      <td>Mutual NDA с заполняемыми полями (highlighted). Для: партнёрские переговоры, onboarding studio, investor conversations. Cyprus governing law (изменяемо).</td>
-      <td><span class="card-tag tag-green">P2</span></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>Внутренние GDPR-документы (не публикуются)</h3>
-<table>
-  <thead><tr><th style="width:28%;">Документ</th><th>Что покрывает</th><th style="width:120px;">Статус</th></tr></thead>
-  <tbody>
-    <tr>
-      <td><a href="../legal/ropa.html">ROPA — Record of Processing Activities</a></td>
-      <td>GDPR Art. 30. Все processing activities: Controller (A1–A9: accounts, billing, support, analytics, security, marketing, HR) + Processor (B1–B5: End User data в Projects клиентов). Legal bases, recipients, retention, transfers. Нужно заполнить поля [TBC] по мере выбора провайдеров.</td>
-      <td><span class="card-tag tag-amber">Draft — fill TBC</span></td>
-    </tr>
-    <tr>
-      <td><a href="../legal/breach-procedure.html">Data Breach Response Procedure</a></td>
-      <td>GDPR Art. 33–34. Временная шкала 72 часов. Severity classification (Critical/High/Medium/Low). Роли и ответственность. Art. 33 notification template. Breach Register. AU NDB scheme. Printable incident checklist. Annual tabletop test.</td>
-      <td><span class="card-tag tag-amber">Draft — train team</span></td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="callout">
-  <strong>Что нужно сделать юристу с этими документами</strong>
-  <ol style="margin:8px 0 0 20px; line-height:1.9;">
-    <li>ToS §4.3 (refund): проверить enforceable no-refund в AU + UAE markets</li>
-    <li>Privacy Policy §11 + §12: AU APPs 1–13 + UAE PDPL — полнота disclosures</li>
-    <li>DPA Annex C: заполнить sub-processors по мере выбора провайдеров</li>
-    <li>ROPA: заполнить все поля [TBC] + добавить HR-данные по факту найма</li>
-    <li>Cookie Policy: привязать к конкретному consent platform (iubenda / Cookiebot)</li>
-    <li>SLA: подтвердить uptime % + credit механизм реалистичны для нашей инфраструктуры</li>
-    <li>Все документы: проверить кипрское право — Registration No., Address, DPO назначение</li>
-  </ol>
-</div>
+<a href="../legal/index.html" style="text-decoration:none; color:inherit; display:block;">
+  <div class="callout" style="border-left-width:4px; cursor:pointer; transition:box-shadow .15s, border-color .15s;"
+       onmouseover="this.style.boxShadow='0 4px 18px rgba(0,0,0,.08)'"
+       onmouseout="this.style.boxShadow='none'">
+    <strong>Открыть индекс драфтов →</strong>
+    <div style="font-size:16px; font-weight:700; color:var(--navy); margin:2px 0 8px;">docs/legal/index.html</div>
+    <p style="margin:0; color:var(--text-mid);">Это <strong>деливерабл для юриста</strong>: 11 черновых документов (ToS, Privacy Policy, DPA, Cookie Policy, ROPA, SLA, AUP, Reseller Agreement, NDA, End-User Notice, Breach Procedure) + Lawyer Brief + таблица всех TBC-полей + чеклист «What Lawyers Need to Check».</p>
+    <p style="margin:10px 0 0; color:var(--text-mid); font-size:13px;"><em>Текущая страница (Legal Sources) — справочник <strong>откуда</strong> мы брали материал для этих драфтов: AU Privacy Act, GDPR, UAE PDPL, Volume Vision T&amp;Cs. Сами драфты живут по ссылке выше.</em></p>
+  </div>
+</a>
 </section>
 
 <!-- ───────────── AU LAYER ───────────── -->
