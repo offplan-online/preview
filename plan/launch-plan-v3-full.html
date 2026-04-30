@@ -1490,11 +1490,12 @@
 <!-- Фаза 1.7 — Legal & Compliance -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
   <strong style="color:var(--red);">🔴 Critical · 🇨🇾 Cyprus base (decided 2026-04-30).</strong>
-  Основное юрлицо — Cyprus (EU member, 12.5% corp tax, GDPR-native). На Cyprus base накладываются UAE и Australia compliance layers (1.7.7, 1.7.8). <strong>База готова</strong> — AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers из публичных шаблонов (Stripe, Cloudflare, Property Finder). Полный список референсов: <a href="legal-sources.html">📖 Legal Sources &amp; References</a>.
+  Основное юрлицо — Cyprus (EU member, 12.5% corp tax, GDPR-native). На Cyprus base накладываются UAE и Australia compliance layers (1.7.7, 1.7.8). <strong>Черновики всех 11 документов написаны</strong> — <a href="../legal/index.html">📋 Legal Documents (index)</a>. Источники: AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers из публичных шаблонов — <a href="legal-sources.html">📖 Legal Sources &amp; References</a>.
 </div>
 
-<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для Cyprus-base SaaS, продающего в EU / UAE / Australia. Юрист пишет тексты — мы формулируем требования + предоставляем готовые шаблоны (Cyprus / EU GDPR-native; UAE clauses для UAE-резидентов; AU clauses для AU studios — VV T&amp;Cs готовы как база).</p>
+<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для Cyprus-base SaaS, продающего в EU / UAE / Australia. Черновики всех 11 документов написаны — юрист доводит. Cyprus / EU GDPR-native; UAE clauses для UAE-резидентов; AU clauses для AU studios.</p>
 <div class="phase-files"><strong>Файлы фазы</strong>
+  <a href="../legal/index.html">📋 Legal Documents (все черновики)</a>
   <a href="legal-sources.html">📖 Legal Sources &amp; References</a>
   <a href="https://volume.vision/sla-tcs">VV T&amp;Cs (AU base)</a>
   <a href="https://stripe.com/legal/dpa">Stripe DPA template</a>
@@ -1506,7 +1507,7 @@
   <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Terms of Service</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Основной договор между offplan.online и студией. Защищает от проблемных клиентов и кейсов.</p>
-  <p class="task-files"><strong>📖 База:</strong> AU clauses из <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> готовы (Privacy Act, Consumer Law, GST, Notifiable Data Breach). Сверху накладываем EU/UAE layers — см. <a href="legal-sources.html">Legal Sources &amp; References</a>.</p>
+  <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/tos.html">Terms of Service</a> · <a href="../legal/aup.html">AUP</a> · <a href="../legal/sla.html">SLA</a> · <a href="../legal/reseller-agreement.html">Reseller Agreement</a> · <a href="../legal/nda-template.html">NDA Template</a> &nbsp;·&nbsp; <strong>📖 База:</strong> AU clauses из <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a>; EU/UAE layers — <a href="legal-sources.html">Legal Sources &amp; References</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
   <ul>
@@ -1531,7 +1532,7 @@
   <div class="task-title"><span class="task-id">1.7.2</span><span class="task-name">Privacy Policy</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Как мы обрабатываем персональные данные студий и их конечных пользователей. GDPR + UAE DPR + Australian Privacy Act.</p>
-  <p class="task-files"><strong>📖 Шаблоны:</strong> <a href="https://stripe.com/privacy">Stripe Privacy Policy</a> (multi-jurisdiction), <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy</a>. AU-часть готова в VV T&amp;Cs.</p>
+  <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/privacy-policy.html">Privacy Policy</a> · <a href="../legal/end-user-notice.html">End-User Notice</a> &nbsp;·&nbsp; <strong>📖 Шаблоны:</strong> <a href="https://stripe.com/privacy">Stripe Privacy Policy</a> (multi-jurisdiction), <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
   <ul>
@@ -1555,7 +1556,7 @@
   <div class="task-title"><span class="task-id">1.7.3</span><span class="task-name">Data Processing Agreement (DPA)</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">GDPR Art. 28 требует DPA между controller (студия) и processor (offplan.online). Без DPA студия технически нарушает GDPR.</p>
-  <p class="task-files"><strong>📖 Шаблоны:</strong> <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA</a> (gold standard), <a href="https://stripe.com/legal/dpa">Stripe DPA</a>, <a href="https://vercel.com/legal/dpa">Vercel DPA</a>. SCCs от European Commission — <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">официальные шаблоны бесплатно</a>.</p>
+  <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/dpa.html">DPA</a> · <a href="../legal/ropa.html">ROPA</a> · <a href="../legal/breach-procedure.html">Breach Procedure</a> &nbsp;·&nbsp; <strong>📖 Шаблоны:</strong> <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA</a> (gold standard), <a href="https://stripe.com/legal/dpa">Stripe DPA</a>, <a href="https://vercel.com/legal/dpa">Vercel DPA</a>. EU SCCs — <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">официальные шаблоны</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
@@ -1578,6 +1579,7 @@
   <div class="task-title"><span class="task-id">1.7.4</span><span class="task-name">Cookie consent</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Banner на публичных страницах + в admin перед загрузкой analytics/marketing cookies. Cookiebot / OneTrust / iubenda — готовое решение, не custom.</p>
+  <p class="task-files"><strong>📄 Наш черновик:</strong> <a href="../legal/cookie-policy.html">Cookie Policy</a> — 4 категории, таблица cookies, white-label guidance. Нужно привязать к выбранному consent platform.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
@@ -1658,7 +1660,7 @@
   <div class="task-title"><span class="task-id">1.7.7</span><span class="task-name">Australian compliance (GST + APP)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Адаптация AU compliance — Privacy Act 1988 (Cth), 13 Australian Privacy Principles (APP), Notifiable Data Breach scheme, Spam Act, Australian Consumer Law, GST 10%. <strong>База готова</strong> — VV уже работает в AU и имеет полные T&amp;Cs.</p>
-  <p class="task-files"><strong>📖 База:</strong> <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> — готовые AU clauses для адаптации. Эстимейт: <strong>1-2 недели</strong> (адаптация), не 4-6 (с нуля).</p>
+  <p class="task-files"><strong>📄 AU-покрытие в черновиках:</strong> <a href="../legal/privacy-policy.html">Privacy Policy §11</a> (AU Privacy Act 1988, 13 APPs, NDB scheme) · <a href="../legal/tos.html">ToS §15</a> (Australian Consumer Law, GST) &nbsp;·&nbsp; <strong>📖 База:</strong> <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> — готовые AU clauses. Эстимейт адаптации: <strong>1-2 недели</strong>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
@@ -1681,7 +1683,7 @@
   <div class="task-title"><span class="task-id">1.7.8</span><span class="task-name">UAE compliance (DPR / DIFC / ADGM)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">UAE имеет 3 параллельных режима data protection — выбор зависит от 1.7.5 (юрлицо). Federal DPR (mainland), DIFC DP Law 2020, ADGM DPR 2021.</p>
-  <p class="task-files"><strong>📖 Референсы:</strong> <a href="https://www.propertyfinder.ae/en/terms-of-service">Property Finder T&amp;Cs</a>, <a href="https://www.bayut.com/privacy-policy/">Bayut Privacy</a>, <a href="https://www.difc.ae/business/laws-and-regulations/laws/data-protection-law">DIFC official guides</a>. См. <a href="legal-sources.html#uae">Legal Sources — UAE</a>.</p>
+  <p class="task-files"><strong>📄 UAE-покрытие в черновиках:</strong> <a href="../legal/privacy-policy.html">Privacy Policy §12</a> (UAE PDPL notice, data subject rights) &nbsp;·&nbsp; <strong>📖 Референсы:</strong> <a href="https://www.propertyfinder.ae/en/terms-of-service">Property Finder T&amp;Cs</a>, <a href="https://www.bayut.com/privacy-policy/">Bayut Privacy</a>, <a href="https://www.difc.ae/business/laws-and-regulations/laws/data-protection-law">DIFC official guides</a>. <a href="legal-sources.html#uae">Legal Sources — UAE</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
   <ul>
