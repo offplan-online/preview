@@ -647,12 +647,12 @@
 </div>
 
 <!-- Фаза 1.2 -->
-<div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без единого обращения в VV. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
+<div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без обращения в support. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
 
 <div class="task">
   <div class="task-title"><span class="task-id">1.2.1</span><span class="task-name">Signup &amp; 5-level tenant access architecture</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+UX</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Архитектурно signup — это вход в multi-tenant систему с 5 уровнями доступа: <strong>(1) VV master</strong> (impersonation/support); <strong>(2) Studio admin</strong> (root tenant); <strong>(3) Studio employees</strong> (per-project / scoped); <strong>(4) Developer client</strong> (приглашён студией); <strong>(5) Developer client employees / agents</strong> (приглашены девелопером). Подробная permission model — в Фазе 1.2.7.</p>
+  <p class="task-desc">Архитектурно signup — это вход в multi-tenant систему с 5 уровнями доступа: <strong>(1) Operator (OPL master)</strong> (impersonation/support); <strong>(2) Studio admin</strong> (root tenant); <strong>(3) Studio employees</strong> (per-project / scoped); <strong>(4) Developer client</strong> (приглашён студией); <strong>(5) Developer client employees / agents</strong> (приглашены девелопером). Подробная permission model — в Фазе 1.2.7.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(11)</span></summary>
   <ul>
@@ -665,7 +665,7 @@
     <li>Опционально: Microsoft SSO / Magic Link / Email-only login</li>
     <li>Rate limit на signup per IP</li>
     <li><strong>Invite-flow для уровней 3-5</strong> (employees, dev clients, dev agents — не самостоятельный signup, только по invite)</li>
-    <li>VV master access — отдельный flow (impersonation / support мode)</li>
+    <li>Operator (OPL master) access — отдельный flow (impersonation / support mode)</li>
     <li>Database schema: tenants (studio + dev client), users, roles, permissions</li>
   </ul>
 </details>
@@ -837,7 +837,7 @@
   <table style="margin:0;">
     <thead><tr><th>Уровень</th><th>Кто</th><th>Видит</th><th>Может</th></tr></thead>
     <tbody>
-      <tr><td><strong>1. VV master</strong></td><td>Сергей, Рома, Илья</td><td>Всё (любой tenant)</td><td>Impersonate, support, audit</td></tr>
+      <tr><td><strong>1. Operator (OPL master)</strong></td><td>Сергей, Рома, Илья</td><td>Всё (любой tenant)</td><td>Impersonate, support, audit</td></tr>
       <tr><td><strong>2. Studio admin</strong></td><td>Владелец студии</td><td>Свой tenant полностью</td><td>Всё внутри студии: проекты, billing, инвайты</td></tr>
       <tr><td><strong>3. Studio employees</strong></td><td>Сотрудники студии</td><td>По назначению (per project / scope)</td><td>Permissions назначает studio admin</td></tr>
       <tr><td><strong>4. Developer client</strong></td><td>Клиент студии (девелопер)</td><td>Только проекты, к которым приглашён</td><td>Управляет контентом + приглашает employees/agents</td></tr>
@@ -857,7 +857,7 @@
     <li>Seat limit per план (совместимо с pricing 1.5.2 + 1.5.8)</li>
     <li><strong>Studio-level SSO</strong> — Google Workspace / Microsoft (enterprise tier)</li>
     <li>Invite expiration (7 дней), re-send invite</li>
-    <li>VV master access — отдельный flow (impersonation, не «обычный» login)</li>
+    <li>Operator (OPL master) access — отдельный flow (impersonation, не «обычный» login)</li>
     <li>Granular permissions per project (фидбек Надежды — «доступ дать на конкретный проект, не на всю студию»)</li>
   </ul>
 </details>
