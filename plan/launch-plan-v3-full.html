@@ -20,11 +20,28 @@
   body { font-family:'Inter',-apple-system,sans-serif; background:var(--sand-100); color:var(--text-dark); font-size:14.5px; line-height:1.6; }
 
   /* HERO */
-  .hero { background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:70px 40px 50px; text-align:center; }
+  .hero { position:relative; background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:70px 40px 50px; text-align:center; }
+  .hero-brand { position:absolute; top:32px; left:40px; display:flex; align-items:center; gap:10px; }
+  .hero-brand svg { display:block; }
+  .hero-brand-text { display:flex; flex-direction:column; line-height:1; font-family:'Inter',sans-serif; font-weight:600; }
+  .hero-brand-text .name { font-size:14px; color:#fff; letter-spacing:.5px; }
+  .hero-brand-text .rule { width:22px; height:1.5px; background:var(--gold-light); margin:4px 0 3px; }
+  .hero-brand-text .online { font-size:11px; color:var(--gold-light); letter-spacing:1.5px; text-transform:uppercase; }
   .hero-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:10px; font-weight:600; }
   .hero h1 { font-size:40px; font-weight:800; letter-spacing:-0.6px; margin-bottom:12px; line-height:1.15; }
+  .hero h1 .brand-dot { color:var(--gold-light); }
   .hero .subtitle { font-size:16px; color:rgba(255,255,255,.75); max-width:680px; margin:0 auto; line-height:1.5; }
   .hero-meta { margin-top:26px; font-size:12px; color:rgba(255,255,255,.5); }
+  @media (max-width:680px) { .hero-brand { position:static; justify-content:center; margin-bottom:18px; } }
+
+  /* TASK FILES (links to mockups / research) */
+  .task-files { margin:6px 0 12px; padding:8px 12px; background:var(--sand-50); border-left:3px solid var(--gold-light); border-radius:4px; font-size:13px; color:var(--text-mid); }
+  .task-files strong { color:var(--gold); font-weight:600; }
+  .task-files a { color:var(--gold); font-weight:500; }
+  .phase-files { margin-top:12px; padding:0 0 0 14px; border-left:3px solid var(--gold-light); font-size:13px; color:rgba(255,255,255,.85); }
+  .phase-files strong { color:var(--gold-light); display:block; margin-bottom:4px; font-size:11px; letter-spacing:.8px; text-transform:uppercase; font-weight:600; }
+  .phase-files a { color:var(--gold-light); font-weight:500; margin-right:14px; text-decoration:none; }
+  .phase-files a:hover { color:#fff; text-decoration:underline; }
 
   /* LAYOUT */
   .wrap { max-width:960px; margin:0 auto; padding:40px 36px 60px; }
@@ -250,6 +267,7 @@
   .doc-card.c-stripe::before { background:linear-gradient(90deg,#635bff,#9d97ff); }
   .doc-card.c-checkout::before { background:linear-gradient(90deg,#00b3e6,#5fd4f0); }
   .doc-card.c-amber::before { background:linear-gradient(90deg,var(--amber),#daa04a); }
+  .doc-card.c-red::before { background:linear-gradient(90deg,var(--red),#d68080); }
   .doc-card-icon { font-size:26px; line-height:1; }
   .doc-card-name { font-size:14px; font-weight:700; color:var(--navy); line-height:1.3; }
   .doc-card-desc { font-size:12px; color:var(--text-dim); line-height:1.5; flex:1; }
@@ -260,8 +278,20 @@
 <body>
 
 <div class="hero">
+  <a href="#" class="hero-brand" aria-label="offplan.online">
+    <svg width="36" height="29" viewBox="0 0 32 26" aria-hidden="true">
+      <rect width="32" height="26" fill="#B8955A"/>
+      <line x1="20" y1="0" x2="20" y2="26" stroke="#14202C" stroke-width="1.6"/>
+      <line x1="20" y1="15" x2="32" y2="15" stroke="#14202C" stroke-width="1.6"/>
+    </svg>
+    <span class="hero-brand-text">
+      <span class="name">offplan</span>
+      <span class="rule"></span>
+      <span class="online">.online</span>
+    </span>
+  </a>
   <div class="hero-kicker">Launch Plan · Full Document</div>
-  <h1>offplan.online — Launch Plan</h1>
+  <h1>offplan<span class="brand-dot">.</span>online — Launch Plan</h1>
   <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 23 фазы, ~120 подзадач.
   Для обсуждения менеджментом: product team + tech team + Legal.</p>
   <div class="hero-meta">Версия 3.4 · 2026-04-29 · Статус: draft · <a href="#appendix-g" style="color:rgba(255,255,255,.7);text-decoration:underline;">Revision history →</a></div>
@@ -333,6 +363,13 @@
       <div class="doc-card-icon">💳</div>
       <div class="doc-card-name">Платёжные провайдеры</div>
       <div class="doc-card-desc">Stripe / Paddle / Checkout.com — сравнение, валюты, VAT, стратегия по фазам</div>
+      <div class="doc-card-link">Открыть →</div>
+    </a>
+
+    <a href="legal-sources.html" class="doc-card c-red">
+      <div class="doc-card-icon">⚖️</div>
+      <div class="doc-card-name">Legal Sources &amp; References</div>
+      <div class="doc-card-desc">Откуда брать ToS / Privacy / DPA: VV T&amp;Cs (AU база), Stripe / Cloudflare / Vercel шаблоны, Property Finder (UAE), SCCs</div>
       <div class="doc-card-link">Открыть →</div>
     </a>
 
@@ -453,8 +490,8 @@
         <li><a href="#phase-1-3"><span class="pn-num">1.3</span><span class="pn-name">MCP Server Wrapper</span></a></li>
         <li><a href="#phase-1-4"><span class="pn-num">1.4</span><span class="pn-name">Admin UX Critical Blockers</span></a></li>
         <li><a href="#phase-1-5"><span class="pn-num">1.5</span><span class="pn-name">Платёжная инфраструктура + Sales Page</span></a></li>
-        <li><a href="#phase-1-6"><span class="pn-num">1.6</span><span class="pn-name">Legal & Compliance</span></a></li>
-        <li><a href="#phase-1-7"><span class="pn-num">1.7</span><span class="pn-name">Security & Infrastructure Foundation</span></a></li>
+        <li><a href="#phase-1-6"><span class="pn-num">1.6</span><span class="pn-name">Security & Infrastructure Foundation</span></a></li>
+        <li><a href="#phase-1-7"><span class="pn-num">1.7</span><span class="pn-name">Legal & Compliance</span></a></li>
         <li><a href="#phase-1-8"><span class="pn-num">1.8</span><span class="pn-name">Sales-app UX redesign</span></a></li>
         <li><a href="#phase-1-9"><span class="pn-num">1.9</span><span class="pn-name">Operator Dashboard (staff.offplan.online)</span></a></li>
       </ul>
@@ -516,8 +553,8 @@
       <tr><td><strong>1.3</strong></td><td><a href="#phase-1-3">MCP Server Wrapper</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 High</span></td><td>Архитектурная основа self-serve, но не блокирует запуск. Если scope большой → итерация в Стадию 2</td></tr>
       <tr><td><strong>1.4</strong></td><td><a href="#phase-1-4">Admin UX Critical Blockers</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 Conditional</span></td><td>Большинство багов — dev-env. Требует верификации tech team на проде</td></tr>
       <tr><td><strong>1.5</strong></td><td><a href="#phase-1-5">Платёжная инфраструктура + Sales Page</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>+ flat-fee tier альтернатива subscription</td></tr>
-      <tr><td><strong>1.6</strong></td><td><a href="#phase-1-6">Legal & Compliance</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Без EU/UAE compliance не запустимся</td></tr>
-      <tr><td><strong>1.7</strong></td><td><a href="#phase-1-7">Security & Infrastructure Foundation</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 Baseline</span></td><td>Базовый чек-лист, ответственность tech team</td></tr>
+      <tr><td><strong>1.6</strong></td><td><a href="#phase-1-6">Security & Infrastructure Foundation</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Foundation для всего остального — изоляция, rate limits, backup, error tracking, transactional email</td></tr>
+      <tr><td><strong>1.7</strong></td><td><a href="#phase-1-7">Legal & Compliance</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>EU + UAE + Australia. База: VV T&amp;Cs (AU) + Stripe/Cloudflare шаблоны (EU)</td></tr>
       <tr><td><strong>1.8</strong></td><td><a href="#phase-1-8">Sales-app UX redesign</a></td><td><span style="color:#c08020; font-weight:600;">🟠 Critical-conditional</span></td><td>Filter-based selection. MVP (1.8.1) обязателен; остальное по эстимейту tech team</td></tr>
       <tr><td><strong>1.9</strong></td><td><a href="#phase-1-9">Operator Dashboard <span class="marker m-opl" style="font-size:9px; padding:1px 6px; vertical-align:middle;">[OPL]</span></a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Расширение существующей Super Admin Panel. Без него нет инструмента управлять студиями с момента первой регистрации. Эстимейт ~3–4 недели</td></tr>
     </tbody>
@@ -641,7 +678,7 @@
     <li>Email provider для transactional?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7.2 · Блокирует: 1.2.4, 1.2.7</div>
+  <div class="task-deps">Зависит от: 1.6.2 · Блокирует: 1.2.4, 1.2.7</div>
 </div>
 
 <div class="callout-idea">
@@ -956,7 +993,7 @@
     <li>Refresh tokens или просто long-lived tokens с rotation?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7.1 (tenant isolation), 1.2.7 (permission model) · Блокирует: 1.3.2, 1.3.3</div>
+  <div class="task-deps">Зависит от: 1.6.1 (tenant isolation), 1.2.7 (permission model) · Блокирует: 1.3.2, 1.3.3</div>
 </div>
 
 <div class="task">
@@ -994,36 +1031,14 @@
 <div id="phase-1-4" class="phase"><span class="phase-num">Фаза 1.4</span><h3>Admin UX Critical Blockers <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Прямой результат UX-аудита (CONV-7) + заметок из ручного тестирования. Баги, которые потенциально будут блокировать студий в первую неделю — после верификации tech team на проде.</p></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.1</span><span class="task-name">Data scoping bugs</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
-  <p class="task-desc">Набор связанных багов scoping: данные показываются не в той области или пропадают при определённых условиях.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
-  <ul>
-    <li>Units page показывает 0 при наличии 5 (scoping по building) → building selector или все units с колонкой building</li>
-    <li>Tower 1 пропадает из dropdown — нужна регрессия (🔬 проверить на проде)</li>
-    <li>Compass меняет количество видимых towers — разобраться в логике (🔬)</li>
-    <li>Unit создан но не виден в списке — dashboard говорит 5, в /units пусто (🔬)</li>
-    <li>Автотесты на каждый scoping case</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>Все 4 бага повторяются на проде или только на dev?</li><li>Связаны ли они архитектурно?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: — · Блокирует: Фазу 2.1 (если баги на проде)</div>
-</div>
-
-<div class="task">
   <div class="task-title"><span class="task-id">1.4.2</span><span class="task-name">Form reliability</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+QA</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
   <p class="task-desc">Формы работают непредсказуемо: ввёл-сохранил-пропало, ошибка валидации стирает работу, уникальность проверяется криво.</p>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
   <ul>
     <li>React re-render wipes text inputs при изменении dropdown — переписать state management</li>
-    <li>Form validation НЕ сбрасывает прогресс при error (🔬)</li>
-    <li>Unit number uniqueness: после 7→8 номер 7 должен освободиться (🔬)</li>
+    <li><strong>Units form:</strong> при попытке сохранить юнит с уже существующим названием — показывается ошибка, и одновременно сбрасывается весь введённый прогресс (все поля формы). Должна оставлять данные нетронутыми и показывать inline error на поле «название». ✅ Подтверждено на проде 2026-04-30.</li>
     <li>Sticky error messages</li>
     <li>Автотесты на form reliability в Playwright (CI)</li>
   </ul>
@@ -1038,14 +1053,12 @@
 <div class="task">
   <div class="task-title"><span class="task-id">1.4.3</span><span class="task-name">Navigation + project creation path</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
-  <p class="task-desc">Студия не может сама создать проект, нет breadcrumbs / контекста, <code>/levels</code> ведёт в <code>/views</code>.</p>
+  <p class="task-desc">Студия не может сама создать проект, <code>/levels</code> ведёт в <code>/views</code>, post-save navigation прыгает на другой проект.</p>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
   <ul>
     <li>UI для создания нового проекта (self-serve — сейчас отсутствует)</li>
     <li>Fix routing: <code>/levels</code> → <code>/levels</code></li>
-    <li>Breadcrumbs на всех section pages</li>
-    <li>Контекст здания в header</li>
     <li>Post-save navigation при создании building: не прыгать на другой проект (🔬)</li>
     <li>Project switcher — явно видимый, с «+ Create new project»</li>
   </ul>
@@ -1081,27 +1094,6 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.5</span><span class="task-name">Display caps &amp; pagination</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">Buildings cap'ится на ~10 записях, 11-е не видно. У студий с большими проектами это блокер с первого дня.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
-  <ul>
-    <li>Pagination на Buildings, Units, Floor Plans, Galleries</li>
-    <li>Infinite scroll или classic pagination (UX decision)</li>
-    <li>Показать total count («Showing 1-10 of 47»)</li>
-    <li>Server-side pagination (не грузить всё на клиент)</li>
-    <li>Search + pagination работают вместе</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>Infinite scroll vs classic?</li><li>Какие page sizes (10/25/50)?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: — · Блокирует: —</div>
-</div>
-
-<div class="task">
   <div class="task-title"><span class="task-id">1.4.6</span><span class="task-name">Preview + sticky validation UX</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">UX-улучшения поверх критичных блокеров — click-to-enlarge, valid validation feedback, предотвращение accidental loss.</p>
@@ -1122,12 +1114,39 @@
   <div class="task-deps">Зависит от: 1.4.4 · Блокирует: —</div>
 </div>
 
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.7</span><span class="task-name">Hotspot placement broken</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">На проде нельзя расставить hotspots на здании мышкой — клик/драг не регистрирует позицию. Блокер для любого проекта с building hotspots. ✅ Подтверждено на проде 2026-04-30.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(3)</span></summary>
+  <ul>
+    <li>Починить mouse interaction в hotspot editor (click-to-place + drag-to-reposition)</li>
+    <li>Visual feedback при наведении и активном dragging</li>
+    <li>Регрессионный тест в Playwright (CI) — расстановка + перемещение</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Связано ли с canvas/SVG event handling или общей проблемой UI-слоя?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: онбординг любого проекта с hotspots</div>
+</div>
+
 <!-- Фаза 1.5 -->
-<div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.5.8.</p></div>
+<div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.5.8.</p>
+<div class="phase-files"><strong>Файлы фазы</strong>
+  <a href="landing-v3.html">Landing v3 (выбранный)</a>
+  <a href="landing-v1.html">v1</a>
+  <a href="landing-v2.html">v2</a>
+  <a href="landing-variants.html">Сравнение вариантов</a>
+  <a href="payments-research.html">Payments research (Stripe vs Paddle)</a>
+</div></div>
 
 <div class="task">
   <div class="task-title"><span class="task-id">1.5.1</span><span class="task-name">Landing page</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Marketing+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-files"><strong>📁 Мокапы (от 2026-04-29):</strong> <a href="landing-v3.html">v3 — выбранный (demo-led hybrid)</a> · <a href="landing-v1.html">v1</a> · <a href="landing-v2.html">v2</a> · <a href="landing-variants.html">сравнение всех вариантов</a></p>
   <p class="task-desc">Публичная страница offplan.online, которая конвертирует посетителя в trial signup.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(9)</span></summary>
@@ -1181,6 +1200,7 @@
 <div class="task">
   <div class="task-title"><span class="task-id">1.5.3</span><span class="task-name">Payment integration (Stripe vs Paddle)</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Legal</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
+  <p class="task-files"><strong>📁 Ресерч:</strong> <a href="payments-research.html">Stripe vs Paddle — детальное сравнение (комиссии, MoR, EU VAT, webhook coverage)</a></p>
   <p class="task-desc">Платёжный провайдер + webhook-активация подписок.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
@@ -1197,31 +1217,12 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Stripe vs Paddle — решение до начала работы</li><li>Существующий Stripe/Paddle аккаунт или заводим?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.2 · Блокирует: 1.5.4</div>
+  <div class="task-deps">Зависит от: 1.5.2 · Блокирует: 2.6.4</div>
 </div>
 
-<div class="task">
-  <div class="task-title"><span class="task-id">1.5.4</span><span class="task-name">Self-service billing UI</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">В админке студия сама управляет своей подпиской.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
-  <ul>
-    <li>Страница «Billing» в admin</li>
-    <li>Текущий план + что он включает</li>
-    <li>Следующая дата списания + сумма</li>
-    <li>Сменить план (upgrade / downgrade) с proration</li>
-    <li>Скачать invoice (PDF) за любой период</li>
-    <li>Отмена подписки (grace period до конца оплаченного периода)</li>
-    <li>Обновить способ оплаты</li>
-    <li>История платежей</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
-  <ul><li>При отмене: read-only access или полный block?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.5.3 · Блокирует: —</div>
+<div class="callout callout-warn" style="margin-bottom:14px;">
+  <strong>Перенесено в Стадию 2:</strong> 1.5.4 Self-service billing UI → теперь <a href="#phase-2-6">2.6.4</a>.
+  Для пилота (бесплатный, 20 студий) self-service UI не нужен; студии становятся paying только в момент Pilot→Paid transition. UI логично делать там, где он реально активируется — в Фазе 2.6.
 </div>
 
 <div class="task">
@@ -1243,7 +1244,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Без карты vs с картой</li><li>❓ Block vs read-only по истечении</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.3, 1.5.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.5.3 · Блокирует: 2.6.4</div>
 </div>
 
 <div class="task">
@@ -1332,151 +1333,16 @@
   <div class="task-deps">Зависит от: 1.5.2, 1.5.3 · Блокирует: —</div>
 </div>
 
-<!-- Фаза 1.6 -->
-<div id="phase-1-6" class="phase"><span class="phase-num">Фаза 1.6</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Без этого не можем легально продавать в EU и UAE/GCC. Юридические тексты пишет юрист — мы формулируем требования.</p></div>
-
-<div class="task">
-  <div class="task-title"><span class="task-id">1.6.1</span><span class="task-name">Terms of Service</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
-  <p class="task-desc">Основной договор между VV и студией. Защищает от проблемных клиентов и кейсов.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
-  <ul>
-    <li>3-уровневая структура: VV / студия / девелопер или покупатель</li>
-    <li>Liability cap: 12 месяцев оплаты</li>
-    <li>Intellectual property: VV владеет платформой, студия своим контентом</li>
-    <li>Termination: grace 30 дней → suspend → удаление через 90 дней</li>
-    <li>Acceptable Use Policy: запрет спама, malware, illegal content</li>
-    <li>SLA: 99.5% uptime (связано с Фазой 1.7.3/1.7.4)</li>
-    <li>Dispute resolution + arbitration jurisdiction</li>
-    <li>Change of terms policy (notification + opt-out)</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>Юрисдикция: UAE / EU / UK?</li><li>Нужен ли UAE-specific договор отдельно?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.6.5 · Блокирует: Стадию 2</div>
+<!-- Фаза 1.6 — Security & Infrastructure Foundation -->
+<div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
+  <strong style="color:var(--red);">🔴 Critical (приоритет повышен 2026-04-30, ревизия структуры).</strong>
+  Перенесена из 1.7 в 1.6 — Security должна идти раньше Legal: 1.6.1 (Tenant isolation) блокирует 1.7.3 (DPA), 1.6.4 (Backup) определяет SLA в ToS, 1.6.6 (Transactional email) обязателен для signup verification. Tech team работает параллельно с момента старта проекта.
 </div>
 
-<div class="task">
-  <div class="task-title"><span class="task-id">1.6.2</span><span class="task-name">Privacy Policy</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
-  <p class="task-desc">Как мы обрабатываем персональные данные студий и их конечных пользователей. GDPR + UAE DPR.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
-  <ul>
-    <li>2-уровневая структура: VV — controller данных студий; студии — controller'ы своих клиентов</li>
-    <li>Lawful basis per category: договор (биллинг), легитимный интерес (аналитика), согласие (маркетинг)</li>
-    <li>Retention: активный аккаунт / 90 дней после cancel / логи 12 месяцев</li>
-    <li>Права субъектов: access, erasure, portability, right to object/restrict</li>
-    <li>Data transfer: EU → UAE (SCCs или adequacy)</li>
-    <li>Sub-processors list (актуализируется)</li>
-    <li>Breach notification (72 часа GDPR)</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>Где хранить данные (регион)?</li><li>Нужен ли DPO?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.6.5 · Блокирует: 1.6.3</div>
-</div>
+<div id="phase-1-6" class="phase"><span class="phase-num">Фаза 1.6</span><h3>Security &amp; Infrastructure Foundation</h3><p class="phase-desc">Foundation для всего остального — без этой фазы нельзя давать продукт клиентам. Tenant isolation, rate limits, error tracking, backups, DDoS protection, transactional email — параллельный трек tech team с дня один.</p></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.3</span><span class="task-name">Data Processing Agreement (DPA)</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
-  <p class="task-desc">GDPR Art. 28 требует DPA между controller (студия) и processor (VV). Без DPA студия технически нарушает GDPR.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
-  <ul>
-    <li>Покрывает: категории данных, цели обработки, сроки хранения, locations</li>
-    <li>Sub-processors: Stripe, Hotjar/Clarity, email, CDN, error tracking</li>
-    <li>Security measures: ссылки на Фазу 1.7</li>
-    <li>Audit rights студии</li>
-    <li>Breach notification terms (VV → студия)</li>
-    <li>Sub-processor changes: notice period, opt-out</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>Self-serve DPA (click «принимаю») vs signed agreement?</li><li>Termly / iubenda vs custom by EU GDPR-юрист?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.7.1, 1.6.2 · Блокирует: Стадию 2</div>
-</div>
-
-<div class="task">
-  <div class="task-title"><span class="task-id">1.6.4</span><span class="task-name">Cookie consent</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Tech</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">Banner на публичных страницах + в admin перед загрузкой analytics/marketing cookies.</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
-  <ul>
-    <li>Banner перед загрузкой Hotjar/Clarity/GA</li>
-    <li>Категории: necessary / analytics / marketing</li>
-    <li>Reject all / Accept all / Customize</li>
-    <li>Consent logged для аудита</li>
-    <li>Работает и в admin, и на публичных страницах</li>
-    <li>Готовое (Cookiebot / OneTrust / Cookieyes) vs custom</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
-  <ul><li>Готовое vs custom — стоимость vs flexibility?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.6.2 · Блокирует: Фазу 2.4</div>
-</div>
-
-<div class="task">
-  <div class="task-title"><span class="task-id">1.6.5</span><span class="task-name">Jurisdiction &amp; EU Representative</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Юридическое лицо + GDPR EU Representative (если VV UAE-юрлицо работает с EU-пользователями).</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
-  <ul>
-    <li>Решение: EU Rep ($50-200/мес, номинал) vs EU-юрлицо (Ireland / Estonia / Malta)</li>
-    <li>VAT registration threshold — где и когда</li>
-    <li>Tax jurisdiction</li>
-    <li>Bank account для EU transactions (если EU-юрлицо)</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>❓ EU Rep vs EU-юрлицо</li><li>❓ Страна?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.6.1, 1.6.2, 1.5.3</div>
-</div>
-
-<div class="task">
-  <div class="task-title"><span class="task-id">1.6.6</span><span class="task-name">VAT registration</span></div>
-  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Регистрация по VAT там где нужно (EU, UK, UAE).</p>
-  <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
-  <ul>
-    <li>EU VAT для B2B с reverse charge</li>
-    <li>UK VAT если серьёзные продажи в UK</li>
-    <li>UAE VAT (5%) для локальных продаж</li>
-    <li>Если Paddle как MoR — большую часть на себе</li>
-    <li>Invoice template с нужными полями per юрисдикция</li>
-  </ul>
-</details>
-  <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
-  <ul><li>❓ Реалистичная география первого года (EU-only / +GCC / global)?</li></ul>
-</details>
-  <div class="task-deps">Зависит от: 1.6.5 · Блокирует: —</div>
-</div>
-
-<!-- Фаза 1.7 — Security & Infrastructure Foundation (baseline) -->
-<div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--amber);">
-  <strong style="color:var(--amber);">🟡 Baseline — ответственность tech team.</strong>
-  Базовый чек-лист (tenant isolation, rate limits, error tracking, backups, DDoS-protection). Tech team гарантирует, что всё необходимое сделано до запуска пилота. Не первоочередная задача со стороны product team, не блокирует приоритеты #1–3.
-</div>
-
-<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Security &amp; Infrastructure Foundation</h3><p class="phase-desc">Без этой фазы нельзя давать продукт клиентам — риск data breach, DoS, потери данных, невозможность расследовать инцидент.</p></div>
-
-<div class="task">
-  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Tenant isolation audit &amp; hardening</span></div>
+  <div class="task-title"><span class="task-id">1.6.1</span><span class="task-name">Tenant isolation audit &amp; hardening</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Audit существующей изоляции между студиями и fix любых найденных gaps. Студия A не должна видеть данные, медиа или метаданные студии B ни через UI, ни через API, ни через direct media URL, ни через search/autocomplete endpoints.</p>
   <details>
@@ -1494,11 +1360,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Внешний audit (объективность) или внутренний (дешевле, bias)?</li><li>❓ Бюджет на pen-test если внешний?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: Фазу 1.6.3 (DPA)</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.7.3 (DPA)</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.2</span><span class="task-name">Rate limiting infrastructure</span></div>
+  <div class="task-title"><span class="task-id">1.6.2</span><span class="task-name">Rate limiting infrastructure</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Защита от злоупотреблений: массовая загрузка больших файлов, DDoS на API, brute-force на auth. Сейчас лимитов скорее всего нет или они базовые.</p>
   <details>
@@ -1517,11 +1383,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Какие числа сейчас хардкоджены / где?</li><li>Готовое (Cloudflare / Redis / nginx) или кастомно?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: Стадию 2</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.2.1, Стадию 2</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.3</span><span class="task-name">Error tracking + alerting</span></div>
+  <div class="task-title"><span class="task-id">1.6.3</span><span class="task-name">Error tracking + alerting</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Мы должны узнавать о проблемах раньше клиентов. Сейчас если API 500-ит, мы узнаём когда клиент пишет — это неприемлемо для SaaS.</p>
   <details>
@@ -1544,7 +1410,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.4</span><span class="task-name">Backup &amp; disaster recovery</span></div>
+  <div class="task-title"><span class="task-id">1.6.4</span><span class="task-name">Backup &amp; disaster recovery</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Если БД упала или студия случайно удалила проект — должны уметь восстановить. Сейчас backup может быть есть, но никто не знает процедуру restore.</p>
   <details>
@@ -1563,11 +1429,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Где хранить off-site backup (другой регион / провайдер)?</li><li>RTO приемлем для пилота / для публичного?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: Фазу 1.6.1 (SLA в ToS)</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.7.1 (SLA в ToS)</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">DDoS / abuse protection</span></div>
+  <div class="task-title"><span class="task-id">1.6.5</span><span class="task-name">DDoS / abuse protection</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">На публичной стороне (страницы проектов) и на admin — защита от volumetric attacks, bot scraping, credential stuffing.</p>
   <details>
@@ -1588,10 +1454,243 @@
   <div class="task-deps">Зависит от: — · Блокирует: Стадию 3</div>
 </div>
 
+<div class="task">
+  <div class="task-title"><span class="task-id">1.6.6</span><span class="task-name">Transactional email infrastructure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">Transactional emails (verify, invite, password reset, billing alerts) — фундамент signup и онбординга. Без надёжной доставки регистрация ломается на день один. Marketing/onboarding sequences отдельно — отложены в Стадию 3 (1.2.6). Это — только базовый transactional layer.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
+  <ul>
+    <li><strong>Provider selection:</strong> SendGrid / Postmark / Resend / AWS SES — решение по deliverability + цене + UAE/EU compliance (Q8)</li>
+    <li><strong>Domain authentication:</strong> SPF, DKIM, DMARC настроены на отправляющих доменах</li>
+    <li><strong>Базовые шаблоны</strong> (5-7 минимум): email verification, team invite, password reset, welcome, billing alert (failed payment), trial ending reminder</li>
+    <li><strong>Bounce + complaint handling:</strong> webhook от provider → suppression list → не отправлять повторно на bounced/complained addresses</li>
+    <li><strong>Dev/staging/prod separation:</strong> в dev — sandboxed (не отправляются реальные emails); в staging — отправка только на whitelist</li>
+    <li><strong>Logging + retry:</strong> каждый отправленный email в логе с status; retry для transient failures</li>
+    <li><strong>Deliverability мониторинг:</strong> open rate / bounce rate / complaint rate dashboard, alerting на падения</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>❓ Provider — какой выбираем (Q8 в таблице)? SendGrid (дешёво, плохая репутация в EU); Postmark (отлично для transactional, дороже); Resend (молодой, modern API); AWS SES (дёшево, нужно настраивать самим)</li>
+    <li>❓ Отдельный домен для отправки (mail.offplan.online) или с основного?</li>
+    <li>❓ Multi-language шаблоны на старте или EN-only?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.2.1 (verification email), 1.2.7 (invites), 1.5.5 (trial reminders)</div>
+</div>
+
 <div class="callout callout-warn" style="margin-bottom:20px;">
   <strong>Было:</strong> 1.1.6 Secrets management + key rotation (старая нумерация).
   <strong>Перенесено в Стадию 3 — Фаза 3.5.4.</strong>
   Для пилота <code>.env</code> + CI env vars достаточно; Vault / AWS Secrets Manager имеет смысл до публичного запуска, а не до пилота.
+</div>
+
+<!-- Фаза 1.7 — Legal & Compliance -->
+<div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
+  <strong style="color:var(--red);">🔴 Critical.</strong>
+  Без этого не можем легально продавать в EU, UAE/GCC и Australia. <strong>База готова</strong> — AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers накладываются сверху из публичных шаблонов (Stripe, Cloudflare, Property Finder). Полный список референсов: <a href="legal-sources.html">📖 Legal Sources &amp; References</a> — companion document для юриста.
+</div>
+
+<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для запуска в EU / UAE / Australia. Юрист пишет тексты — мы формулируем требования + предоставляем готовые шаблоны (VV T&amp;Cs для AU, Stripe/Cloudflare для EU, Property Finder/DIFC для UAE).</p>
+<div class="phase-files"><strong>Файлы фазы</strong>
+  <a href="legal-sources.html">📖 Legal Sources &amp; References</a>
+  <a href="https://volume.vision/sla-tcs">VV T&amp;Cs (AU base)</a>
+  <a href="https://stripe.com/legal/dpa">Stripe DPA template</a>
+  <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA template</a>
+  <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">EU SCCs (official)</a>
+</div></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Terms of Service</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
+  <p class="task-desc">Основной договор между offplan.online и студией. Защищает от проблемных клиентов и кейсов.</p>
+  <p class="task-files"><strong>📖 База:</strong> AU clauses из <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> готовы (Privacy Act, Consumer Law, GST, Notifiable Data Breach). Сверху накладываем EU/UAE layers — см. <a href="legal-sources.html">Legal Sources &amp; References</a>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
+  <ul>
+    <li>3-уровневая структура: VV / студия / девелопер или покупатель</li>
+    <li>Liability cap: 12 месяцев оплаты</li>
+    <li>Intellectual property: VV владеет платформой, студия своим контентом</li>
+    <li>Termination: grace 30 дней → suspend → удаление через 90 дней</li>
+    <li>Acceptable Use Policy: запрет спама, malware, illegal content</li>
+    <li>SLA: 99.5% uptime (связано с Фазой 1.6.3/1.6.4)</li>
+    <li>Dispute resolution + arbitration jurisdiction</li>
+    <li>Change of terms policy (notification + opt-out)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Юрисдикция: UAE / EU / UK / AU?</li><li>Multi-jurisdiction routing — один договор или версии per-country?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.5 · Блокирует: Стадию 2</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.2</span><span class="task-name">Privacy Policy</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
+  <p class="task-desc">Как мы обрабатываем персональные данные студий и их конечных пользователей. GDPR + UAE DPR + Australian Privacy Act.</p>
+  <p class="task-files"><strong>📖 Шаблоны:</strong> <a href="https://stripe.com/privacy">Stripe Privacy Policy</a> (multi-jurisdiction), <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy</a>. AU-часть готова в VV T&amp;Cs.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
+  <ul>
+    <li>Layered approach: common section + jurisdiction-specific (EU / UAE / AU)</li>
+    <li>2-уровневая структура: offplan.online — controller данных студий; студии — controllers своих клиентов</li>
+    <li>Lawful basis per category: договор (биллинг), легитимный интерес (аналитика), согласие (маркетинг)</li>
+    <li>Retention: активный аккаунт / 90 дней после cancel / логи 12 месяцев</li>
+    <li>Права субъектов: access, erasure, portability, right to object/restrict (per jurisdiction)</li>
+    <li>Sub-processors list (актуализируется)</li>
+    <li>Breach notification: 72 часа (GDPR), 30 дней (Australian NDB), 72 часа (UAE federal DPR)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Где хранить данные (регион)?</li><li>Нужен ли DPO?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.5 · Блокирует: 1.7.3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.3</span><span class="task-name">Data Processing Agreement (DPA)</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
+  <p class="task-desc">GDPR Art. 28 требует DPA между controller (студия) и processor (offplan.online). Без DPA студия технически нарушает GDPR.</p>
+  <p class="task-files"><strong>📖 Шаблоны:</strong> <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA</a> (gold standard), <a href="https://stripe.com/legal/dpa">Stripe DPA</a>, <a href="https://vercel.com/legal/dpa">Vercel DPA</a>. SCCs от European Commission — <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">официальные шаблоны бесплатно</a>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Покрывает: категории данных, цели обработки, сроки хранения, locations</li>
+    <li>Sub-processors: Stripe/Paddle, Hotjar/Clarity, email provider (1.6.6), CDN, error tracking, AWS</li>
+    <li>Security measures: ссылки на Фазу 1.6</li>
+    <li>Audit rights студии</li>
+    <li>Breach notification terms (offplan.online → студия)</li>
+    <li>Sub-processor changes: notice period, opt-out</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Self-serve DPA (click «принимаю») vs signed agreement?</li><li>Termly / iubenda vs custom by EU GDPR-юрист?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.6.1, 1.7.2 · Блокирует: Стадию 2</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.4</span><span class="task-name">Cookie consent</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Banner на публичных страницах + в admin перед загрузкой analytics/marketing cookies. Cookiebot / OneTrust / iubenda — готовое решение, не custom.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Banner перед загрузкой Hotjar/Clarity/GA</li>
+    <li>Категории: necessary / analytics / marketing</li>
+    <li>Reject all / Accept all / Customize</li>
+    <li>Consent logged для аудита</li>
+    <li>Работает и в admin, и на публичных страницах</li>
+    <li>Готовое (Cookiebot / OneTrust / iubenda) vs custom</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Готовое vs custom — стоимость vs flexibility?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.2 · Блокирует: Фазу 2.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">Jurisdiction &amp; Legal Entity</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">Решение по основной юрисдикции — определяет всё остальное. От зоны зависит налоговый режим, формат T&amp;Cs, banking, обязательные регистрации.</p>
+  <details>
+  <summary class="task-label">4 опции <span class="count">(4)</span></summary>
+  <ul>
+    <li><strong>EU-юрлицо</strong> (Ireland / Estonia / Malta) — fully GDPR-native, дороже в обслуживании</li>
+    <li><strong>EU Rep + base elsewhere</strong> (~$50-200/мес номинал) — дешевле, но сложнее доказать compliance</li>
+    <li><strong>UAE-юрлицо</strong> (Mainland / DIFC / ADGM) — для UAE+GCC focus, Mainland для federal market, DIFC/ADGM для GDPR-aligned compliance + free zone benefits</li>
+    <li><strong>Australia (Queensland)</strong> — как у VV; домашний рынок, но придётся накладывать EU/UAE compliance отдельно</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Решение: где основное юрлицо</li>
+    <li>VAT/GST registration thresholds — где и когда</li>
+    <li>Tax jurisdiction</li>
+    <li>Bank account под выбранную зону</li>
+    <li>EU Representative — если основная не EU (обязательно по GDPR Art. 27)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul><li>❓ Основная юрисдикция?</li><li>❓ DIFC vs Mainland vs ADGM (если UAE)?</li><li>❓ EU Rep — кто (специализированные агентства типа DPO Centre)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.7.1, 1.7.2, 1.5.3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.6</span><span class="task-name">VAT / GST registration</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">Регистрация по VAT/GST там где нужно (EU, UK, UAE, Australia).</p>
+  <p class="task-files"><strong>⚠️ Главный shortcut:</strong> если выбираем Paddle (MoR) в 1.5.3 — VAT/tax registration <strong>снимается</strong> с нас (Paddle handles EU/UK/UAE VAT и AU GST). Если Stripe — самостоятельно регистрируемся в EU OSS, UK VAT, UAE FTA, Australia ATO. См. <a href="legal-sources.html#vat">Legal Sources — VAT</a>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>EU OSS (One Stop Shop) — после €10K threshold cross-border</li>
+    <li>UK VAT — после £90K threshold</li>
+    <li>UAE VAT (5%) — после AED 375K, voluntary с AED 187.5K</li>
+    <li>Australia GST (10%) — после AUD $75K threshold</li>
+    <li>Invoice template с нужными полями per-juridiction</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>❓ Реалистичная география первого года (EU-only / +GCC / +AU / global)?</li><li>❓ Paddle (MoR — снимает регистрации) vs Stripe (комиссия ниже, но регистрации сами)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.5 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.7</span><span class="task-name">Australian compliance (GST + APP)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span></div>
+  <p class="task-desc">Адаптация AU compliance — Privacy Act 1988 (Cth), 13 Australian Privacy Principles (APP), Notifiable Data Breach scheme, Spam Act, Australian Consumer Law, GST 10%. <strong>База готова</strong> — VV уже работает в AU и имеет полные T&amp;Cs.</p>
+  <p class="task-files"><strong>📖 База:</strong> <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> — готовые AU clauses для адаптации. Эстимейт: <strong>1-2 недели</strong> (адаптация), не 4-6 (с нуля).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Адаптация Privacy Act 1988 (Cth) clauses из VV T&amp;Cs — 13 APP compliance</li>
+    <li>Notifiable Data Breach процесс — уведомление OAIC + affected individuals (per Privacy Act, max 30 дней)</li>
+    <li>Australian Consumer Law (Schedule 2 of CCA 2010) — гарантии, ограничения ответственности</li>
+    <li>Spam Act 2003 (Cth) — для marketing emails (consent + unsubscribe + sender ID)</li>
+    <li>GST 10% handling — pattern из VV T&amp;Cs (additional GST amount, GST-exclusive basis, tax invoices)</li>
+    <li>AUD support в billing UI</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>❓ Если основное юрлицо не AU — нужен ли отдельный AU contract или достаточно AU clauses в общем T&amp;Cs?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.5 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.8</span><span class="task-name">UAE compliance (DPR / DIFC / ADGM)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">UAE имеет 3 параллельных режима data protection — выбор зависит от 1.7.5 (юрлицо). Federal DPR (mainland), DIFC DP Law 2020, ADGM DPR 2021.</p>
+  <p class="task-files"><strong>📖 Референсы:</strong> <a href="https://www.propertyfinder.ae/en/terms-of-service">Property Finder T&amp;Cs</a>, <a href="https://www.bayut.com/privacy-policy/">Bayut Privacy</a>, <a href="https://www.difc.ae/business/laws-and-regulations/laws/data-protection-law">DIFC official guides</a>. См. <a href="legal-sources.html#uae">Legal Sources — UAE</a>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Решение: какой режим (Federal DPR / DIFC / ADGM) — зависит от 1.7.5</li>
+    <li>Privacy notices с UAE DPR clauses</li>
+    <li>Notifiable breach процесс (UAE federal: 72 часа)</li>
+    <li>AED support в billing UI + UAE TRN на инвойсах</li>
+    <li>Если DIFC/ADGM — leverage GDPR-aligned формулировки (упрощает работу)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>❓ Federal DPR vs DIFC vs ADGM (зависит от 1.7.5)?</li><li>❓ Данные UAE-резидентов хранить в UAE-region storage или допустимо EU/US?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.7.5 · Блокирует: —</div>
 </div>
 
 <!-- Фаза 1.8 — Sales-app UX redesign -->
@@ -1847,7 +1946,7 @@
     <li>IP allowlist: опциональная настройка в operator settings — ограничивать вход только известными IP (офисный VPN / домашний)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7 (security baseline) · Блокирует: 1.9.3, 1.9.4, 1.9.5, 1.9.6, 1.9.7, 1.9.8</div>
+  <div class="task-deps">Зависит от: 1.6 (security baseline) · Блокирует: 1.9.3, 1.9.4, 1.9.5, 1.9.6, 1.9.7, 1.9.8</div>
 </div>
 
 <div class="task">
@@ -1909,7 +2008,7 @@
     <li>❓ Impersonation (login as user) — отложено в Стадию 4, требует обязательного обновления ToS</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.9.4, 1.6 (Legal — ToS disclosure) · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.4, 1.7 (Legal — ToS disclosure) · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -1989,8 +2088,8 @@
   <strong style="color:var(--navy);">Связи с другими фазами:</strong>
   <ul style="margin:8px 0 0; padding-left:20px;">
     <li><strong>1.5 (Платёжная инфраструктура)</strong> — UI страницы Payments готов в 1.9, конкретный plug-in провайдера (Stripe / PayTabs) подключается в Фазе 1.5. Adapter-pattern позволяет подключить позже без переделки UI.</li>
-    <li><strong>1.6 (Legal)</strong> — ToS должна раскрывать факт доступа оператора к данным клиентов; будущая impersonation потребует обязательного disclosure.</li>
-    <li><strong>1.7 (Security)</strong> — аутентификация оператора должна соответствовать security baseline (password hashing, session policy, 2FA optional / required).</li>
+    <li><strong>1.6 (Security)</strong> — аутентификация оператора должна соответствовать security baseline (password hashing, session policy, 2FA optional / required).</li>
+    <li><strong>1.7 (Legal)</strong> — ToS должна раскрывать факт доступа оператора к данным клиентов; будущая impersonation потребует обязательного disclosure.</li>
     <li><strong>Стадия 4 (отложено)</strong> — иерархия ролей оператора (sales / support / finance), глубокая аналитика выручки (MRR breakdown / churn / cohort retention), impersonation, mobile-responsive layout.</li>
     <li><strong>Визуальный preview</strong>: <a href="../mockups/operator-panel-v1.html">operator-panel-v1.html</a> — мульти-страничный мокап на токенах brandbook v1.1, 8 студий-заглушек, slide-out drawer с деталями клиента, страница Settings с placeholder Payment Provider. Также в <a href="launch-plan-v3-visual.html#staff-mockup">Visual Appendix</a>.</li>
   </ul>
@@ -2263,7 +2362,7 @@
     <li>Выбор: <strong>Hotjar</strong> (платный, зрелый) vs <strong>MS Clarity</strong> (free, GDPR)</li>
     <li>Установка на admin + публичные страницы</li>
     <li>Session recordings для топ-5 journeys</li>
-    <li>Cookie consent совместим (1.5.4)</li>
+    <li>Cookie consent совместим (1.7.4)</li>
     <li>Retention setting (GDPR-compliant)</li>
   </ul>
 </details>
@@ -2271,7 +2370,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>❓ Hotjar vs Clarity</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.7.4 (cookie consent) · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -2314,7 +2413,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>GA4 vs Plausible / Simple Analytics?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.7.4 (cookie consent) · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -2510,6 +2609,30 @@
   </ul>
 </details>
   <div class="task-deps">Зависит от: 2.6.1, 2.6.2 · Блокирует: Стадию 3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">2.6.4</span><span class="task-name">Self-service billing UI</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[MOVED from 1.5.4]</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">В админке студия сама управляет своей подпиской. <strong>Перенесено из 1.5.4 в Стадию 2 (ревизия 2026-04-30)</strong> — для пилота (бесплатный, 20 студий) UI самообслуживания не нужен; активируется только когда первые студии становятся paying в момент Pilot → Paid transition (2.6.3).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
+  <ul>
+    <li>Страница «Billing» в admin</li>
+    <li>Текущий план + что он включает</li>
+    <li>Следующая дата списания + сумма</li>
+    <li>Сменить план (upgrade / downgrade) с proration</li>
+    <li>Скачать invoice (PDF) за любой период</li>
+    <li>Отмена подписки (grace period до конца оплаченного периода)</li>
+    <li>Обновить способ оплаты</li>
+    <li>История платежей</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>При отмене: read-only access или полный block? (наш стратегический Q2)</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.5.3, 1.5.5, 2.6.3 · Блокирует: Стадию 3</div>
 </div>
 
 </div><!-- /wrap -->
@@ -3336,13 +3459,13 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">4.3.5</span><span class="task-name">Full design system (расширение 1.6.3)</span></div>
+  <div class="task-title"><span class="task-id">4.3.5</span><span class="task-name">Full design system (расширение 1.1.3)</span></div>
   <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Design</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">На Стадии 1 (Фаза 1.6.3) — <strong>минимальный</strong> refresh для пилота. Эта фаза — <strong>полный формализованный design system</strong>: Figma library, tokens, documentation, component library как code package для всех admin views.</p>
+  <p class="task-desc">На Стадии 1 (Фаза 1.1.3) — <strong>минимальный</strong> refresh для пилота. Эта фаза — <strong>полный формализованный design system</strong>: Figma library, tokens, documentation, component library как code package для всех admin views.</p>
   <details>
-  <summary class="task-label">Разница с 1.6.3 <span class="count">(2)</span></summary>
+  <summary class="task-label">Разница с 1.1.3 <span class="count">(2)</span></summary>
   <ul>
-    <li><strong>1.6.3</strong> = минимум для пилота: status indicators + accent colors + typography audit (~1-2 недели)</li>
+    <li><strong>1.1.3</strong> = минимум для пилота: status indicators + accent colors + typography audit (~1-2 недели)</li>
     <li><strong>4.3.5</strong> = полная design system: reusable component library, Figma, docs, guidelines (~4-6 недель)</li>
   </ul>
 </details>
@@ -3365,7 +3488,7 @@
     <li>Dark mode — обязательно или opt-in per user?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.1.3 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -3818,23 +3941,22 @@
 <table>
 <thead><tr><th style="width:30px;">#</th><th>Описание</th><th style="width:180px;">Статус</th><th style="width:120px;">Где в плане</th></tr></thead>
 <tbody>
-<tr><td>1</td><td>Buildings отображает только 10 зданий (11-е не видно)</td><td>Подтверждено</td><td>Фаза 1.3.5</td></tr>
+<tr><td>1</td><td>Buildings отображает только 10 зданий (11-е не видно)</td><td>❌ Не воспроизвелось на проде 2026-04-30</td><td>—</td></tr>
 <tr><td>2</td><td>Levels: ограничения по размерам файлов — где и какие?</td><td>Audit нужен</td><td>Фаза 1.3.4</td></tr>
 <tr><td>3</td><td>Формат файлов не указан на upload полях</td><td>Подтверждено</td><td>Фаза 1.3.4</td></tr>
 <tr><td>4</td><td>Enable/disable зданий, этажей, юнитов</td><td>Feature request</td><td>Фаза 2.5.2</td></tr>
 <tr><td>5</td><td>Клик для preview фото в админке</td><td>Feature request</td><td>Фаза 1.3.6</td></tr>
 <tr><td>6</td><td>PDF support + AI для конвертации floor plans</td><td>Feature request</td><td>Фаза 4.5.3</td></tr>
-<tr><td>7</td><td>Unit number uniqueness: после 7→8 номер 7 остаётся «занят»</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.2</td></tr>
-<tr><td>8</td><td>Tower 1 пропадает из dropdown (refresh спасает)</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.1</td></tr>
+<tr><td>8</td><td>Tower 1 пропадает из dropdown (refresh спасает)</td><td>❌ Не воспроизвелось на проде 2026-04-30</td><td>—</td></tr>
 <tr><td>9</td><td>Compass выключен — видно 2 башни, включён — все</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.1</td></tr>
 <tr><td>10</td><td>Sorting по колонкам (номер, дата обновления)</td><td>Feature request</td><td>Фаза 2.5.2</td></tr>
 <tr><td>11</td><td>После create building → photo → переход на другое здание</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.3</td></tr>
 <tr><td>12</td><td>File conversion на upload (jpeg/png → webp drag-and-drop)</td><td>Feature request</td><td>Фаза 3.1.4</td></tr>
 <tr><td>13</td><td>Локализация — первый EN, потом?</td><td>Планируется</td><td>Фаза 4.4.4</td></tr>
-<tr><td>14</td><td>Form validation сбрасывает прогресс ввода юнита</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.2</td></tr>
-<tr><td>15</td><td>Unit создан но не виден в меню</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 1.3.1</td></tr>
+<tr><td>14</td><td>Form validation сбрасывает прогресс ввода юнита (дублирующее название)</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.2</td></tr>
+<tr><td>15</td><td>Unit создан но не виден в меню</td><td>❌ Не воспроизвелось на проде 2026-04-30</td><td>—</td></tr>
 <tr><td>16</td><td>Hotspots на здании — полупрозрачные + hover status</td><td><span class="marker m-done">✅ Tech team</span></td><td>Фаза 4.5.5</td></tr>
-<tr><td>17</td><td>Hotspots: расстановка мышкой вместо значений</td><td><span class="marker m-prod">🔬 Прод</span></td><td>Фаза 4.5.5</td></tr>
+<tr><td>17</td><td>Hotspots: расстановка мышкой вместо значений</td><td><span class="marker m-done">✅ Подтверждено 2026-04-30</span></td><td>Фаза 1.4.7</td></tr>
 </tbody>
 </table>
 

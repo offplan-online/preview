@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Sources & References — offplan.online</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:#faf7f2; --sand-100:#f4ede0; --sand-200:#ebe0cc; --sand-300:#ddd0b8;
+    --gold:#a07840; --gold-mid:#b8904a; --gold-light:#d4aa6a;
+    --navy:#1a2040; --navy-mid:#212840; --navy-light:#2a3252;
+    --text-dark:#1e1a14; --text-mid:#5a5040; --text-dim:#9a8e7a;
+    --border:rgba(160,140,110,.22); --border-mid:rgba(160,140,110,.38);
+    --red:#c05050; --amber:#c07820; --green:#4a9e6a;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--sand-100); color:var(--text-dark); font-size:14.5px; line-height:1.6; }
+
+  .hero { position:relative; background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:60px 40px 44px; text-align:center; }
+  .hero-brand { position:absolute; top:28px; left:36px; display:flex; align-items:center; gap:10px; }
+  .hero-brand-text { display:flex; flex-direction:column; line-height:1; font-weight:600; }
+  .hero-brand-text .name { font-size:14px; color:#fff; letter-spacing:.5px; }
+  .hero-brand-text .rule { width:22px; height:1.5px; background:var(--gold-light); margin:4px 0 3px; }
+  .hero-brand-text .online { font-size:11px; color:var(--gold-light); letter-spacing:1.5px; text-transform:uppercase; }
+  .hero-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:10px; font-weight:600; }
+  .hero h1 { font-size:34px; font-weight:800; letter-spacing:-0.4px; margin-bottom:10px; line-height:1.18; }
+  .hero h1 .brand-dot { color:var(--gold-light); }
+  .hero .subtitle { font-size:15px; color:rgba(255,255,255,.78); max-width:680px; margin:0 auto; line-height:1.5; }
+  .hero-meta { margin-top:22px; font-size:12px; color:rgba(255,255,255,.5); }
+
+  .wrap { max-width:1080px; margin:0 auto; padding:36px 32px 60px; }
+  section { margin-bottom:48px; scroll-margin-top:20px; }
+
+  .topnav { background:var(--sand-50); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; padding:10px 20px; overflow-x:auto; white-space:nowrap; }
+  .topnav a { display:inline-block; padding:6px 14px; margin-right:4px; font-size:12px; font-weight:600; color:var(--text-mid); text-decoration:none; border-radius:16px; letter-spacing:.3px; }
+  .topnav a:hover { background:var(--sand-200); color:var(--navy); }
+
+  h2 { font-size:24px; font-weight:700; letter-spacing:-0.3px; margin-bottom:14px; color:var(--navy); padding-bottom:10px; border-bottom:2px solid var(--gold-light); }
+  h3 { font-size:17px; font-weight:600; margin:24px 0 10px; color:var(--navy); }
+  p { margin-bottom:10px; color:var(--text-dark); }
+  p.lead { font-size:15px; color:var(--text-mid); max-width:760px; }
+  strong { font-weight:700; color:var(--navy); }
+  a { color:var(--gold); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { font-family:'SF Mono',Consolas,monospace; font-size:12.5px; background:var(--sand-200); padding:2px 6px; border-radius:4px; color:var(--text-dark); }
+
+  .section-intro { padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold-light); border-radius:4px; margin-bottom:18px; font-size:13.5px; color:var(--text-mid); }
+
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  th { background:var(--navy); color:#fff; text-align:left; padding:10px 14px; font-size:12px; letter-spacing:.5px; font-weight:600; }
+  td { padding:11px 14px; border-top:1px solid var(--border); vertical-align:top; }
+  td a { font-weight:500; word-break:break-word; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px; margin:18px 0; }
+  .card { background:#fff; border:1px solid var(--border); border-left:3px solid var(--gold); border-radius:8px; padding:18px 20px; }
+  .card-title { font-weight:700; color:var(--navy); margin-bottom:6px; font-size:15px; }
+  .card-link { font-size:12px; color:var(--gold); font-weight:500; word-break:break-all; }
+  .card-body { font-size:13px; color:var(--text-mid); margin:8px 0 4px; }
+  .card-tag { display:inline-block; font-size:10.5px; letter-spacing:.6px; text-transform:uppercase; font-weight:600; padding:2px 8px; border-radius:10px; margin-right:6px; }
+  .tag-green { background:rgba(74,158,106,.14); color:var(--green); }
+  .tag-amber { background:rgba(192,120,32,.14); color:var(--amber); }
+  .tag-red { background:rgba(192,80,80,.14); color:var(--red); }
+
+  .callout { padding:16px 18px; background:#fff; border-left:4px solid var(--gold); border-radius:6px; margin:18px 0; font-size:13.5px; }
+  .callout strong { display:block; margin-bottom:6px; font-size:12.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--gold); }
+  .callout-warn { border-left-color:var(--amber); }
+  .callout-warn strong { color:var(--amber); }
+  .callout-good { border-left-color:var(--green); }
+  .callout-good strong { color:var(--green); }
+
+  .legend { display:flex; gap:14px; flex-wrap:wrap; margin:8px 0 14px; font-size:12px; color:var(--text-mid); }
+
+  footer.page-footer { background:var(--navy); color:rgba(255,255,255,.6); padding:24px 32px; text-align:center; font-size:12px; }
+  footer.page-footer a { color:var(--gold-light); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a href="launch-plan-v3-full.html" class="hero-brand" aria-label="offplan.online">
+    <svg width="36" height="29" viewBox="0 0 32 26" aria-hidden="true">
+      <rect width="32" height="26" fill="#B8955A"/>
+      <line x1="20" y1="0" x2="20" y2="26" stroke="#14202C" stroke-width="1.6"/>
+      <line x1="20" y1="15" x2="32" y2="15" stroke="#14202C" stroke-width="1.6"/>
+    </svg>
+    <span class="hero-brand-text">
+      <span class="name">offplan</span>
+      <span class="rule"></span>
+      <span class="online">.online</span>
+    </span>
+  </a>
+  <div class="hero-kicker">Companion · Phase 1.7 Legal &amp; Compliance</div>
+  <h1>Legal Sources &amp; References</h1>
+  <p class="subtitle">Откуда брать каждый блок T&amp;Cs, Privacy, DPA. Шаблоны, конкуренты, official guides — собрано для юриста, чтобы драфтинг занял недели вместо месяцев.</p>
+  <div class="hero-meta">Создано 2026-04-30 · Версия 1.0</div>
+</div>
+
+<nav class="topnav">
+  <a href="#au">🇦🇺 AU layer</a>
+  <a href="#eu">🇪🇺 EU / GDPR</a>
+  <a href="#uae">🇦🇪 UAE / DIFC</a>
+  <a href="#vat">💱 VAT / multi-currency</a>
+  <a href="#proptech">🏠 Proptech competitors</a>
+  <a href="#tools">🛠 Templated tools</a>
+  <a href="#stack">📋 Recommended stack</a>
+</nav>
+
+<div class="wrap">
+
+<p class="lead">Каждая секция — список публичных источников + что именно из них брать. <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a> — наша точка отсчёта (AU base). Сверху накладываются EU и UAE layers. Все ссылки публичные, без регистрации.</p>
+
+<div class="legend">
+  <span><span class="card-tag tag-green">📋 шаблон</span> можно копировать структуру / язык</span>
+  <span><span class="card-tag tag-amber">📚 reference</span> читать как пример</span>
+  <span><span class="card-tag tag-red">⚖️ official</span> правовой источник</span>
+</div>
+
+<!-- ───────────── AU LAYER ───────────── -->
+<section id="au">
+<h2>🇦🇺 AU layer (Australia)</h2>
+
+<div class="callout callout-good">
+  <strong>База готова</strong>
+  Volume Vision уже работает в Австралии и имеет полные T&amp;Cs/SLA с AU compliance — Privacy Act, GST, Notifiable Data Breach, Australian Consumer Law. Адаптация для offplan.online — 1-2 дня, не недели.
+</div>
+
+<h3>Основной источник</h3>
+<table>
+  <thead><tr><th style="width:30%;">Источник</th><th>Что брать</th><th style="width:140px;">Тип</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a></td>
+      <td>Полные AU clauses готовы:
+        <ul style="margin:6px 0 0 18px;">
+          <li>Privacy Act 1988 (Cth) — compliance + Notifiable Data Breach процесс</li>
+          <li>Australian Consumer Law (Schedule 2 of CCA 2010) — гарантии, ограничения ответственности</li>
+          <li>GST handling (10%) — "additional amount equal to GST", GST-exclusive basis, tax invoices</li>
+          <li>Spam Act 2003 (Cth) — для marketing emails</li>
+          <li>Copyright Act 1968 (Cth) — IP clauses</li>
+          <li>Civil Liability Act (Qld + NSW) — proportionate liability</li>
+          <li>Queensland как governing law (можно сменить или оставить)</li>
+        </ul>
+      </td>
+      <td><span class="card-tag tag-green">📋 шаблон</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Official references (Australian Government)</h3>
+<table>
+  <thead><tr><th style="width:34%;">Документ</th><th>Что в нём</th><th style="width:140px;">Тип</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://www.legislation.gov.au/C2004A03712/latest/text">Privacy Act 1988 (Cth)</a></td><td>Текст закона, 13 Australian Privacy Principles (APP)</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://www.oaic.gov.au/privacy/notifiable-data-breaches">OAIC — Notifiable Data Breaches</a></td><td>Гайд по NDB scheme — кого уведомлять, сроки, форма</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://www.ato.gov.au/businesses-and-organisations/gst-excise-and-indirect-taxes/gst">ATO — GST</a></td><td>Регистрация по GST (порог $75K AUD), tax invoice format</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://www.accc.gov.au/business/business-rights-protections/consumer-guarantees">ACCC — Consumer guarantees</a></td><td>Australian Consumer Law explained</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>⚖️ Что НЕ покрыто в VV T&amp;Cs (gap для offplan.online)</strong>
+  Текущие VV T&amp;Cs <em>только</em> AU. Нет: EU/GDPR, UAE/DIFC, multi-currency. Это — основная работа. Australian часть — фактически готова.
+</div>
+</section>
+
+<!-- ───────────── EU LAYER ───────────── -->
+<section id="eu">
+<h2>🇪🇺 EU / GDPR layer</h2>
+
+<p class="lead">Самый зрелый слой публичных шаблонов. Для B2B SaaS — стандартизованный набор clauses, которые повторяются у всех. Можно собрать draft Privacy Policy + DPA из 3-4 источников за день.</p>
+
+<h3>Эталонные T&amp;Cs / Privacy / DPA</h3>
+<div class="grid">
+  <div class="card">
+    <div><span class="card-tag tag-green">📋 шаблон</span><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Stripe</div>
+    <div class="card-body">Multi-jurisdiction template (US/EU/UK). Чистая структура DPA с sub-processors list. Privacy Policy раскладывает обработку по категориям.</div>
+    <a class="card-link" href="https://stripe.com/legal/dpa">stripe.com/legal/dpa</a><br>
+    <a class="card-link" href="https://stripe.com/privacy">stripe.com/privacy</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-green">📋 шаблон</span></div>
+    <div class="card-title">Cloudflare DPA</div>
+    <div class="card-body">"Gold standard" для security clauses, sub-processor management, breach notification. Используется как образец многими SaaS.</div>
+    <a class="card-link" href="https://www.cloudflare.com/cloudflare-customer-dpa/">cloudflare.com/cloudflare-customer-dpa</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-green">📋 шаблон</span></div>
+    <div class="card-title">Vercel DPA</div>
+    <div class="card-body">Современный, чистый DPA с EU SCCs (Standard Contractual Clauses). Хорошая структура для разработческого SaaS.</div>
+    <a class="card-link" href="https://vercel.com/legal/dpa">vercel.com/legal/dpa</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Linear DPA</div>
+    <div class="card-body">Минималистично, актуально (2024). Подход "lawyer-readable" — без жуткого юридического стиля.</div>
+    <a class="card-link" href="https://linear.app/dpa">linear.app/dpa</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Notion DPA</div>
+    <div class="card-body">DPA для B2B SaaS, понятно показывает разделение data controller / processor.</div>
+    <a class="card-link" href="https://www.notion.com/notion/Notion-Data-Processing-Addendum">notion.com/notion/Notion-Data-Processing-Addendum</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Figma DPA</div>
+    <div class="card-body">Multi-jurisdiction, EU representative раскрыт явно. Хороший пример приложений для design SaaS.</div>
+    <a class="card-link" href="https://www.figma.com/legal/dpa/">figma.com/legal/dpa</a>
+  </div>
+</div>
+
+<h3>Что точно копировать (patterns)</h3>
+<table>
+  <thead><tr><th style="width:36%;">Pattern</th><th>Откуда брать</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Sub-processors list</strong> — таблица: provider / purpose / location / safeguards</td><td>Cloudflare DPA, Stripe DPA</td></tr>
+    <tr><td><strong>EU Representative clause</strong> — текст 27 GDPR</td><td>Vercel DPA, Figma DPA</td></tr>
+    <tr><td><strong>72-hour breach notification</strong> language</td><td>Stripe DPA, Cloudflare DPA</td></tr>
+    <tr><td><strong>Data subject rights</strong> (access/erasure/portability/object)</td><td>Notion Privacy, Stripe Privacy</td></tr>
+    <tr><td><strong>Lawful basis</strong> per processing category</td><td>Stripe Privacy, Linear Privacy</td></tr>
+  </tbody>
+</table>
+
+<h3>Official EU sources</h3>
+<table>
+  <thead><tr><th style="width:34%;">Документ</th><th>Что в нём</th><th style="width:140px;">Тип</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">European Commission — SCCs</a></td><td>Стандартные contractual clauses (2021/914) — официальные шаблоны бесплатно. Прикладываются к DPA.</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://gdpr.eu/">GDPR.eu — Full text</a></td><td>Полный текст GDPR + руководство по статьям</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://edpb.europa.eu/edpb_en">EDPB Guidelines</a></td><td>Толкования регулятора по конкретным вопросам</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ───────────── UAE LAYER ───────────── -->
+<section id="uae">
+<h2>🇦🇪 UAE / DIFC layer</h2>
+
+<p class="lead">Меньше публичных шаблонов чем для EU, но базовые источники есть. <strong>Решение №1: какая зона</strong> — Federal UAE / DIFC / ADGM. Это влияет на всё остальное.</p>
+
+<h3>Три параллельных режима</h3>
+<table>
+  <thead><tr><th style="width:160px;">Зона</th><th>Закон</th><th>Когда подходит</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Federal UAE (mainland)</strong></td><td>Federal DPR Law No. 45 of 2021</td><td>Если работаем по всей UAE и не зарегистрированы в free zone</td></tr>
+    <tr><td><strong>DIFC</strong> (Dubai International Financial Centre)</td><td>DIFC DP Law 2020 (DIFC Law No. 5)</td><td>Если юрлицо в DIFC. Closer to GDPR в формулировках.</td></tr>
+    <tr><td><strong>ADGM</strong> (Abu Dhabi Global Market)</td><td>ADGM Data Protection Regulations 2021</td><td>Если юрлицо в ADGM. Тоже GDPR-aligned.</td></tr>
+  </tbody>
+</table>
+
+<h3>Публичные T&amp;Cs / Privacy от UAE-based SaaS</h3>
+<div class="grid">
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Property Finder</div>
+    <div class="card-body">UAE real estate SaaS — Privacy Policy с federal DPR compliance, real estate specifics.</div>
+    <a class="card-link" href="https://www.propertyfinder.ae/en/terms-of-service">propertyfinder.ae/en/terms-of-service</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Bayut</div>
+    <div class="card-body">Крупнейший UAE proptech — Privacy + cookies, real estate patterns.</div>
+    <a class="card-link" href="https://www.bayut.com/privacy-policy/">bayut.com/privacy-policy</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Careem</div>
+    <div class="card-body">UAE-based B2C SaaS — UAE DPR clauses в Privacy. Хороший пример multi-jurisdiction.</div>
+    <a class="card-link" href="https://www.careem.com/en-ae/legal/privacy">careem.com/en-ae/legal/privacy</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Talabat</div>
+    <div class="card-body">Food delivery UAE/MENA — multi-country privacy policy patterns.</div>
+    <a class="card-link" href="https://www.talabat.com/uae/legal/privacy">talabat.com/uae/legal/privacy</a>
+  </div>
+</div>
+
+<h3>Official UAE sources</h3>
+<table>
+  <thead><tr><th style="width:34%;">Документ</th><th>Что в нём</th><th style="width:140px;">Тип</th></tr></thead>
+  <tbody>
+    <tr><td><a href="https://www.difc.ae/business/laws-and-regulations/laws/data-protection-law">DIFC — Data Protection Law</a></td><td>Полный текст DIFC DP Law 2020 + guidance notes</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws-in-the-uae">u.ae — Data Protection Laws</a></td><td>Гайд federal government по federal + free zone laws</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+    <tr><td><a href="https://tax.gov.ae/">Federal Tax Authority (FTA)</a></td><td>UAE VAT 5% — регистрация, invoice format, TRN</td><td><span class="card-tag tag-red">⚖️ official</span></td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ───────────── VAT / MULTI-CURRENCY ───────────── -->
+<section id="vat">
+<h2>💱 VAT / Multi-currency</h2>
+
+<div class="callout callout-good">
+  <strong>Главный shortcut</strong>
+  Если выбираем <strong>Paddle</strong> в 1.5.3 (Payment integration) — это Merchant of Record. Paddle берёт на себя VAT/sales tax registration во всех 30+ юрисдикциях, sends compliant invoices, handles audits. <strong>Снимает 60-70% сложности 1.7.6 (VAT registration).</strong>
+</div>
+
+<h3>Платёжные провайдеры с tax-handling</h3>
+<table>
+  <thead><tr><th style="width:24%;">Провайдер</th><th>Что покрывает</th><th>Минусы</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Paddle</strong> (MoR)</td>
+      <td>EU VAT, UK VAT, UAE VAT (5%), Australia GST (10%), US sales tax. Compliant invoicing per-jurisdiction. Handles audits.</td>
+      <td>Комиссия выше Stripe (~5% vs 2.9%)</td>
+    </tr>
+    <tr>
+      <td><strong>Stripe Tax</strong></td>
+      <td>Расчёт + регистрации в 50+ юрисдикциях, инвойсинг. Stripe не MoR, но snimает math.</td>
+      <td>VAT registrations всё ещё на нас. Доп. комиссия ~0.5%.</td>
+    </tr>
+    <tr>
+      <td><strong>Quaderno</strong></td>
+      <td>Tax compliance layer поверх Stripe / Paddle / любого провайдера. Считает + invoicing.</td>
+      <td>Ещё одна подписка ($99-249/мес)</td>
+    </tr>
+    <tr>
+      <td><strong>Octobat</strong></td>
+      <td>Альтернатива Quaderno, фокус на EU SaaS</td>
+      <td>Меньше jurisdictions чем Quaderno</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Если идём своим путём (без MoR)</h3>
+<p>Регистрации, которые понадобятся:</p>
+<ul style="margin:8px 0 14px 22px;">
+  <li><strong>EU OSS (One Stop Shop)</strong> — после €10K threshold cross-border B2C. <a href="https://vat-one-stop-shop.ec.europa.eu/index_en">vat-one-stop-shop.ec.europa.eu</a></li>
+  <li><strong>UK VAT</strong> — после £90K threshold. <a href="https://www.gov.uk/vat-registration">gov.uk/vat-registration</a></li>
+  <li><strong>UAE VAT (5%)</strong> — после AED 375K threshold; voluntary с AED 187.5K. <a href="https://tax.gov.ae/">tax.gov.ae</a></li>
+  <li><strong>Australia GST (10%)</strong> — после AUD $75K threshold. <a href="https://www.ato.gov.au/businesses-and-organisations/gst-excise-and-indirect-taxes/gst/registering-for-gst">ATO GST registration</a></li>
+</ul>
+
+<h3>Multi-currency in app</h3>
+<p>Stripe и Paddle оба поддерживают AED, EUR, GBP, USD, AUD как presentment currencies. Settlement обычно в одной валюте (выбираем) с FX conversion на их стороне.</p>
+</section>
+
+<!-- ───────────── PROPTECH COMPETITORS ───────────── -->
+<section id="proptech">
+<h2>🏠 Real estate / Proptech competitors</h2>
+
+<p class="lead">Ближайшие конкуренты с публичными T&amp;Cs — посмотреть как они формулируют real-estate-specific clauses (intellectual property на 3D contents, hosting renders, content responsibilities).</p>
+
+<div class="grid">
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Matterport</div>
+    <div class="card-body">Наш ближайший конкурент по virtual tours. Multi-jurisdiction T&amp;Cs, intellectual property clauses для 3D scans, white-label сценарии.</div>
+    <a class="card-link" href="https://matterport.com/legal/terms-of-use">matterport.com/legal/terms-of-use</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">Kuula</div>
+    <div class="card-body">360-photo SaaS, простые понятные T&amp;Cs. Хороший минималистичный пример для small SaaS.</div>
+    <a class="card-link" href="https://kuula.co/terms">kuula.co/terms</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">iGUIDE / Planitar</div>
+    <div class="card-body">Real estate virtual tours (Canada). Multi-jurisdiction handling, content licensing для floor plans.</div>
+    <a class="card-link" href="https://youriguide.com/legal">youriguide.com/legal</a>
+  </div>
+  <div class="card">
+    <div><span class="card-tag tag-amber">📚 reference</span></div>
+    <div class="card-title">CompassUSA / Zillow</div>
+    <div class="card-body">US real estate giants — содержательные T&amp;Cs с MLS-data clauses, agent disclosure rules.</div>
+    <a class="card-link" href="https://www.zillow.com/z/corp/terms/">zillow.com/z/corp/terms</a>
+  </div>
+</div>
+</section>
+
+<!-- ───────────── TEMPLATED TOOLS ───────────── -->
+<section id="tools">
+<h2>🛠 Templated tools</h2>
+
+<div class="callout callout-warn">
+  <strong>Эти не заменят юриста</strong>
+  Это wizard-генераторы. Дают каркас, на котором юрист правит точечно. Подходят для preview, sanity-check, или как стартовая точка для DIY route.
+</div>
+
+<table>
+  <thead><tr><th style="width:24%;">Сервис</th><th>Что генерирует</th><th style="width:120px;">Цена</th><th>URL</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Termly</strong></td><td>GDPR / CCPA / UAE DPR / Australian Privacy Act шаблоны через wizard</td><td>$10-30/мес</td><td><a href="https://termly.io">termly.io</a></td></tr>
+    <tr><td><strong>iubenda</strong></td><td>То же + auto-update при изменении законов. Cookie banner.</td><td>€27-69/мес</td><td><a href="https://www.iubenda.com">iubenda.com</a></td></tr>
+    <tr><td><strong>GetTerms</strong></td><td>Простой генератор для SaaS, ToS + Privacy + Cookie</td><td>$25 one-time</td><td><a href="https://getterms.io">getterms.io</a></td></tr>
+    <tr><td><strong>Termageddon</strong></td><td>Auto-updating ToS/Privacy с notifications о changes in law</td><td>$10-20/мес</td><td><a href="https://termageddon.com">termageddon.com</a></td></tr>
+  </tbody>
+</table>
+</section>
+
+<!-- ───────────── RECOMMENDED STACK ───────────── -->
+<section id="stack">
+<h2>📋 Recommended stack</h2>
+
+<p class="lead">Для офпланонлайн чтобы Phase 1.7 (Legal) стоила недели вместо месяцев — рекомендованная последовательность сборки:</p>
+
+<ol style="margin:14px 0 14px 22px; line-height:1.9;">
+  <li><strong>Решение по юрисдикции (1.7.5):</strong> где основное юрлицо — UAE Mainland / DIFC / ADGM / EU / Australia. Это на 1-й неделе, всё остальное зависит.</li>
+  <li><strong>Решение по платёжному провайдеру (1.5.3):</strong> Paddle (MoR) или Stripe. Если Paddle — VAT/tax часть 1.7.6 в основном снимается.</li>
+  <li><strong>Юрист собирает draft Phase 1.7 за 3-4 недели:</strong>
+    <ul style="margin:6px 0 0 22px;">
+      <li>AU clauses ← готовые из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a></li>
+      <li>EU layer ← Stripe / Cloudflare / Vercel + SCCs от European Commission</li>
+      <li>UAE layer ← Property Finder / Bayut + DIFC official guides</li>
+      <li>Multi-jurisdiction routing — какой контракт показывать по country студии</li>
+    </ul>
+  </li>
+  <li><strong>DPA:</strong> структура копируется с Cloudflare DPA, sub-processors list — наш список (Stripe/Paddle, Hotjar/Clarity, Sentry, email provider, CDN, AWS).</li>
+  <li><strong>Privacy Policy:</strong> layered approach — common section + jurisdiction-specific sections (EU / UAE / AU).</li>
+  <li><strong>Cookie consent:</strong> готовое решение (Cookiebot / OneTrust / iubenda) — не build custom.</li>
+</ol>
+
+<div class="callout callout-good">
+  <strong>Эстимейт юриста</strong>
+  С этим стеком — реально <strong>3-4 недели работы юриста</strong> (вместо 8-12 с нуля). Большая часть — копирование готовых patterns + проверка под нашу конкретику.
+</div>
+</section>
+
+<p style="margin-top:48px; font-size:13px; color:var(--text-dim); text-align:center;">
+Возврат к плану: <a href="launch-plan-v3-full.html">launch-plan-v3-full.html</a> · <a href="launch-plan-v3-full.html#phase-1-7">Phase 1.7 Legal &amp; Compliance</a>
+</p>
+
+</div><!-- /wrap -->
+
+<footer class="page-footer">
+  offplan<span style="color:var(--gold-light)">.</span>online · Companion to Phase 1.7 · Updated 2026-04-30
+</footer>
+
+</body>
+</html>
