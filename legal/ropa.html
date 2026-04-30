@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Record of Processing Activities (ROPA) — offplan.online</title>
+<style>
+  :root { --navy: #0f1924; --gold: #c9a84c; --text: #1a1a2e; --border: #ddd; --bg: #fafafa; --warn: #fff3cd; --warn-border: #ffc107; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', sans-serif; font-size: 14px; line-height: 1.6; color: var(--text); background: var(--bg); }
+  .draft-banner { background: var(--warn); border-bottom: 3px solid var(--warn-border); padding: 12px 40px; font-family: monospace; font-size: 13px; font-weight: bold; text-align: center; color: #7a5c00; }
+  .internal-banner { background: #fdecea; border-bottom: 2px solid #e53935; padding: 10px 40px; font-family: 'Helvetica Neue', sans-serif; font-size: 13px; font-weight: 600; text-align: center; color: #c62828; }
+  header { background: var(--navy); color: #fff; padding: 48px 40px 36px; }
+  header h1 { font-size: 26px; font-weight: 400; color: #fff; }
+  header .meta { margin-top: 12px; font-size: 13px; color: #9fb0c0; }
+  header .meta span { margin-right: 24px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 32px 80px; }
+  h2 { font-size: 17px; font-weight: 700; color: var(--navy); margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--gold); }
+  p { margin-bottom: 12px; color: #333; }
+  .section-num { color: var(--gold); font-weight: 700; margin-right: 6px; }
+  .ropa-table { width: 100%; border-collapse: collapse; margin: 16px 0 32px; font-size: 13px; }
+  .ropa-table th { background: var(--navy); color: #fff; padding: 10px 12px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; vertical-align: top; }
+  .ropa-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+  .ropa-table tr:nth-child(even) td { background: #f8f8f8; }
+  .ropa-table tr:hover td { background: #f0f4ff; }
+  .activity-name { font-weight: 700; color: var(--navy); font-size: 14px; }
+  .basis-tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; white-space: nowrap; }
+  .meta-row { background: #f0f4ff; }
+  .meta-row td { font-size: 12px; color: #666; padding: 8px 12px; }
+  .highlight { background: #f0f4ff; border-left: 3px solid var(--navy); padding: 12px 16px; margin: 12px 0; border-radius: 0 4px 4px 0; font-size: 13px; }
+  .highlight strong { font-size: 11px; text-transform: uppercase; color: var(--navy); display: block; margin-bottom: 4px; }
+  ul { margin: 6px 0 6px 18px; }
+  ul li { margin-bottom: 3px; }
+  footer { background: var(--navy); color: #9fb0c0; padding: 24px 40px; font-size: 12px; }
+  a { color: var(--navy); }
+  .toc { background: #fff; border: 1px solid var(--border); padding: 20px 24px; border-radius: 6px; margin: 24px 0 40px; }
+  .toc h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--navy); margin-bottom: 10px; }
+  .toc ol { margin: 0 0 0 18px; }
+  .toc li { margin-bottom: 4px; font-size: 13px; }
+  .toc a { color: var(--navy); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">⚠ DRAFT — v0.1 — NOT LEGAL ADVICE — Review with qualified counsel before use</div>
+<div class="internal-banner">🔒 INTERNAL DOCUMENT — Do not share externally. Provide to supervisory authority only on request.</div>
+
+<header>
+  <h1>Record of Processing Activities (ROPA)</h1>
+  <div class="meta">
+    <span><strong>Legal basis:</strong> GDPR Art. 30</span>
+    <span><strong>Controller:</strong> offplan.online Ltd (Cyprus)</span>
+    <span><strong>Version:</strong> 0.1 (draft)</span>
+    <span><strong>Last reviewed:</strong> [DATE]</span>
+    <span><strong>Review frequency:</strong> Quarterly / on any material change</span>
+  </div>
+</header>
+
+<main>
+
+<p style="margin-top:0; color:#555;">This Record of Processing Activities is maintained in compliance with GDPR Art. 30. As a data controller and as a data processor (on behalf of Customers), offplan.online Ltd must maintain this record and make it available to the Cyprus Commissioner for Personal Data Protection on request. This document covers both roles.</p>
+
+<div class="highlight">
+  <strong>Two Roles</strong>
+  offplan.online acts as (A) a <strong>Data Controller</strong> for its own business data (account holders, marketing, HR) and as (B) a <strong>Data Processor</strong> for Customer data (End User personal data within Customer projects). Both are documented below.
+</div>
+
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#controller">Part A — Controller activities (offplan.online's own data)</a></li>
+    <li><a href="#processor">Part B — Processor activities (Customer / End User data)</a></li>
+    <li><a href="#subprocessors">Part C — Sub-processors used</a></li>
+    <li><a href="#transfers">Part D — International transfers</a></li>
+    <li><a href="#maintenance">Part E — Maintenance log</a></li>
+  </ol>
+</div>
+
+<!-- ─── PART A: CONTROLLER ─── -->
+<h2 id="controller"><span class="section-num">A.</span>Data Controller Activities</h2>
+<p>The following processing activities are carried out by offplan.online Ltd as data controller, for its own business purposes.</p>
+
+<table class="ropa-table">
+  <thead>
+    <tr>
+      <th style="width:16%;">Activity</th>
+      <th style="width:14%;">Purpose</th>
+      <th style="width:13%;">Legal Basis</th>
+      <th style="width:16%;">Categories of Data</th>
+      <th style="width:12%;">Data Subjects</th>
+      <th style="width:12%;">Recipients</th>
+      <th style="width:10%;">Retention</th>
+      <th style="width:7%;">Transfers Outside EEA</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td><span class="activity-name">A1 — Account registration &amp; management</span></td>
+      <td>Create and manage subscriber accounts</td>
+      <td><span class="basis-tag">Art. 6(1)(b) — contract</span></td>
+      <td>Name, email, company name, address, phone, password hash, account settings</td>
+      <td>Customer contacts (B2B)</td>
+      <td>Internal engineering; Paddle/Stripe (billing)</td>
+      <td>Duration of subscription + 30 days post-termination</td>
+      <td>Paddle (UK — adequacy); Stripe (USA — SCCs)</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A2 — Billing &amp; invoicing</span></td>
+      <td>Process payments, issue invoices, manage tax obligations</td>
+      <td><span class="basis-tag">Art. 6(1)(b) — contract</span><br><span class="basis-tag" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9;margin-top:4px;display:inline-block;">Art. 6(1)(c) — legal obligation</span></td>
+      <td>Name, email, billing address, VAT number, payment metadata (no card data — held by Paddle/Stripe)</td>
+      <td>Customer billing contacts</td>
+      <td>Paddle / Stripe; accountant; Cyprus tax authority if required</td>
+      <td>7 years (tax / legal obligation)</td>
+      <td>Paddle (UK — adequacy); Stripe (USA — SCCs)</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A3 — Customer support</span></td>
+      <td>Respond to support tickets, troubleshoot issues</td>
+      <td><span class="basis-tag">Art. 6(1)(b) — contract</span></td>
+      <td>Name, email, account data, support ticket content, screenshots</td>
+      <td>Customer contacts</td>
+      <td>Internal support team; [helpdesk tool]</td>
+      <td>2 years from resolution</td>
+      <td>[Helpdesk provider — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A4 — Platform usage analytics</span></td>
+      <td>Understand how the platform is used to improve it; detect errors</td>
+      <td><span class="basis-tag" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;">Art. 6(1)(f) — legitimate interests</span></td>
+      <td>Pseudonymised user ID, pages visited, features used, timestamps, browser type, error logs</td>
+      <td>Admin Panel users (Customer contacts)</td>
+      <td>Internal product team; [analytics provider]; [error tracking provider]</td>
+      <td>26 months (aggregated); 90 days (raw logs)</td>
+      <td>[Analytics provider — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A5 — Security monitoring</span></td>
+      <td>Detect and prevent unauthorised access, abuse, and fraud</td>
+      <td><span class="basis-tag" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;">Art. 6(1)(f) — legitimate interests</span></td>
+      <td>IP addresses, login timestamps, API request logs, anomaly flags</td>
+      <td>All platform users</td>
+      <td>Internal engineering; Cloudflare</td>
+      <td>90 days</td>
+      <td>Cloudflare (USA — SCCs)</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A6 — Marketing communications</span></td>
+      <td>Send product updates, newsletters, promotional emails to existing customers</td>
+      <td><span class="basis-tag" style="background:#fff3e0;color:#e65100;border-color:#ffcc80;">Art. 6(1)(f) — legitimate interests</span><br><span style="font-size:11px; color:#666; display:block; margin-top:4px;">(with opt-out)</span></td>
+      <td>Name, email, company name, subscription plan</td>
+      <td>Active and former customers</td>
+      <td>Internal marketing; [email provider]</td>
+      <td>Until opt-out or account deletion</td>
+      <td>[Email provider — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A7 — Marketing to prospects</span></td>
+      <td>Send marketing to non-customer contacts who have consented</td>
+      <td><span class="basis-tag" style="background:#f3e5f5;color:#6a1b9a;border-color:#ce93d8;">Art. 6(1)(a) — consent</span></td>
+      <td>Name, email, company name, source of contact</td>
+      <td>Prospects (non-customers)</td>
+      <td>Internal marketing; [email provider]; [CRM]</td>
+      <td>Until consent withdrawn or 2 years inactive</td>
+      <td>[CRM/email provider — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A8 — Website cookies &amp; analytics</span></td>
+      <td>Operate offplan.online website; measure traffic; conversion tracking</td>
+      <td><span class="basis-tag" style="background:#f3e5f5;color:#6a1b9a;border-color:#ce93d8;">Art. 6(1)(a) — consent</span><br><span style="font-size:11px; color:#666; display:block; margin-top:4px;">(essential: legitimate interests)</span></td>
+      <td>IP address (anonymised), pages visited, referral source, device type, cookie IDs</td>
+      <td>Website visitors</td>
+      <td>Internal; [analytics provider]; [cookie consent platform]</td>
+      <td>26 months (analytics); session (essential)</td>
+      <td>Cloudflare (SCCs); [analytics — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">A9 — Employee / contractor HR</span></td>
+      <td>Manage employment contracts, payroll, performance, access rights</td>
+      <td><span class="basis-tag">Art. 6(1)(b) — contract</span><br><span class="basis-tag" style="background:#e3f2fd;color:#1565c0;border-color:#90caf9;margin-top:4px;display:inline-block;">Art. 6(1)(c) — legal obligation</span></td>
+      <td>Name, address, national ID / passport, bank details, salary, role, access credentials</td>
+      <td>Employees, contractors</td>
+      <td>Internal HR; payroll provider; Cyprus tax authority; accountant</td>
+      <td>Duration of engagement + 7 years</td>
+      <td>As required (remote contractors)</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- ─── PART B: PROCESSOR ─── -->
+<h2 id="processor"><span class="section-num">B.</span>Data Processor Activities (on behalf of Customers)</h2>
+<p>The following processing is carried out by offplan.online Ltd as data processor, on the instructions of subscribing Customers (data controllers). The governing document is the <a href="dpa.html">Data Processing Agreement</a>.</p>
+
+<table class="ropa-table">
+  <thead>
+    <tr>
+      <th style="width:16%;">Activity</th>
+      <th style="width:14%;">Purpose</th>
+      <th style="width:13%;">Controller's Legal Basis</th>
+      <th style="width:16%;">Categories of Data</th>
+      <th style="width:12%;">Data Subjects</th>
+      <th style="width:12%;">Sub-processors</th>
+      <th style="width:10%;">Retention</th>
+      <th style="width:7%;">Transfers</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td><span class="activity-name">B1 — Sales App hosting &amp; delivery</span></td>
+      <td>Host and serve the Customer's white-label property presentation to End Users</td>
+      <td>Customer's basis (typically legitimate interests or contract with property developer)</td>
+      <td>IP address, device type, pages viewed, session timestamps, saved unit preferences (if logged-in End User)</td>
+      <td>End Users (property buyers, agents visiting the Sales App)</td>
+      <td>AWS (EU); Cloudflare</td>
+      <td>As instructed by Customer (default: duration of Customer subscription + 30 days)</td>
+      <td>Cloudflare (USA — SCCs)</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">B2 — End User enquiry data</span></td>
+      <td>Receive and store enquiry form submissions from End Users on behalf of Customer</td>
+      <td>Customer's basis (typically consent or legitimate interests)</td>
+      <td>Name, email, phone number, property interest, message content</td>
+      <td>End Users who submit enquiry forms</td>
+      <td>AWS (EU); [email provider for notification]</td>
+      <td>As instructed by Customer</td>
+      <td>[Email provider — TBC]</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">B3 — Content storage (Customer uploads)</span></td>
+      <td>Store 3D renders, images, floor plans, unit data uploaded by Customer</td>
+      <td>Not personal data in most cases; personal data if Customer uploads files with embedded PII</td>
+      <td>File metadata; potentially PII if embedded in content (Customer's responsibility)</td>
+      <td>Not typically applicable</td>
+      <td>AWS S3 (EU)</td>
+      <td>Duration of Customer subscription + 30-day export window post-termination</td>
+      <td>None (EU-only storage)</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">B4 — Admin Panel access (Customer users)</span></td>
+      <td>Authenticate and manage Customer admin users in the platform</td>
+      <td>Art. 6(1)(b) — contract (Customer's basis with their staff)</td>
+      <td>Name, email, role, login timestamps, actions performed</td>
+      <td>Customer's staff who use the Admin Panel</td>
+      <td>AWS (EU)</td>
+      <td>Duration of Customer subscription + 30 days</td>
+      <td>None</td>
+    </tr>
+
+    <tr>
+      <td><span class="activity-name">B5 — API access</span></td>
+      <td>Provide API access to Customer's integrated systems (CRM etc.)</td>
+      <td>Customer's basis</td>
+      <td>API request logs including IP, timestamps, query parameters; may include personal data passed by Customer</td>
+      <td>Customer's technical systems; potentially End Users if API exposes their data</td>
+      <td>AWS (EU)</td>
+      <td>90 days (API logs); Customer data: as per Customer's instructions</td>
+      <td>None</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- ─── PART C: SUB-PROCESSORS ─── -->
+<h2 id="subprocessors"><span class="section-num">C.</span>Sub-processors</h2>
+<table class="ropa-table">
+  <thead>
+    <tr><th>Sub-processor</th><th>Service</th><th>Location</th><th>Transfer Mechanism</th><th>Relevant Activities</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Amazon Web Services (AWS)</strong></td><td>Cloud infrastructure, compute, storage (S3, RDS, EC2)</td><td>EU — Frankfurt (eu-central-1), Ireland (eu-west-1)</td><td>EEA — no transfer mechanism required</td><td>A1–A9, B1–B5</td></tr>
+    <tr><td><strong>Cloudflare</strong></td><td>CDN, DDoS protection, WAF, DNS</td><td>USA (global edge)</td><td>SCCs (Commission Decision 2021/914)</td><td>A5, B1</td></tr>
+    <tr><td><strong>Paddle</strong></td><td>Payment processing, merchant of record, tax</td><td>UK</td><td>Adequacy (UK GDPR)</td><td>A2</td></tr>
+    <tr><td><strong>[Email provider]</strong></td><td>Transactional email (receipts, alerts, invitations)</td><td>[TBC]</td><td>[TBC]</td><td>A3, A6, A7, B2</td></tr>
+    <tr><td><strong>[Analytics provider]</strong></td><td>Product analytics, usage tracking</td><td>[TBC]</td><td>[TBC]</td><td>A4, A8</td></tr>
+    <tr><td><strong>[Error tracking]</strong></td><td>Application error monitoring (e.g. Sentry)</td><td>[TBC]</td><td>[TBC]</td><td>A4</td></tr>
+    <tr><td><strong>[Cookie consent platform]</strong></td><td>Cookie consent management and logging</td><td>[TBC]</td><td>[TBC]</td><td>A8</td></tr>
+  </tbody>
+</table>
+
+<!-- ─── PART D: TRANSFERS ─── -->
+<h2 id="transfers"><span class="section-num">D.</span>International Transfers Summary</h2>
+<table class="ropa-table">
+  <thead>
+    <tr><th>Destination</th><th>Mechanism</th><th>Activities</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>United Kingdom</td><td>Adequacy decision (EU Commission, June 2021)</td><td>A2 (Paddle)</td></tr>
+    <tr><td>USA</td><td>Standard Contractual Clauses (Commission Decision 2021/914, Module 2 — controller to processor)</td><td>A5 (Cloudflare), [A4, A6, A7 — TBC by provider]</td></tr>
+    <tr><td>Australia</td><td>SCCs + AU Privacy Act compliance obligations (Customer-specific)</td><td>B1–B5 where Customer is AU-based</td></tr>
+    <tr><td>UAE</td><td>SCCs + UAE PDPL adequacy assessment</td><td>B1–B5 where Customer is UAE-based</td></tr>
+  </tbody>
+</table>
+
+<!-- ─── PART E: MAINTENANCE LOG ─── -->
+<h2 id="maintenance"><span class="section-num">E.</span>Maintenance Log</h2>
+<table class="ropa-table">
+  <thead>
+    <tr><th>Date</th><th>Version</th><th>Change</th><th>Approved by</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2026-04-30</td><td>0.1</td><td>Initial draft created</td><td>[Name, DPO / Legal]</td></tr>
+    <tr><td>[DATE]</td><td>0.2</td><td>[Fill on next review]</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="highlight">
+  <strong>Review Triggers</strong>
+  This record must be updated when: (1) a new sub-processor is added; (2) a new processing activity begins; (3) a processing purpose or legal basis changes; (4) a new international transfer route is used; (5) at minimum every 6 months regardless of changes.
+</div>
+
+</main>
+
+<footer>
+  offplan.online Ltd · Cyprus · GDPR Art. 30 · Internal · Draft v0.1 · <a href="index.html" style="color:#9fb0c0;">← Legal Documents Index</a>
+</footer>
+
+</body>
+</html>

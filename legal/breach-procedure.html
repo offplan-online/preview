@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Breach Response Procedure — offplan.online</title>
+<style>
+  :root { --navy: #0f1924; --gold: #c9a84c; --text: #1a1a2e; --border: #ddd; --bg: #fafafa; --warn: #fff3cd; --warn-border: #ffc107; --red: #c62828; --red-bg: #fdecea; --green: #2e7d32; --green-bg: #e8f5e9; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', sans-serif; font-size: 14.5px; line-height: 1.7; color: var(--text); background: var(--bg); }
+  .draft-banner { background: var(--warn); border-bottom: 3px solid var(--warn-border); padding: 12px 40px; font-family: monospace; font-size: 13px; font-weight: bold; text-align: center; color: #7a5c00; }
+  .internal-banner { background: var(--red-bg); border-bottom: 2px solid var(--red); padding: 10px 40px; font-size: 13px; font-weight: 600; text-align: center; color: var(--red); }
+  header { background: var(--navy); color: #fff; padding: 48px 40px 36px; }
+  header h1 { font-size: 26px; font-weight: 400; color: #fff; }
+  header .meta { margin-top: 12px; font-size: 13px; color: #9fb0c0; }
+  header .meta span { margin-right: 24px; }
+  main { max-width: 900px; margin: 0 auto; padding: 48px 40px 80px; }
+  h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin: 44px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--gold); }
+  h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 24px 0 8px; }
+  p { margin-bottom: 12px; }
+  ol { margin: 10px 0 14px 22px; } ol li { margin-bottom: 8px; }
+  ul { margin: 10px 0 14px 22px; } ul li { margin-bottom: 6px; }
+  .section-num { color: var(--gold); font-weight: 700; margin-right: 6px; }
+  .timeline { margin: 24px 0; }
+  .tl-item { display: flex; gap: 20px; margin-bottom: 0; }
+  .tl-left { display: flex; flex-direction: column; align-items: center; width: 80px; flex-shrink: 0; }
+  .tl-time { background: var(--navy); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 4px; text-align: center; white-space: nowrap; }
+  .tl-line { width: 2px; background: var(--border); flex-grow: 1; margin-top: 4px; }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-right { padding-bottom: 24px; flex: 1; }
+  .tl-right h3 { margin-top: 4px; margin-bottom: 8px; font-size: 15px; color: var(--navy); }
+  .urgent { background: var(--red-bg); border: 1px solid #ef9a9a; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .urgent strong { color: var(--red); display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ok { background: var(--green-bg); border: 1px solid #a5d6a7; border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .ok strong { color: var(--green); display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info { background: #f0f4ff; border-left: 3px solid var(--navy); padding: 14px 18px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+  .info strong { font-size: 12px; text-transform: uppercase; color: var(--navy); display: block; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+  th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f8f8; }
+  .severity { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .sev-critical { background: var(--red-bg); color: var(--red); border: 1px solid #ef9a9a; }
+  .sev-high { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+  .sev-medium { background: #fff8e1; color: #f57f17; border: 1px solid #fff176; }
+  .sev-low { background: var(--green-bg); color: var(--green); border: 1px solid #a5d6a7; }
+  .checklist { list-style: none; margin: 10px 0; padding: 0; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; border-bottom: 1px solid #eee; font-size: 13.5px; }
+  .checklist li::before { content: '☐'; position: absolute; left: 4px; color: var(--navy); font-size: 16px; }
+  footer { background: var(--navy); color: #9fb0c0; padding: 24px 40px; font-size: 12px; }
+  a { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">⚠ DRAFT — v0.1 — NOT LEGAL ADVICE — Review with qualified counsel before use</div>
+<div class="internal-banner">🔒 INTERNAL DOCUMENT — Incident Response SOP — Train all relevant staff on this procedure</div>
+
+<header>
+  <h1>Data Breach Response Procedure</h1>
+  <div class="meta">
+    <span><strong>Legal basis:</strong> GDPR Art. 33–34; AU NDB Scheme; UAE PDPL</span>
+    <span><strong>Owner:</strong> [DPO / CTO / Legal]</span>
+    <span><strong>Version:</strong> 0.1 (draft)</span>
+    <span><strong>Test frequency:</strong> Annually (tabletop exercise)</span>
+  </div>
+</header>
+
+<main>
+
+<p style="margin-top:0; color:#555;">This procedure defines how offplan.online responds to personal data breaches. GDPR Art. 33 requires notification to the supervisory authority within <strong>72 hours</strong> of becoming aware of a breach likely to result in risk to individuals. This procedure ensures we meet that obligation.</p>
+
+<div class="urgent">
+  <strong>Emergency Contacts — keep this updated</strong>
+  <ul>
+    <li><strong>DPO / Legal lead:</strong> [Name] · [Email] · [Mobile]</li>
+    <li><strong>CTO / Engineering lead:</strong> [Name] · [Email] · [Mobile]</li>
+    <li><strong>CEO:</strong> [Name] · [Email] · [Mobile]</li>
+    <li><strong>Cyprus DPA (supervisory authority):</strong> +357 22 818 456 · commissioner@dataprotection.gov.cy · <a href="https://www.dataprotection.gov.cy" target="_blank">dataprotection.gov.cy</a></li>
+    <li><strong>AU OAIC (if AU data subjects affected):</strong> 1300 363 992 · <a href="https://www.oaic.gov.au" target="_blank">oaic.gov.au</a></li>
+    <li><strong>Legal counsel (external):</strong> [Firm] · [Contact]</li>
+    <li><strong>Cyber insurer:</strong> [Insurer] · [Policy No.] · [Claims line]</li>
+  </ul>
+</div>
+
+<h2><span class="section-num">1.</span>What Counts as a Data Breach?</h2>
+<p>A personal data breach is any security incident leading to accidental or unlawful <strong>destruction, loss, alteration, unauthorised disclosure of, or access to</strong> personal data. Examples:</p>
+<ul>
+  <li>Database exposed publicly (misconfigured S3 bucket, leaked credentials)</li>
+  <li>Ransomware encrypting customer data</li>
+  <li>Email sent to wrong recipient containing personal data</li>
+  <li>Unauthorised internal access (employee accessing data without authorisation)</li>
+  <li>Sub-processor breach affecting our data</li>
+  <li>Physical loss of a device containing unencrypted personal data</li>
+  <li>Account takeover of a customer admin account exposing their end-user data</li>
+</ul>
+<p><strong>Not a breach (but log anyway):</strong> attempted but unsuccessful attack; accidental access immediately reversed with no data extracted; loss of non-personal data.</p>
+
+<h2><span class="section-num">2.</span>Severity Classification</h2>
+<table>
+  <tr>
+    <th>Severity</th>
+    <th>Criteria</th>
+    <th>Examples</th>
+    <th>Response Time</th>
+  </tr>
+  <tr>
+    <td><span class="severity sev-critical">Critical</span></td>
+    <td>Mass exposure of personal data; ransomware; complete system compromise; sensitive data (financial, health) involved</td>
+    <td>Database dump publicly accessible; ransomware on production servers</td>
+    <td>Immediate — all-hands</td>
+  </tr>
+  <tr>
+    <td><span class="severity sev-high">High</span></td>
+    <td>Significant number of data subjects affected (&gt;100); data likely exfiltrated; real risk of harm</td>
+    <td>API key exposed, data accessed; credential stuffing resulting in account takeovers</td>
+    <td>Within 2 hours</td>
+  </tr>
+  <tr>
+    <td><span class="severity sev-medium">Medium</span></td>
+    <td>Limited exposure; small number of data subjects; low risk of harm; data not exfiltrated</td>
+    <td>Email sent to wrong customer; single account compromised with no sensitive data</td>
+    <td>Within 8 hours (business)</td>
+  </tr>
+  <tr>
+    <td><span class="severity sev-low">Low</span></td>
+    <td>No personal data exposed; or accidental access immediately corrected; no risk of harm</td>
+    <td>Internal system error logs briefly accessible; test data exposed</td>
+    <td>Log and monitor</td>
+  </tr>
+</table>
+
+<h2><span class="section-num">3.</span>Response Timeline (72-Hour Clock)</h2>
+
+<div class="timeline">
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">Hour 0</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Detection &amp; Immediate Containment</h3>
+      <ul>
+        <li>Incident detected (automated alert, customer report, sub-processor notification, internal discovery)</li>
+        <li>Immediately notify Engineering lead and DPO/Legal — do not wait to investigate first</li>
+        <li>Start the <strong>Incident Log</strong> (date/time first detected, who detected, initial scope)</li>
+        <li>Immediate containment: revoke exposed credentials, take affected system offline if necessary, block attacker IP</li>
+        <li>Do NOT destroy evidence — preserve logs</li>
+      </ul>
+      <div class="urgent"><strong>Clock starts now</strong> 72 hours begins at the moment we become "aware" of a likely breach — not when investigation is complete.</div>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">0 – 4h</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Initial Assessment</h3>
+      <ul>
+        <li>Classify severity (Critical / High / Medium / Low — see §2)</li>
+        <li>Identify: what data was affected, how many data subjects, categories of data (special categories?)</li>
+        <li>Determine if this is a controller breach (our data) or processor breach (customer's end-user data)</li>
+        <li>For <strong>processor breaches</strong>: notify affected Customer(s) without undue delay (target: within 4 hours) per DPA §7</li>
+        <li>Engage external legal counsel if Critical or High</li>
+        <li>Engage cyber insurer if Critical</li>
+        <li>Notify CEO</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">4 – 24h</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Investigation &amp; Risk Assessment</h3>
+      <ul>
+        <li>Full forensic investigation: what data was accessed/exfiltrated, by whom, how</li>
+        <li>Determine whether notification to supervisory authority is required:
+          <ul>
+            <li>Notification is required if breach is "likely to result in a risk to the rights and freedoms of natural persons"</li>
+            <li>No notification needed if breach is "unlikely to result in a risk" — document this conclusion</li>
+          </ul>
+        </li>
+        <li>Determine whether notification to data subjects is required (Art. 34 — "high risk")</li>
+        <li>Draft Art. 33 notification to Cyprus DPA (use template in §5)</li>
+        <li>Implement further containment and remediation measures</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">24 – 72h</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Supervisory Authority Notification</h3>
+      <ul>
+        <li>Submit Art. 33 notification to Cyprus DPA <strong>before the 72-hour deadline</strong></li>
+        <li>If all information not yet available, submit what is known and state investigation is ongoing (Art. 33(4) allows phased notification)</li>
+        <li>If AU data subjects affected: notify OAIC under Notifiable Data Breach scheme</li>
+        <li>If UAE data subjects affected: assess UAE PDPL notification obligation</li>
+        <li>Continue remediation: patch, rotate credentials, improve monitoring</li>
+        <li>Update affected Customers with full details if processor breach</li>
+      </ul>
+      <div class="ok"><strong>Safe harbour</strong> Documenting that a breach was "unlikely to result in a risk" and keeping that record is your protection if challenged later. Always document the reasoning, even for low-severity events.</div>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">72h –<br>7 days</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Data Subject Notification (if required)</h3>
+      <ul>
+        <li>If "high risk" to data subjects (Art. 34): notify affected individuals directly, without undue delay</li>
+        <li>Notification must include: nature of breach, DPO contact, likely consequences, measures taken</li>
+        <li>For Customer's End Users: Customer (controller) is responsible for Art. 34 notification; we provide them the information they need</li>
+        <li>Maintain communication with DPA — respond to any follow-up questions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-left">
+      <div class="tl-time">5–30<br>days</div>
+      <div class="tl-line"></div>
+    </div>
+    <div class="tl-right">
+      <h3>Post-Incident Review</h3>
+      <ul>
+        <li>Root cause analysis: how did the breach occur?</li>
+        <li>Remediation plan: what changes prevent recurrence?</li>
+        <li>Update security controls, access policies, monitoring rules</li>
+        <li>Publish Post-Incident Report (PIR) internally; share summary with affected Customers</li>
+        <li>Complete Incident Log entry and file in breach register (§6)</li>
+        <li>Review and update this procedure if gaps identified</li>
+        <li>Consider notifying cyber insurer of potential claim</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<h2><span class="section-num">4.</span>Roles and Responsibilities</h2>
+<table>
+  <tr><th>Role</th><th>Responsibilities</th></tr>
+  <tr><td><strong>DPO / Legal Lead</strong></td><td>Overall coordination; supervisory authority communication; legal assessment; data subject notification decisions; breach register</td></tr>
+  <tr><td><strong>CTO / Engineering</strong></td><td>Technical investigation; containment and remediation; forensics; system restoration; evidence preservation</td></tr>
+  <tr><td><strong>CEO</strong></td><td>Decision-making on high-stakes actions (taking systems offline, public disclosure, engaging PR); insurer notification</td></tr>
+  <tr><td><strong>Customer Success</strong></td><td>Customer communication (processor breaches); managing Customer relationships during incident</td></tr>
+  <tr><td><strong>External counsel</strong></td><td>Legal advice on notification obligations; regulatory defence if complaint filed</td></tr>
+</table>
+
+<h2><span class="section-num">5.</span>Art. 33 Notification Template</h2>
+<p>Submit via Cyprus DPA online portal at <a href="https://www.dataprotection.gov.cy" target="_blank">dataprotection.gov.cy</a>. Required information (GDPR Art. 33(3)):</p>
+<div class="info">
+  <strong>Mandatory Content</strong>
+  <ol>
+    <li><strong>Nature of the breach</strong> — type (confidentiality, integrity, availability breach), categories and approximate number of data subjects concerned, categories and approximate number of records concerned</li>
+    <li><strong>Contact details</strong> — name and contact details of DPO or other point of contact</li>
+    <li><strong>Likely consequences</strong> — the likely consequences of the breach</li>
+    <li><strong>Measures taken</strong> — measures taken or proposed to address the breach, including measures to mitigate its possible adverse effects</li>
+  </ol>
+  <p style="margin-top:8px; font-size:13px;">If all information is not yet available when submitting, state this clearly and provide further information as soon as possible (Art. 33(4) allows phased notification).</p>
+</div>
+
+<h2><span class="section-num">6.</span>Breach Register</h2>
+<p>All incidents — even those that do not meet the notification threshold — must be logged in the Breach Register (GDPR Art. 33(5) requires this regardless of notification outcome). Maintain a secure spreadsheet or dedicated tool with:</p>
+<table>
+  <tr>
+    <th>Field</th><th>Description</th>
+  </tr>
+  <tr><td>Incident ID</td><td>Sequential reference (INC-001, INC-002…)</td></tr>
+  <tr><td>Date detected</td><td>When first discovered</td></tr>
+  <tr><td>Date became aware</td><td>When we had sufficient information to classify as a likely breach</td></tr>
+  <tr><td>Date contained</td><td>When the breach was stopped</td></tr>
+  <tr><td>Severity</td><td>Critical / High / Medium / Low</td></tr>
+  <tr><td>Type of breach</td><td>Confidentiality / Integrity / Availability</td></tr>
+  <tr><td>Data categories affected</td><td>e.g. email addresses, financial data</td></tr>
+  <tr><td>Approx. data subjects</td><td>Number of individuals affected</td></tr>
+  <tr><td>Notified DPA?</td><td>Yes / No / Not required — with reason</td></tr>
+  <tr><td>Notified data subjects?</td><td>Yes / No / Not required — with reason</td></tr>
+  <tr><td>Notified Customers?</td><td>Yes (list) / No / Not applicable</td></tr>
+  <tr><td>Root cause</td><td>Brief description</td></tr>
+  <tr><td>Remediation</td><td>Actions taken</td></tr>
+  <tr><td>Closed</td><td>Date and sign-off</td></tr>
+</table>
+
+<h2><span class="section-num">7.</span>Australian NDB Requirements</h2>
+<p>If the breach affects Australian data subjects and offplan.online has AU customers, the Notifiable Data Breach (NDB) scheme under the Privacy Act 1988 (Cth) applies:</p>
+<ul>
+  <li>Assess within 30 days of suspecting an "eligible data breach" (serious harm likely)</li>
+  <li>Notify OAIC and affected individuals as soon as practicable</li>
+  <li>Notification form: <a href="https://www.oaic.gov.au/privacy/notifiable-data-breaches/notify-us-of-a-data-breach" target="_blank">oaic.gov.au — Notify us of a data breach</a></li>
+  <li>Different threshold to GDPR (focus on "serious harm" not just "risk") — may require separate assessment</li>
+</ul>
+
+<h2><span class="section-num">8.</span>Annual Test</h2>
+<p>This procedure must be tested annually via a tabletop exercise. The exercise simulates a breach scenario, walks the team through this procedure, and identifies gaps. Results are documented and used to update the procedure. Next scheduled test: <strong>[DATE]</strong>.</p>
+
+<h2><span class="section-num">9.</span>Incident Response Checklist (print and use during an incident)</h2>
+<ul class="checklist">
+  <li>Hour 0: Incident detected — start clock, notify Engineering lead &amp; DPO immediately</li>
+  <li>Hour 0: Start Incident Log — date, time, who detected, initial description</li>
+  <li>Hour 0: Immediate containment — revoke credentials, isolate systems if needed</li>
+  <li>Hour 0: Preserve evidence — do not delete logs</li>
+  <li>Hour 0–2: Classify severity (Critical / High / Medium / Low)</li>
+  <li>Hour 0–4: Notify CEO</li>
+  <li>Hour 0–4: Engage external counsel if Critical or High</li>
+  <li>Hour 0–4: Notify affected Customers if processor breach</li>
+  <li>Hour 4–24: Full investigation — scope, data affected, number of data subjects</li>
+  <li>Hour 4–24: Decide: notification required? Document reasoning either way</li>
+  <li>Hour 4–24: Draft Art. 33 notification (use template in §5)</li>
+  <li>Hour 24–72: Submit Art. 33 to Cyprus DPA</li>
+  <li>Hour 24–72: Submit NDB notification to OAIC if AU data subjects affected</li>
+  <li>72h+: Art. 34 data subject notification if "high risk" — or document why not required</li>
+  <li>5–30 days: Root cause analysis and remediation plan</li>
+  <li>5–30 days: Post-Incident Report (PIR) — internal + Customer summary</li>
+  <li>Complete: Update Breach Register entry and close incident</li>
+</ul>
+
+</main>
+
+<footer>
+  offplan.online Ltd · Cyprus · Internal SOP · Draft v0.1 · GDPR Art. 33–34 · <a href="index.html" style="color:#9fb0c0;">← Legal Documents Index</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Level Agreement — offplan.online</title>
+<style>
+  :root { --navy: #0f1924; --gold: #c9a84c; --text: #1a1a2e; --border: #ddd; --bg: #fafafa; --warn: #fff3cd; --warn-border: #ffc107; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; font-size: 15px; line-height: 1.7; color: var(--text); background: var(--bg); }
+  .draft-banner { background: var(--warn); border-bottom: 3px solid var(--warn-border); padding: 12px 40px; font-family: monospace; font-size: 13px; font-weight: bold; text-align: center; color: #7a5c00; }
+  header { background: var(--navy); color: #fff; padding: 48px 40px 36px; }
+  header h1 { font-size: 28px; font-weight: 400; color: #fff; }
+  header .meta { margin-top: 12px; font-size: 13px; color: #9fb0c0; font-family: 'Helvetica Neue', sans-serif; }
+  header .meta span { margin-right: 24px; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+  h2 { font-size: 18px; font-weight: 600; color: var(--navy); margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); font-family: 'Helvetica Neue', sans-serif; }
+  h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 24px 0 8px; font-family: 'Helvetica Neue', sans-serif; }
+  p { margin-bottom: 14px; }
+  ol { margin: 12px 0 14px 24px; } ol li { margin-bottom: 8px; }
+  ul { margin: 12px 0 14px 24px; } ul li { margin-bottom: 6px; }
+  .highlight { background: #f0f4ff; border-left: 3px solid var(--navy); padding: 14px 18px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+  .highlight strong { font-family: 'Helvetica Neue', sans-serif; font-size: 13px; text-transform: uppercase; color: var(--navy); display: block; margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-family: 'Helvetica Neue', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  .section-num { color: var(--gold); font-weight: 700; font-family: 'Helvetica Neue', sans-serif; margin-right: 8px; }
+  .big-stat { font-size: 48px; font-weight: 700; color: var(--navy); font-family: 'Helvetica Neue', sans-serif; line-height: 1; }
+  .stat-label { font-size: 13px; color: #666; font-family: 'Helvetica Neue', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .stats-row { display: flex; gap: 40px; margin: 24px 0; }
+  .stat-box { background: #f5f5f5; border: 1px solid var(--border); padding: 24px; border-radius: 6px; text-align: center; flex: 1; }
+  footer { background: var(--navy); color: #9fb0c0; padding: 24px 40px; font-size: 12px; font-family: 'Helvetica Neue', sans-serif; }
+  a { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="draft-banner">⚠ DRAFT — v0.1 — NOT LEGAL ADVICE — Review with qualified counsel before use</div>
+
+<header>
+  <h1>Service Level Agreement</h1>
+  <div class="meta">
+    <span><strong>Product:</strong> offplan.online</span>
+    <span><strong>Version:</strong> 0.1 (draft)</span>
+    <span><strong>Applies to:</strong> All paying subscriptions</span>
+    <span><strong>Effective:</strong> [DATE]</span>
+  </div>
+</header>
+
+<main>
+
+<p style="margin-top:0; color:#555; font-size:14px;">This Service Level Agreement ("SLA") defines the availability commitments, support tiers, and credit mechanisms for the offplan.online Service. It forms part of the Terms of Service for all paying Customers.</p>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="big-stat">99.5%</div>
+    <div class="stat-label">Monthly Uptime Commitment</div>
+  </div>
+  <div class="stat-box">
+    <div class="big-stat">3.6h</div>
+    <div class="stat-label">Maximum Allowed Downtime / Month</div>
+  </div>
+  <div class="stat-box">
+    <div class="big-stat">72h</div>
+    <div class="stat-label">Data Breach Notification</div>
+  </div>
+</div>
+
+<h2><span class="section-num">1.</span>Definitions</h2>
+<ul>
+  <li><strong>"Uptime"</strong> — the percentage of minutes in a calendar month during which the Service is Available.</li>
+  <li><strong>"Available"</strong> — the Service is accessible and functional for the primary use case (Sales App display and Admin Panel access). Degraded performance of non-core features does not constitute Unavailability.</li>
+  <li><strong>"Downtime"</strong> — any period during which the Service is Unavailable, excluding Scheduled Maintenance and Excluded Events.</li>
+  <li><strong>"Scheduled Maintenance"</strong> — planned maintenance notified at least 48 hours in advance, conducted during low-traffic windows.</li>
+  <li><strong>"Incident"</strong> — an unplanned event causing or risking Downtime or significant degradation.</li>
+  <li><strong>"SLA Credit"</strong> — a credit applied to future invoices, as defined in §4.</li>
+</ul>
+
+<h2><span class="section-num">2.</span>Uptime Commitment</h2>
+
+<table>
+  <tr><th>Plan</th><th>Monthly Uptime Commitment</th><th>Max Allowed Downtime/Month</th></tr>
+  <tr><td>Standard</td><td>99.5%</td><td>~3h 36min</td></tr>
+  <tr><td>Pro</td><td>99.5%</td><td>~3h 36min</td></tr>
+  <tr><td>Enterprise (future)</td><td>99.9%</td><td>~43min</td></tr>
+</table>
+
+<p>Uptime is calculated monthly: <code>Uptime% = (Total minutes − Downtime minutes) / Total minutes × 100</code></p>
+
+<h2><span class="section-num">3.</span>Excluded Events</h2>
+<p>The following are excluded from Downtime calculations:</p>
+<ul>
+  <li>Scheduled Maintenance (notified ≥ 48h in advance)</li>
+  <li>Events caused by Customer or End User actions (misconfiguration, exceeding API limits, invalid content)</li>
+  <li>Force majeure events (natural disasters, war, civil unrest, power grid failure)</li>
+  <li>Failures of third-party services outside the Company's reasonable control (DNS providers, ISPs, CDN providers not under contract)</li>
+  <li>DDoS attacks exceeding the Company's mitigation capacity</li>
+  <li>Beta or preview features explicitly labelled as such</li>
+</ul>
+
+<h2><span class="section-num">4.</span>SLA Credits</h2>
+<p>If the Company fails to meet the uptime commitment in a calendar month, eligible Customers may request an SLA Credit:</p>
+
+<table>
+  <tr><th>Monthly Uptime Achieved</th><th>Credit (% of Monthly Fee)</th></tr>
+  <tr><td>99.0% – 99.49%</td><td>10%</td></tr>
+  <tr><td>98.0% – 98.99%</td><td>25%</td></tr>
+  <tr><td>95.0% – 97.99%</td><td>50%</td></tr>
+  <tr><td>Below 95.0%</td><td>100%</td></tr>
+</table>
+
+<div class="highlight">
+  <strong>Credit Conditions</strong>
+  Credits are account credits applied to future invoices — not cash refunds. To claim, the Customer must submit a request to <a href="mailto:support@offplan.online">support@offplan.online</a> within 30 days of the relevant month. Credits are the Customer's sole remedy for SLA breaches. Total credits in any month shall not exceed 100% of the monthly fee.
+</div>
+
+<h2><span class="section-num">5.</span>Support Tiers</h2>
+
+<table>
+  <tr><th>Plan</th><th>Support Channel</th><th>First Response (Business Hours)</th><th>Business Hours</th></tr>
+  <tr><td>Standard</td><td>Email only</td><td>Next business day</td><td>Mon–Fri 09:00–18:00 CET</td></tr>
+  <tr><td>Pro</td><td>Email + in-app chat</td><td>4 business hours</td><td>Mon–Fri 09:00–18:00 CET</td></tr>
+  <tr><td>Enterprise</td><td>Email + chat + dedicated CSM</td><td>1 business hour</td><td>24/7 for P1 Incidents</td></tr>
+</table>
+
+<h3>Priority Levels</h3>
+<table>
+  <tr><th>Priority</th><th>Definition</th><th>Target Resolution</th></tr>
+  <tr><td><strong>P1 — Critical</strong></td><td>Service completely unavailable or data loss occurring</td><td>4 hours</td></tr>
+  <tr><td><strong>P2 — High</strong></td><td>Core feature broken, significant workflow blocked</td><td>1 business day</td></tr>
+  <tr><td><strong>P3 — Medium</strong></td><td>Feature degraded, workaround available</td><td>3 business days</td></tr>
+  <tr><td><strong>P4 — Low</strong></td><td>Cosmetic issue, feature request, question</td><td>Next release cycle</td></tr>
+</table>
+
+<h2><span class="section-num">6.</span>Incident Communication</h2>
+<ol>
+  <li>Service status is published at <strong>status.offplan.online</strong>.</li>
+  <li>For P1 Incidents, the Company will post an initial status update within 30 minutes of detection.</li>
+  <li>Progress updates will be posted at intervals of ≤ 1 hour until resolution.</li>
+  <li>A post-incident report (PIR) will be published within 5 business days of resolution for P1 Incidents affecting multiple Customers.</li>
+</ol>
+
+<h2><span class="section-num">7.</span>Planned Maintenance</h2>
+<ol>
+  <li>Scheduled Maintenance will be notified at least 48 hours in advance via email and the status page.</li>
+  <li>Maintenance will preferably be conducted between 02:00 and 06:00 CET on weekdays.</li>
+  <li>The Company targets ≤ 4 hours of Scheduled Maintenance per calendar month.</li>
+  <li>Emergency maintenance (for critical security patches) may be performed with shorter notice; the Company will notify as promptly as practical.</li>
+</ol>
+
+<h2><span class="section-num">8.</span>Data Backup and Recovery</h2>
+<ul>
+  <li><strong>Backup frequency:</strong> Daily automated backups</li>
+  <li><strong>Backup retention:</strong> 30 days</li>
+  <li><strong>Recovery Point Objective (RPO):</strong> ≤ 24 hours (data loss in worst case)</li>
+  <li><strong>Recovery Time Objective (RTO):</strong> ≤ 4 hours (time to restore from backup)</li>
+  <li>Backups are encrypted and stored in a geographically separate location within the EU</li>
+</ul>
+
+<h2><span class="section-num">9.</span>Measurement</h2>
+<p>Uptime is measured by the Company's monitoring systems (synthetic probes from multiple regions). The Company's measurements are authoritative for SLA Credit calculations. Customers may provide independent monitoring data as supporting evidence in a Credit claim.</p>
+
+<h2><span class="section-num">10.</span>SLA Review</h2>
+<p>The Company may update this SLA with 60 days' notice. Changes will not reduce commitments for the current billing period.</p>
+
+</main>
+
+<footer>
+  offplan.online Ltd · Cyprus · Draft v0.1 · Not legal advice · <a href="index.html" style="color:#9fb0c0;">← Legal Documents Index</a>
+</footer>
+
+</body>
+</html>
