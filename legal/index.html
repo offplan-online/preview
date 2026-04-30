@@ -34,6 +34,17 @@
   .badge-lawyer { background: #fdecea; color: #c62828; border: 1px solid #ef9a9a; }
   .note { background: #f0f4ff; border-left: 3px solid var(--navy); padding: 16px 20px; border-radius: 0 4px 4px 0; margin: 32px 0; font-size: 14px; }
   .note strong { font-weight: 600; color: var(--navy); display: block; margin-bottom: 4px; }
+  .brief-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0 36px; }
+  .brief-card { background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 8px; padding: 20px 22px; }
+  .brief-card.warn { background: #fff9ec; border-color: #ffc107; border-left-color: #e09900; }
+  .brief-card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 10px; }
+  .brief-card.warn .brief-card-label { color: #9a6800; }
+  .brief-card ul { margin: 8px 0 0 18px; padding: 0; font-size: 13px; color: #444; line-height: 1.75; }
+  .brief-card p { font-size: 13px; color: #444; margin: 0; }
+  .brief-card table { width: 100%; font-size: 13px; border-collapse: collapse; margin: 0; background: transparent; border: none; }
+  .brief-card table td { padding: 5px 0; border: none; vertical-align: top; color: #444; }
+  .brief-card table td:first-child { font-weight: 600; color: #333; width: 80px; padding-right: 10px; }
+  .ph { font-family: 'Courier New', monospace; font-size: 12px; background: #f0f0f0; padding: 1px 6px; border-radius: 3px; color: #555; white-space: nowrap; }
   footer { background: var(--navy); color: #9fb0c0; padding: 28px 40px; font-size: 12px; }
   footer a { color: #9fb0c0; }
 </style>
@@ -52,6 +63,53 @@
 <div class="note">
   <strong>Before using any of these documents</strong>
   These are structured drafts for internal review and legal counsel input. They are not final, not signed, and must not be presented to customers or third parties without qualified legal review. Governing law: Cyprus. Jurisdiction-specific clauses for Australia and UAE are included where relevant.
+</div>
+
+<h2 class="section-title" style="margin-top:0;">Lawyer Brief</h2>
+
+<div class="brief-grid">
+
+  <div class="brief-card">
+    <div class="brief-card-label">Business</div>
+    <p>B2B SaaS — white-label property-sales presentation platform. Studios and agencies subscribe, then serve their developer clients under their own brand. Strictly B2B: no consumer retail, no marketplace between end-users.</p>
+    <ul>
+      <li>Primary customers: rendering studios (white-label)</li>
+      <li>Secondary: real-estate agencies / sales agencies (direct)</li>
+      <li>Billing: self-serve monthly or annual subscription</li>
+      <li>No physical goods; no peer-to-peer transactions</li>
+    </ul>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-label">Legal Entity</div>
+    <p><strong>offplan.online Ltd</strong> — Cyprus private limited company.</p>
+    <ul>
+      <li>Incorporation in progress — lawyer engaged 2026-04-30</li>
+      <li>Registration No.: <span class="ph">[pending — fill once issued]</span></li>
+      <li>Registered address: <span class="ph">[pending — fill once confirmed]</span></li>
+      <li>EU entity — GDPR-native, no Art. 27 Representative needed</li>
+      <li>DPO: not yet appointed — confirm if mandatory at current scale</li>
+    </ul>
+  </div>
+
+  <div class="brief-card">
+    <div class="brief-card-label">Target Markets &amp; Coverage Depth</div>
+    <table>
+      <tr><td>Cyprus / EU</td><td>Primary. Company domicile. GDPR governs. Full coverage required.</td></tr>
+      <tr><td>Australia</td><td>Real near-term. Existing studio relationships via sister product (Volume Vision, AU-based, 3.5 yrs). AU Privacy Act 1988 + NDB scheme apply. Write at full depth.</td></tr>
+      <tr><td>UAE</td><td>Aspirational. Light-touch UAE PDPL coverage sufficient for now. DIFC / ADGM not planned — omit those layers unless advised otherwise.</td></tr>
+    </table>
+  </div>
+
+  <div class="brief-card warn">
+    <div class="brief-card-label">Open Decisions That Affect Legal Text</div>
+    <ul>
+      <li><strong>Payment processor — Paddle vs Stripe</strong> (undecided). Affects ToS §4.1 + §4.5 VAT treatment: Paddle = Merchant of Record (removes our VAT obligation); Stripe = direct billing (we collect + remit). Text currently reads <span class="ph">[Paddle / Stripe]</span> — decide before finalising.</li>
+      <li><strong>DPO appointment</strong> — confirm whether mandatory given our processing scale. If yes: name + contact email needed in Privacy Policy and ROPA header.</li>
+      <li><strong>Infrastructure sub-processors</strong> — email, analytics, error tracking, cookie consent — all <span class="ph">[TBC]</span> in DPA Annex C + ROPA Part C. Fill once tech stack is locked.</li>
+    </ul>
+  </div>
+
 </div>
 
 <h2 class="section-title">Core Platform Agreements</h2>
@@ -251,6 +309,66 @@
   <tr><td>SLA credit mechanism — is it the sole remedy?</td><td>SLA §4</td><td>"Sole remedy" language needs to survive local law scrutiny</td></tr>
   <tr><td>NDA governing law — Cyprus enforceable internationally?</td><td>NDA §9.1</td><td>Consider English law alternative for international deals</td></tr>
   <tr><td>Property disclaimer sufficiency for AU/UAE property law</td><td>End-User Notice</td><td>AU Consumer Law + UAE RERA — specific property advertising obligations</td></tr>
+</table>
+
+
+<h2 class="section-title" style="margin-top:48px;">[TBC] Placeholder Fields — Complete List</h2>
+<p style="font-size:13px; color:#555; margin-bottom:16px; max-width:680px;">Every placeholder across all 11 documents, in one place. Once a decision is made, fill the field in the document(s) listed — no need to re-read the full text.</p>
+<table class="status-table">
+  <tr>
+    <th style="width:18%;">Placeholder</th>
+    <th style="width:28%;">Document(s)</th>
+    <th style="width:16%;">Section</th>
+    <th>What's needed</th>
+  </tr>
+  <tr>
+    <td><span class="ph">[REG NO]</span></td>
+    <td>Terms of Service, NDA Template</td>
+    <td>§1 Definitions; NDA §1</td>
+    <td>Cyprus company registration number — issued on incorporation</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[ADDRESS]</span></td>
+    <td>Terms of Service, Privacy Policy, NDA Template</td>
+    <td>ToS §1; PP §12 contact; NDA §1</td>
+    <td>Registered office address — confirmed on incorporation</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[Paddle / Stripe]</span></td>
+    <td>Terms of Service</td>
+    <td>§4.1 Billing &amp; Payment</td>
+    <td>Choose Merchant of Record model (Paddle) or direct billing (Stripe) — decision needed before launch; affects VAT treatment throughout</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[Email provider]</span></td>
+    <td>Data Processing Agreement, ROPA</td>
+    <td>DPA Annex C; ROPA Part C</td>
+    <td>Transactional email provider (e.g. Resend, SendGrid, Postmark) — needed before launch</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[Analytics provider]</span></td>
+    <td>ROPA</td>
+    <td>ROPA Part C sub-processors</td>
+    <td>Product analytics platform (e.g. PostHog, Mixpanel, Amplitude) — needed before launch</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[Error tracking]</span></td>
+    <td>ROPA</td>
+    <td>ROPA Part C sub-processors</td>
+    <td>Error monitoring service (e.g. Sentry, Datadog) — needed before launch</td>
+  </tr>
+  <tr>
+    <td><span class="ph">[Cookie consent platform]</span></td>
+    <td>ROPA, Cookie Policy</td>
+    <td>ROPA Part C; Cookie Policy §6</td>
+    <td>Consent management platform (e.g. iubenda, Cookiebot) — required before launch for ePrivacy / GDPR compliance</td>
+  </tr>
+  <tr>
+    <td>DPO name + email</td>
+    <td>Privacy Policy, ROPA</td>
+    <td>PP §12 Contact; ROPA header</td>
+    <td>Confirm if DPO appointment is mandatory at current processing scale; if yes — name + contact email. If not mandatory, add "no DPO appointed" statement instead.</td>
+  </tr>
 </table>
 
 </main>

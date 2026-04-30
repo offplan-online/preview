@@ -4340,6 +4340,39 @@
   <p class="lead">История ревизий плана. Источник истины — markdown в git.</p>
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.5 — 2026-04-30 (CONV-13)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> CONV-13 продолжение — правовой блок, тест продукта, анализ готовности.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Полный блок правовых документов (Tier 2)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/legal/index.html</code> — мастер-индекс 11 документов со статусами (P0/P1/P2), чеклистом для юриста и таблицей "What Lawyers Need to Check".</li>
+      <li>Созданы все 11 черновых документов (Draft v0.1): ToS, Privacy Policy, DPA, AUP, SLA, Reseller Agreement, NDA Template, End-User Notice, Cookie Policy, ROPA, Data Breach Procedure.</li>
+      <li>Все документы: кипрское право, GDPR (Art. 28, 30, 33–34), AU Privacy Act overlay, UAE PDPL overlay.</li>
+      <li>В <code>docs/plan/legal-sources.html</code> добавлен раздел «Наши черновые документы» с таблицами по типу и 7-пунктовым чеклистом для юриста.</li>
+      <li>Добавлена стратегия защиты от refund-злоупотреблений: B2B declaration (убирает EU Consumer Rights Directive) + service commencement waiver + usage-based no-refund clause. Записано в <code>docs/ideas.md</code>.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Lawyer Brief в docs/legal/index.html</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Добавлен раздел «Lawyer Brief» — 4 карточки: описание бизнеса, статус юр. лица, рынки и глубина покрытия (EU/AU full, UAE light-touch), открытые решения влияющие на текст.</li>
+      <li>Добавлена таблица «[TBC] Placeholder Fields» — полный список из 8 незаполненных полей по всем 11 документам: [REG NO], [ADDRESS], [Paddle / Stripe], [Email provider], [Analytics provider], [Error tracking], [Cookie consent platform], DPO.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Тестирование продукта</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/research/prod-test-2026-04-30.md</code> — протокол тестирования Tapestry-проекта.</li>
+      <li>Зафиксированы 2 подтверждённых бага: BUG-1 (hotspot placement drift при изменении размера), BUG-2 (unit enquiry form сбрасывается).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Анализ готовности</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Вытащено 38 открытых вопросов (❓) из плана и категоризировано: 24 закрываемых сейчас, 4 требуют Илью, 10 требуют бизнес-решения.</li>
+      <li>Оценка готовности плана: 6/10 — основная структура сильная, ~20 ⏱ маркеров не закрыты, pricing и billing provider не выбраны.</li>
+      <li>Кипрская инкорпорация начата (подтверждено пользователем 2026-04-30, юрист привлечён).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.4 — 2026-04-29 (CONV-13)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> разработка маркетингового лендинга offplan.online в три захода (v1 → v2 → v3) + ревизия дизайн-ссылок в плане.</p>
 
