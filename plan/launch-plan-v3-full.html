@@ -1912,7 +1912,7 @@
     <li>В момент когда первая студия зарегистрировалась — нужен инструмент чтобы её увидеть, помочь, при необходимости заблокировать (suspend)</li>
     <li>Без отдельной staff-панели администрирование идёт через консоль БД — рискованно, действия нельзя атрибутировать, не масштабируется на будущий найм support</li>
     <li>Audit log дёшево добавить заранее, дорого встраивать через год</li>
-    <li>Adapter-pattern для платежей позволяет начать с manual entry и подключить Stripe / PayTabs позже без переделки UI</li>
+    <li>Adapter-pattern для платежей позволяет начать с manual entry и подключить Stripe / Paddle / Checkout.com позже без переделки UI</li>
   </ul>
 </div>
 
@@ -1924,7 +1924,7 @@
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
     <li>Subscription table: <code>org_id</code>, <code>plan</code> (free/trial/pro/enterprise), <code>status</code>, <code>trial_ends</code>, <code>cycle_start</code>, <code>next_billing_date</code></li>
-    <li>Payment table: <code>org_id</code>, <code>subscription_id</code>, <code>amount</code>, <code>currency</code>, <code>date</code>, <code>status</code>, <code>provider</code>, <code>external_id</code> — provider-neutral (Stripe / PayTabs / manual entry — все через один schema)</li>
+    <li>Payment table: <code>org_id</code>, <code>subscription_id</code>, <code>amount</code>, <code>currency</code>, <code>date</code>, <code>status</code>, <code>provider</code>, <code>external_id</code> — provider-neutral (Stripe / Paddle / Checkout.com / manual entry — все через один schema)</li>
     <li>AuditLog table: <code>actor_id</code>, <code>actor_type</code> (operator / user / system), <code>action</code>, <code>target_type</code>, <code>target_id</code>, <code>org_id</code>, <code>timestamp</code>, <code>metadata</code> (JSON)</li>
     <li>Migrations + seed data: создать Subscription для существующих org как 'trial' / 'free' пока billing не подключён</li>
     <li>Indexes: <code>org_id</code> на всех трёх, <code>timestamp</code> на AuditLog (для быстрого фильтра по периоду)</li>
@@ -1935,7 +1935,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul>
     <li>❓ AuditLog retention: хранить вечно или archive после N месяцев?</li>
-    <li>❓ Payment provider — выбираем Stripe / PayTabs / Telr / hybrid? (Не блокирует 1.9, но нужно для подключения adapter — решается в 1.5)</li>
+    <li>✅ <s>Payment provider — выбираем Stripe / PayTabs / Telr / hybrid?</s> — <strong>Решено per <a href="payments-research.html">payments-research</a>:</strong> multi-provider по фазам — Stripe primary (Стадия 1), + Paddle EU B2C (Стадия 2), + Checkout.com UAE AED (Стадия 3). Adapter подключается в 1.5.3.</li>
   </ul>
 </details>
   <div class="task-deps">Зависит от: <strong>Фаза 1.2.1 (Organisation / Tenant entity</strong> — проектируется один раз и используется и в Onboarding, и в Operator Dashboard) · Блокирует: 1.9.3, 1.9.4, 1.9.6, 1.9.7</div>
@@ -2030,7 +2030,7 @@
 <div class="task">
   <div class="task-title"><span class="task-id">1.9.6</span><span class="task-name">Payments page (manual entry adapter — Итерация 1)</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">Сквозной просмотр платежей по всем клиентам. <strong>Итерация 1 (упрощён 2026-04-28):</strong> только <strong>manual entry adapter</strong> — оператор руками вносит записи о платежах, когда студия оплатила (банковский перевод / инвойс / разовая сделка с выставки). Реальный провайдер (Stripe / Paddle / PayTabs / Telr) подключается в <strong>Фазе 1.5</strong> — UI здесь не меняется (provider-neutral schema). На странице Settings — placeholder-карточка "Payment Provider", указывающая на Фазу 1.5. Глубокая аналитика (MRR breakdown, churn, expansion, когорты) — Стадия 4.</p>
+  <p class="task-desc">Сквозной просмотр платежей по всем клиентам. <strong>Итерация 1 (упрощён 2026-04-28):</strong> только <strong>manual entry adapter</strong> — оператор руками вносит записи о платежах, когда студия оплатила (банковский перевод / инвойс / разовая сделка с выставки). Реальный провайдер (Stripe / Paddle / Checkout.com — multi-provider per <a href="payments-research.html">payments-research</a>) подключается в <strong>Фазе 1.5</strong> — UI здесь не меняется (provider-neutral schema). На странице Settings — placeholder-карточка "Payment Provider", указывающая на Фазу 1.5. Глубокая аналитика (MRR breakdown, churn, expansion, когорты) — Стадия 4.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать (Итерация 1) <span class="count">(6)</span></summary>
   <ul>
@@ -2043,9 +2043,9 @@
   </ul>
 </details>
   <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <summary class="task-label">Открытые вопросы <span class="count">(0)</span></summary>
   <ul>
-    <li>❓ Валюты — только AED или USD + AED? (Большинство студий из ОАЭ, но запросы на USD будут от международных клиентов)</li>
+    <li>✅ <s>Валюты — только AED или USD + AED?</s> — <strong>Решено per <a href="payments-research.html">payments-research</a>:</strong> multi-currency — USD / EUR / AED / AUD; pay.offplan.online/&lt;slug&gt; страница с выбором валюты, маршрутизация к нужному provider</li>
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.9.1, 1.9.2 · Связано: <strong>Фаза 1.5</strong> (подключение провайдера) · Блокирует: —</div>
@@ -2084,7 +2084,7 @@
   <summary class="task-label">Итерация 1 — minimal stub <span class="count">(2)</span></summary>
   <ul>
     <li>Страница Settings есть в навигации (placeholder)</li>
-    <li><strong>Payment Provider</strong> placeholder-карточка на Settings — показывает текущий провайдер ("Manual entry · Active") + карточки Stripe / Paddle / PayTabs / Telr (disabled, Phase 1.5)</li>
+    <li><strong>Payment Provider</strong> placeholder-карточка на Settings — показывает текущий провайдер ("Manual entry · Active") + карточки Stripe / Paddle / Checkout.com (disabled, Phase 1.5 — multi-provider per <a href="payments-research.html">payments-research</a>)</li>
   </ul>
 </details>
   <details>
@@ -2103,7 +2103,7 @@
 <div style="margin:18px 0 0; padding:14px 18px; background:var(--sand-100); border:1px solid var(--border); border-radius:8px; font-size:13.5px; color:var(--text-mid);">
   <strong style="color:var(--navy);">Связи с другими фазами:</strong>
   <ul style="margin:8px 0 0; padding-left:20px;">
-    <li><strong>1.5 (Платёжная инфраструктура)</strong> — UI страницы Payments готов в 1.9, конкретный plug-in провайдера (Stripe / PayTabs) подключается в Фазе 1.5. Adapter-pattern позволяет подключить позже без переделки UI.</li>
+    <li><strong>1.5 (Платёжная инфраструктура)</strong> — UI страницы Payments готов в 1.9, конкретные plug-in'ы провайдеров (Stripe → Paddle → Checkout.com per <a href="payments-research.html">payments-research</a>) подключаются в Фазе 1.5. Adapter-pattern позволяет добавлять провайдеров без переделки UI.</li>
     <li><strong>1.6 (Security)</strong> — аутентификация оператора должна соответствовать security baseline (password hashing, session policy, 2FA optional / required).</li>
     <li><strong>1.7 (Legal)</strong> — ToS должна раскрывать факт доступа оператора к данным клиентов; будущая impersonation потребует обязательного disclosure.</li>
     <li><strong>Стадия 4 (отложено)</strong> — иерархия ролей оператора (sales / support / finance), глубокая аналитика выручки (MRR breakdown / churn / cohort retention), impersonation, mobile-responsive layout.</li>
