@@ -1489,11 +1489,11 @@
 
 <!-- Фаза 1.7 — Legal & Compliance -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
-  <strong style="color:var(--red);">🔴 Critical.</strong>
-  Без этого не можем легально продавать в EU, UAE/GCC и Australia. <strong>База готова</strong> — AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers накладываются сверху из публичных шаблонов (Stripe, Cloudflare, Property Finder). Полный список референсов: <a href="legal-sources.html">📖 Legal Sources &amp; References</a> — companion document для юриста.
+  <strong style="color:var(--red);">🔴 Critical · 🇨🇾 Cyprus base (decided 2026-04-30).</strong>
+  Основное юрлицо — Cyprus (EU member, 12.5% corp tax, GDPR-native). На Cyprus base накладываются UAE и Australia compliance layers (1.7.7, 1.7.8). <strong>База готова</strong> — AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers из публичных шаблонов (Stripe, Cloudflare, Property Finder). Полный список референсов: <a href="legal-sources.html">📖 Legal Sources &amp; References</a>.
 </div>
 
-<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для запуска в EU / UAE / Australia. Юрист пишет тексты — мы формулируем требования + предоставляем готовые шаблоны (VV T&amp;Cs для AU, Stripe/Cloudflare для EU, Property Finder/DIFC для UAE).</p>
+<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для Cyprus-base SaaS, продающего в EU / UAE / Australia. Юрист пишет тексты — мы формулируем требования + предоставляем готовые шаблоны (Cyprus / EU GDPR-native; UAE clauses для UAE-резидентов; AU clauses для AU studios — VV T&amp;Cs готовы как база).</p>
 <div class="phase-files"><strong>Файлы фазы</strong>
   <a href="legal-sources.html">📖 Legal Sources &amp; References</a>
   <a href="https://volume.vision/sla-tcs">VV T&amp;Cs (AU base)</a>
@@ -1597,48 +1597,54 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">Jurisdiction &amp; Legal Entity</span></div>
-  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Решение по основной юрисдикции — определяет всё остальное. От зоны зависит налоговый режим, формат T&amp;Cs, banking, обязательные регистрации.</p>
+  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">Cyprus incorporation &amp; setup</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc"><strong>✅ Решено 2026-04-30: основное юрлицо — Cyprus.</strong> EU member state → GDPR-native (EU Representative по Art. 27 не нужен — мы сами EU). Corporate tax 12.5% (один из самых низких в EU), банкинг и incorporation services развиты. UAE/AU compliance накладывается сверху для соответствующих рынков (1.7.7, 1.7.8).</p>
   <details>
-  <summary class="task-label">4 опции <span class="count">(4)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
   <ul>
-    <li><strong>EU-юрлицо</strong> (Ireland / Estonia / Malta) — fully GDPR-native, дороже в обслуживании</li>
-    <li><strong>EU Rep + base elsewhere</strong> (~$50-200/мес номинал) — дешевле, но сложнее доказать compliance</li>
-    <li><strong>UAE-юрлицо</strong> (Mainland / DIFC / ADGM) — для UAE+GCC focus, Mainland для federal market, DIFC/ADGM для GDPR-aligned compliance + free zone benefits</li>
-    <li><strong>Australia (Queensland)</strong> — как у VV; домашний рынок, но придётся накладывать EU/UAE compliance отдельно</li>
+    <li>Регистрация компании (private limited / LTD) — через corporate services provider (~€1,500-3,000 setup)</li>
+    <li>Beneficial Ownership Register filing (Cyprus BO Register, обязательно с 2021)</li>
+    <li>Open business bank account (4-8 недель compliance-heavy процесса; топ banks: Bank of Cyprus, Hellenic Bank, Eurobank Cyprus)</li>
+    <li>Cyprus VAT registration (если threshold €15,600 пройдён) — VAT 19% standard, 9% reduced</li>
+    <li>EU OSS (One Stop Shop) registration — если cross-border B2C ≥€10K (упрощает VAT через одну Cyprus декларацию вместо 27)</li>
+    <li>Tax registration + accountant retention (annual return, social insurance, IR4 form)</li>
+    <li>Apostille / certified company documents для open accounts на других платформах (Stripe, Paddle)</li>
   </ul>
 </details>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <summary class="task-label">Что НЕ нужно делать (Cyprus benefits) <span class="count">(3)</span></summary>
   <ul>
-    <li>Решение: где основное юрлицо</li>
-    <li>VAT/GST registration thresholds — где и когда</li>
-    <li>Tax jurisdiction</li>
-    <li>Bank account под выбранную зону</li>
-    <li>EU Representative — если основная не EU (обязательно по GDPR Art. 27)</li>
+    <li><strong>EU Representative</strong> — не нужен (сами EU per GDPR Art. 27)</li>
+    <li><strong>Multiple VAT registrations</strong> — EU OSS заменяет 27 регистраций одной</li>
+    <li><strong>Adequacy decisions</strong> для transfer данных в EU — мы сами destination, не source</li>
   </ul>
 </details>
   <details>
   <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
-  <ul><li>❓ Основная юрисдикция?</li><li>❓ DIFC vs Mainland vs ADGM (если UAE)?</li><li>❓ EU Rep — кто (специализированные агентства типа DPO Centre)?</li></ul>
+  <ul>
+    <li>❓ Corporate services provider — кто (Eurofast / Oneworld / Vistra / local Cyprus firm)?</li>
+    <li>❓ Bank — Bank of Cyprus / Hellenic / Eurobank / EU neobank типа Wise Business?</li>
+    <li>❓ Substance requirement — где работают директора (для tax residency должна быть Cyprus management & control)?</li>
+  </ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.7.1, 1.7.2, 1.5.3</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.7.1, 1.7.2, 1.5.3, 1.7.6</div>
 </div>
 
 <div class="task">
   <div class="task-title"><span class="task-id">1.7.6</span><span class="task-name">VAT / GST registration</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Регистрация по VAT/GST там где нужно (EU, UK, UAE, Australia).</p>
-  <p class="task-files"><strong>⚠️ Главный shortcut:</strong> если выбираем Paddle (MoR) в 1.5.3 — VAT/tax registration <strong>снимается</strong> с нас (Paddle handles EU/UK/UAE VAT и AU GST). Если Stripe — самостоятельно регистрируемся в EU OSS, UK VAT, UAE FTA, Australia ATO. См. <a href="legal-sources.html#vat">Legal Sources — VAT</a>.</p>
+  <p class="task-desc">Регистрация по VAT/GST. Cyprus base упрощает EU-часть — через EU OSS одной декларацией покрываем все 27 EU-стран.</p>
+  <p class="task-files"><strong>⚠️ Cyprus упрощения:</strong> Cyprus VAT (19%) — basic registration; EU OSS на Cyprus покрывает cross-border B2C во всех 27 странах через одну декларацию. <strong>Если выбираем Paddle (MoR) в 1.5.3</strong> — UK/UAE/AU regs снимаются (Paddle handles). Если Stripe — нужны UK/UAE/AU отдельно. См. <a href="legal-sources.html#vat">Legal Sources — VAT</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
   <ul>
-    <li>EU OSS (One Stop Shop) — после €10K threshold cross-border</li>
-    <li>UK VAT — после £90K threshold</li>
-    <li>UAE VAT (5%) — после AED 375K, voluntary с AED 187.5K</li>
-    <li>Australia GST (10%) — после AUD $75K threshold</li>
-    <li>Invoice template с нужными полями per-juridiction</li>
+    <li><strong>Cyprus VAT (19%)</strong> — local registration (threshold €15,600 — обычно сразу)</li>
+    <li><strong>EU OSS</strong> — после €10K cross-border B2C threshold; одна декларация на все 27 EU-стран (Cyprus упрощение)</li>
+    <li>UK VAT — после £90K threshold (или Paddle handles)</li>
+    <li>UAE VAT (5%) — если есть UAE B2B (или Paddle handles)</li>
+    <li>Australia GST (10%) — если AU B2B ≥AUD 75K (или Paddle handles)</li>
+    <li>Invoice template per-jurisdiction (Cyprus EU-format, UAE TRN, Australian ABN)</li>
   </ul>
 </details>
   <details>
