@@ -1062,7 +1062,7 @@
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="sidebar-logo-name">offplan.online</div>
-    <div class="sidebar-logo-sub">Brandbook v1.2 · 2026-04-29</div>
+    <div class="sidebar-logo-sub">Brandbook v1.3 · 2026-05-01</div>
   </div>
   <nav>
     <div class="sidebar-section-label">Overview</div>
@@ -1077,6 +1077,9 @@
     <div class="sidebar-section-label">Typography</div>
     <a href="#type-current">Current type</a>
     <a href="#type-scale">Type scale</a>
+
+    <div class="sidebar-section-label">Internationalisation</div>
+    <a href="#i18n">Language & RTL</a>
 
     <div class="sidebar-section-label">Tokens</div>
     <a href="#spacing">Spacing</a>
@@ -1833,6 +1836,153 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: Internationalisation & RTL ──────────────── -->
+  <section class="section" id="i18n">
+    <div class="section-eyebrow">Internationalisation</div>
+    <h2 class="section-title">Language & RTL</h2>
+    <p class="section-desc">
+      offplan.online targets English at launch, Arabic (UAE) in Stage 2, and broader
+      European and APAC languages in Stage 3. Design for global readability from day one —
+      flex-width components, logical CSS properties, and zero hardcoded strings.
+    </p>
+
+    <!-- Language roadmap -->
+    <div class="subsection-title">Language roadmap</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--stone-200);">
+          <th style="text-align:left;padding:8px 12px;color:var(--text-500);font-weight:500;">Language</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--text-500);font-weight:500;">Script</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--text-500);font-weight:500;">Region</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--text-500);font-weight:500;">Stage</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--text-500);font-weight:500;">Font addition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--stone-100);">
+          <td style="padding:10px 12px;font-weight:600;">English</td>
+          <td style="padding:10px 12px;color:var(--text-500);">Latin · LTR</td>
+          <td style="padding:10px 12px;color:var(--text-500);">Global</td>
+          <td style="padding:10px 12px;"><span style="background:#dcfce7;color:#166534;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;">Launch</span></td>
+          <td style="padding:10px 12px;color:var(--text-500);">Helvetica Neue (current)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--stone-100);">
+          <td style="padding:10px 12px;font-weight:600;">Arabic</td>
+          <td style="padding:10px 12px;color:var(--text-500);">Arabic · RTL</td>
+          <td style="padding:10px 12px;color:var(--text-500);">UAE + MENA</td>
+          <td style="padding:10px 12px;"><span style="background:#fef9c3;color:#854d0e;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;">Stage 2</span></td>
+          <td style="padding:10px 12px;color:var(--text-500);">IBM Plex Arabic</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px;font-weight:600;">FR / DE / others</td>
+          <td style="padding:10px 12px;color:var(--text-500);">Latin · LTR</td>
+          <td style="padding:10px 12px;color:var(--text-500);">EU / APAC</td>
+          <td style="padding:10px 12px;"><span style="background:#f1f5f9;color:var(--text-500);font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;">Stage 3</span></td>
+          <td style="padding:10px 12px;color:var(--text-500);">No new font needed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- RTL rules -->
+    <div class="subsection-title">RTL layout rules</div>
+    <div class="motion-row" style="border-top:1px solid var(--stone-200);">
+      <span class="motion-name"><code>dir="rtl"</code></span>
+      <span class="motion-val">Set on <code>&lt;html&gt;</code></span>
+      <span class="motion-use">Browser mirrors layout automatically — margins, paddings, flex direction</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Text alignment</span>
+      <span class="motion-val"><code>text-align: start</code></span>
+      <span class="motion-use">Never use <code>left</code> / <code>right</code> — use <code>start</code> / <code>end</code> throughout</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Spacing</span>
+      <span class="motion-val"><code>padding-inline-*</code></span>
+      <span class="motion-use">Use logical properties (<code>-inline-start</code>, <code>-inline-end</code>) not <code>-left</code> / <code>-right</code></span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Directional icons</span>
+      <span class="motion-val">Mirror in RTL</span>
+      <span class="motion-use">Arrows, chevrons, back/forward — flip. Gear, ✓, ✕, star — do not flip.</span>
+    </div>
+    <div class="motion-row" style="border-bottom:none;">
+      <span class="motion-name">Scrollbar</span>
+      <span class="motion-val">Auto</span>
+      <span class="motion-use">Moves to the left in RTL — handled by browser, no custom CSS needed</span>
+    </div>
+
+    <!-- Arabic typography -->
+    <div class="subsection-title" style="margin-top:32px;">Arabic typography</div>
+    <div class="motion-row" style="border-top:1px solid var(--stone-200);">
+      <span class="motion-name">Font</span>
+      <span class="motion-val">IBM Plex Arabic</span>
+      <span class="motion-use">Free, modern, pairs well with Helvetica Neue numerics · fallback: Noto Naskh Arabic → system</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Font size</span>
+      <span class="motion-val">+1–2px vs Latin</span>
+      <span class="motion-use">Arabic letterforms are denser — same px reads smaller. Bump body text from 14px → 15px in RTL.</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Line height</span>
+      <span class="motion-val">1.6 minimum</span>
+      <span class="motion-use">Arabic ascenders/descenders need more breathing room than Latin (vs 1.4 default)</span>
+    </div>
+    <div class="motion-row" style="border-bottom:none;">
+      <span class="motion-name">Numerals</span>
+      <span class="motion-val">Western in data</span>
+      <span class="motion-use">Use Western Arabic (0–9) in prices, unit tables, data. Arabic-Indic (٠–٩) only in prose if explicitly requested.</span>
+    </div>
+
+    <!-- String expansion -->
+    <div class="subsection-title" style="margin-top:32px;">String expansion</div>
+    <p style="font-size:13px;color:var(--text-500);margin:0 0 16px;">
+      UI strings change length when translated. Components must never have a fixed pixel width tied to the English label.
+    </p>
+    <div class="motion-row" style="border-top:1px solid var(--stone-200);">
+      <span class="motion-name">Arabic vs English</span>
+      <span class="motion-val">~20% shorter</span>
+      <span class="motion-use">Arabic script is compact — buttons will shrink slightly, not overflow</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">German / French</span>
+      <span class="motion-val">25–35% longer</span>
+      <span class="motion-use">"Add to favourites" → "Zu den Favoriten hinzufügen" — buttons must stretch, not clip</span>
+    </div>
+    <div class="motion-row" style="border-bottom:none;">
+      <span class="motion-name">Rule</span>
+      <span class="motion-val">flex-width always</span>
+      <span class="motion-use">All buttons, labels, nav items: <code>width: auto; min-width: 44px</code>. No fixed widths on text containers.</span>
+    </div>
+
+    <!-- Date / number formatting -->
+    <div class="subsection-title" style="margin-top:32px;">Dates, numbers & currencies</div>
+    <div class="motion-row" style="border-top:1px solid var(--stone-200);">
+      <span class="motion-name">Numbers</span>
+      <span class="motion-val"><code>Intl.NumberFormat</code></span>
+      <span class="motion-use">Never hardcode thousand separators or decimal points — they differ by locale</span>
+    </div>
+    <div class="motion-row">
+      <span class="motion-name">Dates</span>
+      <span class="motion-val"><code>Intl.DateTimeFormat</code></span>
+      <span class="motion-use">04/05/2026 means May 4 in US, April 5 in EU — always use the API</span>
+    </div>
+    <div class="motion-row" style="border-bottom:none;">
+      <span class="motion-name">Prices</span>
+      <span class="motion-val">Currency code first</span>
+      <span class="motion-use">AED 4,200,000 (EN) · ٤٬٢٠٠٬٠٠٠ درهم (AR) — same value, <code>Intl</code> handles the format</span>
+    </div>
+
+    <div class="callout-idea">
+      <div class="idea-label">Implementation idea</div>
+      Use <strong>i18next</strong> (React) — all UI strings go in <code>src/i18n/en.json</code> from the first line of code.
+      Never write hardcoded text inside a component — even "Sign up" is a translatable key.
+      When Arabic ships: add <code>src/i18n/ar.json</code> and set <code>dir="rtl"</code> on <code>&lt;html&gt;</code> based on locale.
+      Use CSS logical properties (<code>padding-inline-*</code>, <code>margin-block-*</code>) throughout the codebase — RTL layout then
+      costs zero extra CSS. IBM Plex Arabic is on Google Fonts; one additional <code>&lt;link&gt;</code> in the <code>&lt;head&gt;</code>.
     </div>
   </section>
 
