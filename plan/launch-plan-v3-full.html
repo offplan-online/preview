@@ -292,7 +292,7 @@
   </a>
   <div class="hero-kicker">Launch Plan · Full Document</div>
   <h1>offplan<span class="brand-dot">.</span>online — Launch Plan</h1>
-  <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 23 фазы, ~120 подзадач.
+  <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 23 фазы, ~128 подзадач.
   Для обсуждения менеджментом: product team + tech team + Legal.</p>
   <div class="hero-meta">Версия 3.4 · 2026-04-29 · Статус: draft · <a href="#appendix-g" style="color:rgba(255,255,255,.7);text-decoration:underline;">Revision history →</a></div>
 </div>
@@ -381,7 +381,7 @@
   <h2>Executive Summary</h2>
   <p class="lead">Это план вывода <strong>offplan.online</strong> в лайв как публичного self-serve SaaS.
   Документ рассчитан на обсуждение менеджментом (product team + tech team), чтобы увидеть что критично,
-  с чего начать и убедиться что ничего не упущено. Задачи разложены по 4 стадиям, 25 фазам и 127 подзадачам.
+  с чего начать и убедиться что ничего не упущено. Задачи разложены по 4 стадиям, 25 фазам и 128 подзадачам.
   Тайминги умышленно отсутствуют — вместо них стоит маркер <strong>⏱ Требует эстимейт от tech team</strong>
   там, где нужны сроки.</p>
 
@@ -644,6 +644,24 @@
   </ul>
 </details>
   <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.1.4</span><span class="task-name">i18n foundation — externalise strings, RTL-ready CSS</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech team</span></div>
+  <p class="task-desc">offplan.online targets EN at launch, AR (UAE) in Stage 2, and broader EU/APAC languages in Stage 3. To avoid retrofitting later (touching ~500+ files when AR is added), the codebase must be i18n-shaped from day one — even shipping English-only at launch. This is a foundational discipline, not a feature: every UI string externalised, every CSS file using logical properties, every date/number/currency formatted via Intl. Design rules in <a href="../brandbook/v1.html#i18n">Brandbook v1.3 § Internationalisation</a>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Install <strong>i18next</strong> (React) — все UI-строки живут в <code>src/i18n/en.json</code>, никогда хардкодятся в компонентах. Даже "Sign up" — это translatable key.</li>
+    <li>Locale switcher infrastructure существует с первого дня — на запуске возвращает только <code>"en"</code>, но плумбинг готов. Добавление AR в Stage 2 — это новый JSON-файл, не правки кода.</li>
+    <li>CSS использует <strong>logical properties</strong> (<code>padding-inline-start</code>, <code>margin-block-end</code>) везде — никаких <code>-left</code> / <code>-right</code>. RTL-layout для AR будет zero extra CSS.</li>
+    <li><code>Intl.NumberFormat</code> и <code>Intl.DateTimeFormat</code> обёрнуты в shared helpers — никаких хардкоднутых разделителей тысяч, форматов дат, символов валют.</li>
+    <li><strong>IBM Plex Arabic</strong> загружается в <code>&lt;head&gt;</code> лениво — активируется при переключении локали на AR. Fallback: Noto Naskh Arabic → system Arabic.</li>
+    <li><code>&lt;html dir="..."&gt;</code> устанавливается программно по выбранной локали (LTR для EN/EU, RTL для AR).</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: Brandbook v1.3 § Internationalisation (ratified) · Блокирует: 1.2 (Onboarding — первая фаза с UI-формами; должна стартовать на готовом i18n-фундаменте)</div>
 </div>
 
 <!-- Фаза 1.2 -->
@@ -4348,6 +4366,38 @@
 <section id="appendix-g">
   <h2>Appendix G — Changelog</h2>
   <p class="lead">История ревизий плана. Источник истины — markdown в git.</p>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.7 — 2026-05-01 (CONV-14)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> Q&amp;A-сессия по 13 продуктовым вопросам (10 решено, 3 ждут input) + добавлен i18n foundation как sub-phase в Phase 1.1 + 6 ADR написаны (decisions/0001–0006).</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.1 — Admin Visual Redesign + Branding</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Новая sub-phase 1.1.4 — i18n foundation</strong>. Externalise UI strings в <code>i18n/en.json</code> с первого дня (i18next), CSS logical properties вместо <code>-left</code> / <code>-right</code>, locale switcher infrastructure, Intl helpers для дат/чисел/валют, IBM Plex Arabic для AR Stage 2. Pointer на Brandbook v1.3 § Internationalisation. Marker [BL] — tech team estimate.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Open Questions (Раздел 5) — 6 ✅ решено, 1 ⚡ partial</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Q2 ✅</strong> Cyprus entity (CONV-13) — EU member, EU Rep не нужен.</li>
+      <li><strong>Q6 ✅</strong> SSO — Google only at launch. Microsoft в Stage 2. ADR 0005.</li>
+      <li><strong>Q11 ✅</strong> Trial без карты — шире воронка. ADR 0001.</li>
+      <li><strong>Q12 ✅</strong> Trial expiry — admin полностью заблокирован; публичная страница проекта показывает только главную страницу здания. ADR 0001.</li>
+      <li><strong>Q28 ✅</strong> AuditLog retention — 12 месяцев активно, затем архив. ADR 0004.</li>
+      <li><strong>Q31 ⚡ partial</strong> GDPR right to erasure = hard-delete request flow (manual Iteration 1, self-serve Iteration 2). ADR 0003. Data export scope — открыто.</li>
+      <li><strong>Q1 ✅ partial</strong> Multi-provider payment strategy (CONV-13).</li>
+      <li>Critical questions: 8 → 3 open (Q3, Q10, Q13).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">ADRs (новые)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>0001 Trial model · 0002 Iconset Phosphor · 0003 Account lifecycle · 0004 AuditLog retention · 0005 SSO Google only · 0006 Chargeback auto-freeze.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Метрики</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Подзадач: 127 → 128 (новая 1.1.4).</li>
+    </ul>
+  </div>
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.6 — 2026-04-30 (CONV-13)</div>
