@@ -860,12 +860,79 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   display: flex; flex-direction: column;
   transition: all 0.2s;
+  cursor: pointer;
 }
 .feature-card:hover {
   border-color: var(--gold-light);
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
+.feature-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.feature-card-img-wrap::after {
+  content: '⤢';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  padding: 5px 7px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.feature-card:hover .feature-card-img-wrap::after { opacity: 1; }
+
+/* ── Lightbox ─────────────────────────────────────── */
+.lb-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,10,10,0.88);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.lb-overlay.active { opacity: 1; pointer-events: all; }
+.lb-box {
+  max-width: 960px; width: 100%;
+  transform: scale(0.96);
+  transition: transform 0.2s ease;
+}
+.lb-overlay.active .lb-box { transform: scale(1); }
+.lb-img {
+  width: 100%; display: block;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+.lb-caption {
+  margin-top: 20px;
+  text-align: center;
+  color: #fff;
+}
+.lb-caption-num {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 6px;
+}
+.lb-caption-title {
+  font-size: 20px; font-weight: 600; margin-bottom: 6px;
+}
+.lb-caption-body {
+  font-size: 14px; color: rgba(255,255,255,0.6);
+}
+.lb-close {
+  position: fixed; top: 20px; right: 24px;
+  background: rgba(255,255,255,0.12);
+  border: none; color: #fff; font-size: 20px; line-height: 1;
+  width: 40px; height: 40px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.lb-close:hover { background: rgba(255,255,255,0.22); }
 .feature-card-img {
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -1222,7 +1289,7 @@ img { max-width: 100%; display: block; }
   </div>
   <div class="features-grid">
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/exterior.png" alt="Exterior render with hotspot navigation">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/exterior.png" alt="Exterior render with hotspot navigation"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">02 — Exterior</div>
         <div class="feature-card-title">The hero render that does the first sell.</div>
@@ -1230,7 +1297,7 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/floor-plan.png" alt="Floor plan with sidebar of unit details">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/floor-plan.png" alt="Floor plan with sidebar of unit details"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">03 — Floor Plans</div>
         <div class="feature-card-title">Floor plates linked to live availability.</div>
@@ -1238,7 +1305,7 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/unit-list.png" alt="Unit list with sortable filters">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/unit-list.png" alt="Unit list with sortable filters"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">04 — Unit List</div>
         <div class="feature-card-title">Find the right unit in seconds.</div>
@@ -1246,7 +1313,7 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/amenities.png" alt="Rooftop amenity space">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/amenities.png" alt="Rooftop amenity space"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">05 — Amenities</div>
         <div class="feature-card-title">Communal spaces deserve a stage.</div>
@@ -1254,7 +1321,7 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/location.png" alt="Aerial location view">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/location.png" alt="Aerial location view"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">06 — Location</div>
         <div class="feature-card-title">Where it sits on the map matters.</div>
@@ -1262,7 +1329,7 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
     <div class="feature-card">
-      <img class="feature-card-img" src="../assets/landing/gallery.png" alt="Render library">
+      <div class="feature-card-img-wrap"><img class="feature-card-img" src="../assets/landing/gallery.png" alt="Render library"></div>
       <div class="feature-card-body">
         <div class="feature-card-num">07 — Gallery</div>
         <div class="feature-card-title">Every render in one place.</div>
@@ -1535,6 +1602,51 @@ img { max-width: 100%; display: block; }
       header.classList.remove('scrolled');
     }
   });
+</script>
+
+<!-- ─── LIGHTBOX ──────────────────────────────────── -->
+<div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  <div class="lb-box">
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <div class="lb-caption">
+      <div class="lb-caption-num" id="lb-num"></div>
+      <div class="lb-caption-title" id="lb-title"></div>
+      <div class="lb-caption-body" id="lb-body"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbNum = document.getElementById('lb-num');
+  const lbTitle = document.getElementById('lb-title');
+  const lbBody = document.getElementById('lb-body');
+
+  function openLightbox(card) {
+    const img = card.querySelector('.feature-card-img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbNum.textContent = card.querySelector('.feature-card-num').textContent;
+    lbTitle.textContent = card.querySelector('.feature-card-title').textContent;
+    lbBody.textContent = card.querySelector('.feature-card-body-text').textContent;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.addEventListener('click', () => openLightbox(card));
+  });
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 
 </body>
