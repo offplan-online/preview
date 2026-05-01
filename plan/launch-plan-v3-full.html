@@ -3989,18 +3989,18 @@
 <table>
 <thead><tr><th style="width:40px;">#</th><th>Тема</th><th>Что нужно</th><th style="width:160px;">Кто</th><th style="width:60px;">Фаза</th></tr></thead>
 <tbody>
-<tr><td>Q1</td><td>Stripe vs Paddle</td><td>Сравнение EU VAT / MoR</td><td>Product team + Legal</td><td>1.5.3</td></tr>
-<tr><td>Q2</td><td>EU Rep vs EU-юрлицо</td><td>Стоимость + юрисдикция</td><td>Legal + Product team</td><td>1.5.5</td></tr>
+<tr style="background:#f0fdf4;"><td>Q1 ✅</td><td>Stripe vs Paddle</td><td><strong style="color:#16a34a;">Частично решено (CONV-13):</strong> Stage 1 = Stripe (primary), Stage 2 = +Paddle (EU B2C MoR), Stage 3 = +Checkout.com (UAE AED). Provider abstraction layer в 1.5.3.</td><td>—</td><td>1.5.3</td></tr>
+<tr style="background:#f0fdf4;"><td>Q2 ✅</td><td>EU Rep vs EU-юрлицо</td><td><strong style="color:#16a34a;">Решено (CONV-13):</strong> Cyprus entity (EU member) — EU Representative не нужен. Юрист задействован 2026-04-30.</td><td>—</td><td>1.5.5</td></tr>
 <tr><td>Q3</td><td>Внешний security audit vs внутренний</td><td>Бюджет + объективность</td><td>Tech team + Product team</td><td>1.6.1</td></tr>
 <tr><td>Q4</td><td>DDoS protection: Cloudflare план</td><td>Нагрузочный профиль + стоимость</td><td>Ops + Tech team</td><td>1.6.5</td></tr>
 <tr><td>Q5</td><td>Secrets manager</td><td>Vault self-hosted vs managed</td><td>Tech team</td><td>3.5.4</td></tr>
-<tr><td>Q6</td><td>SSO провайдеры на старте</td><td>Market research + приоритет</td><td>Tech team + Product team</td><td>1.2.1</td></tr>
+<tr style="background:#f0fdf4;"><td>Q6 ✅</td><td>SSO провайдеры на старте</td><td><strong style="color:#16a34a;">Решено (CONV-14):</strong> Google only на старте. Microsoft/Azure AD добавить в Stage 2 по запросу студий. ADR 0005.</td><td>—</td><td>1.2.1</td></tr>
 <tr><td>Q7</td><td>MFA обязателен или опционален</td><td>Security posture</td><td>Tech team</td><td>1.2.1</td></tr>
 <tr><td>Q8</td><td>Email provider</td><td>SendGrid / Postmark / Resend</td><td>Marketing + Tech team</td><td>1.6.6</td></tr>
 <tr><td>Q9</td><td>Demo-проект vs empty-state tutorial</td><td>Product decision</td><td>Product team</td><td>1.2.5</td></tr>
 <tr><td>Q10</td><td>Финальные тарифы (цены и лимиты)</td><td>Pricing research</td><td>Product team + Finance</td><td>1.5.2</td></tr>
-<tr><td>Q11</td><td>Trial без карты vs с картой</td><td>Conversion vs качество</td><td>Product team</td><td>1.5.5</td></tr>
-<tr><td>Q12</td><td>Block vs read-only при истечении trial</td><td>UX trade-off</td><td>Product team</td><td>1.5.5</td></tr>
+<tr style="background:#f0fdf4;"><td>Q11 ✅</td><td>Trial без карты vs с картой</td><td><strong style="color:#16a34a;">Решено (CONV-14):</strong> Без карты — шире воронка. ADR 0001.</td><td>—</td><td>1.5.5</td></tr>
+<tr style="background:#f0fdf4;"><td>Q12 ✅</td><td>Block vs read-only при истечении trial</td><td><strong style="color:#16a34a;">Решено (CONV-14):</strong> Кастомная модель — admin полностью заблокирован; публичная страница проекта показывает только главную страницу здания, остальные секции заблокированы. ADR 0001.</td><td>—</td><td>1.5.5</td></tr>
 <tr><td>Q13</td><td>Chat platform</td><td>Crisp / Intercom / Tawk.to</td><td>Product team + Ops</td><td>2.3.1</td></tr>
 <tr><td>Q14</td><td>Heatmap: Hotjar vs MS Clarity</td><td>Бюджет + privacy</td><td>Product team + Legal</td><td>2.4.1</td></tr>
 <tr><td>Q15</td><td>Product analytics</td><td>PostHog vs Mixpanel</td><td>Product team + Tech team</td><td>2.4.2</td></tr>
@@ -4016,10 +4016,10 @@
 <tr><td>Q25</td><td>Второй язык после EN</td><td>Geography priority</td><td>Product team + Marketing</td><td>4.4.4</td></tr>
 <tr><td>Q26 🔧</td><td>Grid library для Power Editor</td><td>Free vs paid</td><td>Tech-decision (tech team)</td><td>4.3.2</td></tr>
 <tr><td>Q27</td><td>Visual Editor scope</td><td>Какие поля editable</td><td>Product team</td><td>4.3.3</td></tr>
-<tr><td>Q28</td><td>Retention: активный / 90d / 12mo</td><td>Legal + storage cost</td><td>Legal + Ops</td><td>1.5.2</td></tr>
+<tr style="background:#f0fdf4;"><td>Q28 ✅</td><td>Retention: активный / 90d / 12mo</td><td><strong style="color:#16a34a;">Решено (CONV-14):</strong> Audit log — 12 месяцев активно, затем архив (cold storage). ADR 0004.</td><td>—</td><td>1.5.2</td></tr>
 <tr><td>Q29</td><td>DPA model</td><td>Self-serve click vs signed</td><td>Legal</td><td>1.5.3</td></tr>
 <tr><td>Q30</td><td>Status page</td><td>Готовое vs custom</td><td>Ops</td><td>3.5.3</td></tr>
-<tr><td>Q31</td><td>Data export + Right to erasure (GDPR Art. 20 + 17)</td><td>Scope + форматы + timing (см. ниже)</td><td>Product team + Legal + Tech team</td><td>1.5 + новая</td></tr>
+<tr style="background:#fefce8;"><td>Q31 ⚡</td><td>Data export + Right to erasure (GDPR Art. 20 + 17)</td><td><strong style="color:#ca8a04;">Частично решено (CONV-14):</strong> Right to erasure = hard-delete request flow (manual Iteration 1, self-serve Iteration 2). ADR 0003. Data export scope + форматы — ещё открыто.</td><td>Product team + Legal + Tech team</td><td>1.5 + новая</td></tr>
 <tr><td>Q32</td><td>Migration существующих VV-клиентов</td><td>Mandatory / optional / no migration</td><td>Product team + Legal</td><td>strategic</td></tr>
 <tr><td>Q33</td><td>Content moderation + DMCA</td><td>DMCA agent + moderation approach</td><td>Legal + Product team</td><td>1.5 + новая</td></tr>
 <tr><td>Q34</td><td>Geographic data sovereignty</td><td>Default-region + multi-region roadmap</td><td>Tech team + Product team + Legal</td><td>1.1 + арх.</td></tr>
@@ -4030,10 +4030,10 @@
 </tbody>
 </table>
 
-<p><strong>Итого:</strong> 38 открытых вопросов.</p>
+<p><strong>Итого:</strong> 38 вопросов — <strong style="color:#16a34a;">6 решено ✅</strong>, 1 решено частично ⚡, 31 открыто. <em>(Обновлено CONV-14, 2026-05-01)</em></p>
 <ul>
-  <li>8 из них — <strong>критичные</strong> (блокируют Стадию 1): Q1, Q2, Q3, Q6, Q10, Q11, Q13, Q37</li>
-  <li>4 — <strong>стратегические</strong> (требуют обсуждения прежде чем определять детальные задачи): Q31, Q32, Q34, Q38</li>
+  <li>8 из них — <strong>критичные</strong> (блокируют Стадию 1): <del>Q1</del> ✅, <del>Q2</del> ✅, Q3, <del>Q6</del> ✅, Q10, <del>Q11</del> ✅, Q13, Q37</li>
+  <li>4 — <strong>стратегические</strong> (требуют обсуждения прежде чем определять детальные задачи): Q31 ⚡, Q32, Q34, Q38</li>
   <li>3 помечены 🔧 — <strong>tech-decisions</strong>, не требуют обсуждения менеджмента, решает tech team самостоятельно: Q18, Q22, Q26</li>
 </ul>
 
