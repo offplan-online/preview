@@ -668,32 +668,28 @@
 <div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без обращения в support. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.2.1</span><span class="task-name">Signup &amp; 5-level tenant access architecture</span></div>
+  <div class="task-title"><span class="task-id">1.2.1</span><span class="task-name">Signup &amp; tenant data model</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+UX</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Архитектурно signup — это вход в multi-tenant систему с 5 уровнями доступа: <strong>(1) Operator (OPL master)</strong> (impersonation/support); <strong>(2) Studio admin</strong> (root tenant); <strong>(3) Studio employees</strong> (per-project / scoped); <strong>(4) Developer client</strong> (приглашён студией); <strong>(5) Developer client employees / agents</strong> (приглашены девелопером). Подробная permission model — в Фазе 1.2.7.</p>
+  <p class="task-desc">Регистрация Studio admin и архитектурный фундамент multi-tenant системы. <strong>Scope этой задачи — signup-flow + базовая модель данных.</strong> Полная permission model на 5 уровней + team management UI — в <strong>Фазе 1.2.7</strong> (поверх схемы из этой задачи).</p>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(11)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
   <ul>
     <li>Форма регистрации Studio admin: email, пароль, название студии, страна</li>
-    <li>Архитектура tenant'ов: studio = root tenant, dev clients = child tenants</li>
     <li>Требования к паролю (по NIST: 8+ символов, не в breach-базах)</li>
-    <li>Verification email с токеном (expires 24h)</li>
-    <li>Re-send email если не получил</li>
-    <li>Social SSO: Google (минимум) — ускоряет signup в 3-5 раз</li>
-    <li>Опционально: Microsoft SSO / Magic Link / Email-only login</li>
+    <li>Verification email с токеном (expires 24h) + re-send если не получил</li>
+    <li>Social SSO: Google (минимум) — ускоряет signup в 3-5 раз. Опционально: Microsoft / Magic Link / Email-only login</li>
     <li>Rate limit на signup per IP</li>
-    <li><strong>Invite-flow для уровней 3-5</strong> (employees, dev clients, dev agents — не самостоятельный signup, только по invite)</li>
-    <li>Operator (OPL master) access — отдельный flow (impersonation / support mode)</li>
-    <li>Database schema: tenants (studio + dev client), users, roles, permissions</li>
+    <li><strong>Tenant-архитектура:</strong> studio = root tenant, dev clients = child tenants</li>
+    <li><strong>Database schema (foundation):</strong> tenants (studio + dev client), users — фундамент для permission model и team management в 1.2.7</li>
+    <li>Operator (OPL master) access — отдельный flow (impersonation / support mode), не обычный login</li>
   </ul>
 </details>
   <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(4)</span></summary>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
   <ul>
     <li>❓ Какие SSO обязательны на старте?</li>
     <li>❓ MFA опциональный или обязательный?</li>
-    <li>❓ Архитектурно — готова ли существующая база к 5 уровням или нужен рефактор?</li>
-    <li>Email provider для transactional?</li>
+    <li>❓ Архитектурно — готова ли существующая база к 5 уровням или нужен рефактор? (общий вопрос с 1.2.7)</li>
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.7.2 · Блокирует: 1.2.4, 1.2.7</div>
@@ -847,9 +843,9 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.2.7</span><span class="task-name">Multi-level access (5 уровней) + team management</span></div>
+  <div class="task-title"><span class="task-id">1.2.7</span><span class="task-name">Permission model + team management</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Архитектура multi-tenancy с nested access — 5 уровней пользователей, у каждого свой scope видимости и permissions. Это критично для B2B (студия = несколько людей; девелопер = ещё несколько; их агенты — ещё). <strong>Перед началом работ — отдельная спецификация permission model.</strong></p>
+  <p class="task-desc">Полная 5-уровневая permission model (поверх tenant-схемы из 1.2.1) + UI/flow для приглашений, управления командой, granular доступа. Это закрывает B2B-сценарии: студия → несколько сотрудников; девелопер → ещё несколько; их агенты — ещё. <strong>Перед началом работ — отдельная спецификация permission model.</strong></p>
   <details>
   <summary class="task-label">5 уровней доступа</summary>
   <table style="margin:0;">
@@ -864,25 +860,23 @@
   </table>
 </details>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(11)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(10)</span></summary>
   <ul>
     <li><strong>Спецификация permission model</strong> (отдельный документ) — перед любым кодом</li>
-    <li>Database schema: tenants (studio + dev client), users, roles, permissions, user_role_assignments</li>
+    <li><strong>DB schema (расширение поверх 1.2.1):</strong> roles, permissions, user_role_assignments</li>
+    <li><strong>Invite-flow для уровней 3-5</strong> (employees, dev clients, dev agents — не самостоятельный signup, только по invite)</li>
     <li>UI «Invite team member» с выбором уровня и scope (per project / studio-wide / billing-only)</li>
-    <li>Email-invitations с принятием</li>
+    <li>Email-invitations с принятием + invite expiration (7 дней) + re-send</li>
     <li>Remove user (с transfer ownership если owner)</li>
-    <li>Audit: кто из team изменил что (связано с 3.3.3 Audit log)</li>
+    <li>Granular permissions per project (фидбек Надежды — «доступ дать на конкретный проект, не на всю студию»)</li>
     <li>Seat limit per план (совместимо с pricing 1.6.2 + 1.6.8)</li>
     <li><strong>Studio-level SSO</strong> — Google Workspace / Microsoft (enterprise tier)</li>
-    <li>Invite expiration (7 дней), re-send invite</li>
-    <li>Operator (OPL master) access — отдельный flow (impersonation, не «обычный» login)</li>
-    <li>Granular permissions per project (фидбек Надежды — «доступ дать на конкретный проект, не на всю студию»)</li>
+    <li>Audit: кто из team изменил что (связано с 3.3.3 Audit log)</li>
   </ul>
 </details>
   <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(5)</span></summary>
+  <summary class="task-label">Открытые вопросы <span class="count">(4)</span></summary>
   <ul>
-    <li>❓ Готова ли существующая архитектура к 5 уровням или нужен рефактор (вопрос Илье)?</li>
     <li>❓ Permissions внутри Studio employees: предопределённые роли (Admin/Editor/Viewer) или granular?</li>
     <li>❓ Studio-level SSO — в Стадии 1 или отложено в 4.2.5 (Enterprise)?</li>
     <li>❓ Что с контентом removed user — остаётся или «unassigned»?</li>
