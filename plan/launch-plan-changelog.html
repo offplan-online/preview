@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Plan v3 — offplan.online (Full)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:#faf7f2; --sand-100:#f4ede0; --sand-200:#ebe0cc; --sand-300:#ddd0b8;
+    --gold:#a07840; --gold-mid:#b8904a; --gold-light:#d4aa6a;
+    --navy:#1a2040; --navy-mid:#212840; --navy-light:#2a3252;
+    --text-dark:#1e1a14; --text-mid:#5a5040; --text-dim:#9a8e7a;
+    --border:rgba(160,140,110,.22); --border-mid:rgba(160,140,110,.38);
+    --red:#c05050; --amber:#c07820; --green:#4a9e6a;
+    --critical:#c05050; --high:#c07820; --medium:#8c7848; --low:#9a9a8e;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--sand-100); color:var(--text-dark); font-size:14.5px; line-height:1.6; }
+
+  /* HERO */
+  .hero { position:relative; background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:70px 40px 50px; text-align:center; }
+  .hero-brand { position:absolute; top:32px; left:40px; display:flex; align-items:center; gap:10px; }
+  .hero-brand svg { display:block; }
+  .hero-brand-text { display:flex; flex-direction:column; line-height:1; font-family:'Inter',sans-serif; font-weight:600; }
+  .hero-brand-text .name { font-size:14px; color:#fff; letter-spacing:.5px; }
+  .hero-brand-text .rule { width:22px; height:1.5px; background:var(--gold-light); margin:4px 0 3px; }
+  .hero-brand-text .online { font-size:11px; color:var(--gold-light); letter-spacing:1.5px; text-transform:uppercase; }
+  .hero-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:10px; font-weight:600; }
+  .hero h1 { font-size:40px; font-weight:800; letter-spacing:-0.6px; margin-bottom:12px; line-height:1.15; }
+  .hero h1 .brand-dot { color:var(--gold-light); }
+  .hero .subtitle { font-size:16px; color:rgba(255,255,255,.75); max-width:680px; margin:0 auto; line-height:1.5; }
+  .hero-meta { margin-top:26px; font-size:12px; color:rgba(255,255,255,.5); }
+  @media (max-width:680px) { .hero-brand { position:static; justify-content:center; margin-bottom:18px; } }
+
+  /* TASK FILES (links to mockups / research) */
+  .task-files { margin:6px 0 12px; padding:8px 12px; background:var(--sand-50); border-left:3px solid var(--gold-light); border-radius:4px; font-size:13px; color:var(--text-mid); }
+  .task-files strong { color:var(--gold); font-weight:600; }
+  .task-files a { color:var(--gold); font-weight:500; }
+  .phase-files { margin-top:12px; padding:0 0 0 14px; border-left:3px solid var(--gold-light); font-size:13px; color:rgba(255,255,255,.85); }
+  .phase-files strong { color:var(--gold-light); display:block; margin-bottom:4px; font-size:11px; letter-spacing:.8px; text-transform:uppercase; font-weight:600; }
+  .phase-files a { color:var(--gold-light); font-weight:500; margin-right:14px; text-decoration:none; }
+  .phase-files a:hover { color:#fff; text-decoration:underline; }
+
+  /* LAYOUT */
+  .wrap { max-width:960px; margin:0 auto; padding:40px 36px 60px; }
+  section { margin-bottom:56px; scroll-margin-top:20px; }
+
+  /* NAV */
+  .topnav { background:var(--sand-50); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; padding:10px 20px; overflow-x:auto; white-space:nowrap; }
+  .topnav a { display:inline-block; padding:6px 14px; margin-right:4px; font-size:12px; font-weight:600; color:var(--text-mid); text-decoration:none; border-radius:16px; letter-spacing:.3px; }
+  .topnav a:hover { background:var(--sand-200); color:var(--navy); }
+
+  /* TYPOGRAPHY */
+  h2 { font-size:26px; font-weight:700; letter-spacing:-0.3px; margin-bottom:14px; color:var(--navy); padding-bottom:10px; border-bottom:2px solid var(--gold-light); }
+  h3 { font-size:19px; font-weight:600; margin:28px 0 10px; color:var(--navy); }
+  h4 { font-size:14px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--gold); margin:18px 0 8px; }
+  p { margin-bottom:12px; color:var(--text-dark); }
+  p.lead { font-size:15.5px; color:var(--text-dark); max-width:760px; }
+  strong { font-weight:700; color:var(--navy); }
+  a { color:var(--gold); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { font-family:'SF Mono',Consolas,monospace; font-size:12.5px; background:var(--sand-200); padding:2px 6px; border-radius:4px; color:var(--text-dark); }
+
+  /* TABLES */
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  th, td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+  th { background:var(--sand-50); font-weight:600; color:var(--navy); font-size:12.5px; letter-spacing:.3px; text-transform:uppercase; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--sand-50); }
+
+  /* STAGE HEADER */
+  .stage-header { margin:70px 0 32px; padding:30px 32px; background:linear-gradient(135deg, var(--sand-200) 0%, var(--sand-100) 100%); border:1px solid var(--border-mid); border-left:6px solid var(--gold); border-radius:12px; }
+  .stage-header .stage-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px; }
+  .stage-header h2 { border:none; padding:0; margin-bottom:10px; font-size:28px; }
+  .stage-header .stage-goal { font-size:14px; color:var(--text-mid); font-style:italic; }
+  .stage-header .stage-exit { font-size:13px; color:var(--text-mid); margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+
+  /* PHASE HEADER */
+  .phase { margin:40px 0 24px; padding:18px 22px; background:var(--navy); color:#fff; border-radius:8px; }
+  .phase-num { display:inline-block; font-size:11px; letter-spacing:2px; font-weight:700; color:var(--gold-light); margin-right:10px; }
+  .phase h3 { color:#fff; margin:0; font-size:17px; font-weight:600; }
+  .phase .phase-desc { color:rgba(255,255,255,.78); font-size:13px; margin-top:6px; }
+  .phase .phase-desc strong { color:#fff; font-weight:700; }
+  .phase .phase-desc code { background:rgba(255,255,255,.12); color:#fff; padding:1px 6px; border-radius:3px; font-size:12px; }
+  .phase .phase-desc a { color:var(--gold-light); }
+
+  /* TASK */
+  .task { background:#fff; border:1px solid var(--border); border-radius:10px; padding:20px 22px; margin-bottom:14px; }
+  .task-title { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .task-id { font-family:'SF Mono',monospace; font-size:12px; font-weight:700; color:var(--gold); background:var(--sand-50); padding:3px 8px; border-radius:4px; white-space:nowrap; }
+  .task-name { font-size:16px; font-weight:600; color:var(--navy); flex:1; min-width:240px; }
+  .markers { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .marker { display:inline-flex; align-items:center; font-size:11px; font-weight:600; padding:3px 9px; border-radius:12px; letter-spacing:.3px; }
+  .m-critical { background:rgba(192,80,80,.1); color:var(--critical); }
+  .m-high { background:rgba(192,120,32,.1); color:var(--high); }
+  .m-medium { background:rgba(140,120,72,.1); color:var(--medium); }
+  .m-low { background:rgba(154,154,142,.12); color:var(--low); }
+  .m-dept { background:var(--sand-200); color:var(--text-dark); }
+  .m-time { background:rgba(26,32,64,.08); color:var(--navy); font-family:'SF Mono',monospace; }
+  .m-q { background:rgba(160,120,64,.12); color:var(--gold); }
+  .m-done { background:rgba(74,158,106,.12); color:var(--green); }
+  .m-prod { background:rgba(74,105,158,.12); color:#4a699e; }
+  .m-bl { background:rgba(120,90,140,.12); color:#6c4a8c; font-family:'SF Mono',monospace; }
+  .m-opl { background:rgba(184,149,90,.14); color:#8a6f44; font-family:'SF Mono',monospace; }
+  .task-desc { margin-bottom:10px; font-size:14px; color:var(--text-dark); }
+  .task-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-top:10px; margin-bottom:4px; display:block; }
+  .task ul { margin:4px 0 8px 20px; font-size:13.5px; }
+  .task ul li { margin-bottom:3px; color:var(--text-mid); }
+  .task-deps { font-size:12.5px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid var(--border); font-family:'SF Mono',monospace; }
+
+  /* CALLOUT */
+  .callout { background:var(--sand-50); border-left:4px solid var(--gold-mid); padding:14px 18px; border-radius:6px; margin:14px 0; font-size:13.5px; color:var(--text-dark); }
+  .callout strong { color:var(--gold); }
+  .callout-warn { border-left-color:var(--amber); }
+  .callout-ok { border-left-color:var(--green); }
+  .callout-idea { background:rgba(184,149,90,0.06); border:none; border-left:2px dashed rgba(184,149,90,0.55); padding:14px 20px; border-radius:0 6px 6px 0; margin:14px 0; font-size:13px; color:var(--text-mid); }
+  .callout-idea strong { color:var(--text-dark); font-weight:600; }
+  .callout-idea .idea-label { display:block; font-size:10px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+  .callout-idea ul { margin:8px 0 0; padding-left:20px; }
+  .callout-idea li { margin-bottom:4px; }
+
+  /* APPENDIX */
+  .appendix-header { margin:70px 0 24px; padding:24px; background:#fff; border:1px solid var(--border); border-radius:10px; border-left:6px solid var(--gold-mid); }
+  .appendix-header .app-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; }
+  .appendix-header h2 { border:none; padding:0; margin:6px 0 0; }
+
+  /* MATRIX */
+  .matrix-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:16px 0; }
+  .matrix-cell { padding:10px 6px; text-align:center; font-size:12px; background:#fff; border:1px solid var(--border); border-radius:6px; }
+  .matrix-cell.header { background:var(--navy); color:#fff; font-weight:600; }
+  .matrix-cell.label { background:var(--sand-50); font-weight:600; text-align:left; padding-left:12px; }
+  .mx-count { font-size:18px; font-weight:700; display:block; }
+  .mx-count.c-critical { color:var(--critical); }
+  .mx-count.c-high { color:var(--high); }
+  .mx-count.c-medium { color:var(--medium); }
+  .mx-count.c-low { color:var(--low); }
+
+  /* FOOTER */
+  footer { background:var(--navy); color:rgba(255,255,255,.6); padding:36px 40px; text-align:center; font-size:13px; margin-top:60px; }
+  footer a { color:var(--gold-light); }
+  footer .links a { margin:0 10px; }
+
+  @media (max-width:760px) {
+    .hero h1 { font-size:30px; }
+    .wrap { padding:24px 18px; }
+    .matrix-grid { grid-template-columns:1fr 1fr 1fr; }
+  }
+
+  /* COLLAPSIBLE SECTIONS */
+  details { margin-top:10px; }
+  details summary { list-style:none; outline:none; }
+  details summary::-webkit-details-marker { display:none; }
+  details summary.task-label {
+    cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; margin:8px 0 0;
+    background:var(--sand-50);
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:var(--gold);
+    font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    transition:background .15s, border-color .15s;
+    user-select:none;
+  }
+  details summary.task-label:hover {
+    background:var(--sand-200);
+    border-color:var(--border-mid);
+  }
+  details summary.task-label::before {
+    content:'▶'; display:inline-block;
+    font-size:9px; color:var(--gold-light);
+    transition:transform .2s;
+  }
+  details[open] summary.task-label {
+    background:var(--sand-200);
+    border-color:var(--border-mid);
+    margin-bottom:4px;
+  }
+  details[open] summary.task-label::before { transform:rotate(90deg); }
+  details summary.task-label .count {
+    display:inline-block;
+    padding:1px 7px;
+    background:#fff;
+    color:var(--gold);
+    border-radius:10px;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.3px;
+    margin-left:auto;
+  }
+  details[open] summary.task-label .count {
+    background:var(--sand-50);
+  }
+  details > ul {
+    margin:6px 0 12px 20px !important;
+    font-size:13.5px;
+  }
+  details > ul li { margin-bottom:4px; color:var(--text-mid); }
+
+
+  /* PHASE NAVIGATION */
+  #phase-nav { margin-bottom: 40px; }
+  .phase-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .phase-nav-column {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .phase-nav-stage-title {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--gold-light);
+  }
+  .phase-nav-stage-title:hover { color: var(--navy); }
+  .phase-nav-list { list-style: none; padding: 0; margin: 0; }
+  .phase-nav-list li { margin: 0; padding: 0; }
+  .phase-nav-list a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: 2px -10px;
+    border-radius: 6px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background .15s, color .15s;
+  }
+  .phase-nav-list a:hover {
+    background: var(--sand-50);
+    color: var(--navy);
+  }
+  .phase-nav-list .pn-num {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 30px;
+  }
+  .phase-nav-list a:hover .pn-num { color: var(--navy); }
+  .phase-nav-list .pn-name { flex: 1; }
+  @media (max-width: 760px) {
+    .phase-nav-grid { grid-template-columns: 1fr; }
+  }
+
+
+  /* ── COMPANION DOCS ── */
+  .companion-docs { margin-bottom:48px; }
+  .companion-docs-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); margin-bottom:14px; }
+  .doc-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .doc-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px 18px; text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; transition:box-shadow .15s, border-color .15s, transform .15s; position:relative; overflow:hidden; }
+  .doc-card:hover { box-shadow:0 4px 20px rgba(26,32,64,.10); border-color:var(--gold-light); transform:translateY(-2px); text-decoration:none; }
+  .doc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .doc-card.c-gold::before { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+  .doc-card.c-navy::before { background:linear-gradient(90deg,var(--navy),var(--navy-light)); }
+  .doc-card.c-green::before { background:linear-gradient(90deg,#4a9e6a,#6abf8a); }
+  .doc-card.c-stripe::before { background:linear-gradient(90deg,#635bff,#9d97ff); }
+  .doc-card.c-checkout::before { background:linear-gradient(90deg,#00b3e6,#5fd4f0); }
+  .doc-card.c-amber::before { background:linear-gradient(90deg,var(--amber),#daa04a); }
+  .doc-card.c-red::before { background:linear-gradient(90deg,var(--red),#d68080); }
+  .doc-card-icon { font-size:26px; line-height:1; }
+  .doc-card-name { font-size:14px; font-weight:700; color:var(--navy); line-height:1.3; }
+  .doc-card-desc { font-size:12px; color:var(--text-dim); line-height:1.5; flex:1; }
+  .doc-card-link { font-size:11px; font-weight:700; letter-spacing:.5px; color:var(--gold); text-transform:uppercase; }
+  @media (max-width:760px) { .doc-cards { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a href="launch-plan-v3-full.html" class="hero-brand" aria-label="offplan.online">
+    <svg width="36" height="29" viewBox="0 0 32 26" aria-hidden="true">
+      <rect width="32" height="26" fill="#B8955A"/>
+      <line x1="20" y1="0" x2="20" y2="26" stroke="#14202C" stroke-width="1.6"/>
+      <line x1="20" y1="15" x2="32" y2="15" stroke="#14202C" stroke-width="1.6"/>
+    </svg>
+    <span class="hero-brand-text">
+      <span class="name">offplan</span>
+      <span class="rule"></span>
+      <span class="online">.online</span>
+    </span>
+  </a>
+  <div class="hero-kicker">Launch Plan · Changelog</div>
+  <h1>offplan<span class="brand-dot">.</span>online — Plan Changelog</h1>
+  <p class="subtitle">Полная история ревизий <a href="launch-plan-v3-full.html" style="color:rgba(255,255,255,.85);text-decoration:underline;">launch-plan-v3-full.html</a>. Источник истины — git.</p>
+  <div class="hero-meta">Производный документ · v3.0 → v4.0</div>
+</div>
+
+<nav class="topnav">
+  <a href="launch-plan-v3-full.html">← Главный план</a>
+  <a href="launch-plan-future.html">Future Stages</a>
+</nav>
+
+<div class="wrap">
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.0 — 2026-05-04 (CONV-15)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> продолжение разгрузки рабочего плана — feedback от использования: stub-блоки Стадий 3/4 со списком фаз всё ещё избыточны (фазы видно из Phase Navigation), а сам Changelog читался каждый раз при работе с планом.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Минимизация Stage 3/4 stubs в главном файле</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Stub теперь только: stage-header + callout-ссылка.</strong> Убран список из 5 phase-карточек под каждой Стадией (3.1–3.5 и 4.1–4.5). Оставлены: kicker / название стадии / цель / условие выхода — это conceptual уровень, который видно из главного плана. Roadmap фаз остаётся в Phase Navigation (sidebar).</li>
+      <li><strong>Phase Navigation (sidebar) — ссылки на Stages 3/4 теперь cross-file.</strong> Клик на "3.1 Performance & Scale Testing" в боковой навигации главного плана → переход в <code>launch-plan-future.html#phase-3-1</code>. То же для всех phases 3.x и 4.x. Topnav "Стадия 3" / "Стадия 4" — аналогично.</li>
+      <li><strong>Эффект:</strong> главный файл сократился ещё на ~50 строк (с stub-карточками было ~3660, без них ~3610). Главное — визуально чище: на месте Стадии 3/4 в главном плане теперь компактный 2-блок (header + callout), а не растянутый список.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Changelog → отдельный файл launch-plan-changelog.html</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Создан <a href="launch-plan-changelog.html">launch-plan-changelog.html</a></strong> — содержит полную историю ревизий (v3.0 → v4.0). Тот же стилевой набор, единый формат entry-блоков.</li>
+      <li><strong>В главном файле</strong> Appendix G заменён на короткий callout с ссылкой на changelog-файл. Ссылки в topnav, hero-meta, footer обновлены — все указывают на <code>launch-plan-changelog.html</code> вместо in-page anchor <code>#appendix-g</code>.</li>
+      <li><strong>Зачем:</strong> Changelog — это история, а не активная часть плана. При работе над фазами он не нужен, но read-каждый-раз съедал контекст AI-инструмента (~340 строк). Вынос в отдельный файл = чтение только когда явно нужно посмотреть историю.</li>
+      <li><strong>Линки:</strong> старые in-page anchor-ссылки (<code>#appendix-g</code>) заменены на cross-file (<code>launch-plan-changelog.html</code>). Все стали валидными — нет broken links.</li>
+    </ul>
+  </div>
+
+<!-- ══ APPENDIX G — CHANGELOG ══ -->
+<section id="appendix-g">
+  <h2>Appendix G — Changelog</h2>
+  <p class="lead">История ревизий плана. Источник истины — markdown в git.</p>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.9 — 2026-05-04 (CONV-15)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> запрос на разгрузку рабочего плана — Стадии 3 и 4 не нужны при работе над Стадией 1 и съедают контекст. Подготовка к интеграции пунктов из звонка с Романом (CONV-15) в Phase 1.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Структурный split: Stages 3 и 4 → отдельный файл</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Создан <a href="launch-plan-future.html">launch-plan-future.html</a></strong> — содержит полную детализацию Стадий 3 (5 фаз) и 4 (5 фаз) со всеми подзадачами, dependencies, open questions. Тот же стилевой набор, тот же тон документа.</li>
+      <li><strong>В главном файле детали Stages 3-4 заменены на stub-блоки.</strong> Stage-header (kicker / goal / exit condition) сохранён, под ним — list из 5 фаз с одно-строчным описанием каждой и ссылкой "Подробности →" в future-файл. Roadmap всех 4 стадий по-прежнему виден из главного файла.</li>
+      <li><strong>Sidebar nav (Phase Navigation):</strong> ссылки на phases 3.x / 4.x остались как есть (<code>#phase-3-1</code> и т.д.) — они scroll'ят к stub в главном файле, откуда есть переход в future. Никаких сломанных ссылок.</li>
+      <li><strong>Cross-references из Стадий 1-2 к 3-4</strong> (например, "перенесено в Стадию 3" в нескольких местах Стадии 1) продолжают работать — указывают на существующие stub-anchors.</li>
+      <li><strong>Зачем:</strong> Stage 3-4 контент = ~1100 строк (~24% файла). При каждом редактировании Phase 1 этот балласт читался впустую — съедал контекст AI-инструмента, замедлял загрузку для людей. Split снижает главный файл с 4668 → ~3580 строк (-23%). Future-файл = 1140 строк, открывается отдельно когда явно нужен.</li>
+      <li><strong>Single source of truth:</strong> оба файла в git, оба синкаются в preview-репо. Никаких build-шагов / merge-логики — два независимых HTML.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.8 — 2026-05-01 (CONV-14)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> приоритизация Operator Dashboard выше — без него нет инструмента управлять студиями с момента первой регистрации.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Reorder Stage 1 phases — Operator Dashboard повышен в приоритете</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Operator Dashboard перенесён 1.9 → 1.3</strong>. Теперь сразу после Self-Serve Onboarding (1.2). Логика: студии регистрируются self-serve → нужен инструмент управления ими с дня один (subscription, payment manual entry, audit log, multi-tenant client list).</li>
+      <li><strong>Renumbering всех остальных фаз вниз на 1:</strong> MCP Server Wrapper (1.3 → 1.4), Admin UX Critical Blockers (1.4 → 1.5), Платёжная инфраструктура + Sales Page (1.5 → 1.6), Security &amp; Infrastructure Foundation (1.6 → 1.7), Legal &amp; Compliance (1.7 → 1.8), Sales-app UX redesign (1.8 → 1.9).</li>
+      <li><strong>Sub-task IDs, dependencies, cross-references</strong> обновлены автоматически (90+ ссылок). Q-table и changelog v3.6/v3.7 entries renumbered для консистентности.</li>
+      <li><strong>HTML/CSS mockup suggestion</strong> добавлен как practice-нота в Phase 1.1 (Admin Redesign) и Phase 1.3 (Operator Dashboard) — продакт-онер строит визуальный мокап, tech team подключает к данным/auth.</li>
+      <li><strong>Estimate "3–4 недели" для Operator Dashboard убран</strong> — пока не отскоупили реальный объём работ.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.7 — 2026-05-01 (CONV-14)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> Q&amp;A-сессия по 13 продуктовым вопросам (10 решено, 3 ждут input) + добавлен i18n foundation как sub-phase в Phase 1.1 + 6 ADR написаны (decisions/0001–0006).</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.1 — Admin Visual Redesign + Branding</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Новая sub-phase 1.1.4 — i18n foundation</strong>. Externalise UI strings в <code>i18n/en.json</code> с первого дня (i18next), CSS logical properties вместо <code>-left</code> / <code>-right</code>, locale switcher infrastructure, Intl helpers для дат/чисел/валют, IBM Plex Arabic для AR Stage 2. Pointer на Brandbook v1.3 § Internationalisation. Marker [BL] — tech team estimate.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Open Questions (Раздел 5) — 6 ✅ решено, 1 ⚡ partial</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Q2 ✅</strong> Cyprus entity (CONV-13) — EU member, EU Rep не нужен.</li>
+      <li><strong>Q6 ✅</strong> SSO — Google only at launch. Microsoft в Stage 2. ADR 0005.</li>
+      <li><strong>Q11 ✅</strong> Trial без карты — шире воронка. ADR 0001.</li>
+      <li><strong>Q12 ✅</strong> Trial expiry — admin полностью заблокирован; публичная страница проекта показывает только главную страницу здания. ADR 0001.</li>
+      <li><strong>Q28 ✅</strong> AuditLog retention — 12 месяцев активно, затем архив. ADR 0004.</li>
+      <li><strong>Q31 ⚡ partial</strong> GDPR right to erasure = hard-delete request flow (manual Iteration 1, self-serve Iteration 2). ADR 0003. Data export scope — открыто.</li>
+      <li><strong>Q1 ✅ partial</strong> Multi-provider payment strategy (CONV-13).</li>
+      <li>Critical questions: 8 → 3 open (Q3, Q10, Q13).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">ADRs (новые)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>0001 Trial model · 0002 Iconset Phosphor · 0003 Account lifecycle · 0004 AuditLog retention · 0005 SSO Google only · 0006 Chargeback auto-freeze.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Метрики</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Подзадач: 127 → 128 (новая 1.1.4).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.6 — 2026-04-30 (CONV-13)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> Phase-by-phase audit Стадии 1 — синхронизация с принятыми решениями (Cyprus юрлицо, payments research, legal drafts, Brandbook v1.1) + cleanup устаревшей терминологии (VV references) + structural fixes (renumbering 1.5, wrong cross-references).</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.1 — Admin Visual Redesign + Branding</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Phase desc обновлён: «Brandbook v1.1 (draft, на review — не утверждён) создан → этой фазой применяем токены к admin». Раньше было «брендбук создаётся через Claude Design + Figma» (устарело).</li>
+      <li>Два task items с расплывчатой ссылкой «v4 mockup» / «как в mockup» заменены на прямые ссылки на <code>brandbook/v1.html</code> (с пометкой draft).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.2 — Self-Serve Onboarding</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>5 переименований <strong>VV master → Operator (OPL master)</strong> в 1.2.1 (desc + items) и 1.2.7 (phase desc + 5-level access table + items). Volume Vision — это sister-product, не permission level в offplan.online.</li>
+      <li>Phase 1.2 desc: «без обращения в VV» → «без обращения в support».</li>
+      <li>1.2.5: «контент VV» / «студия VV» → «Volume Vision (sister product)» — явное указание что это отдельный продукт, не offplan.online team.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.4 — MCP Server Wrapper</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Без правок — фаза в актуальном состоянии (понижение приоритета с Critical → High корректно отражено, two-iteration approach согласован).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.5 — Admin UX Critical Blockers (значительная работа)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Удалён typo item</strong> «Fix routing: /levels → /levels» из 1.5.2 (Navigation), описание фазы обновлено.</li>
+      <li><strong>Перенумерация для закрытия гэпов</strong> (1.5.1 и 1.5.5 были удалены ранее после prod-test):
+        <code>1.5.2 Form reliability → 1.5.1</code> · <code>1.5.3 Navigation → 1.5.2</code> · <code>1.5.4 Asset upload → 1.5.3</code> · <code>1.5.6 Preview → 1.5.4</code> · <code>1.5.7 Hotspot → 1.5.5</code>. Все internal + external cross-references обновлены.</li>
+      <li><strong>5 wrong references в Open Questions table исправлены</strong> — Q1, Q10, Q11, Q12, Q38 указывали на 1.5.x когда должны были на 1.6.x:
+        Q1 Stripe vs Paddle: 1.5.2 → 1.6.3 · Q10 Pricing: 1.5.1 → 1.6.2 · Q11 Trial без карты: 1.5.5 → 1.6.5 · Q12 Block vs read-only: 1.5.5 → 1.6.5 · Q38 White label: «1.5.1 + 4.3.6» → «4.3.6».</li>
+      <li><strong>4.2.4 Dunning policy deps</strong> исправлены: «1.5.2 Navigation, 1.5.4 Preview» → «1.6.3 Payment integration, 1.6.6 Webhook» (дoдержание не зависит от навигации).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.6 — Платёжная инфраструктура + Sales Page (значительная работа)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>1.6.3 переименована</strong> «Stripe vs Paddle» → «Payment integration (multi-provider per phase)». Item 1 переписан: Стадия 1 — Stripe primary (USD/EUR/AUD); Стадия 2 — + Paddle EU B2C (MoR); Стадия 3 — + Checkout.com UAE AED. Открытый вопрос «Stripe vs Paddle» закрыт ✅.</li>
+      <li><strong>1.6.7 refund policy переписана</strong> с «14 дней cooling-off EU / pro-rata / никогда» на no-refund layered (B2B declaration убирает EU Consumer Rights Directive + service commencement waiver + non-refundable если Projects created/published) со ссылками на ToS §4.3 + §5.</li>
+      <li><strong>1.6.7 currency item</strong>: multi-currency USD/EUR/AED/AUD per payments research. Убран US Sales Tax (не наш рынок).</li>
+      <li><strong>1.6.7 закрыто 2 open questions ✅</strong>: Refund policy resolved + Single vs multi-currency resolved.</li>
+      <li>1.6.6 webhook signature → generic per provider (Stripe / Paddle / Checkout.com — у каждого свой webhook secret).</li>
+      <li>VV references в 1.6.5 («админы VV ручно» → «Operators (OPL admins)»), 1.6.8 («Студия / VV» → «Студия / Operator team»).</li>
+      <li>1.6.1 убран open question «Существующий VV-сайт как база или с нуля?» (по запросу пользователя).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.7 — Security &amp; Infrastructure</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>1.7.2 «Dashboard для VV» → «Dashboard для Operators (OPL admins)».</li>
+      <li><strong>4 stale references в Open Questions table</strong> — наследие от старой нумерации, когда Security была Phase 1.1:
+        Q3 Security audit: <code>1.1.1 → 1.7.1</code> · Q4 DDoS protection: <code>1.1.5 → 1.7.5</code> · Q5 Secrets manager: <code>1.1.6 → 3.5.4</code> (перенесено в Стадию 3) · Q8 Email provider: <code>1.2.6 → 1.7.6</code> (provider selection в transactional email infra, не в deferred email sequence).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.8 — Legal &amp; Compliance</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Уже обработана в v3.5 — drafts links в каждой подфазе, 1.8.1 task list исправлен (VV → offplan.online Ltd, termination, dispute resolution), оба open questions 1.8.1 закрыты.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.9 — Sales-app UX redesign</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>1.9.6 удалён дубликат «FX rates: захардкодить или live API?» из task list — он уже был в open questions (count 7 → 6).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.3 — Operator Dashboard</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>5 references «PayTabs / Telr»</strong> заменены на «Stripe / Paddle / Checkout.com» в callout, 1.3.1 schema, 1.3.6 desc, 1.3.8 settings, sidebar «Связи с другими фазами». PayTabs и Telr были отвергнуты в payments-research.</li>
+      <li>1.3.1 open question «Payment provider — выбираем Stripe / PayTabs / Telr / hybrid?» закрыт ✅ (multi-provider strategy resolved).</li>
+      <li>1.3.6 open question «Валюты — только AED или USD+AED?» закрыт ✅ (multi-currency resolved per payments research).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Итог</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Все 9 фаз Стадии 1 синхронизированы с принятыми решениями.</li>
+      <li>Устаревшая терминология VV полностью вычищена из live references (исторические в strikethrough + changelogs сохранены).</li>
+      <li>Структурные баги (нумерация 1.5, wrong cross-references в Q-table) исправлены.</li>
+      <li>Стадии 2, 3, 4 — отложены на следующую сессию.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.5 — 2026-04-30 (CONV-13)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> CONV-13 продолжение — правовой блок, тест продукта, анализ готовности.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Полный блок правовых документов (Tier 2)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/legal/index.html</code> — мастер-индекс 11 документов со статусами (P0/P1/P2), чеклистом для юриста и таблицей "What Lawyers Need to Check".</li>
+      <li>Созданы все 11 черновых документов (Draft v0.1): ToS, Privacy Policy, DPA, AUP, SLA, Reseller Agreement, NDA Template, End-User Notice, Cookie Policy, ROPA, Data Breach Procedure.</li>
+      <li>Все документы: кипрское право, GDPR (Art. 28, 30, 33–34), AU Privacy Act overlay, UAE PDPL overlay.</li>
+      <li>В <code>docs/plan/legal-sources.html</code> добавлен раздел «Наши черновые документы» с таблицами по типу и 7-пунктовым чеклистом для юриста.</li>
+      <li>Добавлена стратегия защиты от refund-злоупотреблений: B2B declaration (убирает EU Consumer Rights Directive) + service commencement waiver + usage-based no-refund clause. Записано в <code>docs/ideas.md</code>.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Lawyer Brief в docs/legal/index.html</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Добавлен раздел «Lawyer Brief» — 4 карточки: описание бизнеса, статус юр. лица, рынки и глубина покрытия (EU/AU full, UAE light-touch), открытые решения влияющие на текст.</li>
+      <li>Добавлена таблица «[TBC] Placeholder Fields» — полный список из 8 незаполненных полей по всем 11 документам: [REG NO], [ADDRESS], [Paddle / Stripe], [Email provider], [Analytics provider], [Error tracking], [Cookie consent platform], DPO.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Тестирование продукта</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/research/prod-test-2026-04-30.md</code> — протокол тестирования Tapestry-проекта.</li>
+      <li>Зафиксированы 2 подтверждённых бага: BUG-1 (hotspot placement drift при изменении размера), BUG-2 (unit enquiry form сбрасывается).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Анализ готовности</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Вытащено 38 открытых вопросов (❓) из плана и категоризировано: 24 закрываемых сейчас, 4 требуют Илью, 10 требуют бизнес-решения.</li>
+      <li>Оценка готовности плана: 6/10 — основная структура сильная, ~20 ⏱ маркеров не закрыты, pricing и billing provider не выбраны.</li>
+      <li>Кипрская инкорпорация начата (подтверждено пользователем 2026-04-30, юрист привлечён).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.8 — ссылки на черновики документов</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>В каждую подфазу 1.8.x добавлен блок <strong>«📄 Наши черновики»</strong> с прямыми ссылками на соответствующие draft-документы рядом с внешними референсами.</li>
+      <li>1.8.1 (ToS): tos · aup · sla · reseller-agreement · nda-template</li>
+      <li>1.8.2 (Privacy): privacy-policy · end-user-notice</li>
+      <li>1.8.3 (DPA): dpa · ropa · breach-procedure</li>
+      <li>1.8.4 (Cookie): cookie-policy</li>
+      <li>1.8.7 (AU): privacy-policy §11 · tos §15 · 1.8.8 (UAE): privacy-policy §12</li>
+      <li>В «Файлы фазы» шапки 1.8 добавлен первый link: <code>legal/index.html</code> — «📋 Legal Documents (все черновики)». Callout обновлён: «черновики всех 11 документов написаны».</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Navigation cleanup — два правовых документа</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Разнесены два правовых документа по ролям: <code>legal/index.html</code> = деливерабл (драфты для юриста), <code>plan/legal-sources.html</code> = справочник (откуда брали материал).</li>
+      <li>Удалён дублирующий блок «Наши черновые документы» из <code>legal-sources.html</code> (созданный ранее в этой же сессии и создавший путаницу) — заменён на slim pointer-баннер на <code>legal/index.html</code>.</li>
+      <li>Карточка ⚖️ в блоке «Документы проекта» переключена с <code>legal-sources.html</code> на <code>legal/index.html</code> — основной правовой entry-point теперь ведёт сразу на драфты.</li>
+      <li>В <code>legal/index.html</code> добавлен заметный card-style баннер 📚 <strong>Legal Sources &amp; References</strong> — расположен <em>над</em> Lawyer Brief, сразу после «before using these documents» note. Navy left-bar, hover gold, arrow справа. Заменил мелкую текстовую строчку под Brief, которую легко пропустить.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold-mid); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.4 — 2026-04-29 (CONV-13)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> разработка маркетингового лендинга offplan.online в три захода (v1 → v2 → v3) + ревизия дизайн-ссылок в плане.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Лендинг вынесен на верхний уровень документации</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/plan/landing-variants.html</code> — Visual Appendix B по образцу Admin Panel: hero, контекст, сравнительная таблица, живые iframe-превью всех вариантов.</li>
+      <li>В блок «Документы проекта» добавлена карточка 🌐 <strong>Landing v1 / v2 / v3</strong> рядом с Visual Appendix — быстрый переход с верхней навигации плана.</li>
+      <li><strong>v1</strong> (<code>landing-v1.html</code>) — split hero + alternating feature blocks, B2B SaaS-паттерн, короткий скролл.</li>
+      <li><strong>v2</strong> (<code>landing-v2.html</code>) — full-bleed cinematic hero с фотографией 313&nbsp;Pipis (golden hour), 7&nbsp;feature-блоков с full-width screenshots. Премиальный тон.</li>
+      <li><strong>v3</strong> (<code>landing-v3.html</code>, current) — demo-led hybrid: live iframe реального Tapestry-проекта прямо под hero, walkthrough как hero-фича с тегом «Killer feature», компактный 3+3 grid для остальных модулей, отдельная dark-секция white-label с URL-стеком, «Talk to us» bridge между Advanced и Enterprise тарифами.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Мелкие правки</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Фаза 1.1.3: ссылка на палитру/типографику переведена с <code>Visual Appendix — Палитра</code> на <code>Brandbook v1.1</code> (canonical источник).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--navy); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--navy); font-weight:700; margin-bottom:8px;">v3.3 — 2026-04-29 (CONV-12)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> исследование платёжных провайдеров (Stripe / Paddle / Checkout.com) + разбор конкурентов по платёжкам + UI-правки документа.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Новый документ — Платёжные провайдеры</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Создан <code>docs/payments-research.html</code> — полный разбор Stripe / Paddle / Checkout.com для кипрской компании.</li>
+      <li>Матрица валют: USD / EUR / AED / AUD. Paddle исключён как основной — не поддерживает AED. Stripe — основной, Checkout.com — UAE-сегмент.</li>
+      <li>Описана стратегия маршрутизации по трём фазам: Фаза 1 Stripe, Фаза 2 + Paddle (EU B2C), Фаза 3 + Checkout.com (UAE AED).</li>
+      <li>Концепция страницы оплаты с выбором валюты (<code>pay.offplan.online/&lt;slug&gt;</code>) — клиент выбирает AED/USD/EUR/AUD, система маршрутизирует к нужному провайдеру.</li>
+      <li>Разобраны конкуренты: Kuula = Stripe (подтверждено), Spaceform / VRX / Display Sweet = invoice-based, не self-serve.</li>
+      <li>Добавлена пометка к обсуждению: USD-счёт в кипрском банке для избежания +2% FX-конвертации на USD-платежах.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Блок «Документы проекта» (быстрые переходы)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>В начало страницы (до Exec Summary, после навбара) добавлен блок из 5 карточек с быстрыми переходами на связанные документы.</li>
+      <li>Карточки: Operator Panel v1 · Admin Panel v5 · Brandbook v1.1 · Visual Appendix · Платёжные провайдеры.</li>
+      <li>Карточки с hover-эффектом, цветной полоской по типу документа, responsive (2 колонки на мобиле).</li>
+      <li>Навигация по фазам внутри документа не изменена.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v3.2 — 2026-04-28 (CONV-11)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> tech team подтвердила существование Super Admin Panel (Sergey shared screenshots) + получен backlog у Ильи + ревизия приоритетов между MCP и Operator Dashboard.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Приоритеты Стадии 1</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Фаза 1.4 (MCP Server Wrapper):</strong> 🔴 Critical → 🟡 High. MCP — мощный differentiator, но не блокирует запуск (студии могут работать через admin UI). Если scope большой — итерация 2 переносится в Стадию 2.</li>
+      <li><strong>Фаза 1.3 (Operator Dashboard):</strong> 🟡 High → 🔴 Critical. Без инструмента управления студиями с момента первой регистрации — администрирование через консоль БД рискованно и не масштабируется.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Фаза 1.3 — рефрейминг и упрощение</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Рефрейм:</strong> "build from scratch" → "расширение существующей Super Admin Panel". Tech team подтвердила что панель уже в продакшене (список проектов, переключатели feature-флагов, asset uploads, action log). Эстимейт скорректирован 5–8 → <strong>3–4 недель</strong>.</li>
+      <li><strong>1.3.1:</strong> зависимость исправлена — теперь указывает на Фазу 1.2.1 (Organisation/Tenant entity), а не на несуществующее "existing Org/User/Project".</li>
+      <li><strong>1.3.2:</strong> упрощено — Итерация 1 = базовая аутентификация (email + пароль). 2FA + IP allowlist → Итерация 2 (после первых платящих студий).</li>
+      <li><strong>1.3.6:</strong> упрощено — Итерация 1 только manual entry adapter. Реальный провайдер (Stripe / Paddle / PayTabs / Telr) → Фаза 1.6. На Settings — placeholder-карточка Payment Provider.</li>
+      <li><strong>1.3.7:</strong> упрощено — Итерация 1 базовое логирование + простой viewer. Расширенные возможности (full-text search, JSON diff display, real-time tail) → Итерация 2.</li>
+      <li><strong>1.3.8:</strong> 🟡 Перенесено в Стадию 2. В Итерации 1 только minimal stub: Settings page + Payment Provider placeholder.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Маркеры</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Добавлены два новых маркера в легенду: <strong>[BL]</strong> (уже в backlog у tech team) и <strong>[OPL]</strong> (offplan.online side активно проектирует).</li>
+      <li>Для Фазы 1.3: все sub-phases (1.3.1–1.3.8) помечены [OPL].</li>
+      <li>Для остальных фаз — маркеры [BL]/[OPL] раскатятся в следующем проходе после cross-reference с backlog'ом Ильи.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Контент / язык</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Введено понятие <strong>Итерация</strong> для подразбивок внутри одной Фазы (заменили mixed "Phase 1 / Phase 2" на "Итерация 1 / Итерация 2"). Иерархия плана: Стадия → Фаза → Итерация.</li>
+      <li>Полный pass по русификации body-текста в Фазе 1.3 — заголовки и UI-термины оставлены на английском, остальное приведено к русскому.</li>
+      <li>Исправлен CSS-баг: <code>&lt;strong&gt;</code> внутри <code>.phase-desc</code> был navy на navy фоне — теперь белый.</li>
+      <li>Visual reference у Фазы 1.3 обновлён: <code>staff-panel-preview.html</code> → <code>operator-panel-v1.html</code> (мульти-страничный мокап с feature flags + Settings → Payment Provider).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-mid); font-weight:700; margin-bottom:8px;">v3.1 — 2026-04-27 (CONV-10)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> разговор Сергея с Ромой 2026-04-24 + видео-звонок с Надеждой (Dubai sales manager) 2026-04-23.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Структура Стадии 1</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Перенумерованы фазы по приоритету: Visual Redesign → 1.1 (был 1.7), Security → 1.8 (был 1.1)</li>
+      <li>Admin UX (был 1.4) → 1.5 — отмечено как conditional, требует верификации tech team на проде</li>
+      <li>Payments (был 1.5) → 1.5; Legal (был 1.6) → 1.7</li>
+      <li>+ <strong>Фаза 1.4 — MCP Server Wrapper</strong> (перенесена из 4.1.5). «Без MCP не запускаться» — Сергей. Две итерации: read-only first → read+write second.</li>
+      <li>+ <strong>Фаза 1.9 — Sales-app UX redesign</strong> (новая, фидбек Надежды). MVP (1.9.1 фильтры) обязателен в Стадии 1; остальное conditional</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Контент изменений</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>1.2 Onboarding</strong> — 6 правок: 1.2.1 expanded with 5-уровневой архитектурой tenant access; 1.2.2 переписана как <em>per-project</em> subdomain (не per-studio); 1.2.3 переписана как custom domain для проектов; 1.2.4 wizard упрощён (без поля «тип проекта», без Slack invite, обязательный); 1.2.5 — оба подхода через Claude Design; 1.2.6 — отложен в Стадию 3; 1.2.7 — significantly expanded с 5-level access model</li>
+      <li><strong>1.6.8 Flat-fee tier</strong> — новая sub-phase. Альтернатива subscription для клиентов «настроили проект, дальше не меняем»</li>
+      <li><strong>1.5 Admin UX</strong> — banner: conditional, требует верификации tech team. <strong>1.5.3 Asset upload</strong> — note: tech team уже работает над backend auto-обработкой, может стать неактуальной</li>
+      <li><strong>1.8 Security</strong> — banner: baseline, ответственность tech team. Не первоочередная задача со стороны product team</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Стадия 4</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>4.1.5 (MCP wrapper) перенесена в Стадию 1 как Фаза 1.4 (stub оставлен для backwards-навигации)</li>
+      <li>4.1.1 + 4.3.x cross-refs обновлены</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Backlog (для следующих итераций)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>CRM integration depth</strong> — из звонка с Надеждой выявлена глубокая Microsoft Dynamics integration (отслеживание какие юниты показывались каким клиентам при какой цене). Илья оценил ~$100k. Не Стадия 1, но <strong>data model для "presentation events"</strong> нужно проектировать заранее. Добавить в Стадию 2.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-mid); font-weight:700; margin-bottom:8px;">v3.0 — 2026-04-24 (CONV-9)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin:0;">Первая версия плана: 4 стадии, 21 фаза, ~110 подзадач. <strong>Источник:</strong> звонок Сергея с Ильёй. Создано три артефакта: канонический markdown <code>plans/launch-plan-v3.md</code>, полный читаемый HTML <code>docs/launch-plan-v3-full.html</code>, визуальный appendix <code>docs/launch-plan-v3-visual.html</code>.</p>
+  </div>
+</section>
+
+
+</div><!-- /wrap -->
+
+<footer>
+  <div>Launch Plan · offplan.online · Changelog</div>
+  <div class="links" style="margin-top:10px;">
+    <a href="launch-plan-v3-full.html">← Главный план</a>
+    <a href="launch-plan-future.html">Future Stages</a>
+    <a href="../../plans/launch-plan-v3.md">Markdown (canonical)</a>
+  </div>
+</footer>
+
+</body>
+</html>
