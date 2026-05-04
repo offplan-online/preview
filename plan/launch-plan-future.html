@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Plan v3 — offplan.online (Full)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand-50:#faf7f2; --sand-100:#f4ede0; --sand-200:#ebe0cc; --sand-300:#ddd0b8;
+    --gold:#a07840; --gold-mid:#b8904a; --gold-light:#d4aa6a;
+    --navy:#1a2040; --navy-mid:#212840; --navy-light:#2a3252;
+    --text-dark:#1e1a14; --text-mid:#5a5040; --text-dim:#9a8e7a;
+    --border:rgba(160,140,110,.22); --border-mid:rgba(160,140,110,.38);
+    --red:#c05050; --amber:#c07820; --green:#4a9e6a;
+    --critical:#c05050; --high:#c07820; --medium:#8c7848; --low:#9a9a8e;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--sand-100); color:var(--text-dark); font-size:14.5px; line-height:1.6; }
+
+  /* HERO */
+  .hero { position:relative; background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%); color:#fff; padding:70px 40px 50px; text-align:center; }
+  .hero-brand { position:absolute; top:32px; left:40px; display:flex; align-items:center; gap:10px; }
+  .hero-brand svg { display:block; }
+  .hero-brand-text { display:flex; flex-direction:column; line-height:1; font-family:'Inter',sans-serif; font-weight:600; }
+  .hero-brand-text .name { font-size:14px; color:#fff; letter-spacing:.5px; }
+  .hero-brand-text .rule { width:22px; height:1.5px; background:var(--gold-light); margin:4px 0 3px; }
+  .hero-brand-text .online { font-size:11px; color:var(--gold-light); letter-spacing:1.5px; text-transform:uppercase; }
+  .hero-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold-light); margin-bottom:10px; font-weight:600; }
+  .hero h1 { font-size:40px; font-weight:800; letter-spacing:-0.6px; margin-bottom:12px; line-height:1.15; }
+  .hero h1 .brand-dot { color:var(--gold-light); }
+  .hero .subtitle { font-size:16px; color:rgba(255,255,255,.75); max-width:680px; margin:0 auto; line-height:1.5; }
+  .hero-meta { margin-top:26px; font-size:12px; color:rgba(255,255,255,.5); }
+  @media (max-width:680px) { .hero-brand { position:static; justify-content:center; margin-bottom:18px; } }
+
+  /* TASK FILES (links to mockups / research) */
+  .task-files { margin:6px 0 12px; padding:8px 12px; background:var(--sand-50); border-left:3px solid var(--gold-light); border-radius:4px; font-size:13px; color:var(--text-mid); }
+  .task-files strong { color:var(--gold); font-weight:600; }
+  .task-files a { color:var(--gold); font-weight:500; }
+  .phase-files { margin-top:12px; padding:0 0 0 14px; border-left:3px solid var(--gold-light); font-size:13px; color:rgba(255,255,255,.85); }
+  .phase-files strong { color:var(--gold-light); display:block; margin-bottom:4px; font-size:11px; letter-spacing:.8px; text-transform:uppercase; font-weight:600; }
+  .phase-files a { color:var(--gold-light); font-weight:500; margin-right:14px; text-decoration:none; }
+  .phase-files a:hover { color:#fff; text-decoration:underline; }
+
+  /* LAYOUT */
+  .wrap { max-width:960px; margin:0 auto; padding:40px 36px 60px; }
+  section { margin-bottom:56px; scroll-margin-top:20px; }
+
+  /* NAV */
+  .topnav { background:var(--sand-50); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; padding:10px 20px; overflow-x:auto; white-space:nowrap; }
+  .topnav a { display:inline-block; padding:6px 14px; margin-right:4px; font-size:12px; font-weight:600; color:var(--text-mid); text-decoration:none; border-radius:16px; letter-spacing:.3px; }
+  .topnav a:hover { background:var(--sand-200); color:var(--navy); }
+
+  /* TYPOGRAPHY */
+  h2 { font-size:26px; font-weight:700; letter-spacing:-0.3px; margin-bottom:14px; color:var(--navy); padding-bottom:10px; border-bottom:2px solid var(--gold-light); }
+  h3 { font-size:19px; font-weight:600; margin:28px 0 10px; color:var(--navy); }
+  h4 { font-size:14px; font-weight:700; letter-spacing:.8px; text-transform:uppercase; color:var(--gold); margin:18px 0 8px; }
+  p { margin-bottom:12px; color:var(--text-dark); }
+  p.lead { font-size:15.5px; color:var(--text-dark); max-width:760px; }
+  strong { font-weight:700; color:var(--navy); }
+  a { color:var(--gold); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { font-family:'SF Mono',Consolas,monospace; font-size:12.5px; background:var(--sand-200); padding:2px 6px; border-radius:4px; color:var(--text-dark); }
+
+  /* TABLES */
+  table { width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  th, td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+  th { background:var(--sand-50); font-weight:600; color:var(--navy); font-size:12.5px; letter-spacing:.3px; text-transform:uppercase; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--sand-50); }
+
+  /* STAGE HEADER */
+  .stage-header { margin:70px 0 32px; padding:30px 32px; background:linear-gradient(135deg, var(--sand-200) 0%, var(--sand-100) 100%); border:1px solid var(--border-mid); border-left:6px solid var(--gold); border-radius:12px; }
+  .stage-header .stage-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px; }
+  .stage-header h2 { border:none; padding:0; margin-bottom:10px; font-size:28px; }
+  .stage-header .stage-goal { font-size:14px; color:var(--text-mid); font-style:italic; }
+  .stage-header .stage-exit { font-size:13px; color:var(--text-mid); margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+
+  /* PHASE HEADER */
+  .phase { margin:40px 0 24px; padding:18px 22px; background:var(--navy); color:#fff; border-radius:8px; }
+  .phase-num { display:inline-block; font-size:11px; letter-spacing:2px; font-weight:700; color:var(--gold-light); margin-right:10px; }
+  .phase h3 { color:#fff; margin:0; font-size:17px; font-weight:600; }
+  .phase .phase-desc { color:rgba(255,255,255,.78); font-size:13px; margin-top:6px; }
+  .phase .phase-desc strong { color:#fff; font-weight:700; }
+  .phase .phase-desc code { background:rgba(255,255,255,.12); color:#fff; padding:1px 6px; border-radius:3px; font-size:12px; }
+  .phase .phase-desc a { color:var(--gold-light); }
+
+  /* TASK */
+  .task { background:#fff; border:1px solid var(--border); border-radius:10px; padding:20px 22px; margin-bottom:14px; }
+  .task-title { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .task-id { font-family:'SF Mono',monospace; font-size:12px; font-weight:700; color:var(--gold); background:var(--sand-50); padding:3px 8px; border-radius:4px; white-space:nowrap; }
+  .task-name { font-size:16px; font-weight:600; color:var(--navy); flex:1; min-width:240px; }
+  .markers { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .marker { display:inline-flex; align-items:center; font-size:11px; font-weight:600; padding:3px 9px; border-radius:12px; letter-spacing:.3px; }
+  .m-critical { background:rgba(192,80,80,.1); color:var(--critical); }
+  .m-high { background:rgba(192,120,32,.1); color:var(--high); }
+  .m-medium { background:rgba(140,120,72,.1); color:var(--medium); }
+  .m-low { background:rgba(154,154,142,.12); color:var(--low); }
+  .m-dept { background:var(--sand-200); color:var(--text-dark); }
+  .m-time { background:rgba(26,32,64,.08); color:var(--navy); font-family:'SF Mono',monospace; }
+  .m-q { background:rgba(160,120,64,.12); color:var(--gold); }
+  .m-done { background:rgba(74,158,106,.12); color:var(--green); }
+  .m-prod { background:rgba(74,105,158,.12); color:#4a699e; }
+  .m-bl { background:rgba(120,90,140,.12); color:#6c4a8c; font-family:'SF Mono',monospace; }
+  .m-opl { background:rgba(184,149,90,.14); color:#8a6f44; font-family:'SF Mono',monospace; }
+  .task-desc { margin-bottom:10px; font-size:14px; color:var(--text-dark); }
+  .task-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-top:10px; margin-bottom:4px; display:block; }
+  .task ul { margin:4px 0 8px 20px; font-size:13.5px; }
+  .task ul li { margin-bottom:3px; color:var(--text-mid); }
+  .task-deps { font-size:12.5px; color:var(--text-dim); margin-top:10px; padding-top:8px; border-top:1px solid var(--border); font-family:'SF Mono',monospace; }
+
+  /* CALLOUT */
+  .callout { background:var(--sand-50); border-left:4px solid var(--gold-mid); padding:14px 18px; border-radius:6px; margin:14px 0; font-size:13.5px; color:var(--text-dark); }
+  .callout strong { color:var(--gold); }
+  .callout-warn { border-left-color:var(--amber); }
+  .callout-ok { border-left-color:var(--green); }
+  .callout-idea { background:rgba(184,149,90,0.06); border:none; border-left:2px dashed rgba(184,149,90,0.55); padding:14px 20px; border-radius:0 6px 6px 0; margin:14px 0; font-size:13px; color:var(--text-mid); }
+  .callout-idea strong { color:var(--text-dark); font-weight:600; }
+  .callout-idea .idea-label { display:block; font-size:10px; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+  .callout-idea ul { margin:8px 0 0; padding-left:20px; }
+  .callout-idea li { margin-bottom:4px; }
+
+  /* APPENDIX */
+  .appendix-header { margin:70px 0 24px; padding:24px; background:#fff; border:1px solid var(--border); border-radius:10px; border-left:6px solid var(--gold-mid); }
+  .appendix-header .app-kicker { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); font-weight:700; }
+  .appendix-header h2 { border:none; padding:0; margin:6px 0 0; }
+
+  /* MATRIX */
+  .matrix-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:16px 0; }
+  .matrix-cell { padding:10px 6px; text-align:center; font-size:12px; background:#fff; border:1px solid var(--border); border-radius:6px; }
+  .matrix-cell.header { background:var(--navy); color:#fff; font-weight:600; }
+  .matrix-cell.label { background:var(--sand-50); font-weight:600; text-align:left; padding-left:12px; }
+  .mx-count { font-size:18px; font-weight:700; display:block; }
+  .mx-count.c-critical { color:var(--critical); }
+  .mx-count.c-high { color:var(--high); }
+  .mx-count.c-medium { color:var(--medium); }
+  .mx-count.c-low { color:var(--low); }
+
+  /* FOOTER */
+  footer { background:var(--navy); color:rgba(255,255,255,.6); padding:36px 40px; text-align:center; font-size:13px; margin-top:60px; }
+  footer a { color:var(--gold-light); }
+  footer .links a { margin:0 10px; }
+
+  @media (max-width:760px) {
+    .hero h1 { font-size:30px; }
+    .wrap { padding:24px 18px; }
+    .matrix-grid { grid-template-columns:1fr 1fr 1fr; }
+  }
+
+  /* COLLAPSIBLE SECTIONS */
+  details { margin-top:10px; }
+  details summary { list-style:none; outline:none; }
+  details summary::-webkit-details-marker { display:none; }
+  details summary.task-label {
+    cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; margin:8px 0 0;
+    background:var(--sand-50);
+    border:1px solid var(--border);
+    border-radius:6px;
+    color:var(--gold);
+    font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    transition:background .15s, border-color .15s;
+    user-select:none;
+  }
+  details summary.task-label:hover {
+    background:var(--sand-200);
+    border-color:var(--border-mid);
+  }
+  details summary.task-label::before {
+    content:'▶'; display:inline-block;
+    font-size:9px; color:var(--gold-light);
+    transition:transform .2s;
+  }
+  details[open] summary.task-label {
+    background:var(--sand-200);
+    border-color:var(--border-mid);
+    margin-bottom:4px;
+  }
+  details[open] summary.task-label::before { transform:rotate(90deg); }
+  details summary.task-label .count {
+    display:inline-block;
+    padding:1px 7px;
+    background:#fff;
+    color:var(--gold);
+    border-radius:10px;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.3px;
+    margin-left:auto;
+  }
+  details[open] summary.task-label .count {
+    background:var(--sand-50);
+  }
+  details > ul {
+    margin:6px 0 12px 20px !important;
+    font-size:13.5px;
+  }
+  details > ul li { margin-bottom:4px; color:var(--text-mid); }
+
+
+  /* PHASE NAVIGATION */
+  #phase-nav { margin-bottom: 40px; }
+  .phase-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .phase-nav-column {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .phase-nav-stage-title {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid var(--gold-light);
+  }
+  .phase-nav-stage-title:hover { color: var(--navy); }
+  .phase-nav-list { list-style: none; padding: 0; margin: 0; }
+  .phase-nav-list li { margin: 0; padding: 0; }
+  .phase-nav-list a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 10px;
+    margin: 2px -10px;
+    border-radius: 6px;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background .15s, color .15s;
+  }
+  .phase-nav-list a:hover {
+    background: var(--sand-50);
+    color: var(--navy);
+  }
+  .phase-nav-list .pn-num {
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 30px;
+  }
+  .phase-nav-list a:hover .pn-num { color: var(--navy); }
+  .phase-nav-list .pn-name { flex: 1; }
+  @media (max-width: 760px) {
+    .phase-nav-grid { grid-template-columns: 1fr; }
+  }
+
+
+  /* ── COMPANION DOCS ── */
+  .companion-docs { margin-bottom:48px; }
+  .companion-docs-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); margin-bottom:14px; }
+  .doc-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .doc-card { background:#fff; border:1px solid var(--border); border-radius:12px; padding:20px 18px; text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:10px; transition:box-shadow .15s, border-color .15s, transform .15s; position:relative; overflow:hidden; }
+  .doc-card:hover { box-shadow:0 4px 20px rgba(26,32,64,.10); border-color:var(--gold-light); transform:translateY(-2px); text-decoration:none; }
+  .doc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .doc-card.c-gold::before { background:linear-gradient(90deg,var(--gold),var(--gold-light)); }
+  .doc-card.c-navy::before { background:linear-gradient(90deg,var(--navy),var(--navy-light)); }
+  .doc-card.c-green::before { background:linear-gradient(90deg,#4a9e6a,#6abf8a); }
+  .doc-card.c-stripe::before { background:linear-gradient(90deg,#635bff,#9d97ff); }
+  .doc-card.c-checkout::before { background:linear-gradient(90deg,#00b3e6,#5fd4f0); }
+  .doc-card.c-amber::before { background:linear-gradient(90deg,var(--amber),#daa04a); }
+  .doc-card.c-red::before { background:linear-gradient(90deg,var(--red),#d68080); }
+  .doc-card-icon { font-size:26px; line-height:1; }
+  .doc-card-name { font-size:14px; font-weight:700; color:var(--navy); line-height:1.3; }
+  .doc-card-desc { font-size:12px; color:var(--text-dim); line-height:1.5; flex:1; }
+  .doc-card-link { font-size:11px; font-weight:700; letter-spacing:.5px; color:var(--gold); text-transform:uppercase; }
+  @media (max-width:760px) { .doc-cards { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a href="launch-plan-v3-full.html" class="hero-brand" aria-label="offplan.online">
+    <svg width="36" height="29" viewBox="0 0 32 26" aria-hidden="true">
+      <rect width="32" height="26" fill="#B8955A"/>
+      <line x1="20" y1="0" x2="20" y2="26" stroke="#14202C" stroke-width="1.6"/>
+      <line x1="20" y1="15" x2="32" y2="15" stroke="#14202C" stroke-width="1.6"/>
+    </svg>
+    <span class="hero-brand-text">
+      <span class="name">offplan</span>
+      <span class="rule"></span>
+      <span class="online">.online</span>
+    </span>
+  </a>
+  <div class="hero-kicker">Launch Plan · Future Stages (3 & 4)</div>
+  <h1>offplan<span class="brand-dot">.</span>online — Future Stages</h1>
+  <p class="subtitle">Детальные подзадачи Стадий 3 и 4. Эти стадии запланированы после пилотного запуска (Стадия 1) и пилот-программы (Стадия 2). Здесь живут все sub-tasks — для рабочей фазы 1 см. <a href="launch-plan-v3-full.html" style="color:rgba(255,255,255,.85);text-decoration:underline;">главный план</a>.</p>
+  <div class="hero-meta">Производный документ · Источник истины — git</div>
+</div>
+
+<nav class="topnav">
+  <a href="launch-plan-v3-full.html">← Главный план</a>
+  <a href="#stage3">Стадия 3</a>
+  <a href="#stage4">Стадия 4</a>
+</nav>
+
+<div class="wrap">
+<section id="future-intro">
+  <h2>Где мы и что здесь</h2>
+  <p class="lead">Этот документ — продолжение главного плана. Содержит полную детализацию <strong>Стадий 3 и 4</strong> — публичный запуск и рост. В главном файле остались overview-стабы этих стадий, чтобы roadmap был виден целиком; вся подробная sub-task разбивка — здесь.</p>
+  <div class="callout">
+    <strong>Почему два файла:</strong> Стадии 3-4 — это десятки sub-tasks которые сейчас не нужно держать перед глазами при работе над Стадией 1. Split упрощает чтение, ускоряет навигацию и снижает контекст-нагрузку для AI-инструментов работы с планом.
+  </div>
+  <ul>
+    <li><strong>Стадия 3 — Публичный запуск:</strong> 5 фаз, ~25 подзадач. Performance/scale, marketing, admin UX v2, mobile admin, SLO+runbooks.</li>
+    <li><strong>Стадия 4 — Рост:</strong> 5 фаз, ~25 подзадач. API/Webhooks/MCP, монетизация, Admin Redesign 3 views, локализация, advanced features.</li>
+  </ul>
+</section>
+</div><!-- /wrap -->
+
+<div class="wrap">
+
+<!-- ══ STAGE 3 ══ -->
+<div id="stage3" class="stage-header">
+  <div class="stage-kicker">Стадия 3 из 4</div>
+  <h2>Публичный запуск</h2>
+  <p class="stage-goal">Open doors. Любая студия в мире может зарегистрироваться и начать trial.</p>
+  <p class="stage-exit"><strong>Условие выхода:</strong> первые 100 платящих студий, стабильные метрики, Стадия 4 (рост) в работе.</p>
+</div>
+
+<div id="phase-3-1" class="phase"><span class="phase-num">Фаза 3.1</span><h3>Performance &amp; Scale Testing</h3><p class="phase-desc">До публичного запуска нагрузочное тестирование должно подтвердить, что система держит обещанную нагрузку.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.1.1</span><span class="task-name">Load test scenarios</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+QA</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Сценарии нагрузки которые должны пройти перед public launch.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Targets: 100 concurrent studios админят, 200 concurrent посетителей, 500 burst (выставка)</li>
+    <li>Tool: k6 или Apache JMeter</li>
+    <li>Scenarios: admin workflow, panorama loading, floor plan rendering, publishing, concurrent upload</li>
+    <li>Automated run перед каждым релизом</li>
+    <li>Baseline + регрессия</li>
+    <li><strong>Reactive DB optimization:</strong> slow query log включён, топ-10 slow queries identified + проиндексированы <em>если load test выявил проблемы</em> (не proactive без замеров)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Cloud для load-testing?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: Стадия 3 launch</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.1.2</span><span class="task-name">360° panorama performance</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Critical path — panorama loading, так как это fancy-feature и плохая производительность бьёт по core value.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Measure TTI на 3G / 4G / WiFi</li>
+    <li>Progressive loading (low-res сразу, high-res догружается)</li>
+    <li>Precaching для частых panoramas</li>
+    <li>Fallback для слабых устройств / медленного интернета</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Benchmark какой TTI приемлем?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 3.1.3 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.1.3</span><span class="task-name">CDN для медиа</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Media (panoramas, floor plans, renders) — через CDN.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Cloudflare / Bunny / CloudFront</li>
+    <li>Origin: S3 (или equivalent)</li>
+    <li>Cache rules: TTL, purge on update</li>
+    <li>Signed URLs для private контента</li>
+    <li>Bandwidth cost modeling</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Какой CDN + pricing?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 3.1.2</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.1.4</span><span class="task-name">Image compression pipeline</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">При upload — автоматическая конвертация jpeg/png → webp, optimized sizes per use case.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Background worker (image conversion CPU-bound)</li>
+    <li>WebP + fallback JPEG</li>
+    <li>Multiple sizes (thumbnail, preview, full)</li>
+    <li>Lazy loading с placeholder</li>
+    <li>Покрывает заметку #12</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Sharp / ImageMagick / cloud-based (Cloudinary)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 3.1.2</div>
+</div>
+
+<div class="callout callout-warn" style="margin-bottom:20px;">
+  <strong>Было:</strong> 3.1.5 Database query optimization.
+  <strong>Объединено с Фазой 3.1.1</strong> — DB-оптимизация реактивна (если load test выявляет slow queries), а не proactive без замеров.
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.1.6</span><span class="task-name">Lighthouse ≥80</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Публичные страницы проектов — performance / accessibility / SEO / best practices score 80+.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Lighthouse audit текущих страниц</li>
+    <li>Исправления: lazy load, critical CSS, compressed fonts, async scripts</li>
+    <li>Automated Lighthouse в CI (PRs не мержатся если &lt;80)</li>
+    <li>Метрики: LCP, FID, CLS</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Какой baseline сейчас?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 3.1.3, 3.1.4 · Блокирует: —</div>
+</div>
+
+<div id="phase-3-2" class="phase"><span class="phase-num">Фаза 3.2</span><h3>Marketing Launch</h3><p class="phase-desc">После пилота у нас есть testimonials, метрики, case studies — публичный маркетинг.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.2.1</span><span class="task-name">PR &amp; press outreach</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Marketing</span></div>
+  <p class="task-desc">PR-активности вокруг public launch.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Press release: «Первая PropTech платформа с MCP для AI-агентов»</li>
+    <li>Outreach PropTech-медиа (TechCrunch, Inman, PropTech Connect)</li>
+    <li>Pitch blogger'ам в real estate / rendering niches</li>
+    <li>Podcast appearances</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>PR-подрядчик или внутренний маркетинг?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.2.2</span><span class="task-name">Content marketing</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Marketing+Content</span></div>
+  <p class="task-desc">SEO-driven контент на blog для органического трафика.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(3)</span></summary>
+  <ul>
+    <li>Blog на landing (WordPress / Ghost / internal)</li>
+    <li>10 статей в первые 3 месяца: playbook продаж off-plan, walkthroughs vs photos data, GDPR для real estate, сравнения с конкурентами</li>
+    <li>Guest posts на PropTech публикациях</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Кто пишет (внутренние / freelancers)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.2.3</span><span class="task-name">Paid ads (Google / LinkedIn)</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Marketing</span></div>
+  <p class="task-desc">Платный трафик на landing для ускоренного набора первых paying customers.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Google Ads: keyword research для PropTech / off-plan / rendering studio</li>
+    <li>LinkedIn Ads: B2B decision-makers (real estate, rendering studios)</li>
+    <li>Ad creative + landing variations для A/B</li>
+    <li>Budget: $2-5k/мес на старте</li>
+    <li>Measurement: CAC, LTV:CAC ratio</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Бюджет на первые 3 месяца?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 3.1, 3.2.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.2.4</span><span class="task-name">Case studies from pilot</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Marketing+Sales</span></div>
+  <p class="task-desc">Публикация 3-5 case studies от пилот-студий с конкретными цифрами.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Отбор 3-5 пилот-студий с лучшими результатами</li>
+    <li>Interview + data collection</li>
+    <li>Written case study (500-1000 слов)</li>
+    <li>Short video (3-5 мин)</li>
+    <li>Publishing на landing + LinkedIn</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Компенсация студии (скидка / cash / ничего)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: Стадия 2 complete · Блокирует: 3.2.3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.2.5</span><span class="task-name">Referral program (with credits system)</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Marketing+Product+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Существующие клиенты приводят новых за вознаграждение. Объединяет то что раньше было разложено на две фазы (3.2.5 + 4.2.6) — referral mechanism и credits system как одно целое.</p>
+  <details>
+  <summary class="task-label">Referral attribution <span class="count">(4)</span></summary>
+  <ul>
+    <li>Unique referral code на каждый account</li>
+    <li>Invite flow: email / shareable link / QR</li>
+    <li>Cookie-based attribution (30-90 дней)</li>
+    <li>UI в админке «Invite a studio, get rewards»</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Reward structure (two-sided) <span class="count">(2)</span></summary>
+  <ul>
+    <li>Приглашающий получает credit (1 месяц free subscription)</li>
+    <li>Приглашённый получает 20% скидку на первый месяц</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Credits system <span class="count">(4)</span></summary>
+  <ul>
+    <li>Credit balance per tenant (видимый в billing UI)</li>
+    <li>Auto-applied to next invoice</li>
+    <li>Expiry policy (6-12 месяцев)</li>
+    <li>Non-transferable между tenant'ами (security)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Anti-abuse + tracking <span class="count">(4)</span></summary>
+  <ul>
+    <li>Rate limit invite'ов per account</li>
+    <li>Prevent self-referral (same payment method)</li>
+    <li>Review перед credit applied (первые 50 случаев manual)</li>
+    <li>Dashboard: кто привёл скольких, conversion rate, revenue attribution</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>Two-sided (обе) или one-sided (только приглашающий)?</li>
+    <li>Reward: 1 месяц free / % скидка / $ credit?</li>
+    <li>Cap: unlimited или 10/year?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.5.3 · Блокирует: —</div>
+</div>
+
+<div id="phase-3-3" class="phase"><span class="phase-num">Фаза 3.3</span><h3>Admin UX v2 Improvements</h3><p class="phase-desc">Улучшения, приоритизированные по фидбеку пилота. Часть начата в 2.5.2 — здесь финализация.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.3.1</span><span class="task-name">Finalised UX improvements from pilot</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Топ-10 улучшений по priority из pilot feedback.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
+  <ul>
+    <li>Bulk operations (mass enable/disable, mass status change)</li>
+    <li>Keyboard shortcuts для power users</li>
+    <li>Dark mode (если просят много студий)</li>
+    <li>Improved search / filters</li>
+    <li>Better error messages everywhere</li>
+    <li>Help tooltips</li>
+    <li>Export data (CSV для units / floor plans)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Что реально в топ-10 по фидбеку?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: Стадия 2 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.3.2</span><span class="task-name">Notifications (in-app + email)</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Уведомления о событиях — клиент просмотрел, новый лид, изменения.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>In-app notification bell</li>
+    <li>Email digest (daily / weekly / instant)</li>
+    <li>Event types: lead submitted, client viewed, payment received, plan expiring</li>
+    <li>Preferences (отключить некоторые типы)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Push notifications (web / mobile) — scope?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.3.3</span><span class="task-name">Audit log (who changed what)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Логирование действий для studio-devs accountability + compliance.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Log: user, action, entity, timestamp, old value, new value</li>
+    <li>UI: history tab на каждом entity</li>
+    <li>Admin-wide log для VV team</li>
+    <li>Retention: 12 месяцев</li>
+    <li>Export (CSV)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Какие actions логируем (всё или важные)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.3.4</span><span class="task-name">Visual Debug Mode</span><span class="marker m-bl">[BL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Режим визуальной отладки в админке — помогает пользователю понять почему действие не сработало (неправильный формат файла, превышен размер, не заполнено обязательное поле, конфликт с существующей сущностью). Уменьшает support burden, особенно на этапе пилота. <strong>В backlog у Ильи помечено как «в работе».</strong></p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Diagnostic overlay при upload errors: показать конкретную причину (формат / размер / разрешение / конфликт имени)</li>
+    <li>Inline-валидация форм с визуальными hints до submit</li>
+    <li>Format / size mismatch индикаторы рядом с полями загрузки</li>
+    <li>Toggle "Debug mode" в settings — для опытных пользователей; для остальных автоматически включается на upload errors</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.3.5</span><span class="task-name">Full Project Import / Export</span><span class="marker m-bl">[BL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Одна обширная функция экспорта / импорта проекта целиком — конфигурация, юниты, этажи, медиа, настройки. Use cases: backup, миграция между tenant'ами, создание шаблонов проектов, передача проекта от студии к девелоперу. <strong>В backlog у Ильи.</strong></p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Export: ZIP-пакет с JSON-манифестом + всеми медиа</li>
+    <li>Import: валидация пакета + dry-run preview (что будет создано / обновлено)</li>
+    <li>Версионирование пакета (совместимость с будущими версиями схемы)</li>
+    <li>Cross-tenant перенос с проверками на org boundaries (нельзя импортировать в чужой tenant)</li>
+    <li>Расширяет 3.3.1 (там уже упоминается CSV export для units / floor plans) — здесь полный пакет</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div id="phase-3-4" class="phase"><span class="phase-num">Фаза 3.4</span><h3>Mobile Admin</h3><p class="phase-desc">Менеджер студии часто работает «не за компьютером» (on-site у клиента, в дороге).</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.4.1</span><span class="task-name">Responsive admin layout</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Текущая админка, адаптированная для mobile/tablet.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Responsive breakpoints для всех ключевых страниц</li>
+    <li>Touch-friendly controls</li>
+    <li>Collapsible sidebar</li>
+    <li>Simplified forms</li>
+    <li>Performance: mobile network realities</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Scope: все страницы или только критичные?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 3.4.2</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.4.2</span><span class="task-name">Mobile-specific workflows</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Flows которые делаются с мобилы чаще (quick price update, status change).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>«Quick actions» menu</li>
+    <li>Price update одной кнопкой</li>
+    <li>Status toggle (available/reserved/sold) прямо из списка</li>
+    <li>Quick notifications view</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Native app (iOS/Android) или PWA?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 3.4.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.4.3</span><span class="task-name">Mobile upload flow</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Фото с телефона → сразу в админку.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Camera access (HTML5 / getUserMedia)</li>
+    <li>Upload с прогрессом</li>
+    <li>Crop / edit перед upload</li>
+    <li>Resume upload если прервалось</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Упрощённый или полноценный?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 3.4.1 · Блокирует: —</div>
+</div>
+
+<div id="phase-3-5" class="phase"><span class="phase-num">Фаза 3.5</span><h3>SLO + Runbooks</h3><p class="phase-desc">Перед public launch формализуем что обещаем и что делать когда ломается.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.5.1</span><span class="task-name">SLO / SLI definitions</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Формальные Service Level Indicators и Objectives.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>SLI: uptime %, p50/p95/p99 latency, error rate</li>
+    <li>SLO: 99.5% uptime (из ToS), p95 &lt;500ms для admin, &lt;2s для публичных</li>
+    <li>Alerting на SLO burn rate</li>
+    <li>SLA (внешний) = SLO - safety margin</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Какие error budgets tolerable?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.1.3 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.5.2</span><span class="task-name">Runbooks для топ-инцидентов</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Документированные процедуры для частых инцидентов.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(3)</span></summary>
+  <ul>
+    <li>Topics: database down, CDN issue, payment provider outage, mass signup failure, DDoS</li>
+    <li>Шаблон: symptoms, diagnostic steps, mitigation, escalation</li>
+    <li>Living document (обновляется после каждого инцидента)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Хранение (Notion / internal wiki)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.5.3</span><span class="task-name">Status page (public)</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Публичная страница с uptime и инцидентами. <strong>Используем готовое решение</strong> (statuspage.io / instatus / Better Stack) — custom не строим.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Выбор провайдера (statuspage.io / instatus / Better Stack) — tech-team решение</li>
+    <li>Integration с нашими health-check endpoints для auto-update</li>
+    <li>Manual incident posts template</li>
+    <li>Subscribe: студии получают email при инциденте</li>
+    <li>Redirect <code>status.offplan.online</code> → status page</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.5.4</span><span class="task-name">Secrets management + key rotation</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Переезд с хранения secrets в <code>.env</code> + CI env vars на production-grade secrets manager. Делаем ДО публичного запуска, но НЕ до пилота (для 20 пилот-студий текущего подхода достаточно).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Audit где живут secrets (репо / .env / CI / runtime)</li>
+    <li>Переход на secrets manager (Vault / AWS Secrets Manager / Doppler)</li>
+    <li>Политика rotation: какие ключи ротируются как часто</li>
+    <li>Разделение prod/staging/dev secrets (не должно быть overlap)</li>
+    <li>Audit access: кто имеет доступ к prod secrets</li>
+    <li>Автоматизация rotation для критичных ключей (JWT, DB)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul>
+    <li>Какой secrets manager (Vault self-hosted / managed)?</li>
+    <li>Compliance requirement по частоте rotation (SOC2 готовность)?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: Публичный запуск</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">3.5.5</span><span class="task-name">Offplan Lite Fallback for Complete Failure</span><span class="marker m-bl">[BL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Статическая lite-версия каждого проекта, обновляющаяся автоматически (по расписанию или при значимых правках) и хранящаяся отдельно от основного сервиса. Если основной сервис лежит — клиенту вместо 404 показывается lite-страница с базовым просмотром продукта. Insurance policy на сценарии полной деградации сервиса. <strong>В backlog у Ильи как «Offplan Lite Fallback for Complete Failure».</strong></p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Snapshot generator — запускается по cron (раз в неделю как baseline) и при значимых правках (publish event)</li>
+    <li>Storage отдельно от main service: S3 / static hosting / отдельный CDN bucket</li>
+    <li>Routing fallback: при 5xx от main service → отдаётся lite-snapshot</li>
+    <li>Lite UI: read-only, ограниченные features (нет панорам, нет realtime цен, нет admin), но sales-app остаётся в живых для просмотра</li>
+    <li>Communication: badge "Service degraded — viewing cached version" чтобы покупатель понимал что данные могут быть не самые свежие</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul>
+    <li>❓ Как часто обновлять snapshot — раз в неделю достаточно или event-driven?</li>
+    <li>❓ Hosting — наш CDN или сторонний (для true isolation от основного сервиса)?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 3.1.3 (CDN — для serving snapshots) · Блокирует: —</div>
+</div>
+
+
+</div><!-- /wrap -->
+
+<div class="wrap">
+
+<!-- ══ STAGE 4 ══ -->
+<div id="stage4" class="stage-header">
+  <div class="stage-kicker">Стадия 4 из 4</div>
+  <h2>Рост и масштабирование</h2>
+  <p class="stage-goal">Продукт масштабируется по features, CRM-интеграциям и монетизации. Начинаем Admin redesign (3 views).</p>
+  <p class="stage-exit"><strong>Это ongoing growth phase — без явного exit criteria.</strong></p>
+</div>
+
+<div id="phase-4-1" class="phase"><span class="phase-num">Фаза 4.1</span><h3>API / Webhooks / MCP <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Основной запрос от агентств — интеграция с их CRM.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.1.1</span><span class="task-name">Webhooks для ключевых событий</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Студии получают уведомления о событиях в их CRM через webhooks.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Events: register_interest, unit.status_changed, unit.price_changed, project.created</li>
+    <li>Configuration UI: webhook URL + secret</li>
+    <li>Retry logic: exponential backoff, 3 attempts, DLQ</li>
+    <li>Delivery logs</li>
+    <li>Signature verification (HMAC)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Какие события самые запрошенные (по фидбеку пилота)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.1.2</span><span class="task-name">API v1 documentation (Swagger/OpenAPI)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Публичная API документация для интеграторов.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Audit existing API endpoints</li>
+    <li>OpenAPI 3.0 spec</li>
+    <li>Interactive docs (Swagger UI / Redoc)</li>
+    <li>Versioning (v1, v2 backwards compat)</li>
+    <li>Authentication guide, rate limits doc, changelog</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Hosted docs (Stoplight / Readme) или self-hosted?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 4.1.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.1.3</span><span class="task-name">Sandbox environment</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Test environment для интеграторов / разработчиков — без влияния на prod.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Отдельный sandbox domain (sandbox.offplan.online)</li>
+    <li>Test-mode API keys</li>
+    <li>Seeded sample data (fake studios / projects)</li>
+    <li>Reset on demand</li>
+    <li>Документация</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Reset автоматом или по запросу?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 4.1.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.1.4</span><span class="task-name">CRM integration examples</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Marketing</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">Готовые примеры интеграции с топ-3 CRM (HubSpot / Salesforce / Pipedrive).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Выбор топ-3 по запросу пилот-студий</li>
+    <li>Для каждого: GitHub repo с примером</li>
+    <li>Blog post с пошаговой инструкцией</li>
+    <li>Zapier / Make integration</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>❓ Какие CRM приоритетны?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.1.1, 4.1.2 · Блокирует: —</div>
+</div>
+
+<div class="callout callout-warn" style="margin-bottom:20px; border-left-color:var(--red);">
+  <strong style="color:var(--red);">🔴 4.1.5 MCP server wrapper — перенесено в Стадию 1, Фаза 1.4.</strong>
+  Подробное описание, обоснование и подзадачи — см. <a href="#phase-1-4">Фазу 1.4</a>.
+</div>
+
+<div id="phase-4-2" class="phase"><span class="phase-num">Фаза 4.2</span><h3>Продвинутая монетизация</h3><p class="phase-desc">Оптимизация revenue после того как базовая подписка уже работает.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.2.1</span><span class="task-name">Full 3-tier launch</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Product+Tech</span></div>
+  <p class="task-desc">Полноценный запуск 3 планов (Starter / Studio / Agency) с правильными limits и features.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Lock features per план (feature flags per tier)</li>
+    <li>Over-limit warnings</li>
+    <li>Auto-upgrade promptы</li>
+    <li>A/B test pricing</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Финальные лимиты?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.5 · Блокирует: 4.2.2</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.2.2</span><span class="task-name">Metered billing для рендеров</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Finance</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Если студия превысила quota рендеров — pay-per-use.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Track renders per tenant</li>
+    <li>Overage price per unit</li>
+    <li>Alerts approaching quota</li>
+    <li>Invoice lines per overage period</li>
+    <li>Stripe / Paddle metered billing API</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Pricing: per render vs bundle?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.2.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.2.3</span><span class="task-name">Annual billing + discount</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span></div>
+  <p class="task-desc">Годовая оплата с скидкой 20% (upfront payment + retention).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>UI выбора billing period</li>
+    <li>Proration при monthly↔annual</li>
+    <li>Renewal automation</li>
+    <li>Communication (30 дней до renewal)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>% скидки?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.2.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.2.4</span><span class="task-name">Dunning (failed payment handling)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Что происходит если карта expired или списание failed.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>3 retry attempts за 7 дней</li>
+    <li>Email sequence: Day 1 (failed), Day 3 (retry), Day 7 (final warning), Day 8 (downgrade)</li>
+    <li>Grace period access (read-only)</li>
+    <li>«Update card» flow в admin</li>
+    <li>Recovery playbook</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Policy после 8 дней: downgrade / full block / данные через 90 дней?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 1.6.3, 1.6.6 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.2.5</span><span class="task-name">Enterprise plan (custom quotes)</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Product+Sales</span></div>
+  <p class="task-desc">Для крупных агентств — custom pricing, SLA, dedicated support.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>«Contact sales» CTA на pricing page</li>
+    <li>Quote workflow (CRM)</li>
+    <li>Contract template (legal review per deal)</li>
+    <li>Account manager assignment</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Sam Project Lead закрывает или нужен Sales rep?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="callout callout-warn" style="margin-bottom:20px;">
+  <strong>Было:</strong> 4.2.6 Referral credits.
+  <strong>Объединено с Фазой 3.2.5</strong> — referral program теперь включает credits system как одно целое.
+</div>
+
+<div id="phase-4-3" class="phase"><span class="phase-num">Фаза 4.3</span><h3>Admin Redesign: 3 Views</h3><p class="phase-desc">Подход tech team: не переделываем всё с нуля — добавляем 2 новых view рядом с classic. Детали — в визуальном appendix.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.1</span><span class="task-name">Classic view continuous improvement</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Текущий admin продолжает улучшаться инкрементально.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Fold в текущие улучшения из pilot-фидбека</li>
+    <li>Palette refresh: sand/gold вместо «cheap» светофоров</li>
+    <li>Typography refresh</li>
+    <li>Spacing / whitespace consistency</li>
+    <li>Component library consolidation</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Дизайнер (внутренний / подрядчик)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.2</span><span class="task-name">Power Editor (Excel-like mass editing)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Подход tech team: когда много изменений — открываешь Power Editor, видишь все units в grid'е как в Excel, редактируешь inline.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
+  <ul>
+    <li>Spreadsheet-like grid (react-data-grid / ag-grid / handsontable)</li>
+    <li>Inline editing с валидацией</li>
+    <li>Copy-paste (из Excel)</li>
+    <li>Bulk actions (select all / mass update / mass delete)</li>
+    <li>Import / Export CSV</li>
+    <li>AI-prompt integration (4.3.4)</li>
+    <li>Use cases: initial bulk setup, quarterly price updates, status sync</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Grid library — free vs paid?</li><li>CSV format spec?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 4.3.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.3</span><span class="task-name">Visual Editor (inline на фронте)</span></div>
+  <div class="markers"><span class="marker m-medium">Низкий-Средний</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Запрос product team: пользователь заходит на live-страницу проекта, включает Edit Mode, меняет заголовки / описания / цены прямо на фронте. Подход tech team: этот view — дополнение к classic, не замена.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>«Edit Mode» toggle (только для аутентифицированных с правом)</li>
+    <li>Contenteditable + validation</li>
+    <li>Save перед переключением секции</li>
+    <li>Audit log integration</li>
+    <li>Scope limit: только labels/prices (не floor plan geometry)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Что именно editable в visual mode?</li><li>Conflict resolution если несколько пользователей?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.4</span><span class="task-name">AI editing mode</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">AI-агент в Power Editor: «обнови цены всех 2BR юнитов на +5%».</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>LLM integration (Anthropic / OpenAI)</li>
+    <li>Context: полная structure текущего tenant</li>
+    <li>Confirmation preview перед apply</li>
+    <li>Audit log всех AI-actions</li>
+    <li>Safety: read → suggest → user confirms → apply</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Bundled с MCP или отдельно?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.3.2, 1.4 (MCP) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.5</span><span class="task-name">Full design system (расширение 1.1.3)</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">На Стадии 1 (Фаза 1.1.3) — <strong>минимальный</strong> refresh для пилота. Эта фаза — <strong>полный формализованный design system</strong>: Figma library, tokens, documentation, component library как code package для всех admin views.</p>
+  <details>
+  <summary class="task-label">Разница с 1.1.3 <span class="count">(2)</span></summary>
+  <ul>
+    <li><strong>1.1.3</strong> = минимум для пилота: status indicators + accent colors + typography audit (~1-2 недели)</li>
+    <li><strong>4.3.5</strong> = полная design system: reusable component library, Figma, docs, guidelines (~4-6 недель)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Figma library со всеми компонентами</li>
+    <li>Design tokens в коде (CSS variables / Tailwind / Linaria)</li>
+    <li>Documentation (Storybook или аналог)</li>
+    <li>Migration всех existing UI на новый system</li>
+    <li>Accessibility check (contrast, focus states) — связано с Q36</li>
+    <li>Dark mode support (optional)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>Storybook vs alternative (Ladle, Histoire)?</li>
+    <li>Tailwind utility-first или CSS modules?</li>
+    <li>Dark mode — обязательно или opt-in per user?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.1.3 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.3.6</span><span class="task-name">Customization (font + button roundness)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Студия кастомизирует свои публичные страницы: шрифт, скругление кнопок, layout variants.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Theme variables в admin (font family, button radius 0-20, primary, secondary)</li>
+    <li>Preview в admin</li>
+    <li>Применяется на публичных страницах (не admin)</li>
+    <li>Sensible defaults</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Custom CSS для enterprise?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div id="phase-4-4" class="phase"><span class="phase-num">Фаза 4.4</span><h3>Локализация</h3><p class="phase-desc">Расширение на другие рынки через локализацию.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.4.1</span><span class="task-name">i18n infrastructure</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Ready для добавления языков.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>i18n library (react-i18next / formatjs)</li>
+    <li>Extraction pipeline (все strings → translation keys)</li>
+    <li>Pluralization / formatting rules</li>
+    <li>Date/number locale</li>
+    <li>RTL ready для будущего арабского</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Библиотека?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: 4.4.3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.4.2</span><span class="task-name">Translation pipeline</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Product+Tech</span></div>
+  <p class="task-desc">Как переводы появляются + обновляются.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Source of truth: JSON / YAML в репо</li>
+    <li>Translation service: Lokalise / POEditor / Crowdin / manual</li>
+    <li>Reviewer workflow (native speaker approve)</li>
+    <li>Continuous updates</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Managed vs manual?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.4.1 · Блокирует: 4.4.3</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.4.3</span><span class="task-name">EN baseline</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Content</span></div>
+  <p class="task-desc">Полный английский перевод (source language).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Audit всех hardcoded strings</li>
+    <li>Extraction в translation keys</li>
+    <li>Review quality + consistency</li>
+    <li>Style guide (tone, terminology)</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 4.4.1, 4.4.2 · Блокирует: 4.4.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.4.4</span><span class="task-name">Second language decision</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Product+Marketing</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">Какой второй язык добавить после EN.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Data-driven decision: по signup geography + target markets</li>
+    <li>Candidates: Arabic (UAE/GCC), German (DACH), French, Spanish, Russian</li>
+    <li>Translation + review + launch</li>
+    <li>Market-specific adjustments (RTL для арабского)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>❓ Требует решения product team и marketing</li></ul>
+</details>
+  <div class="task-deps">Зависит от: 4.4.3 · Блокирует: 4.4.5</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.4.5</span><span class="task-name">RTL support (если арабский)</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Bidi / RTL layout если выбран арабский.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>CSS logical properties (margin-inline-start etc.)</li>
+    <li>Layout testing с RTL</li>
+    <li>Icons mirroring</li>
+    <li>Form inputs behaviour</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 4.4.4 · Блокирует: —</div>
+</div>
+
+<div id="phase-4-5" class="phase"><span class="phase-num">Фаза 4.5</span><h3>Advanced Features</h3><p class="phase-desc">Features которые не обязательны для launch но сильные differentiators.</p></div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.1</span><span class="task-name">Compare units (buyer-facing)</span></div>
+  <div class="markers"><span class="marker m-medium">Низкий-Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Покупатель выбирает 2-3 юнита → таблица сравнения.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Multi-select из списка units</li>
+    <li>Сравнительная таблица: area, price, floor, view, status</li>
+    <li>Shareable link</li>
+    <li>Mobile-friendly</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Scope: only same project или cross-project?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.2</span><span class="task-name">Remote co-browse (WebRTC)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Агент ведёт покупателя удалённо по 3D-туру (shared cursor, voice).</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(3)</span></summary>
+  <ul>
+    <li>WebRTC / cursor sharing / voice chat</li>
+    <li>Session management (пригласительная ссылка)</li>
+    <li>Recording (optional)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Build vs integrate (Calendly + Zoom)?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.3</span><span class="task-name">PDF import + AI conversion для floor plans</span></div>
+  <div class="markers"><span class="marker m-medium">Низкий-Средний</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Заметка #6 — PDF не принимается сейчас, но часто застройщики присылают именно PDF.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>PDF upload endpoint</li>
+    <li>AI conversion pipeline (GPT-4V / Claude / specialized): vectorize + crop + background removal</li>
+    <li>Human review step (optional для начала)</li>
+    <li>Output: PNG/WebP с правильными параметрами</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul><li>Авто или manual review?</li><li>AI-provider для vision?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.4</span><span class="task-name">AI-assisted content generation</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">AI помогает писать описания юнитов, amenities, projects.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Prompts для разных entities</li>
+    <li>Edit-review-approve UX</li>
+    <li>Token consumption tracking</li>
+    <li>Style adherence (studio tone)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul><li>Free или per-token billing?</li></ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.5</span><span class="task-name">AI Chat &amp; Guidance for Sales App</span><span class="marker m-bl">[BL]</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">AI-чат на стороне sales-app — для покупателей и агентов. На ранних этапах (до 4.5.5) студии могут подключать сторонний чат-виджет (Intercom / Crisp / Tawk). Эта sub-phase = наша собственная реализация с product-context: AI знает структуру проекта, юниты, цены, доступность, может проводить пользователя по продукту, отвечать на вопросы про планировки. <strong>В backlog у Ильи как «AI Chat and Guidance for Sales App» (Сергей: «может есть смысл сделать на стороннем приложении»).</strong></p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Chat UI на sales-app (виджет или fullscreen)</li>
+    <li>Контекст в prompt: данные проекта (units, prices, status, availability) + style guide студии</li>
+    <li>Provider: OpenAI / Anthropic / open-source — выбор после prototype</li>
+    <li>Token budgeting — кто платит (студия subscription tier vs offplan.online absorbs)</li>
+    <li>Hand-off на живого агента, если AI не справляется (escalation в admin)</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul>
+    <li>❓ Свой чат или интеграция с готовым (Intercom Fin / Crisp AI)?</li>
+    <li>❓ Per-tier feature или universal (free для всех студий)?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: Фаза 4.1 (API surface для AI access) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">4.5.6</span><span class="task-name">Backlog watch — items в Ilya's backlog не запланированные в стадии</span><span class="marker m-bl">[BL]</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech</span></div>
+  <p class="task-desc">Items, которые есть в backlog у tech team, но scope / priority пока не firm enough чтобы вписать в конкретную стадию. Перечислены здесь чтобы план оставался синхронизирован с реальностью на стороне Ильи. Каждый — кандидат на promotion в numbered sub-phase когда созревает.</p>
+  <details>
+  <summary class="task-label">Items в наблюдении <span class="count">(9)</span></summary>
+  <ul>
+    <li><strong>Microservices Architecture</strong> — архитектурное направление Ильи (split проекта на мини-сервисы для resilience: упал интерьер — экстерьер живой). Cross-cutting, не отдельная фаза, но влияет на 1.8 / 3.1 / 3.5.</li>
+    <li><strong>Interior Minimap Functionality</strong> — миникарта в углу экрана интерьерного просмотра. На паузе у tech team.</li>
+    <li><strong>Multi-Storey Floor Plan Support</strong> — поддержка многоэтажных планировок (мезонины, дуплексы).</li>
+    <li><strong>Walkthrough Experience for Exterior</strong> — прогулка возле объекта (walkable exterior).</li>
+    <li><strong>Information Pins for Location</strong> — инфо-пины на локации (магазины / школы / транспорт рядом).</li>
+    <li><strong>Information Pins for Interiors</strong> — инфо-пины внутри юнитов (материалы / appliances / dimensions).</li>
+    <li><strong>360-Degree Video Support</strong> — 360° видео-обзор внутри плеера.</li>
+    <li><strong>Exterior Level Highlighting in Admin Editor</strong> — подсветка этажей в редакторе экстерьера.</li>
+    <li><strong>Sales App / Admin Panel 3-Screen Prototype (R&amp;D)</strong> — экспериментальный R&amp;D трек у tech team, deliberately unbilled.</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: —</div>
+</div>
+
+<!-- PARALLEL WORK -->
+<div class="stage-header" style="border-left-color:var(--green); background:var(--sand-50);">
+  <div class="stage-kicker" style="color:var(--green);">Параллельно</div>
+  <h2 style="color:var(--green);">В работе у tech team</h2>
+  <p class="stage-goal">Два трека, которые tech team ведёт независимо от этого плана. Упоминаются для синхронизации scope'а и избежания дублирования усилий.</p>
+</div>
+
+<div class="task" style="border-left:4px solid var(--green);">
+  <div class="task-title"><span class="task-id">P.1</span><span class="task-name">Hotspot UX overhaul</span></div>
+  <div class="markers"><span class="marker m-done">✅ В активной разработке</span></div>
+  <p class="task-desc">Редизайн хотспотов на фасаде здания (см. Фаза 4.5.5 выше). В активной разработке у tech team.</p>
+</div>
+
+<div class="task" style="border-left:4px solid var(--gold-mid);">
+  <div class="task-title"><span class="task-id">P.2</span><span class="task-name">Новая админка с AI-assistance</span></div>
+  <div class="markers"><span class="marker m-done">✅ В активной разработке</span></div>
+  <p class="task-desc">Tech team ведёт отдельный трек по построению следующей версии admin с AI-assisted workflows. Когда этот трек дойдёт до релиза — <strong>3-view концепция</strong> (Classic + Power Editor + Visual Editor) из Фазы 4.3 естественно ляжет в новый фундамент. План offplan.online синхронизируется со scope'ом и приоритетами этого трека на еженедельных встречах.</p>
+  <div class="callout callout-ok"><strong>Практическое следствие:</strong> задачи из Фазы 4.3 не начинаются в старой админке, а интегрируются в новую по мере её готовности. Это влияет на порядок работ — продолжать обсуждать с tech team.</div>
+</div>
+
+
+</div><!-- /wrap -->
+
+<footer>
+  Производный документ от <a href="launch-plan-v3-full.html">launch-plan-v3-full.html</a>. Источник истины — git.
+  <a href="launch-plan-v3-full.html">← Вернуться к главному плану</a>
+</footer>
+
+</body>
+</html>
