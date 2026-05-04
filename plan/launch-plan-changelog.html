@@ -304,6 +304,27 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.1 — 2026-05-04 (CONV-15)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> продолжение разгрузки рабочего плана — 4 research-appendix'a (B, C, D, E) суммарно ~465 строк не нужны при работе над фазами Стадии 1, но читаются каждый раз.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Appendices B, C, D, E → отдельный файл launch-plan-appendices.html</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Создан <a href="launch-plan-appendices.html">launch-plan-appendices.html</a></strong> — содержит:
+        <ul style="margin:4px 0 0 20px;">
+          <li>Appendix B — 20 новых вопросов (security / rate limiting / reliability)</li>
+          <li>Appendix C — 44 вопроса (наследие из launch-plan v2)</li>
+          <li>Appendix D — 17 заметок</li>
+          <li>Appendix E — Открытые вопросы (≈344 строки, активный реестр)</li>
+        </ul>
+      </li>
+      <li><strong>В главном файле</strong> блоки B–E заменены на единый callout-секцию со списком всех 4-х подразделов и cross-file ссылками. Все anchor'ы (<code>#app-b</code>, <code>#app-c</code>, <code>#app-d</code>, <code>#app-e</code>) в topnav, sidebar и body перенаправлены на <code>launch-plan-appendices.html#app-X</code>.</li>
+      <li><strong>Appendix A (Admin Panel Concept) и Appendix F (Связанные файлы) остались в главном файле</strong> — A небольшой и conceptual reference используется из Phase 1.1; F = inventory of related files, тоже компактный.</li>
+      <li><strong>Эффект:</strong> главный файл сократился с 3297 → ~2840 строк (-13.9%). От оригинала: 4668 → ~2840 (-39.2%).</li>
+      <li><strong>Зачем:</strong> Appendix E особенно — это активный реестр открытых вопросов (35+ items), который растёт со временем. Его удобно читать в отдельном tab пока работаешь над фазой. Появилось чёткое разделение: рабочий план vs research artefacts.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.0 — 2026-05-04 (CONV-15)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> продолжение разгрузки рабочего плана — feedback от использования: stub-блоки Стадий 3/4 со списком фаз всё ещё избыточны (фазы видно из Phase Navigation), а сам Changelog читался каждый раз при работе с планом.</p>
 
