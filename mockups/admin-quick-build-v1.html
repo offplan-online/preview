@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Object Builder — offplan.online (Quick Build · Calatrava style v1)</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='5' fill='%23B8955A'/><line x1='23' y1='0' x2='23' y2='36' stroke='white' stroke-width='2.5'/><line x1='23' y1='22' x2='36' y2='22' stroke='white' stroke-width='2.5'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --sand-50: #FAFAF8;
+  --sand-100: #F4F2EE;
+  --sand-150: #ECE8E0;
+  --sand-200: #E2DBCD;
+  --gold: #B8955A;
+  --gold-mid: #C4A370;
+  --gold-light: #D4B985;
+  --gold-tint: rgba(184, 149, 90, 0.07);
+  --gold-tint-strong: rgba(184, 149, 90, 0.14);
+  --navy: #1E2E3E;
+  --navy-light: #2D4055;
+  --text-900: #1E2E3E;
+  --text-600: #5C6678;
+  --text-400: #8A93A1;
+  --text-300: #B5BCC5;
+  --border: #E2DBCD;
+  --border-strong: #C9C0AE;
+  --white: #FFFFFF;
+  --display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --body: 'Inter', -apple-system, system-ui, sans-serif;
+  --tracking-ui: 0.18em;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--body);
+  background: var(--sand-50);
+  color: var(--text-900);
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── CALATRAVA-INSPIRED BACKGROUND: vertical "ribs" ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 119px,
+      rgba(184, 149, 90, 0.04) 119px,
+      rgba(184, 149, 90, 0.04) 120px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── LAYOUT ─── */
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════ SIDEBAR ═══════════════════════ */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 30px 0 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+/* Calatrava vertical accent — single gold rib */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  top: 100px;
+  bottom: 130px;
+  right: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, var(--gold) 25%, var(--gold) 75%, transparent 100%);
+  opacity: 0.4;
+}
+
+.brand {
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: 0.4px;
+  padding: 0 32px 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 26px;
+  height: 26px;
+  background: var(--gold);
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.brand-mark::before, .brand-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--white);
+}
+
+.brand-mark::before {
+  left: 17px; top: 0;
+  width: 1.8px; height: 100%;
+}
+
+.brand-mark::after {
+  left: 17px; top: 16.5px;
+  height: 1.8px; right: 0;
+}
+
+.brand-text { display: flex; align-items: baseline; gap: 1px; }
+.brand-text .dot { color: var(--gold); }
+
+.section-label {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 0 32px 18px;
+  position: relative;
+}
+
+.section-label::after {
+  content: '';
+  position: absolute;
+  left: 32px;
+  bottom: 8px;
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 4px;
+}
+
+.nav-item {
+  padding: 13px 32px;
+  font-size: 14px;
+  color: var(--text-900);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-weight: 400;
+}
+
+.nav-item.active {
+  background: var(--gold-tint);
+  font-weight: 500;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 3px;
+  background: var(--gold);
+}
+
+.nav-item:hover:not(.active) {
+  background: var(--sand-100);
+}
+
+.nav-step {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--gold);
+  width: 24px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.nav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 22px 32px 22px;
+  position: relative;
+}
+
+.nav-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  background: var(--white);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-publish {
+  padding: 12px 32px;
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-300);
+  letter-spacing: 0.5px;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-style: italic;
+}
+
+.nav-publish .pub-arrow { color: var(--text-300); font-size: 18px; }
+
+/* SIDEBAR FOOTER — user + plan */
+.sidebar-footer {
+  padding: 20px 32px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 6px 0;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.user-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.user-info { flex: 1; min-width: 0; }
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-plan {
+  font-family: var(--display);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+}
+
+/* ═══════════════════════ MAIN ═══════════════════════ */
+.main {
+  padding: 40px 64px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Calatrava arcs — concentric circles top-right */
+.main::before,
+.main::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -80px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+.main::before {
+  width: 320px;
+  height: 320px;
+}
+
+.main::after {
+  width: 460px;
+  height: 460px;
+  top: -130px;
+  right: -160px;
+  opacity: 0.10;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.header-left { max-width: 600px; }
+
+.kicker {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kicker::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  display: inline-block;
+}
+
+.title {
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  color: var(--text-600);
+  font-size: 15px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.plan-badge {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--white);
+  white-space: nowrap;
+}
+
+/* ─── CARDS GRID ─── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px -16px rgba(184, 149, 90, 0.30);
+}
+
+.card-visual {
+  height: 200px;
+  background: linear-gradient(180deg, var(--sand-50) 0%, var(--sand-100) 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Calatrava ribs in card visual background */
+.card-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 19px,
+      rgba(184, 149, 90, 0.06) 19px,
+      rgba(184, 149, 90, 0.06) 20px
+    );
+}
+
+.card-step {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  font-family: var(--display);
+  font-size: 56px;
+  font-weight: 500;
+  color: var(--gold);
+  font-style: italic;
+  line-height: 1;
+  z-index: 2;
+}
+
+.card-status {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+.card-status.complete {
+  background: var(--gold);
+  color: var(--white);
+  border: 1px solid var(--gold);
+}
+
+.card-status.pending {
+  background: var(--white);
+  color: var(--text-400);
+  border: 1px solid var(--border-strong);
+}
+
+.card-svg {
+  width: 70%;
+  height: 70%;
+  position: relative;
+  z-index: 1;
+}
+
+.card-body {
+  padding: 26px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.card-title {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.2px;
+}
+
+.card-desc {
+  font-size: 13.5px;
+  color: var(--text-600);
+  line-height: 1.6;
+}
+
+.card-cta {
+  margin-top: 18px;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-cta::after {
+  content: '→';
+  font-size: 18px;
+  font-style: normal;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .card-cta::after {
+  transform: translateX(5px);
+}
+
+/* ─── PUBLISH BAR ─── */
+.publish-bar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 30px 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.publish-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-light) 100%);
+}
+
+.publish-info h3 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+
+.publish-info p {
+  font-size: 13.5px;
+  color: var(--text-600);
+  line-height: 1.55;
+  max-width: 500px;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  padding: 16px 36px;
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.btn-primary:hover { background: var(--navy-light); transform: translateY(-1px); }
+
+.btn-primary:disabled {
+  background: var(--sand-200);
+  color: var(--text-400);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── CONTEXTUAL UPGRADE HINT ─── */
+.upgrade-hint {
+  background: linear-gradient(135deg, var(--gold-tint) 0%, var(--gold-tint-strong) 100%);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.upgrade-hint-content { flex: 1; }
+
+.upgrade-hint-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 5px;
+  letter-spacing: -0.1px;
+}
+
+.upgrade-hint-desc {
+  font-size: 13.5px;
+  color: var(--text-600);
+  line-height: 1.55;
+}
+
+.upgrade-hint-desc strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.upgrade-hint-cta {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upgrade-hint-cta::after {
+  content: '→';
+  font-size: 17px;
+  font-style: normal;
+  transition: transform 0.2s;
+}
+
+.upgrade-hint-cta:hover::after {
+  transform: translateX(4px);
+}
+
+/* ─── FOOTER ─── */
+.foot {
+  position: relative;
+  z-index: 2;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--text-400);
+  letter-spacing: 0.05em;
+}
+
+.foot a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text"><span>offplan</span><span class="dot">.</span><span>online</span></div>
+    </div>
+
+    <div class="section-label">Object Builder</div>
+
+    <nav class="nav">
+      <div class="nav-item active">
+        <span class="nav-step">i</span>
+        <span>Overview</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-step">ii</span>
+        <span>Exterior</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-step">iii</span>
+        <span>Floor Plans</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-step">iv</span>
+        <span>Gallery</span>
+      </div>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-publish">
+      <span>Publish</span>
+      <span class="pub-arrow">↗</span>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user">
+        <div class="user-avatar">SK</div>
+        <div class="user-info">
+          <div class="user-name">Sergey Kozyr</div>
+          <div class="user-plan">Trial · 12 days left</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════ MAIN ═══════════════════ -->
+  <main class="main">
+
+    <header class="header">
+      <div class="header-left">
+        <div class="kicker">Côte Palm Beach</div>
+        <h1 class="title">Build your project<span style="color: var(--gold);">.</span></h1>
+        <p class="subtitle">Three steps. Roughly fifteen minutes. The published page is yours to share — sales-ready, on its own subdomain, no setup call needed.</p>
+      </div>
+      <div class="header-right">
+        <div class="plan-badge">Trial · 12 days</div>
+      </div>
+    </header>
+
+    <!-- ─── 3 STEP CARDS ─── -->
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-visual">
+          <span class="card-step">i</span>
+          <span class="card-status complete">Uploaded</span>
+          <svg class="card-svg" viewBox="0 0 200 140" fill="none">
+            <!-- Building silhouette in Calatrava-esque vertical fins style -->
+            <rect x="50" y="20" width="100" height="120" stroke="#B8955A" stroke-width="1.2" fill="none"/>
+            <line x1="50" y1="44" x2="150" y2="44" stroke="#B8955A" stroke-width="0.8"/>
+            <line x1="50" y1="68" x2="150" y2="68" stroke="#B8955A" stroke-width="0.8"/>
+            <line x1="50" y1="92" x2="150" y2="92" stroke="#B8955A" stroke-width="0.8"/>
+            <line x1="50" y1="116" x2="150" y2="116" stroke="#B8955A" stroke-width="0.8"/>
+            <line x1="65" y1="20" x2="65" y2="140" stroke="#B8955A" stroke-width="0.5"/>
+            <line x1="80" y1="20" x2="80" y2="140" stroke="#B8955A" stroke-width="0.5"/>
+            <line x1="100" y1="20" x2="100" y2="140" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="120" y1="20" x2="120" y2="140" stroke="#B8955A" stroke-width="0.5"/>
+            <line x1="135" y1="20" x2="135" y2="140" stroke="#B8955A" stroke-width="0.5"/>
+            <path d="M 50 20 Q 100 5, 150 20" stroke="#B8955A" stroke-width="1.2" fill="none"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Exterior</h2>
+          <p class="card-desc">Render or photograph of the building's main view. PNG or JPG, up to 5 MB. Landscape preferred.</p>
+          <div class="card-cta">Replace</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-visual">
+          <span class="card-step">ii</span>
+          <span class="card-status pending">Pending</span>
+          <svg class="card-svg" viewBox="0 0 200 140" fill="none">
+            <!-- Floor plan grid -->
+            <rect x="34" y="22" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <rect x="104" y="22" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <rect x="34" y="76" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <rect x="104" y="76" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <line x1="44" y1="32" x2="84" y2="32" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="44" y1="42" x2="68" y2="42" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="44" y1="52" x2="76" y2="52" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="114" y1="32" x2="156" y2="32" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="114" y1="42" x2="138" y2="42" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="44" y1="86" x2="84" y2="86" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="44" y1="96" x2="76" y2="96" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="114" y1="86" x2="156" y2="86" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="114" y1="96" x2="146" y2="96" stroke="#B8955A" stroke-width="0.6"/>
+            <line x1="114" y1="106" x2="138" y2="106" stroke="#B8955A" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Floor Plans</h2>
+          <p class="card-desc">Drop a folder of plans — our AI splits PDFs into individual pages and tags them automatically.</p>
+          <div class="card-cta">Upload files</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-visual">
+          <span class="card-step">iii</span>
+          <span class="card-status pending">Pending</span>
+          <svg class="card-svg" viewBox="0 0 200 140" fill="none">
+            <!-- Gallery: stack of frames -->
+            <rect x="42" y="32" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <circle cx="60" cy="50" r="3" fill="#B8955A"/>
+            <path d="M 42 78 L 64 60 L 84 70 L 104 55 L 104 78" stroke="#B8955A" stroke-width="0.8" fill="none"/>
+
+            <rect x="86" y="50" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none"/>
+            <circle cx="104" cy="68" r="3" fill="#B8955A"/>
+            <path d="M 86 96 L 108 78 L 128 88 L 148 73 L 148 96" stroke="#B8955A" stroke-width="0.8" fill="none"/>
+
+            <rect x="58" y="68" width="62" height="46" stroke="#B8955A" stroke-width="1" fill="none" />
+            <circle cx="76" cy="86" r="3" fill="#B8955A"/>
+            <path d="M 58 114 L 80 96 L 100 106 L 120 91 L 120 114" stroke="#B8955A" stroke-width="0.8" fill="none"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Gallery</h2>
+          <p class="card-desc">Renders, lifestyle photography, brochure pages — anything visual buyers should see.</p>
+          <div class="card-cta">Upload images</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── PUBLISH BAR ─── -->
+    <div class="publish-bar">
+      <div class="publish-info">
+        <h3>Two more steps to publish.</h3>
+        <p>Once Floor Plans and Gallery are uploaded, your project is ready to go live on its own subdomain — share the link with prospects, no further setup needed.</p>
+      </div>
+      <button class="btn-primary" disabled>Publish project</button>
+    </div>
+
+    <!-- ─── CONTEXTUAL UPGRADE HINT ─── -->
+    <div class="upgrade-hint">
+      <div class="upgrade-hint-content">
+        <div class="upgrade-hint-title">Need multi-building, units, or 360° tours?</div>
+        <div class="upgrade-hint-desc">Studio Suite unlocks Buildings, Levels, Units, Panoramas, Hotspots, custom domain, and email branding. <strong>From $X / month.</strong></div>
+      </div>
+      <div class="upgrade-hint-cta">See plans</div>
+    </div>
+
+    <!-- ─── FOOT ─── -->
+    <div class="foot">
+      <div>offplan<span style="color:var(--gold);">.</span>online · Object Builder · Calatrava style v1</div>
+      <div><a href="#">Need help?</a></div>
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
