@@ -304,6 +304,49 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.3 — 2026-05-04 (CONV-15)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> 2-часовой звонок Сергея с Романом + 7 уточняющих заметок Сергея. Интеграция критичных пунктов из звонка в Stage 1.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">2 новые фазы в Stage 1</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.3 — Tenancy &amp; Permission Model</strong> ⭐ NEW (10 subtasks, foundational). Entity model (Partner / Developer / Studio / Agency / Agent / Editor / Buyer), permission layers, per-unit stock allocation, scoped URLs, cross-entity invitation flows (forward + reverse), referral architecture. Блокирует 1.4, 1.7, 1.10, 1.11. ADR 0009 (Tenancy &amp; Permission Architecture) — обязательно.</li>
+      <li><strong>Phase 1.11 — Sales Presentation Layer</strong> ⭐ NEW (8 subtasks). Buyer Profile (1.11.1-5: создание профиля во время презентации, лайки юнитов, summary email с deep-link) + Remote Presentation (1.11.6-8 с маркером <code>[needs-tech-estimate]</code> от Ильи). Если remote не лезет в Stage 1 timeline — переносим в Stage 2.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Renumbering (option D — minimal change)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Существующие фазы 1.3-1.9 сдвинуты на 1 → стали 1.4-1.10. Новая 1.3 вставлена между Onboarding (1.2) и Operator Dashboard (теперь 1.4).</li>
+      <li>Phase 1.2 переименована: <em>Self-Serve Onboarding</em> → <strong>Self-Serve Onboarding + Quick Build</strong> — Quick Build mode (Object Builder) интегрирован как часть онбординга. Визуальный референс: <a href="../mockups/admin-quick-build-v2.html">admin-quick-build-v2.html</a>.</li>
+      <li>~90+ cross-references обновлены автоматически (sub-task IDs, deps, Q-table refs).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">v4.3 delta callouts добавлены к 7 существующим фазам</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>1.2</strong> — +Quick Build mode, +Slug picker, +Tier-aware layout, ❌1.2.4 demo project deprecated</li>
+      <li><strong>1.4</strong> — +Fullscreen client card (replace drawer)</li>
+      <li><strong>1.5</strong> — +AI file upload endpoint, +VV API audit</li>
+      <li><strong>1.7</strong> — +4 landing pages by audience, +iframe demo embed, +Free tier billing, +Custom domain DKIM</li>
+      <li><strong>1.8</strong> — +Two-domain email setup, +DKIM/SPF/DMARC, +Hosting cost projection</li>
+      <li><strong>1.9</strong> — +Permission delegation framework, +Multi-party access agreement, +Data ownership matrix, +Liability allocation (Phase 1.9 растёт с 11 до 15 documents)</li>
+      <li><strong>1.10</strong> — +3 access modes (Public/PIN/People), +Login button top-right, +360° на Exterior, +Simple hotspot navigation</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Что осталось делать дальше</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>5 ADRs</strong> в очереди: 0008 (Tier model + admin mode), 0009 (Tenancy architecture), 0010 (Stock allocation), 0011 (Email sender), 0012 (Real-time sync)</li>
+      <li><strong>6 sub-plans</strong> в очереди: <code>permission-and-tenancy-model</code> (P0 — первым), <code>onboarding-trial-mode</code>, <code>buyer-profile-and-presentation</code>, <code>remote-presentation</code> (условный), <code>landing-pages-by-audience</code>, <code>legal-multi-party-framework</code></li>
+      <li>Делta callouts в существующих фазах разворачиваются в полноценные subtask divs через соответствующие sub-/plan-сессии (тогда же создаются workstream'ы).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Эффект на метрики</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Stage 1: <strong>9 → 11 фаз</strong>, ~56 → ~85 подзадач</li>
+      <li>Главный план: hero subtitle обновлён ("4 стадии, 25 фаз, ~170 подзадач")</li>
+      <li>Phase Navigation (sidebar): добавлены 2 новые карточки в Stage 1 column</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.2 — 2026-05-04 (CONV-15)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> чистка topnav главного плана.</p>
     <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Topnav consolidation: B / C / D / E → одна ссылка</div>

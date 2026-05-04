@@ -292,7 +292,7 @@
   </a>
   <div class="hero-kicker">Launch Plan · Full Document</div>
   <h1>offplan<span class="brand-dot">.</span>online — Launch Plan</h1>
-  <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 23 фазы, ~128 подзадач.
+  <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 25 фаз, ~170 подзадач.
   Для обсуждения менеджментом: product team + tech team + Legal.</p>
   <div class="hero-meta">Версия 3.4 · 2026-04-29 · Статус: draft · <a href="launch-plan-changelog.html" style="color:rgba(255,255,255,.7);text-decoration:underline;">Revision history →</a></div>
 </div>
@@ -378,7 +378,7 @@
   <h2>Executive Summary</h2>
   <p class="lead">Это план вывода <strong>offplan.online</strong> в лайв как публичного self-serve SaaS.
   Документ рассчитан на обсуждение менеджментом (product team + tech team), чтобы увидеть что критично,
-  с чего начать и убедиться что ничего не упущено. Задачи разложены по 4 стадиям, 25 фазам и 128 подзадачам.
+  с чего начать и убедиться что ничего не упущено. Задачи разложены по 4 стадиям, 25 фазам и ~170 подзадачам.
   Тайминги умышленно отсутствуют — вместо них стоит маркер <strong>⏱ Требует эстимейт от tech team</strong>
   там, где нужны сроки.</p>
 
@@ -386,7 +386,7 @@
   <table>
     <thead><tr><th>Стадия</th><th>Что означает</th><th style="width:60px;">Фаз</th><th style="width:90px;">Подзадач</th></tr></thead>
     <tbody>
-      <tr><td><strong>1. Подготовка к пилотному запуску</strong></td><td>Минимум, чтобы пригласить первых студий на закрытое тестирование</td><td>9</td><td>56</td></tr>
+      <tr><td><strong>1. Подготовка к пилотному запуску</strong></td><td>Минимум, чтобы пригласить первых студий на закрытое тестирование</td><td>11</td><td>~85</td></tr>
       <tr><td><strong>2. Пилотный запуск со студиями</strong></td><td>20 студий работают, дают фидбек, мы итерируем</td><td>6</td><td>22</td></tr>
       <tr><td><strong>3. Публичный запуск</strong></td><td>Open doors: маркетинг, нагрузка, scale</td><td>5</td><td>23</td></tr>
       <tr><td><strong>4. Рост и масштабирование</strong></td><td>API, монетизация, редизайн, локализация</td><td>5</td><td>26</td></tr>
@@ -483,14 +483,16 @@
       <a href="#stage1" class="phase-nav-stage-title">Стадия 1 — Подготовка к пилотному запуску</a>
       <ul class="phase-nav-list">
         <li><a href="#phase-1-1"><span class="pn-num">1.1</span><span class="pn-name">Admin Visual Redesign + Branding</span></a></li>
-        <li><a href="#phase-1-2"><span class="pn-num">1.2</span><span class="pn-name">Self-Serve Onboarding</span></a></li>
-        <li><a href="#phase-1-3"><span class="pn-num">1.3</span><span class="pn-name">Operator Dashboard (staff.offplan.online)</span></a></li>
-        <li><a href="#phase-1-4"><span class="pn-num">1.4</span><span class="pn-name">MCP Server Wrapper</span></a></li>
-        <li><a href="#phase-1-5"><span class="pn-num">1.5</span><span class="pn-name">Admin UX Critical Blockers</span></a></li>
-        <li><a href="#phase-1-6"><span class="pn-num">1.6</span><span class="pn-name">Платёжная инфраструктура + Sales Page</span></a></li>
-        <li><a href="#phase-1-7"><span class="pn-num">1.7</span><span class="pn-name">Security & Infrastructure Foundation</span></a></li>
-        <li><a href="#phase-1-8"><span class="pn-num">1.8</span><span class="pn-name">Legal & Compliance</span></a></li>
-        <li><a href="#phase-1-9"><span class="pn-num">1.9</span><span class="pn-name">Sales-app UX redesign</span></a></li>
+        <li><a href="#phase-1-2"><span class="pn-num">1.2</span><span class="pn-name">Self-Serve Onboarding + Quick Build</span></a></li>
+        <li><a href="#phase-1-3"><span class="pn-num">1.3</span><span class="pn-name">Tenancy &amp; Permission Model ⭐</span></a></li>
+        <li><a href="#phase-1-4"><span class="pn-num">1.4</span><span class="pn-name">Operator Dashboard (staff.offplan.online)</span></a></li>
+        <li><a href="#phase-1-5"><span class="pn-num">1.5</span><span class="pn-name">MCP Server Wrapper</span></a></li>
+        <li><a href="#phase-1-6"><span class="pn-num">1.6</span><span class="pn-name">Admin UX Critical Blockers</span></a></li>
+        <li><a href="#phase-1-7"><span class="pn-num">1.7</span><span class="pn-name">Платёжная инфраструктура + Sales Page</span></a></li>
+        <li><a href="#phase-1-8"><span class="pn-num">1.8</span><span class="pn-name">Security &amp; Infrastructure Foundation</span></a></li>
+        <li><a href="#phase-1-9"><span class="pn-num">1.9</span><span class="pn-name">Legal &amp; Compliance</span></a></li>
+        <li><a href="#phase-1-10"><span class="pn-num">1.10</span><span class="pn-name">Sales-app UX redesign</span></a></li>
+        <li><a href="#phase-1-11"><span class="pn-num">1.11</span><span class="pn-name">Sales Presentation Layer ⭐</span></a></li>
       </ul>
     </div>
     <div class="phase-nav-column">
@@ -547,13 +549,13 @@
     <tbody>
       <tr><td><strong>1.1</strong></td><td><a href="#phase-1-1">Admin Visual Redesign + Branding</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Priority #1</span></td><td>Брендбук разблокирует всю визуальную работу</td></tr>
       <tr><td><strong>1.2</strong></td><td><a href="#phase-1-2">Self-Serve Onboarding</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Включает 5-уровневый доступ + per-project domains</td></tr>
-      <tr><td><strong>1.3</strong></td><td><a href="#phase-1-3">Operator Dashboard <span class="marker m-opl" style="font-size:9px; padding:1px 6px; vertical-align:middle;">[OPL]</span></a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Расширение существующей Super Admin Panel. Без него нет инструмента управлять студиями с момента первой регистрации.</td></tr>
-      <tr><td><strong>1.4</strong></td><td><a href="#phase-1-4">MCP Server Wrapper</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 High</span></td><td>Архитектурная основа self-serve, но не блокирует запуск. Если scope большой → итерация в Стадию 2</td></tr>
-      <tr><td><strong>1.5</strong></td><td><a href="#phase-1-5">Admin UX Critical Blockers</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 Conditional</span></td><td>Большинство багов — dev-env. Требует верификации tech team на проде</td></tr>
-      <tr><td><strong>1.6</strong></td><td><a href="#phase-1-6">Платёжная инфраструктура + Sales Page</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>+ flat-fee tier альтернатива subscription</td></tr>
-      <tr><td><strong>1.7</strong></td><td><a href="#phase-1-7">Security & Infrastructure Foundation</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Foundation для всего остального — изоляция, rate limits, backup, error tracking, transactional email</td></tr>
-      <tr><td><strong>1.8</strong></td><td><a href="#phase-1-8">Legal & Compliance</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>EU + UAE + Australia. База: VV T&amp;Cs (AU) + Stripe/Cloudflare шаблоны (EU)</td></tr>
-      <tr><td><strong>1.9</strong></td><td><a href="#phase-1-9">Sales-app UX redesign</a></td><td><span style="color:#c08020; font-weight:600;">🟠 Critical-conditional</span></td><td>Filter-based selection. MVP (1.9.1) обязателен; остальное по эстимейту tech team</td></tr>
+      <tr><td><strong>1.4</strong></td><td><a href="#phase-1-4">Operator Dashboard <span class="marker m-opl" style="font-size:9px; padding:1px 6px; vertical-align:middle;">[OPL]</span></a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Расширение существующей Super Admin Panel. Без него нет инструмента управлять студиями с момента первой регистрации.</td></tr>
+      <tr><td><strong>1.5</strong></td><td><a href="#phase-1-5">MCP Server Wrapper</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 High</span></td><td>Архитектурная основа self-serve, но не блокирует запуск. Если scope большой → итерация в Стадию 2</td></tr>
+      <tr><td><strong>1.6</strong></td><td><a href="#phase-1-6">Admin UX Critical Blockers</a></td><td><span style="color:var(--amber); font-weight:600;">🟡 Conditional</span></td><td>Большинство багов — dev-env. Требует верификации tech team на проде</td></tr>
+      <tr><td><strong>1.7</strong></td><td><a href="#phase-1-7">Платёжная инфраструктура + Sales Page</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>+ flat-fee tier альтернатива subscription</td></tr>
+      <tr><td><strong>1.8</strong></td><td><a href="#phase-1-8">Security & Infrastructure Foundation</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>Foundation для всего остального — изоляция, rate limits, backup, error tracking, transactional email</td></tr>
+      <tr><td><strong>1.9</strong></td><td><a href="#phase-1-9">Legal & Compliance</a></td><td><span style="color:var(--red); font-weight:600;">🔴 Critical</span></td><td>EU + UAE + Australia. База: VV T&amp;Cs (AU) + Stripe/Cloudflare шаблоны (EU)</td></tr>
+      <tr><td><strong>1.10</strong></td><td><a href="#phase-1-10">Sales-app UX redesign</a></td><td><span style="color:#c08020; font-weight:600;">🟠 Critical-conditional</span></td><td>Filter-based selection. MVP (1.10.1) обязателен; остальное по эстимейту tech team</td></tr>
     </tbody>
   </table>
 </div>
@@ -588,7 +590,7 @@
     <li>Динамический контент (reacts to empty state) или статика?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.6.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -662,7 +664,18 @@
 </div>
 
 <!-- Фаза 1.2 -->
-<div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без обращения в support. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
+<div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding + Quick Build <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без обращения в support. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.2.X — Quick Build Object Builder mode</strong> (3-step flow: Exterior + Floor Plans + Gallery; визуальный реф: <a href="../mockups/admin-quick-build-v2.html"><code>admin-quick-build-v2.html</code></a> — Brandbook strict + Calatrava cues)</li>
+    <li><strong>+ 1.2.Y — Slug picker при регистрации</strong> (auto-suggest + custom; subdomain <code>slug.offplan.online</code>)</li>
+    <li><strong>+ 1.2.Z — Tier-aware dashboard layout</strong> (Quick Build only для Free, переключатель Quick Build ↔ Full Admin для Paid)</li>
+    <li><strong>❌ 1.2.4 (demo project) DEPRECATED</strong> — Quick Build режим заменяет демо-проект как механизм онбординга</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Детальные subtasks — в <code>plans/onboarding-trial-mode.md</code> (отдельная /plan-сессия). Связано с ADR 0008 (Tier model + admin mode coupling).</p>
+</div>
 
 <div class="task">
   <div class="task-title"><span class="task-id">1.2.1</span><span class="task-name">Signup &amp; tenant data model</span></div>
@@ -689,12 +702,12 @@
     <li>❓ Архитектурно — готова ли существующая база к 5 уровням или нужен рефактор? (общий вопрос с 1.2.7)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7.2 · Блокирует: 1.2.4, 1.2.7</div>
+  <div class="task-deps">Зависит от: 1.8.2 · Блокирует: 1.2.4, 1.2.7</div>
 </div>
 
 <div class="callout-idea">
   <span class="idea-label">Implementation idea — Organisation / Tenant entity</span>
-  <p style="margin:0 0 6px;"><strong>Контекст:</strong> в Фазе 1.2.x и Фазе 1.3.x по тексту встречается <code>org_id</code>, но самой таблицы Organisation в текущей модели данных пока нет (если не пропустили). Предложение — спроектировать её один раз здесь, в 1.2.1, и переиспользовать в Operator Dashboard (1.3).</p>
+  <p style="margin:0 0 6px;"><strong>Контекст:</strong> в Фазе 1.2.x и Фазе 1.4.x по тексту встречается <code>org_id</code>, но самой таблицы Organisation в текущей модели данных пока нет (если не пропустили). Предложение — спроектировать её один раз здесь, в 1.2.1, и переиспользовать в Operator Dashboard (1.4).</p>
   <p style="margin:0 0 6px;"><strong>Минимальная shape для Phase 1:</strong></p>
   <ul>
     <li><code>id</code>, <code>name</code>, <code>subdomain</code> (для будущих per-studio hub-pages), <code>country</code></li>
@@ -795,7 +808,7 @@
     <li>Что показывать если wizard прерван и пользователь возвращается через сутки?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.2.1, 1.5.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.2.1, 1.6.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -866,7 +879,7 @@
     <li>Email-invitations с принятием + invite expiration (7 дней) + re-send</li>
     <li>Remove user (с transfer ownership если owner)</li>
     <li>Granular permissions per project (фидбек Надежды — «доступ дать на конкретный проект, не на всю студию»)</li>
-    <li>Seat limit per план (совместимо с pricing 1.6.2 + 1.6.8)</li>
+    <li>Seat limit per план (совместимо с pricing 1.7.2 + 1.7.8)</li>
     <li><strong>Studio-level SSO</strong> — Google Workspace / Microsoft (enterprise tier)</li>
     <li>Audit: кто из team изменил что (связано с 3.3.3 Audit log)</li>
   </ul>
@@ -892,7 +905,109 @@
   Без operator dashboard нет инструмента управлять студиями с момента первой регистрации — администрирование через консоль БД рискованно, не атрибутируемо и не масштабируется. Audit log дёшево добавить заранее, дорого встраивать через год. Так как Super Admin Panel уже существует — задача не "build from scratch", а надстройка (subscription / payment / audit log / multi-tenant client list).
 </div>
 
-<div id="phase-1-3" class="phase"><span class="phase-num">Фаза 1.3</span><h3>Operator Dashboard (staff.offplan.online) — расширение существующей Super Admin Panel</h3><p class="phase-desc"><strong>Контекст (ревизия 2026-04-28):</strong> tech team подтвердила, что Super Admin Panel <strong>уже существует</strong> и работает в продакшене. Текущая панель имеет: список проектов, переключатели feature-флагов на каждый проект (13+ флагов), управление менеджерами, загрузку ассетов (логотип, видео), action log. Фаза 1.3 = <strong>надстройка</strong> над этой панелью для multi-tenant управления клиентами-студиями: подписки, платежи, audit log, список клиентов с drawer'ом. <strong>Не строим с нуля.</strong> Поддомен <code>staff.offplan.online</code>, отдельная аутентификация, постоянный баннер "STAFF" в шапке. Визуальный preview (v1, обновлённый): <a href="../mockups/operator-panel-v1.html">operator-panel-v1.html</a>.<br><em style="color:var(--gold-light);">💡 Suggestion: before dev builds the new screens, build a complete HTML/CSS mockup of the operator dashboard together (product owner approves it), then hand off to the tech team to wire up to real data and auth — faster implementation, fewer visual revisions.</em></p></div>
+<!-- Фаза 1.3 — Tenancy & Permission Model (NEW v4.3) -->
+<div id="phase-1-3" class="phase">
+  <span class="phase-num">Фаза 1.3</span>
+  <h3>Tenancy &amp; Permission Model <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3>
+  <p class="phase-desc">«Один входящий субъект = партнёр» — фундаментальное решение multi-tenant архитектуры. Entity model + permission scoping + per-unit stock allocation + cross-entity invitation flows + referral architecture. <strong>Foundational</strong>: блокирует Phase 1.4 (Operator Dashboard), 1.7 (Sales Page billing scope), 1.10 (Sales-app), 1.11 (Sales Presentation Layer).<br><em style="color:var(--gold-light);">💡 Sub-plan: <code>plans/permission-and-tenancy-model.md</code> — детальная архитектурная проработка с ADR 0009 (Tenancy &amp; Permission Architecture). Источник: CONV-15 (Roman call).</em></p>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.1</span><span class="task-name">Entity model design</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Иерархия сущностей: <strong>Partner</strong> (subscription owner) / Developer / Studio / Agency / Agent / Editor / Buyer. Один реальный субъект может играть разные роли в разных проектах (например, Volume Vision = Studio в одном проекте и Agency в другом). Тип партнёра — галочка studio/agency/developer внутри карточки.</p>
+  <div class="task-deps">Зависит от: ADR 0009 · Блокирует: 1.3.2-1.3.10</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.2</span><span class="task-name">Permission layers — RBAC + scoping</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Role-Based Access Control с двумя scope-уровнями: <strong>project-level</strong> (доступ к одному проекту) и <strong>all-projects</strong> (доступ ко всем проектам партнёра). Permission matrix: какие действия разрешены каждой роли (view / edit / delete / invite / billing).</p>
+  <div class="task-deps">Зависит от: 1.3.1 · Блокирует: Phase 1.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.3</span><span class="task-name">Login / auth multi-role flow</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Один user может иметь разные роли в разных проектах. После логина показываем выбор контекста (если ролей &gt;1) или прямой редирект (если одна роль). Session scoped to current selection.</p>
+  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Блокирует: Phase 1.10</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.4</span><span class="task-name">Per-unit stock tagging</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Каждый юнит при создании помечается: agency / developer / specific agent / shared. Это решает проблему conflict-of-sale между агентствами (Роман явно: без этого нас выгонят). Tag меняется через admin UI или batch-операцию.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>DB schema: <code>units.assigned_to</code> — polymorphic FK (agency/agent/null=shared)</li>
+    <li>Admin UI: при создании unit'а dropdown "Assigned to" + bulk-edit</li>
+    <li>Validation: только Partner и Developer могут менять assignment</li>
+    <li>Audit: каждое изменение assignment'а логируется</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.3.1 · Блокирует: 1.3.5, Phase 1.10</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.5</span><span class="task-name">Scoped URL routing strategy</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Два разных URL'а одного проекта показывают разный сток разным аудиториям. <strong>Решение</strong> — auth-scoped views по логину (один URL, разный контент) или separate URLs (<code>project.offplan.online/agency</code> vs <code>/developer</code>). Выбор фиксируется в ADR 0009.</p>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>Auth-scoped (одна ссылка, разные данные после логина) vs separate URLs?</li>
+    <li>Если auth-scoped: что показывать неавторизованному (preview / login-wall / 404)?</li>
+    <li>Как обрабатывать buyer-share-link — создавать temp profile?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.3.4 · Блокирует: Phase 1.10</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.6</span><span class="task-name">Cross-entity invitation flows (forward + reverse)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Два направления приглашений:<br>(1) <strong>Forward</strong> — Developer создаёт проект, приглашает Studio/Agency на конкретный проект или все проекты;<br>(2) <strong>Reverse</strong> — Studio создаёт проект, потом приглашает Developer (например, VV сделала весь проект для итальянского застройщика, отдаёт ему).</p>
+  <div class="task-deps">Зависит от: 1.3.1, 1.3.7 · Блокирует: Phase 1.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.7</span><span class="task-name">Invitation token generation</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Token-based приглашения: link или email. Опции — project-scoped (один проект) или all-projects (вся компания). Token expires (например 7 дней). После acceptance создаётся membership с указанной ролью.</p>
+  <div class="task-deps">Зависит от: 1.3.6 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.8</span><span class="task-name">Partner type designation</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">При регистрации партнёра — галочка "I am: Studio / Agency / Developer". Влияет на default-настройки, видимость секций админки, маркетинговые сегменты. Меняется через Settings.</p>
+  <div class="task-deps">Зависит от: 1.3.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.9</span><span class="task-name">Editor vs Agent role distinction</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Внутри партнёра — две разные роли с разными правами:<br>• <strong>Editor</strong> — может редактировать содержимое проекта (галереи, описания, planирование), не видит билинг и не приглашает;<br>• <strong>Agent</strong> — может проводить презентации, создавать buyer-профили, но НЕ редактирует контент.</p>
+  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Блокирует: Phase 1.11</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.3.10</span><span class="task-name">Referral relationship architecture</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Product</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Data model для будущей реф-программы: sponsor (кто привёл) → referee (кого привели) → revenue share %. Архитектура закладывается в Stage 1, UI и payouts реализуются в Stage 2 (или Phase 4.2 Продвинутая монетизация).</p>
+  <div class="task-deps">Зависит от: 1.3.1 · Блокирует: Stage 2 — реф. payouts</div>
+</div>
+
+<div id="phase-1-4" class="phase"><span class="phase-num">Фаза 1.4</span><h3>Operator Dashboard (staff.offplan.online) — расширение существующей Super Admin Panel</h3><p class="phase-desc"><strong>Контекст (ревизия 2026-04-28):</strong> tech team подтвердила, что Super Admin Panel <strong>уже существует</strong> и работает в продакшене. Текущая панель имеет: список проектов, переключатели feature-флагов на каждый проект (13+ флагов), управление менеджерами, загрузку ассетов (логотип, видео), action log. Фаза 1.4 = <strong>надстройка</strong> над этой панелью для multi-tenant управления клиентами-студиями: подписки, платежи, audit log, список клиентов с drawer'ом. <strong>Не строим с нуля.</strong> Поддомен <code>staff.offplan.online</code>, отдельная аутентификация, постоянный баннер "STAFF" в шапке. Визуальный preview (v1, обновлённый): <a href="../mockups/operator-panel-v1.html">operator-panel-v1.html</a>.<br><em style="color:var(--gold-light);">💡 Suggestion: before dev builds the new screens, build a complete HTML/CSS mockup of the operator dashboard together (product owner approves it), then hand off to the tech team to wire up to real data and auth — faster implementation, fewer visual revisions.</em></p></div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.4.X — Fullscreen client card</strong> (replace drawer pattern на полноэкранную карточку клиента — слишком много данных под партнёра, drawer тесен)</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy) — карточка клиента отображает данные multi-tenant модели.</p>
+</div>
 
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
   <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Зачем это нужно сейчас (а не позже)</div>
@@ -905,7 +1020,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.1</span><span class="task-name">Data model: Subscription + Payment + AuditLog</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.1</span><span class="task-name">Data model: Subscription + Payment + AuditLog</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Добавить три сущности к существующей DB: Subscription (план, статус, trial expiry, billing cycle), Payment (provider-neutral schema), AuditLog (actor, action, target, timestamp). Без этого dashboard нечего показывать.</p>
   <details>
@@ -923,14 +1038,14 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul>
     <li>❓ AuditLog retention: хранить вечно или archive после N месяцев?</li>
-    <li>✅ <s>Payment provider — выбираем Stripe / PayTabs / Telr / hybrid?</s> — <strong>Решено per <a href="payments-research.html">payments-research</a>:</strong> multi-provider по фазам — Stripe primary (Стадия 1), + Paddle EU B2C (Стадия 2), + Checkout.com UAE AED (Стадия 3). Adapter подключается в 1.6.3.</li>
+    <li>✅ <s>Payment provider — выбираем Stripe / PayTabs / Telr / hybrid?</s> — <strong>Решено per <a href="payments-research.html">payments-research</a>:</strong> multi-provider по фазам — Stripe primary (Стадия 1), + Paddle EU B2C (Стадия 2), + Checkout.com UAE AED (Стадия 3). Adapter подключается в 1.7.3.</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: <strong>Фаза 1.2.1 (Organisation / Tenant entity</strong> — проектируется один раз и используется и в Onboarding, и в Operator Dashboard) · Блокирует: 1.3.3, 1.3.4, 1.3.6, 1.3.7</div>
+  <div class="task-deps">Зависит от: <strong>Фаза 1.2.1 (Organisation / Tenant entity</strong> — проектируется один раз и используется и в Onboarding, и в Operator Dashboard) · Блокирует: 1.4.3, 1.4.4, 1.4.6, 1.4.7</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.2</span><span class="task-name">Operator auth + subdomain</span><span class="marker m-opl">[OPL]</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.2</span><span class="task-name">Operator auth + subdomain</span><span class="marker m-opl">[OPL]</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+DevOps</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Поддомен <code>staff.offplan.online</code>, отдельный логин, отдельный cookie. Оператор никогда не путается с клиентским аккаунтом. У каждого оператора (Sergey, Ilya, будущий support-хайр) свой индивидуальный логин — все действия можно атрибутировать. <strong>Итерация 1: базовая аутентификация (email + пароль + session). 2FA и IP allowlist — в Итерации 2 (после первых 5–10 платящих студий).</strong></p>
   <details>
@@ -950,11 +1065,11 @@
     <li>IP allowlist: опциональная настройка в operator settings — ограничивать вход только известными IP (офисный VPN / домашний)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7 (security baseline) · Блокирует: 1.3.3, 1.3.4, 1.3.5, 1.3.6, 1.3.7, 1.3.8</div>
+  <div class="task-deps">Зависит от: 1.8 (security baseline) · Блокирует: 1.4.3, 1.4.4, 1.4.5, 1.4.6, 1.4.7, 1.4.8</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.3</span><span class="task-name">Overview page (главный экран staff-панели)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.3</span><span class="task-name">Overview page (главный экран staff-панели)</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">"Утренний экран" — открыл, увидел всё ли в порядке. KPIs + три фида.</p>
   <details>
@@ -967,11 +1082,11 @@
     <li>Alert banner вверху если есть critical issues (failed payments, suspended)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.4</span><span class="task-name">Clients list + detail drawer</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.4</span><span class="task-name">Clients list + detail drawer</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Основной экран ежедневной работы. Сортируемая / фильтруемая таблица всех клиентов + slide-out drawer с детальной информацией. Вкладка <strong>Projects</strong> в drawer расширяет существующую Super Admin Panel: переключатели feature-флагов на каждый проект, секция Information (домен, тема, менеджеры), секция Assets (логотип, видео). Визуальный референс (refined v1): <a href="../mockups/operator-panel-v1.html">operator-panel-v1.html</a>.</p>
   <details>
@@ -987,13 +1102,13 @@
     <li>Internal notes (timestamped, attributed к operator) — никогда не видны клиенту</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Блокирует: 1.3.5</div>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.2 · Блокирует: 1.4.5</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.5</span><span class="task-name">User management actions (reset / email / suspend)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.5</span><span class="task-name">User management actions (reset / email / suspend)</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Legal</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">Действия operator на user: reset password (через email link, не setting password directly), change email (с notify-both), suspend user / org. Disclosed в ToS (см. 1.7).</p>
+  <p class="task-desc">Действия operator на user: reset password (через email link, не setting password directly), change email (с notify-both), suspend user / org. Disclosed в ToS (см. 1.8).</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
@@ -1002,7 +1117,7 @@
     <li>Suspend user: блокирует login, не удаляет данные</li>
     <li>Suspend org: блокирует login для всех users в org, проекты переходят в read-only</li>
     <li>Reactivate: обратное действие</li>
-    <li>Все действия логируются в AuditLog с operator_id (см. 1.3.7)</li>
+    <li>Все действия логируются в AuditLog с operator_id (см. 1.4.7)</li>
   </ul>
 </details>
   <details>
@@ -1012,13 +1127,13 @@
     <li>❓ Impersonation (login as user) — отложено в Стадию 4, требует обязательного обновления ToS</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.4, 1.8 (Legal — ToS disclosure) · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.4, 1.9 (Legal — ToS disclosure) · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.6</span><span class="task-name">Payments page (manual entry adapter — Итерация 1)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.6</span><span class="task-name">Payments page (manual entry adapter — Итерация 1)</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">Сквозной просмотр платежей по всем клиентам. <strong>Итерация 1 (упрощён 2026-04-28):</strong> только <strong>manual entry adapter</strong> — оператор руками вносит записи о платежах, когда студия оплатила (банковский перевод / инвойс / разовая сделка с выставки). Реальный провайдер (Stripe / Paddle / Checkout.com — multi-provider per <a href="payments-research.html">payments-research</a>) подключается в <strong>Фазе 1.6</strong> — UI здесь не меняется (provider-neutral schema). На странице Settings — placeholder-карточка "Payment Provider", указывающая на Фазу 1.6. Глубокая аналитика (MRR breakdown, churn, expansion, когорты) — Стадия 4.</p>
+  <p class="task-desc">Сквозной просмотр платежей по всем клиентам. <strong>Итерация 1 (упрощён 2026-04-28):</strong> только <strong>manual entry adapter</strong> — оператор руками вносит записи о платежах, когда студия оплатила (банковский перевод / инвойс / разовая сделка с выставки). Реальный провайдер (Stripe / Paddle / Checkout.com — multi-provider per <a href="payments-research.html">payments-research</a>) подключается в <strong>Фазе 1.7</strong> — UI здесь не меняется (provider-neutral schema). На странице Settings — placeholder-карточка "Payment Provider", указывающая на Фазу 1.7. Глубокая аналитика (MRR breakdown, churn, expansion, когорты) — Стадия 4.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать (Итерация 1) <span class="count">(6)</span></summary>
   <ul>
@@ -1036,11 +1151,11 @@
     <li>✅ <s>Валюты — только AED или USD + AED?</s> — <strong>Решено per <a href="payments-research.html">payments-research</a>:</strong> multi-currency — USD / EUR / AED / AUD; pay.offplan.online/&lt;slug&gt; страница с выбором валюты, маршрутизация к нужному provider</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Связано: <strong>Фаза 1.6</strong> (подключение провайдера) · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.2 · Связано: <strong>Фаза 1.7</strong> (подключение провайдера) · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.7</span><span class="task-name">Audit log (basic capture + viewer)</span><span class="marker m-opl">[OPL]</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.7</span><span class="task-name">Audit log (basic capture + viewer)</span><span class="marker m-opl">[OPL]</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Логирование действий оператора и системных событий. <strong>Итерация 1 (упрощён 2026-04-28):</strong> базовое логирование + простой viewer. Расширенные возможности (multi-tenant search, full-text search, JSON diff display, real-time tail) — в Итерации 2. Дёшево добавить сейчас, дорого переделывать позже — поэтому базовое логирование в Итерации 1 обязательно.</p>
   <details>
@@ -1061,18 +1176,18 @@
     <li>Экспорт в CSV (для compliance / legal-запросов)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.1, 1.3.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.3.8</span><span class="task-name">Settings: operator team + email templates</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.4.8</span><span class="task-name">Settings: operator team + email templates</span><span class="marker m-opl">[OPL]</span></div>
   <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc"><strong>🟡 Перенесено в Стадию 2 (ревизия 2026-04-28).</strong> Для Итерации 1 (первые ~5–10 платящих студий) команда операторов = 1–2 человека (Sergey + Ilya). Управление через DB / конфиг достаточно. Шаблоны писем можно править захардкоженными в коде. Полноценный раздел Settings (управление командой операторов, редактирование шаблонов писем, ключи интеграций) — после того как команда вырастет, в Стадии 2.</p>
   <details>
   <summary class="task-label">Итерация 1 — minimal stub <span class="count">(2)</span></summary>
   <ul>
     <li>Страница Settings есть в навигации (placeholder)</li>
-    <li><strong>Payment Provider</strong> placeholder-карточка на Settings — показывает текущий провайдер ("Manual entry · Active") + карточки Stripe / Paddle / Checkout.com (disabled, Phase 1.6 — multi-provider per <a href="payments-research.html">payments-research</a>)</li>
+    <li><strong>Payment Provider</strong> placeholder-карточка на Settings — показывает текущий провайдер ("Manual entry · Active") + карточки Stripe / Paddle / Checkout.com (disabled, Phase 1.7 — multi-provider per <a href="payments-research.html">payments-research</a>)</li>
   </ul>
 </details>
   <details>
@@ -1085,27 +1200,35 @@
     <li>UI для управления ключами интеграций (Stripe / аналитика)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.4.2 · Блокирует: —</div>
 </div>
 
 <div style="margin:18px 0 0; padding:14px 18px; background:var(--sand-100); border:1px solid var(--border); border-radius:8px; font-size:13.5px; color:var(--text-mid);">
   <strong style="color:var(--navy);">Связи с другими фазами:</strong>
   <ul style="margin:8px 0 0; padding-left:20px;">
-    <li><strong>1.6 (Платёжная инфраструктура)</strong> — UI страницы Payments готов в 1.3, конкретные plug-in'ы провайдеров (Stripe → Paddle → Checkout.com per <a href="payments-research.html">payments-research</a>) подключаются в Фазе 1.6. Adapter-pattern позволяет добавлять провайдеров без переделки UI.</li>
-    <li><strong>1.7 (Security)</strong> — аутентификация оператора должна соответствовать security baseline (password hashing, session policy, 2FA optional / required).</li>
-    <li><strong>1.8 (Legal)</strong> — ToS должна раскрывать факт доступа оператора к данным клиентов; будущая impersonation потребует обязательного disclosure.</li>
+    <li><strong>1.7 (Платёжная инфраструктура)</strong> — UI страницы Payments готов в 1.4, конкретные plug-in'ы провайдеров (Stripe → Paddle → Checkout.com per <a href="payments-research.html">payments-research</a>) подключаются в Фазе 1.7. Adapter-pattern позволяет добавлять провайдеров без переделки UI.</li>
+    <li><strong>1.8 (Security)</strong> — аутентификация оператора должна соответствовать security baseline (password hashing, session policy, 2FA optional / required).</li>
+    <li><strong>1.9 (Legal)</strong> — ToS должна раскрывать факт доступа оператора к данным клиентов; будущая impersonation потребует обязательного disclosure.</li>
     <li><strong>Стадия 4 (отложено)</strong> — иерархия ролей оператора (sales / support / finance), глубокая аналитика выручки (MRR breakdown / churn / cohort retention), impersonation, mobile-responsive layout.</li>
     <li><strong>Визуальный preview</strong>: <a href="../mockups/operator-panel-v1.html">operator-panel-v1.html</a> — мульти-страничный мокап на токенах brandbook v1.1, 8 студий-заглушек, slide-out drawer с деталями клиента, страница Settings с placeholder Payment Provider. Также в <a href="launch-plan-v3-visual.html#staff-mockup">Visual Appendix</a>.</li>
   </ul>
 </div>
 
-<!-- Фаза 1.4 — MCP Server Wrapper -->
+<!-- Фаза 1.5 — MCP Server Wrapper -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--amber);">
   <strong style="color:var(--amber);">🟡 High (понижено с Critical, ревизия 2026-04-28).</strong>
   Тонкий слой над существующим API: AI-клиенты (Claude Desktop, Cursor) могут управлять платформой через диалог. Self-serve становится действительно self-serve — admin UI не обязан быть идеален. Целевая аудитория (рендер-студии) уже использует AI-инструменты. Плюс — внутренняя команда работает с клиентами через Claude вместо UI. <strong>Понижение приоритета:</strong> MCP — мощный differentiator, но не блокирует запуск (студии могут работать через admin UI). Если эстимейт большой — итерация 2 переносится в Стадию 2.
 </div>
 
-<div id="phase-1-4" class="phase"><span class="phase-num">Фаза 1.4</span><h3>MCP Server Wrapper <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc"><strong>Что такое MCP:</strong> открытый стандарт от Anthropic для AI-моделей вызывать внешние API через стандартизированный интерфейс. <strong>MCP wrapper</strong> = тонкий слой над нашим существующим API, превращающий endpoints в "tools" для AI. Студия открывает Claude и говорит «создай новый проект Marina Residences с 80 юнитами 1BR/2BR» — Claude вызывает наши MCP tools, проект создан за 30 секунд. Пользователь открывает <code>marina-residences.offplan.online</code>, sales-app live.</p></div>
+<div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>MCP Server Wrapper <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc"><strong>Что такое MCP:</strong> открытый стандарт от Anthropic для AI-моделей вызывать внешние API через стандартизированный интерфейс. <strong>MCP wrapper</strong> = тонкий слой над нашим существующим API, превращающий endpoints в "tools" для AI. Студия открывает Claude и говорит «создай новый проект Marina Residences с 80 юнитами 1BR/2BR» — Claude вызывает наши MCP tools, проект создан за 30 секунд. Пользователь открывает <code>marina-residences.offplan.online</code>, sales-app live.</p></div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.5.X — AI file upload endpoint</strong> (drop folder с PDF флорпланами → AI разбивает каждую страницу в отдельный JPEG, авто-категоризация под Floor Plans / Gallery)</li>
+    <li><strong>+ 1.5.Y — VV API audit</strong> (документировать существующий API surface как basis для MCP wrapper; Илья даёт исходники)</li>
+  </ul>
+</div>
 
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
   <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Подход — две итерации</div>
@@ -1116,7 +1239,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.1</span><span class="task-name">API audit + scope definition for MCP exposure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.5.1</span><span class="task-name">API audit + scope definition for MCP exposure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Полный audit существующих API endpoints, определение какие из них exposить через MCP в первой итерации (read-only) и второй (read+write). Документация в формате tool-friendly.</p>
   <details>
@@ -1126,7 +1249,7 @@
     <li>Категоризация: read-only safe / read+write / admin-only / never-expose</li>
     <li>Документация: для каждого endpoint — name, description, parameters, return shape (для MCP tool definition)</li>
     <li>Identify gaps: какие операции часто нужны, но нет endpoint</li>
-    <li>Authentication scope (см. 1.4.4)</li>
+    <li>Authentication scope (см. 1.5.4)</li>
   </ul>
 </details>
   <details>
@@ -1136,11 +1259,11 @@
     <li>❓ Есть ли API endpoints, которые не должны быть exposed через MCP вообще (admin-only)?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.4.2, 1.4.3</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.5.2, 1.5.3</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.2</span><span class="task-name">MCP read-only wrapper (Iteration 1)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.5.2</span><span class="task-name">MCP read-only wrapper (Iteration 1)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Первая итерация MCP server — read-only. Любой MCP-совместимый client (Claude Desktop, Cursor) может подключиться, запросить данные, получить ответы.</p>
   <details>
@@ -1161,13 +1284,13 @@
     <li>Token issuance: studio-admin генерит сам, или per-user?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.1 · Блокирует: 1.4.3</div>
+  <div class="task-deps">Зависит от: 1.5.1 · Блокирует: 1.5.3</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.3</span><span class="task-name">MCP read+write wrapper (Iteration 2)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.5.3</span><span class="task-name">MCP read+write wrapper (Iteration 2)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично-Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc"><strong>Conditional:</strong> если эстимейт от Ильи окажется большой — переносим в Стадию 2. Read-only остаётся в Стадии 1 (1.4.2). Вторая итерация — Claude может создавать проекты, обновлять unit'ы, менять статусы, загружать ассеты. Полный admin power через диалог.</p>
+  <p class="task-desc"><strong>Conditional:</strong> если эстимейт от Ильи окажется большой — переносим в Стадию 2. Read-only остаётся в Стадии 1 (1.5.2). Вторая итерация — Claude может создавать проекты, обновлять unit'ы, менять статусы, загружать ассеты. Полный admin power через диалог.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
   <ul>
@@ -1188,11 +1311,11 @@
     <li>Bulk-операции: одна tool с массивом или итерация Claude-side?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.5.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.4</span><span class="task-name">Authentication + scoped tokens</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.5.4</span><span class="task-name">Authentication + scoped tokens</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Security</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Безопасная аутентификация для MCP. Token для конкретной студии, ограниченный по permissions, ротируемый.</p>
   <details>
@@ -1214,11 +1337,11 @@
     <li>Refresh tokens или просто long-lived tokens с rotation?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7.1 (tenant isolation), 1.2.7 (permission model) · Блокирует: 1.4.2, 1.4.3</div>
+  <div class="task-deps">Зависит от: 1.8.1 (tenant isolation), 1.2.7 (permission model) · Блокирует: 1.5.2, 1.5.3</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.4.5</span><span class="task-name">Documentation + integration examples</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.5.5</span><span class="task-name">Documentation + integration examples</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Marketing</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Документация для разработчиков и студий — как подключить наш MCP server к Claude Desktop, Cursor, другим MCP clients.</p>
   <details>
@@ -1240,19 +1363,19 @@
     <li>Public examples repo с типичными scripts/prompts?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.4.2, 1.4.4 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.5.2, 1.5.4 · Блокирует: —</div>
 </div>
 
-<!-- Фаза 1.5 -->
+<!-- Фаза 1.6 -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--amber);">
   <strong style="color:var(--amber);">🟡 Conditional — требует верификации tech team на проде.</strong>
   Большинство багов из UX-аудита воспроизводятся преимущественно на dev-окружении. <strong>Перед началом работ — Илья и tech team подтверждают какие из них реально на продакшене, какие dev-only.</strong>
 </div>
 
-<div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>Admin UX Critical Blockers <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Прямой результат UX-аудита (CONV-7) + заметок из ручного тестирования. Баги, которые потенциально будут блокировать студий в первую неделю — после верификации tech team на проде.</p></div>
+<div id="phase-1-6" class="phase"><span class="phase-num">Фаза 1.6</span><h3>Admin UX Critical Blockers <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Прямой результат UX-аудита (CONV-7) + заметок из ручного тестирования. Баги, которые потенциально будут блокировать студий в первую неделю — после верификации tech team на проде.</p></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.5.1</span><span class="task-name">Form reliability</span></div>
+  <div class="task-title"><span class="task-id">1.6.1</span><span class="task-name">Form reliability</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+QA</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
   <p class="task-desc">Формы работают непредсказуемо: ввёл-сохранил-пропало, ошибка валидации стирает работу, уникальность проверяется криво.</p>
   <details>
@@ -1268,11 +1391,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Используется ли form library (react-hook-form / formik) или raw useState?</li><li>Готовы переписать form architecture или только точечные fix?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.5.2</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.6.2</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.5.2</span><span class="task-name">Navigation + project creation path</span></div>
+  <div class="task-title"><span class="task-id">1.6.2</span><span class="task-name">Navigation + project creation path</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-prod">🔬</span></div>
   <p class="task-desc">Студия не может сама создать проект, post-save navigation прыгает на другой проект.</p>
   <details>
@@ -1287,11 +1410,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Совместим ли project creation UI с multi-tenant лимитами по плану?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.1 · Блокирует: 1.2.4</div>
+  <div class="task-deps">Зависит от: 1.6.1 · Блокирует: 1.2.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.5.3</span><span class="task-name">Asset upload clarity</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.6.3</span><span class="task-name">Asset upload clarity</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично → возможно отпадает</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc"><strong>Tech team уже работает над backend-инфраструктурой</strong>, которая авто-обрабатывает любые форматы (PDF / HEIC / etc.). Если Илья подтвердит готовность — эта sub-phase может стать неактуальной. Дождаться апдейта. Текущее: неясно что можно загружать: PDF молча отвергается, размеры скрыты, форматы не указаны, preview нет.</p>
   <details>
@@ -1310,11 +1433,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Все лимиты известны команде? Если нет — нужен audit</li><li>Когда backend выкатывает auto-обработку форматов (вопрос Илье)?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.5.4</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.6.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.5.4</span><span class="task-name">Preview + sticky validation UX</span></div>
+  <div class="task-title"><span class="task-id">1.6.4</span><span class="task-name">Preview + sticky validation UX</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">UX-улучшения поверх критичных блокеров — click-to-enlarge, valid validation feedback, предотвращение accidental loss.</p>
   <details>
@@ -1331,11 +1454,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Cmd+S shortcuts для power users?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.5.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.6.3 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.5.5</span><span class="task-name">Hotspot placement broken</span></div>
+  <div class="task-title"><span class="task-id">1.6.5</span><span class="task-name">Hotspot placement broken</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">На проде нельзя расставить hotspots на здании мышкой — клик/драг не регистрирует позицию. Блокер для любого проекта с building hotspots. ✅ Подтверждено на проде 2026-04-30.</p>
   <details>
@@ -1353,18 +1476,29 @@
   <div class="task-deps">Зависит от: — · Блокирует: онбординг любого проекта с hotspots</div>
 </div>
 
-<!-- Фаза 1.6 -->
-<div id="phase-1-6" class="phase"><span class="phase-num">Фаза 1.6</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.6.8.</p>
+<!-- Фаза 1.7 -->
+<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.7.8.</p>
 <div class="phase-files"><strong>Файлы фазы</strong>
   <a href="landing-v3.html">Landing v3 (выбранный)</a>
   <a href="landing-v1.html">v1</a>
   <a href="landing-v2.html">v2</a>
   <a href="landing-variants.html">Сравнение вариантов</a>
   <a href="payments-research.html">Payments research (Stripe vs Paddle)</a>
+</div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.7.X — 4 landing pages by audience</strong> (general / studio / agency / developer — каждой свой messaging и features)</li>
+    <li><strong>+ 1.7.Y — Demo iframe embed pattern</strong> для лендингов (живой проект iframe'ом на странице — Роман: «нахрен убьёт конкурентов»)</li>
+    <li><strong>+ 1.7.Z — Free tier billing</strong> (no-charge tier, но tracked в biling — нужно для метрик и conversion analytics)</li>
+    <li><strong>+ 1.7.AA — Custom domain + DKIM self-serve flow</strong> (партнёр прописывает CNAME + DKIM в DNS, мы верифицируем; emails уходят от его домена)</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plans: <code>plans/landing-pages-by-audience.md</code>. Связано с ADR 0008 (Free tier scope) и ADR 0011 (Email sender architecture).</p>
 </div></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.1</span><span class="task-name">Landing page</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Landing page</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Marketing+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-files"><strong>📁 Мокапы (от 2026-04-29):</strong> <a href="landing-v3.html">v3 — выбранный (demo-led hybrid)</a> · <a href="landing-v1.html">v1</a> · <a href="landing-v2.html">v2</a> · <a href="landing-variants.html">сравнение всех вариантов</a></p>
   <p class="task-desc">Публичная страница offplan.online, которая конвертирует посетителя в trial signup.</p>
@@ -1386,11 +1520,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Стек (Webflow / Framer / Next.js)?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.7.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.2</span><span class="task-name">Pricing plans</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.7.2</span><span class="task-name">Pricing plans</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Product</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Определить структуру тарифов для запуска. Фаза 4.2 — оптимизация; сейчас нужна базовая рабочая структура.</p>
   <details>
@@ -1403,7 +1537,7 @@
         <li>Studio ~$299/мес: 10 проектов, 5 users, Walkthroughs, Analytics</li>
         <li>Agency ~$699/мес: Unlimited, API, Priority support</li>
         <li>Enterprise: custom</li>
-        <li>+ Project-based (flat-fee): см. 1.6.8</li>
+        <li>+ Project-based (flat-fee): см. 1.7.8</li>
       </ul>
     </li>
     <li>Trial: 3 месяца free без карты</li>
@@ -1414,11 +1548,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
   <ul><li>❓ Финальная цена и лимиты</li><li>❓ Trial без карты vs с картой</li><li>❓ По проектам / рендерам / seats?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.6.1</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.7.1</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.3</span><span class="task-name">Payment integration (multi-provider per phase)</span></div>
+  <div class="task-title"><span class="task-id">1.7.3</span><span class="task-name">Payment integration (multi-provider per phase)</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Legal</span><span class="marker m-time">⏱</span></div>
   <p class="task-files"><strong>📁 Ресерч:</strong> <a href="payments-research.html">Stripe / Paddle / Checkout.com — детальное сравнение (валюты, комиссии, MoR, VAT, webhook coverage)</a></p>
   <p class="task-desc">Платёжная инфраструктура с multi-provider стратегией по фазам — Stripe primary, Paddle + Checkout.com добавляются позже под конкретные рынки.</p>
@@ -1427,7 +1561,7 @@
   <ul>
     <li>✅ <strong>Стратегия (resolved per <a href="payments-research.html">payments-research</a>):</strong> Стадия 1 — <strong>Stripe</strong> primary (USD / EUR / AUD; контроль, низкие комиссии, EU VAT сами). Стадия 2 — <strong>+ Paddle</strong> (EU B2C через MoR — снимает VAT). Стадия 3 — <strong>+ Checkout.com</strong> (UAE AED — Paddle не поддерживает AED).</li>
     <li>Subscribe flow (card capture или delayed-card trial)</li>
-    <li>Webhook handler: subscription.created → активация, subscription.deleted → downgrade/block (см. 1.6.6)</li>
+    <li>Webhook handler: subscription.created → активация, subscription.deleted → downgrade/block (см. 1.7.6)</li>
     <li>Retry logic для failed payments (базовый; dunning — Фаза 4.2)</li>
     <li>Test mode для staging (per provider)</li>
     <li>PCI compliance: никогда не видим номер карты (Stripe Checkout / Elements; Paddle hosted; Checkout.com Frames)</li>
@@ -1441,16 +1575,16 @@
     <li>Существующие Stripe / Paddle / Checkout аккаунты или заводим?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.2 · Блокирует: 2.6.4</div>
+  <div class="task-deps">Зависит от: 1.7.2 · Блокирует: 2.6.4</div>
 </div>
 
 <div class="callout callout-warn" style="margin-bottom:14px;">
-  <strong>Перенесено в Стадию 2:</strong> 1.6.4 Self-service billing UI → теперь <a href="#phase-2-6">2.6.4</a>.
+  <strong>Перенесено в Стадию 2:</strong> 1.7.4 Self-service billing UI → теперь <a href="#phase-2-6">2.6.4</a>.
   Для пилота (бесплатный, 20 студий) self-service UI не нужен; студии становятся paying только в момент Pilot→Paid transition. UI логично делать там, где он реально активируется — в Фазе 2.6.
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.5</span><span class="task-name">Trial mechanics</span></div>
+  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">Trial mechanics</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Product+Tech</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Как работает 3-месячный trial — активация, limits, истечение.</p>
   <details>
@@ -1468,11 +1602,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Без карты vs с картой</li><li>❓ Block vs read-only по истечении</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.3 · Блокирует: 2.6.4</div>
+  <div class="task-deps">Зависит от: 1.7.3 · Блокирует: 2.6.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.6</span><span class="task-name">Webhook activation/deactivation</span></div>
+  <div class="task-title"><span class="task-id">1.7.6</span><span class="task-name">Webhook activation/deactivation</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Надёжная обработка событий от платёжного провайдера.</p>
   <details>
@@ -1489,11 +1623,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Queue (RabbitMQ / SQS) или прямой handler?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.7.3 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.7</span><span class="task-name">Billing edge cases (refunds / chargebacks / FX / tax invoices)</span></div>
+  <div class="task-title"><span class="task-id">1.7.7</span><span class="task-name">Billing edge cases (refunds / chargebacks / FX / tax invoices)</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Legal+Finance</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Набор edge-case сценариев биллинга, которые появляются сразу как только студия платит первый инвойс — refunds, chargebacks, multi-currency, tax-compliant invoicing.</p>
   <details>
@@ -1517,11 +1651,11 @@
     <li>Tax engine — Stripe Tax / Avalara / Paddle handles?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.3 · Блокирует: Стадию 2 (возможны refund-запросы)</div>
+  <div class="task-deps">Зависит от: 1.7.3 · Блокирует: Стадию 2 (возможны refund-запросы)</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.6.8</span><span class="task-name">Flat-fee pricing tier (альтернатива subscription)</span></div>
+  <div class="task-title"><span class="task-id">1.7.8</span><span class="task-name">Flat-fee pricing tier (альтернатива subscription)</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Product+Tech+Finance</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Альтернатива subscription — модель «оплата за настройку проекта + SLA». Сценарий: настроили проект один раз, контент почти не меняется, продажи идут с того что залито. Платить ежемесячно за продукт, который «просто крутится» — клиент не хочет.</p>
   <details>
@@ -1554,19 +1688,29 @@
     <li>❓ Как студия / Operator team выбирает model в момент signup или per project?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.2, 1.6.3 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.7.2, 1.7.3 · Блокирует: —</div>
 </div>
 
-<!-- Фаза 1.7 — Security & Infrastructure Foundation -->
+<!-- Фаза 1.8 — Security & Infrastructure Foundation -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
   <strong style="color:var(--red);">🔴 Critical (приоритет повышен 2026-04-30, ревизия структуры).</strong>
-  Перенесена из 1.8 в 1.7 — Security должна идти раньше Legal: 1.7.1 (Tenant isolation) блокирует 1.8.3 (DPA), 1.7.4 (Backup) определяет SLA в ToS, 1.7.6 (Transactional email) обязателен для signup verification. Tech team работает параллельно с момента старта проекта.
+  Перенесена из 1.9 в 1.8 — Security должна идти раньше Legal: 1.8.1 (Tenant isolation) блокирует 1.9.3 (DPA), 1.8.4 (Backup) определяет SLA в ToS, 1.8.6 (Transactional email) обязателен для signup verification. Tech team работает параллельно с момента старта проекта.
 </div>
 
-<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Security &amp; Infrastructure Foundation</h3><p class="phase-desc">Foundation для всего остального — без этой фазы нельзя давать продукт клиентам. Tenant isolation, rate limits, error tracking, backups, DDoS protection, transactional email — параллельный трек tech team с дня один.</p></div>
+<div id="phase-1-8" class="phase"><span class="phase-num">Фаза 1.8</span><h3>Security &amp; Infrastructure Foundation</h3><p class="phase-desc">Foundation для всего остального — без этой фазы нельзя давать продукт клиентам. Tenant isolation, rate limits, error tracking, backups, DDoS protection, transactional email — параллельный трек tech team с дня один.</p></div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.8.X — Two-domain email setup</strong> (<code>offplan.online</code> для team-коммуникаций + <code>offplanonline.com</code> для system / transactional emails)</li>
+    <li><strong>+ 1.8.Y — DKIM + SPF + DMARC</strong> для системных рассылок (без этого все наши email'ы в спам)</li>
+    <li><strong>+ 1.8.Z — Hosting cost projection model</strong> (Роман: VV сейчас платит ~$900/мес AWS; нужна модель на 100/500/1000 партнёров до launch для unit economics)</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Связано с ADR 0011 (Email sender architecture).</p>
+</div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Tenant isolation audit &amp; hardening</span></div>
+  <div class="task-title"><span class="task-id">1.8.1</span><span class="task-name">Tenant isolation audit &amp; hardening</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Audit существующей изоляции между студиями и fix любых найденных gaps. Студия A не должна видеть данные, медиа или метаданные студии B ни через UI, ни через API, ни через direct media URL, ни через search/autocomplete endpoints.</p>
   <details>
@@ -1584,11 +1728,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Внешний audit (объективность) или внутренний (дешевле, bias)?</li><li>❓ Бюджет на pen-test если внешний?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.8.3 (DPA)</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.9.3 (DPA)</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.2</span><span class="task-name">Rate limiting infrastructure</span></div>
+  <div class="task-title"><span class="task-id">1.8.2</span><span class="task-name">Rate limiting infrastructure</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Защита от злоупотреблений: массовая загрузка больших файлов, DDoS на API, brute-force на auth. Сейчас лимитов скорее всего нет или они базовые.</p>
   <details>
@@ -1611,7 +1755,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.3</span><span class="task-name">Error tracking + alerting</span></div>
+  <div class="task-title"><span class="task-id">1.8.3</span><span class="task-name">Error tracking + alerting</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Мы должны узнавать о проблемах раньше клиентов. Сейчас если API 500-ит, мы узнаём когда клиент пишет — это неприемлемо для SaaS.</p>
   <details>
@@ -1634,7 +1778,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.4</span><span class="task-name">Backup &amp; disaster recovery</span></div>
+  <div class="task-title"><span class="task-id">1.8.4</span><span class="task-name">Backup &amp; disaster recovery</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Если БД упала или студия случайно удалила проект — должны уметь восстановить. Сейчас backup может быть есть, но никто не знает процедуру restore.</p>
   <details>
@@ -1653,11 +1797,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Где хранить off-site backup (другой регион / провайдер)?</li><li>RTO приемлем для пилота / для публичного?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.8.1 (SLA в ToS)</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.9.1 (SLA в ToS)</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">DDoS / abuse protection</span></div>
+  <div class="task-title"><span class="task-id">1.8.5</span><span class="task-name">DDoS / abuse protection</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">На публичной стороне (страницы проектов) и на admin — защита от volumetric attacks, bot scraping, credential stuffing.</p>
   <details>
@@ -1679,7 +1823,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.6</span><span class="task-name">Transactional email infrastructure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="task-title"><span class="task-id">1.8.6</span><span class="task-name">Transactional email infrastructure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Transactional emails (verify, invite, password reset, billing alerts) — фундамент signup и онбординга. Без надёжной доставки регистрация ломается на день один. Marketing/onboarding sequences отдельно — отложены в Стадию 3 (1.2.6). Это — только базовый transactional layer.</p>
   <details>
@@ -1702,7 +1846,7 @@
     <li>❓ Multi-language шаблоны на старте или EN-only?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.2.1 (verification email), 1.2.7 (invites), 1.6.5 (trial reminders)</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.2.1 (verification email), 1.2.7 (invites), 1.7.5 (trial reminders)</div>
 </div>
 
 <div class="callout callout-warn" style="margin-bottom:20px;">
@@ -1711,13 +1855,13 @@
   Для пилота <code>.env</code> + CI env vars достаточно; Vault / AWS Secrets Manager имеет смысл до публичного запуска, а не до пилота.
 </div>
 
-<!-- Фаза 1.8 — Legal & Compliance -->
+<!-- Фаза 1.9 — Legal & Compliance -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:var(--red);">
   <strong style="color:var(--red);">🔴 Critical · 🇨🇾 Cyprus base (decided 2026-04-30).</strong>
-  Основное юрлицо — Cyprus (EU member, 12.5% corp tax, GDPR-native). На Cyprus base накладываются UAE и Australia compliance layers (1.8.7, 1.8.8). <strong>Черновики всех 11 документов написаны</strong> — <a href="../legal/index.html">📋 Legal Documents (index)</a>. Источники: AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers из публичных шаблонов — <a href="legal-sources.html">📖 Legal Sources &amp; References</a>.
+  Основное юрлицо — Cyprus (EU member, 12.5% corp tax, GDPR-native). На Cyprus base накладываются UAE и Australia compliance layers (1.9.7, 1.9.8). <strong>Черновики всех 11 документов написаны</strong> — <a href="../legal/index.html">📋 Legal Documents (index)</a>. Источники: AU clauses из <a href="https://volume.vision/sla-tcs">VV T&amp;Cs</a>; EU/UAE layers из публичных шаблонов — <a href="legal-sources.html">📖 Legal Sources &amp; References</a>.
 </div>
 
-<div id="phase-1-8" class="phase"><span class="phase-num">Фаза 1.8</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для Cyprus-base SaaS, продающего в EU / UAE / Australia. Черновики всех 11 документов написаны — юрист доводит. Cyprus / EU GDPR-native; UAE clauses для UAE-резидентов; AU clauses для AU studios.</p>
+<div id="phase-1-9" class="phase"><span class="phase-num">Фаза 1.9</span><h3>Legal &amp; Compliance <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Юридическая база для Cyprus-base SaaS, продающего в EU / UAE / Australia. Черновики всех 11 документов написаны — юрист доводит. Cyprus / EU GDPR-native; UAE clauses для UAE-резидентов; AU clauses для AU studios.</p>
 <div class="phase-files"><strong>Файлы фазы</strong>
   <a href="../legal/index.html">📋 Legal Documents (все черновики)</a>
   <a href="legal-sources.html">📖 Legal Sources &amp; References</a>
@@ -1725,10 +1869,21 @@
   <a href="https://stripe.com/legal/dpa">Stripe DPA template</a>
   <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA template</a>
   <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">EU SCCs (official)</a>
+</div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.9.X — Permission delegation framework</strong> (правовое основание делегации доступа от A→B; без этого Phase 1.3 нелегальна)</li>
+    <li><strong>+ 1.9.Y — Multi-party access agreement template</strong> (developer ↔ agency ↔ agent цепочка договорённостей)</li>
+    <li><strong>+ 1.9.Z — Data ownership matrix</strong> per actor type (кто владеет данными: проект, юнит, buyer profile, presentation analytics)</li>
+    <li><strong>+ 1.9.AA — Liability allocation</strong> при делегации (если агентство нарушает — кто платит: партнёр / агентство / agent / offplan?)</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan: <code>plans/legal-multi-party-framework.md</code>. Юристу больше работы — Phase 1.9 растёт с 11 до 15 документов.</p>
 </div></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.1</span><span class="task-name">Terms of Service</span></div>
+  <div class="task-title"><span class="task-id">1.9.1</span><span class="task-name">Terms of Service</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Основной договор между offplan.online и студией. Защищает от проблемных клиентов и кейсов.</p>
   <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/tos.html">Terms of Service</a> · <a href="../legal/aup.html">AUP</a> · <a href="../legal/sla.html">SLA</a> · <a href="../legal/reseller-agreement.html">Reseller Agreement</a> · <a href="../legal/nda-template.html">NDA Template</a> &nbsp;·&nbsp; <strong>📖 База:</strong> AU clauses из <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a>; EU/UAE layers — <a href="legal-sources.html">Legal Sources &amp; References</a>.</p>
@@ -1752,11 +1907,11 @@
     <li>✅ <s>Multi-jurisdiction routing — один договор или версии per-country?</s> — <strong>Решено:</strong> один ToS + jurisdiction-specific sections (AU в §15, UAE в Privacy Policy §12)</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.5 · Блокирует: Стадию 2</div>
+  <div class="task-deps">Зависит от: 1.9.5 · Блокирует: Стадию 2</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.2</span><span class="task-name">Privacy Policy</span></div>
+  <div class="task-title"><span class="task-id">1.9.2</span><span class="task-name">Privacy Policy</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Как мы обрабатываем персональные данные студий и их конечных пользователей. GDPR + UAE DPR + Australian Privacy Act.</p>
   <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/privacy-policy.html">Privacy Policy</a> · <a href="../legal/end-user-notice.html">End-User Notice</a> &nbsp;·&nbsp; <strong>📖 Шаблоны:</strong> <a href="https://stripe.com/privacy">Stripe Privacy Policy</a> (multi-jurisdiction), <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy</a>.</p>
@@ -1776,11 +1931,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Где хранить данные (регион)?</li><li>Нужен ли DPO?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.5 · Блокирует: 1.8.3</div>
+  <div class="task-deps">Зависит от: 1.9.5 · Блокирует: 1.9.3</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.3</span><span class="task-name">Data Processing Agreement (DPA)</span></div>
+  <div class="task-title"><span class="task-id">1.9.3</span><span class="task-name">Data Processing Agreement (DPA)</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">GDPR Art. 28 требует DPA между controller (студия) и processor (offplan.online). Без DPA студия технически нарушает GDPR.</p>
   <p class="task-files"><strong>📄 Наши черновики:</strong> <a href="../legal/dpa.html">DPA</a> · <a href="../legal/ropa.html">ROPA</a> · <a href="../legal/breach-procedure.html">Breach Procedure</a> &nbsp;·&nbsp; <strong>📖 Шаблоны:</strong> <a href="https://www.cloudflare.com/cloudflare-customer-dpa/">Cloudflare DPA</a> (gold standard), <a href="https://stripe.com/legal/dpa">Stripe DPA</a>, <a href="https://vercel.com/legal/dpa">Vercel DPA</a>. EU SCCs — <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en">официальные шаблоны</a>.</p>
@@ -1788,8 +1943,8 @@
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
     <li>Покрывает: категории данных, цели обработки, сроки хранения, locations</li>
-    <li>Sub-processors: Stripe/Paddle, Hotjar/Clarity, email provider (1.7.6), CDN, error tracking, AWS</li>
-    <li>Security measures: ссылки на Фазу 1.7</li>
+    <li>Sub-processors: Stripe/Paddle, Hotjar/Clarity, email provider (1.8.6), CDN, error tracking, AWS</li>
+    <li>Security measures: ссылки на Фазу 1.8</li>
     <li>Audit rights студии</li>
     <li>Breach notification terms (offplan.online → студия)</li>
     <li>Sub-processor changes: notice period, opt-out</li>
@@ -1802,11 +1957,11 @@
     <li>✅ <s>Termly / iubenda vs custom by EU GDPR-юрист?</s> — <strong>Решено:</strong> написан собственный черновик DPA v0.1; юрист доводит наш draft, не пишет с нуля</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.7.1, 1.8.2 · Блокирует: Стадию 2</div>
+  <div class="task-deps">Зависит от: 1.8.1, 1.9.2 · Блокирует: Стадию 2</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.4</span><span class="task-name">Cookie consent</span></div>
+  <div class="task-title"><span class="task-id">1.9.4</span><span class="task-name">Cookie consent</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Banner на публичных страницах + в admin перед загрузкой analytics/marketing cookies. Cookiebot / OneTrust / iubenda — готовое решение, не custom.</p>
   <p class="task-files"><strong>📄 Наш черновик:</strong> <a href="../legal/cookie-policy.html">Cookie Policy</a> — 4 категории, таблица cookies, white-label guidance. Нужно привязать к выбранному consent platform.</p>
@@ -1825,13 +1980,13 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>Готовое vs custom — стоимость vs flexibility?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.2 · Блокирует: Фазу 2.4</div>
+  <div class="task-deps">Зависит от: 1.9.2 · Блокирует: Фазу 2.4</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.5</span><span class="task-name">Cyprus incorporation &amp; setup</span></div>
+  <div class="task-title"><span class="task-id">1.9.5</span><span class="task-name">Cyprus incorporation &amp; setup</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc"><strong>✅ Решено 2026-04-30: основное юрлицо — Cyprus.</strong> EU member state → GDPR-native (EU Representative по Art. 27 не нужен — мы сами EU). Corporate tax 12.5% (один из самых низких в EU), банкинг и incorporation services развиты. UAE/AU compliance накладывается сверху для соответствующих рынков (1.8.7, 1.8.8).</p>
+  <p class="task-desc"><strong>✅ Решено 2026-04-30: основное юрлицо — Cyprus.</strong> EU member state → GDPR-native (EU Representative по Art. 27 не нужен — мы сами EU). Corporate tax 12.5% (один из самых низких в EU), банкинг и incorporation services развиты. UAE/AU compliance накладывается сверху для соответствующих рынков (1.9.7, 1.9.8).</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
   <ul>
@@ -1860,14 +2015,14 @@
     <li>❓ Substance requirement — где работают директора (для tax residency должна быть Cyprus management & control)?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: — · Блокирует: 1.8.1, 1.8.2, 1.6.3, 1.8.6</div>
+  <div class="task-deps">Зависит от: — · Блокирует: 1.9.1, 1.9.2, 1.7.3, 1.9.6</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.6</span><span class="task-name">VAT / GST registration</span></div>
+  <div class="task-title"><span class="task-id">1.9.6</span><span class="task-name">VAT / GST registration</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal+Finance</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Регистрация по VAT/GST. Cyprus base упрощает EU-часть — через EU OSS одной декларацией покрываем все 27 EU-стран.</p>
-  <p class="task-files"><strong>⚠️ Cyprus упрощения:</strong> Cyprus VAT (19%) — basic registration; EU OSS на Cyprus покрывает cross-border B2C во всех 27 странах через одну декларацию. <strong>Если выбираем Paddle (MoR) в 1.6.3</strong> — UK/UAE/AU regs снимаются (Paddle handles). Если Stripe — нужны UK/UAE/AU отдельно. См. <a href="legal-sources.html#vat">Legal Sources — VAT</a>.</p>
+  <p class="task-files"><strong>⚠️ Cyprus упрощения:</strong> Cyprus VAT (19%) — basic registration; EU OSS на Cyprus покрывает cross-border B2C во всех 27 странах через одну декларацию. <strong>Если выбираем Paddle (MoR) в 1.7.3</strong> — UK/UAE/AU regs снимаются (Paddle handles). Если Stripe — нужны UK/UAE/AU отдельно. См. <a href="legal-sources.html#vat">Legal Sources — VAT</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
   <ul>
@@ -1883,11 +2038,11 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>❓ Реалистичная география первого года (EU-only / +GCC / +AU / global)?</li><li>❓ Paddle (MoR — снимает регистрации) vs Stripe (комиссия ниже, но регистрации сами)?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.5 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.5 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.7</span><span class="task-name">Australian compliance (GST + APP)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="task-title"><span class="task-id">1.9.7</span><span class="task-name">Australian compliance (GST + APP)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span></div>
   <p class="task-desc">Адаптация AU compliance — Privacy Act 1988 (Cth), 13 Australian Privacy Principles (APP), Notifiable Data Breach scheme, Spam Act, Australian Consumer Law, GST 10%. <strong>База готова</strong> — VV уже работает в AU и имеет полные T&amp;Cs.</p>
   <p class="task-files"><strong>📄 AU-покрытие в черновиках:</strong> <a href="../legal/privacy-policy.html">Privacy Policy §11</a> (AU Privacy Act 1988, 13 APPs, NDB scheme) · <a href="../legal/tos.html">ToS §15</a> (Australian Consumer Law, GST) &nbsp;·&nbsp; <strong>📖 База:</strong> <a href="https://volume.vision/sla-tcs">volume.vision/sla-tcs</a> — готовые AU clauses. Эстимейт адаптации: <strong>1-2 недели</strong>.</p>
@@ -1906,18 +2061,18 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>❓ Если основное юрлицо не AU — нужен ли отдельный AU contract или достаточно AU clauses в общем T&amp;Cs?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.5 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.5 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.8.8</span><span class="task-name">UAE compliance (DPR / DIFC / ADGM)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
+  <div class="task-title"><span class="task-id">1.9.8</span><span class="task-name">UAE compliance (DPR / DIFC / ADGM)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[NEW]</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Legal</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">UAE имеет 3 параллельных режима data protection — выбор зависит от 1.8.5 (юрлицо). Federal DPR (mainland), DIFC DP Law 2020, ADGM DPR 2021.</p>
+  <p class="task-desc">UAE имеет 3 параллельных режима data protection — выбор зависит от 1.9.5 (юрлицо). Federal DPR (mainland), DIFC DP Law 2020, ADGM DPR 2021.</p>
   <p class="task-files"><strong>📄 UAE-покрытие в черновиках:</strong> <a href="../legal/privacy-policy.html">Privacy Policy §12</a> (UAE PDPL notice, data subject rights) &nbsp;·&nbsp; <strong>📖 Референсы:</strong> <a href="https://www.propertyfinder.ae/en/terms-of-service">Property Finder T&amp;Cs</a>, <a href="https://www.bayut.com/privacy-policy/">Bayut Privacy</a>, <a href="https://www.difc.ae/business/laws-and-regulations/laws/data-protection-law">DIFC official guides</a>. <a href="legal-sources.html#uae">Legal Sources — UAE</a>.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
   <ul>
-    <li>Решение: какой режим (Federal DPR / DIFC / ADGM) — зависит от 1.8.5</li>
+    <li>Решение: какой режим (Federal DPR / DIFC / ADGM) — зависит от 1.9.5</li>
     <li>Privacy notices с UAE DPR clauses</li>
     <li>Notifiable breach процесс (UAE federal: 72 часа)</li>
     <li>AED support в billing UI + UAE TRN на инвойсах</li>
@@ -1926,18 +2081,29 @@
 </details>
   <details>
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>❓ Federal DPR vs DIFC vs ADGM (зависит от 1.8.5)?</li><li>❓ Данные UAE-резидентов хранить в UAE-region storage или допустимо EU/US?</li></ul>
+  <ul><li>❓ Federal DPR vs DIFC vs ADGM (зависит от 1.9.5)?</li><li>❓ Данные UAE-резидентов хранить в UAE-region storage или допустимо EU/US?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.5 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.5 · Блокирует: —</div>
 </div>
 
-<!-- Фаза 1.9 — Sales-app UX redesign -->
+<!-- Фаза 1.10 — Sales-app UX redesign -->
 <div class="callout callout-warn" style="margin-bottom:14px; border-left-color:#c08020;">
   <strong style="color:#c08020;">🟠 Critical-conditional.</strong>
-  Архитектурное изменение sales-app — переход с хотспотов на filter-based выбор юнитов. <strong>MVP (1.9.1 фильтры) обязателен в Стадии 1.</strong> Остальные подзадачи переносятся в Стадию 2 или 3, если эстимейт от Ильи большой. Multi-source validation: фидбек Надежды (Dubai sales manager) + подтверждение Ромы — «не первый раз слышим, нужно было приоритизировать раньше».
+  Архитектурное изменение sales-app — переход с хотспотов на filter-based выбор юнитов. <strong>MVP (1.10.1 фильтры) обязателен в Стадии 1.</strong> Остальные подзадачи переносятся в Стадию 2 или 3, если эстимейт от Ильи большой. Multi-source validation: фидбек Надежды (Dubai sales manager) + подтверждение Ромы — «не первый раз слышим, нужно было приоритизировать раньше».
 </div>
 
-<div id="phase-1-9" class="phase"><span class="phase-num">Фаза 1.9</span><h3>Sales-app UX redesign — filter-based unit selection <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span> <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Sales-app переходит с хотспотов на филтры (bedrooms + view direction + price + ориентация). Текущий флоу — здание → хотспоты → юниты — ломается на больших проектах (300+ юнитов = 300 точек = хаос). Покупатели не выбирают по тому где квартира на фасаде — выбирают по типу, площади, виду, цене.</p></div>
+<div id="phase-1-10" class="phase"><span class="phase-num">Фаза 1.10</span><h3>Sales-app UX redesign — filter-based unit selection <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span> <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Sales-app переходит с хотспотов на филтры (bedrooms + view direction + price + ориентация). Текущий флоу — здание → хотспоты → юниты — ломается на больших проектах (300+ юнитов = 300 точек = хаос). Покупатели не выбирают по тому где квартира на фасаде — выбирают по типу, площади, виду, цене.</p></div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
+    <li><strong>+ 1.10.X — 3 access modes</strong> для sales page (Public / PIN-code / People-only)</li>
+    <li><strong>+ 1.10.Y — Login button top-right corner</strong> + auth-scoped views (агент логинится → видит только свой allocated сток)</li>
+    <li><strong>+ 1.10.Z — 360° rotation на Exterior view</strong> (port из VV если уже есть; если нет — простая интеграция Pannellum/Marzipano)</li>
+    <li><strong>+ 1.10.AA — Simple hotspot navigation между 360° сценами</strong> (базовый walkthrough; full Kuula-replacement — Stage 2 backlog)</li>
+  </ul>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy) — auth-scoped views требуют permission model. Связано с item #6 заметок Сергея (native 360 walkthrough — выбран вариант α: базовый в 1.10).</p>
+</div>
 
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
   <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Правильный флоу (из звонка с Надеждой)</div>
@@ -1952,7 +2118,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.1</span><span class="task-name">Filter-based unit selection (MVP — обязательно в Стадии 1)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.10.1</span><span class="task-name">Filter-based unit selection (MVP — обязательно в Стадии 1)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc">Filter-based выбор юнитов вместо хотспотов. Покупатель фильтрует по параметрам, видит подходящие варианты, выбирает. Минимум: фильтр по bedrooms + view direction + price + статус.</p>
   <details>
@@ -1978,7 +2144,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.2</span><span class="task-name">Floor plan → vertical unit stack view</span></div>
+  <div class="task-title"><span class="task-id">1.10.2</span><span class="task-name">Floor plan → vertical unit stack view</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc"><strong>Если сложно — переносим в Стадию 2.</strong> Когда пользователь выбрал тип floor plan, показать вертикальный стек: все юниты этого типа на всех этажах, как цена и вид меняется по высоте.</p>
   <details>
@@ -1998,11 +2164,11 @@
     <li>Производительность для 50+ floors?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.9.1 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.10.1 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.3</span><span class="task-name">Per-project status visibility toggle</span></div>
+  <div class="task-title"><span class="task-id">1.10.3</span><span class="task-name">Per-project status visibility toggle</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Каждый проект может настроить, <strong>показывать или скрывать</strong> статусы юнитов (Available / Reserved / Sold). Некоторые девелоперы не хотят публично показывать sold-out (early-stage sales, prestige). Сейчас статусы хардкод — Надежда заплатила $12k чтобы их скрыть на одном проекте.</p>
   <details>
@@ -2026,7 +2192,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.4</span><span class="task-name">Status indicators redesign (kill traffic-light colors)</span></div>
+  <div class="task-title"><span class="task-id">1.10.4</span><span class="task-name">Status indicators redesign (kill traffic-light colors)</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Design+Tech</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Текущие яркие зелёные/жёлтые/красные «светофоры» на статусах — выглядят дёшево и слишком навязчиво. Заменить на нейтральные tags. <strong>Уже частично в плане как 1.1.3 (Visual language refresh)</strong>, но здесь explicit для sales-app side.</p>
   <details>
@@ -2034,14 +2200,14 @@
   <ul>
     <li>Заменить bright dots на subtle tags (sand background + lower-saturation accent)</li>
     <li>Убрать "светофор" green/yellow/red в принципе — в дефолте no color, в alternative — gold/sand палитра (см. 1.1.3)</li>
-    <li>Per-project visibility (см. 1.9.3) и кастомизация stays</li>
+    <li>Per-project visibility (см. 1.10.3) и кастомизация stays</li>
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.1.3 (visual language refresh — общая палитра) · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.5</span><span class="task-name">Window-based panoramic views</span></div>
+  <div class="task-title"><span class="task-id">1.10.5</span><span class="task-name">Window-based panoramic views</span></div>
   <div class="markers"><span class="marker m-medium">Средний-Высокий</span><span class="marker m-dept">Tech+Content</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
   <p class="task-desc"><strong>Если сложно — переносим в Стадию 3.</strong> Опциональная фича, сильно усиливает sales pitch. В floor plan можно кликнуть на конкретное окно — открывается <strong>180°/270° панорамный вид из этого окна</strong>. Был в их Moscow-проекте, очень нравился клиентам. Сейчас в Abu Dhabi проекте отсутствует, Надежда сильно жалеет.</p>
   <details>
@@ -2061,11 +2227,11 @@
     <li>Технически: 180°/270° viewer существует в текущей платформе или нужно с нуля?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.9.1, 1.9.2 · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.10.1, 1.10.2 · Блокирует: —</div>
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.6</span><span class="task-name">Currency + units toggle (USD/AED, sqm/sqft)</span></div>
+  <div class="task-title"><span class="task-id">1.10.6</span><span class="task-name">Currency + units toggle (USD/AED, sqm/sqft)</span></div>
   <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Toggle для валюты и единиц измерения — критично для Dubai (часть рынка думает в sqft, часть в sqm; цены в USD vs AED).</p>
   <details>
@@ -2090,7 +2256,7 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.9.7</span><span class="task-name">Custom Floor Plan section labels</span><span class="marker m-bl">[BL]</span></div>
+  <div class="task-title"><span class="task-id">1.10.7</span><span class="task-name">Custom Floor Plan section labels</span><span class="marker m-bl">[BL]</span></div>
   <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-desc">Возможность переименовывать названия секций в sales-app — у одних застройщиков "Units", у других "Apartments" / "Residences" / "Studios" / "Townhouses". Сейчас лейблы хардкоженые. Нужно сделать настраиваемыми per-project, чтобы студия могла подстроить терминологию под брендинг девелопера. <strong>В backlog у Ильи как «Custom Fields for Floor Plans» (Сергей: «это добавление возможности менять название в разделе, так как у кого-то юниты у кого-то апартаменты»).</strong></p>
   <details>
@@ -2118,6 +2284,69 @@
     <li><strong>3.3.3 (Audit log)</strong> — sales presentations в admin (для CRM integration) логгируются здесь.</li>
     <li><strong>CRM integration depth (backlog для Стадии 2):</strong> во время разговора Надежды описана глубокая CRM-интеграция (Microsoft Dynamics) — отслеживать какие юниты показывались каким клиентам. Илья оценил в ~$100k. Не Стадия 1, но <strong>data model</strong> для "presentation events" нужно проектировать заранее.</li>
   </ul>
+</div>
+
+<!-- Фаза 1.11 — Sales Presentation Layer (NEW v4.3) -->
+<div id="phase-1-11" class="phase">
+  <span class="phase-num">Фаза 1.11</span>
+  <h3>Sales Presentation Layer <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span> <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3>
+  <p class="phase-desc">Buyer Profile + Remote Presentation. Buyer Profile — критическая UX-фича для агентов (создание профиля во время встречи, лайки юнитов, summary email). Remote Presentation — real-time sync agent↔buyer device (Роман явно настаивал, но требует tech estimate Ильи).<br><em style="color:var(--gold-light);">💡 Sub-plans: <code>plans/buyer-profile-and-presentation.md</code> (subtasks 1.11.1-1.11.5) и <code>plans/remote-presentation.md</code> (subtasks 1.11.6-1.11.8 + ADR 0012). Если 1.11.6-8 не лезут в Stage 1 timeline — переносим в Stage 2.</em></p>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.1</span><span class="task-name">Buyer entity + profile schema</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Buyer как сущность в системе. Profile: имя, контакты, предпочтения (тип юнита, этаж, вид, ценовой диапазон). Привязан к agent'у который его создал. Доступен через admin (агент видит список своих buyers).</p>
+  <div class="task-deps">Зависит от: Phase 1.3 (Tenancy) · Блокирует: 1.11.2-1.11.5</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.2</span><span class="task-name">Profile creation UI (in-presentation)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Quick-form для агента во время встречи: имя покупателя, что интересует. Можно обновлять preferences по ходу презентации (фильтры применяются live).</p>
+  <div class="task-deps">Зависит от: 1.11.1, Phase 1.10 · Блокирует: 1.11.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.3</span><span class="task-name">Heart / favorite units</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Сердечко/star на карточке юнита в sales-app. Лайки сохраняются в buyer profile. Видно агенту в real-time (если remote presentation активна) и используется в summary email.</p>
+  <div class="task-deps">Зависит от: 1.11.1, Phase 1.10 · Блокирует: 1.11.4</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.4</span><span class="task-name">Summary email с deep-link</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">После встречи — email покупателю с summary: что обсуждали, какие юниты понравились, контакты агента. <strong>Ключевое</strong>: ссылка ведёт обратно в проект, уже отфильтрованный по preferences покупателя — он видит только релевантные юниты.</p>
+  <div class="task-deps">Зависит от: 1.11.2, 1.11.3, Phase 1.8 (Email infra) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.5</span><span class="task-name">Buyer login (return flow)</span></div>
+  <div class="markers"><span class="marker m-low">Низкий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Покупатель может вернуться через email-link и продолжить просмотр. Magic-link (без пароля) на email. Видит свой персонализированный view проекта.</p>
+  <div class="task-deps">Зависит от: 1.11.1 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.6</span><span class="task-name">Remote session creation <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[needs-tech-estimate]</span></span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Агент в админке нажимает "Remote Presentation" → генерируется временный link → отправляется покупателю (email или ручной share). Session expires (1 час по дефолту).</p>
+  <div class="task-deps">Зависит от: ADR 0012 (Real-time sync architecture), Илья estimate · Блокирует: 1.11.7</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.7</span><span class="task-name">Real-time state sync <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[needs-tech-estimate]</span></span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Всё что агент делает на своём экране — реплицируется у покупателя real-time. WebSocket vs SSE vs polling — выбирается в ADR 0012. State: текущий view (exterior/interior/floor plan), текущий unit, fillters.</p>
+  <div class="task-deps">Зависит от: 1.11.6, ADR 0012 · Блокирует: 1.11.8</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.11.8</span><span class="task-name">Remote viewer rendering (mobile-first) <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[needs-tech-estimate]</span></span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Покупатель смотрит remote-сессию обычно с телефона. Optimised view: large touch targets, simplified UI, no edit controls. Может ставить лайки на юниты live.</p>
+  <div class="task-deps">Зависит от: 1.11.7 · Блокирует: —</div>
 </div>
 
 </div><!-- /wrap -->
@@ -2194,7 +2423,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul><li>Кейс-стади — opt-in или default?</li><li>Право забрать контент после пилота (экспорт)?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.1 · Блокирует: 2.1.1</div>
+  <div class="task-deps">Зависит от: 1.7.1 · Блокирует: 2.1.1</div>
 </div>
 
 <div class="task">
@@ -2387,7 +2616,7 @@
     <li>Выбор: <strong>Hotjar</strong> (платный, зрелый) vs <strong>MS Clarity</strong> (free, GDPR)</li>
     <li>Установка на admin + публичные страницы</li>
     <li>Session recordings для топ-5 journeys</li>
-    <li>Cookie consent совместим (1.8.4)</li>
+    <li>Cookie consent совместим (1.9.4)</li>
     <li>Retention setting (GDPR-compliant)</li>
   </ul>
 </details>
@@ -2395,7 +2624,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>❓ Hotjar vs Clarity</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.4 (cookie consent) · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.4 (cookie consent) · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -2438,7 +2667,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>GA4 vs Plausible / Simple Analytics?</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.8.4 (cookie consent) · Блокирует: —</div>
+  <div class="task-deps">Зависит от: 1.9.4 (cookie consent) · Блокирует: —</div>
 </div>
 
 <div class="task">
@@ -2637,9 +2866,9 @@
 </div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">2.6.4</span><span class="task-name">Self-service billing UI</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[MOVED from 1.6.4]</span></div>
+  <div class="task-title"><span class="task-id">2.6.4</span><span class="task-name">Self-service billing UI</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[MOVED from 1.7.4]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
-  <p class="task-desc">В админке студия сама управляет своей подпиской. <strong>Перенесено из 1.6.4 в Стадию 2 (ревизия 2026-04-30)</strong> — для пилота (бесплатный, 20 студий) UI самообслуживания не нужен; активируется только когда первые студии становятся paying в момент Pilot → Paid transition (2.6.3).</p>
+  <p class="task-desc">В админке студия сама управляет своей подпиской. <strong>Перенесено из 1.7.4 в Стадию 2 (ревизия 2026-04-30)</strong> — для пилота (бесплатный, 20 студий) UI самообслуживания не нужен; активируется только когда первые студии становятся paying в момент Pilot → Paid transition (2.6.3).</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(8)</span></summary>
   <ul>
@@ -2657,7 +2886,7 @@
   <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
   <ul><li>При отмене: read-only access или полный block? (наш стратегический Q2)</li></ul>
 </details>
-  <div class="task-deps">Зависит от: 1.6.3, 1.6.5, 2.6.3 · Блокирует: Стадию 3</div>
+  <div class="task-deps">Зависит от: 1.7.3, 1.7.5, 2.6.3 · Блокирует: Стадию 3</div>
 </div>
 
 </div><!-- /wrap -->
@@ -2722,7 +2951,7 @@
   </table>
 
   <h3>5.2 — Пропускная способность</h3>
-  <p><strong>Текущий цикл команды:</strong> 2 недели спринт → 1.6-2 недели QA → деплой. Два типа деплоев: мелкие правки (~40-50 за цикл) и большие логические изменения — всегда отдельно.</p>
+  <p><strong>Текущий цикл команды:</strong> 2 недели спринт → 1.7-2 недели QA → деплой. Два типа деплоев: мелкие правки (~40-50 за цикл) и большие логические изменения — всегда отдельно.</p>
   <div class="callout"><strong>Вопрос к tech team:</strong> реальный эстимейт по Фазам Стадии 1 в разбивке по ролям. После этого ясно можно ли распределить нагрузку или нужно усиление (дополнительный frontend / backend / дизайнер / юрист).</div>
 </section>
 
