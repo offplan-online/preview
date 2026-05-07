@@ -1,0 +1,3163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — offplan.online v8</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='5' fill='%23B8955A'/><line x1='23' y1='0' x2='23' y2='36' stroke='white' stroke-width='2.5'/><line x1='23' y1='22' x2='36' y2='22' stroke='white' stroke-width='2.5'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Brand tokens (brandbook v1.1) ───────────────────────────── */
+:root {
+  --surface-bg:        #FAFAF8;
+  --surface-card:      #FFFFFF;
+  --surface-subtle:    #F2F0ED;
+  --stone-700: #7C7574; --stone-600: #909090;
+  --stone-500: #9A9594; --stone-400: #C5C8CA;
+  --stone-200: #E4E2DF; --stone-100: #F2F0ED;
+  --text-900: #323840; --text-700: #3D3B39;
+  --text-500: #6A6865; --text-300: #A09E9C;
+  --gold: #B8955A; --gold-dim: rgba(184,149,90,0.12);
+  --gold-border: rgba(184,149,90,0.35);
+  --navy: #1E2E3E;
+  --status-ok: #6B8C6E; --status-ok-bg: rgba(107,140,110,0.12);
+  --status-ok-border: rgba(107,140,110,0.28);
+  --status-warn: #B8955A; --status-warn-bg: rgba(184,149,90,0.12);
+  --status-warn-border: rgba(184,149,90,0.30);
+  --glass-panel:    rgba(255,255,255,0.94);
+  --glass-panel-bg: rgba(248,247,245,0.92);
+  --glass-sidebar:  rgba(30,46,62,0.95);
+  --glass-workflow: rgba(255,255,255,0.90);
+  --glass-blur-lg:  blur(20px);
+  --glass-blur-md:  blur(12px);
+  --glass-blur-sm:  blur(8px);
+  --glass-border:   rgba(255,255,255,0.55);
+  --glass-border-md:rgba(255,255,255,0.30);
+  --shadow-card:  0 8px 32px rgba(0,0,0,0.18);
+  --shadow-subtle:0 2px  8px rgba(0,0,0,0.10);
+  --shadow-panel: 0 12px 48px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.12);
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --tracking-ui:    0.16em;
+  --radius-md: 4px; --radius-lg: 10px; --radius-xl: 14px; --radius-pill: 100px;
+  --dur-micro: 140ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  display: flex; height: 100vh; overflow: hidden;
+  color: var(--text-700); font-size: 14px;
+  font-weight: 500; letter-spacing: 0.25px;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 65% 50% at 75% 12%, rgba(184,149,90,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 60% at 15% 85%, rgba(30,46,62,0.35) 0%, transparent 55%),
+    linear-gradient(158deg, rgba(30,46,62,0.55) 0%, rgba(30,46,62,0.50) 100%),
+    #FAFAF8;
+}
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 90% 85% at 50% 45%, transparent 50%, rgba(0,0,0,0.14) 100%);
+}
+.sidebar, .main { position: relative; z-index: 2; }
+
+/* ── SIDEBAR ─────────────────────────────────────────────────── */
+.sidebar {
+  width: 220px; min-width: 220px;
+  background: var(--glass-sidebar);
+  backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border-right: 1px solid rgba(255,255,255,0.10);
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.sidebar-top { padding: 28px 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.sidebar-logo {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); color: #FFFFFF; text-transform: uppercase;
+}
+.sidebar-project {
+  margin-top: 14px; display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+  cursor: pointer; transition: background var(--dur-micro) ease;
+}
+.sidebar-project:hover { background: rgba(255,255,255,0.10); }
+.sidebar-project-name { font-size: 12px; color: rgba(255,255,255,0.55); font-family: var(--font-body); }
+.sidebar-project svg { fill: rgba(255,255,255,0.3); width: 14px; height: 14px; flex-shrink: 0; }
+.sidebar-section-label {
+  padding: 20px 22px 6px;
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); color: rgba(255,255,255,0.22); text-transform: uppercase;
+}
+.sidebar a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 22px; color: rgba(255,255,255,0.45);
+  text-decoration: none; font-family: var(--font-body);
+  font-size: 13px; font-weight: 400;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.sidebar a:hover { color: rgba(255,255,255,0.82); background: rgba(255,255,255,0.05); }
+.sidebar a.done { color: var(--status-ok); }
+.sidebar a.done .step-num { background: rgba(107,140,110,0.18); color: var(--status-ok); }
+.sidebar a.active { color: var(--gold); border-left-color: var(--gold); background: rgba(184,149,90,0.10); font-weight: 500; }
+.sidebar a.active .step-num { background: rgba(184,149,90,0.20); color: var(--gold); }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  font-family: var(--font-display); font-size: 10px; font-weight: 600; flex-shrink: 0;
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.28);
+}
+.sidebar-bottom { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.07); padding: 4px 0; }
+.sidebar-bottom a { color: rgba(255,255,255,0.28); font-size: 12px; }
+.sidebar-bottom a:hover { color: rgba(255,255,255,0.55); background: transparent; }
+
+/* ── MAIN ────────────────────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── WORKFLOW BAR ─────────────────────────────────────────────── */
+.workflow-bar {
+  background: var(--glass-workflow); backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 24px; display: flex; align-items: center;
+  overflow-x: auto; flex-shrink: 0; height: 40px; gap: 2px;
+}
+.wf-step { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.wf-label {
+  font-family: var(--font-display); font-size: 11.62px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  padding: 4px 10px; border-radius: var(--radius-pill); white-space: nowrap;
+}
+.wf-label.done    { color: var(--status-ok); }
+.wf-label.active  { background: rgba(30,46,62,0.82); backdrop-filter: blur(8px); color: var(--gold); }
+.wf-label.upcoming{ color: var(--stone-700); }
+.wf-arrow { color: var(--stone-400); font-size: 10px; padding: 0 2px; }
+
+/* ── CONTENT AREA ─────────────────────────────────────────────── */
+.content-area { flex: 1; display: flex; overflow: hidden; padding: 16px; gap: 14px; }
+
+/* ── SCREEN SWITCH ────────────────────────────────────────────── */
+.screen { display: none; flex: 1; overflow: hidden; }
+.screen.active { display: contents; }
+
+/* ── GLASS PANELS ─────────────────────────────────────────────── */
+.list-panel {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--glass-panel); backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border-radius: var(--radius-xl); border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-panel);
+}
+.right-panel {
+  width: 420px; min-width: 360px;
+  background: var(--glass-panel-bg); backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border-radius: var(--radius-xl); border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-panel);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.single-panel {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--glass-panel); backdrop-filter: var(--glass-blur-lg);
+  -webkit-backdrop-filter: var(--glass-blur-lg);
+  border-radius: var(--radius-xl); border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-panel);
+}
+
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; border-bottom: 1px solid rgba(228,226,223,0.70);
+  flex-shrink: 0; background: rgba(255,255,255,0.27);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+.list-header h1 {
+  font-family: var(--font-display); font-size: 17px; font-weight: 300;
+  color: var(--text-900); letter-spacing: -0.01em;
+}
+.list-header-sub { margin-top: 3px; font-size: 12px; color: var(--text-300); }
+.list-header-actions { display: flex; align-items: center; gap: 10px; }
+
+.panel-header-strip {
+  padding: 18px 22px 14px; border-bottom: 1px solid rgba(228,226,223,0.55);
+  background: rgba(255,255,255,0.31); flex-shrink: 0;
+}
+.panel-title {
+  font-family: var(--font-display); font-size: 15px; font-weight: 400;
+  color: var(--text-900); letter-spacing: -0.01em; margin-bottom: 2px;
+}
+.panel-subtitle { font-size: 12px; color: var(--text-300); }
+.panel-inner { padding: 20px 22px; flex: 1; min-height: 0; overflow-y: auto; }
+.panel-hint {
+  background: var(--gold-dim); border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md); padding: 12px 14px;
+  font-size: 12px; color: var(--stone-700); line-height: 1.65; margin-bottom: 22px;
+}
+.panel-hint strong { font-weight: 600; color: var(--text-700); }
+.panel-actions {
+  padding: 14px 22px 16px; border-top: 1px solid rgba(228,226,223,0.55);
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.31); flex-shrink: 0;
+}
+
+/* ── TABLE ──────────────────────────────────────────────────── */
+.table-wrap { flex: 1; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 9px 22px; text-align: left;
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--text-300);
+  background: rgba(255,255,255,0.39); border-bottom: 1px solid rgba(228,226,223,0.65);
+  position: sticky; top: 0; z-index: 2; backdrop-filter: var(--glass-blur-sm);
+}
+tbody tr {
+  border-bottom: 1px solid rgba(228,226,223,0.50); cursor: pointer;
+  transition: background var(--dur-micro) ease;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,0.31); }
+tbody tr.active-row { background: rgba(184,149,90,0.10); }
+tbody td { padding: 12px 22px; font-size: 13px; color: var(--text-700); }
+.expand-toggle { color: var(--text-300); font-size: 8px; margin-right: 8px; }
+tbody tr.sub-row td {
+  padding: 8px 22px 8px 46px; background: rgba(242,240,237,0.42);
+  color: var(--stone-700); font-size: 12px;
+}
+.tag-type {
+  display: inline-flex; align-items: center; padding: 3px 9px;
+  border-radius: var(--radius-pill); background: rgba(242,240,237,0.55);
+  color: var(--text-500); font-family: var(--font-display);
+  font-size: 10px; font-weight: 700; letter-spacing: var(--tracking-ui);
+  text-transform: uppercase; border: 1px solid rgba(228,226,223,0.60);
+}
+.status-badge {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px;
+  border-radius: var(--radius-pill); font-family: var(--font-display);
+  font-size: 10px; font-weight: 700; letter-spacing: var(--tracking-ui);
+  text-transform: uppercase; border: 1px solid transparent;
+}
+.status-badge.warn { background: var(--status-warn-bg); color: var(--status-warn); border-color: var(--status-warn-border); }
+.status-badge.ok   { background: var(--status-ok-bg);   color: var(--status-ok);   border-color: var(--status-ok-border); }
+.status-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+
+/* ── FORM ELEMENTS ───────────────────────────────────────────── */
+.form-field { margin-bottom: 20px; }
+.form-label {
+  display: block; font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  color: var(--text-300); margin-bottom: 8px;
+}
+.form-section-title {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; color: var(--text-700);
+  margin: 28px 0 16px; padding-bottom: 10px;
+  border-bottom: 1px solid rgba(228,226,223,0.55);
+}
+.form-section-title:first-child { margin-top: 0; }
+
+.select-styled {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); padding: 10px 14px; cursor: pointer;
+  transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.select-styled:hover { border-color: var(--stone-400); background: rgba(255,255,255,0.72); }
+.select-styled .val { font-size: 14px; color: var(--text-900); }
+.select-styled .hint { font-size: 11px; color: var(--text-300); }
+
+.text-input {
+  width: 100%; padding: 10px 14px;
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); font-size: 13px; color: var(--text-900);
+  font-family: var(--font-body); outline: none;
+  transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.text-input:focus { border-color: var(--stone-400); background: rgba(255,255,255,0.72); }
+
+.upload-zone {
+  border: 1.5px dashed rgba(197,200,202,0.60); border-radius: var(--radius-md);
+  padding: 20px; text-align: center; cursor: pointer;
+  background: rgba(255,255,255,0.34); font-size: 13px; color: var(--text-300);
+  transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.upload-zone:hover { border-color: var(--gold); background: var(--gold-dim); }
+.upload-zone.has-file {
+  border-style: solid; border-color: var(--gold); background: var(--gold-dim);
+  text-align: left; padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+}
+.upload-filename { flex: 1; font-size: 12px; color: var(--text-700); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload-replace {
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  color: var(--gold); cursor: pointer; flex-shrink: 0;
+}
+.upload-replace:hover { text-decoration: underline; }
+
+.preview-wrap {
+  margin-top: 10px; border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid rgba(228,226,223,0.55); position: relative;
+  box-shadow: var(--shadow-subtle);
+}
+.preview-inner {
+  width: 100%; height: 100px; display: flex; align-items: center; justify-content: center;
+  background: rgba(242,240,237,0.55);
+}
+.preview-inner.tall { height: 160px; }
+.preview-inner.dark { background: rgba(18,28,40,0.75); }
+
+.format-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.format-tag {
+  padding: 3px 9px; border-radius: var(--radius-pill);
+  background: rgba(242,240,237,0.55); border: 1px solid rgba(228,226,223,0.60);
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--text-500);
+}
+.format-tag.warn { background: var(--status-warn-bg); color: var(--status-warn); border-color: var(--status-warn-border); }
+
+/* ── COLOUR ROW ────────────────────────────────────────────── */
+.colour-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  margin-bottom: 8px; cursor: pointer;
+  transition: border-color var(--dur-micro) ease;
+}
+.colour-row:hover { border-color: var(--stone-400); }
+.colour-swatch { width: 26px; height: 26px; border-radius: var(--radius-md); border: 1px solid rgba(197,200,202,0.40); flex-shrink: 0; }
+.colour-hex { font-size: 13px; color: var(--text-900); font-family: 'SF Mono','Fira Code',monospace; flex: 1; }
+.colour-label { font-size: 12px; color: var(--text-300); }
+.colour-add {
+  display: flex; align-items: center; gap: 7px; margin-top: 4px;
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  color: var(--gold); cursor: pointer; padding: 6px 0;
+}
+.colour-add:hover { opacity: .75; }
+
+/* ── TOGGLE SWITCH ─────────────────────────────────────────── */
+.toggle-switch {
+  position: relative; width: 42px; height: 24px; flex-shrink: 0; cursor: pointer;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; border-radius: var(--radius-pill);
+  background: var(--stone-200); border: 1px solid rgba(197,200,202,0.60);
+  transition: background var(--dur-micro) ease, border-color var(--dur-micro) ease;
+}
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: transform var(--dur-micro) ease;
+}
+.toggle-switch.on .toggle-track { background: var(--text-900); border-color: var(--text-900); }
+.toggle-switch.on .toggle-thumb { transform: translateX(18px); }
+
+.feat-row {
+  display: flex; align-items: center; padding: 13px 22px;
+  border-bottom: 1px solid rgba(228,226,223,0.50);
+  transition: background var(--dur-micro) ease;
+}
+.feat-row:last-child { border-bottom: none; }
+.feat-row:hover { background: rgba(255,255,255,0.22); }
+.feat-name { flex: 1; font-size: 13.5px; color: var(--text-700); }
+.feat-desc { font-size: 11.5px; color: var(--text-300); margin-top: 2px; }
+
+/* ── LT MASTER-DETAIL ─────────────────────────────────────── */
+.lt-list-item {
+  padding: 14px 22px; border-bottom: 1px solid rgba(228,226,223,0.50);
+  cursor: pointer; font-size: 13.5px; color: var(--text-700);
+  transition: background var(--dur-micro) ease;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.lt-list-item:hover { background: rgba(255,255,255,0.22); }
+.lt-list-item.active { background: rgba(184,149,90,0.10); color: var(--text-900); font-weight: 500; }
+.lt-list-item .lt-chevron { font-size: 10px; color: var(--text-300); }
+.lt-list-item.active .lt-chevron { color: var(--gold); }
+
+.lt-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.lt-field-pair {
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); padding: 10px 14px;
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: text;
+  transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.lt-field-pair:hover { border-color: var(--stone-400); background: rgba(255,255,255,0.72); }
+.lt-field-label { font-size: 13px; font-weight: 500; color: var(--text-900); }
+.lt-field-value { font-size: 12px; color: var(--text-300); font-style: italic; }
+.lt-col-header {
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  color: var(--text-300); padding: 0 2px; margin-bottom: 8px;
+}
+.lt-col-headers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ── RADIO OPTION ─────────────────────────────────────────── */
+.radio-group { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 4px; }
+.radio-opt { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-700); cursor: pointer; }
+.radio-opt input { accent-color: var(--navy); width: 14px; height: 14px; }
+.remove-link { font-size: 12px; color: #C0504A; cursor: pointer; text-decoration: none; }
+.remove-link:hover { opacity: .75; }
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn-primary {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--text-900); color: #FFFFFF; border: none;
+  border-radius: var(--radius-md); padding: 8px 16px;
+  font-family: var(--font-display); font-size: 11.62px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  cursor: pointer; transition: opacity var(--dur-micro) ease;
+}
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary {
+  background: rgba(255,255,255,0.41); color: var(--stone-600);
+  border: 1px solid rgba(197,200,202,0.60);
+  border-radius: var(--radius-md); padding: 9px 20px;
+  font-family: var(--font-display); font-size: 11.62px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color var(--dur-micro) ease, background var(--dur-micro) ease;
+}
+.btn-secondary:hover { border-color: var(--stone-400); background: rgba(255,255,255,0.65); }
+.btn-save {
+  background: var(--text-900); color: #FFFFFF; border: none;
+  border-radius: var(--radius-md); padding: 10px 28px;
+  font-family: var(--font-display); font-size: 11.62px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(50,56,64,0.30);
+  transition: opacity var(--dur-micro) ease, transform var(--dur-micro) ease;
+}
+.btn-save:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn-save:active { transform: translateY(0); }
+
+/* angle presets (Buildings screen) */
+.angle-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.angle-preset {
+  padding: 5px 12px; border-radius: var(--radius-pill);
+  border: 1px solid rgba(197,200,202,0.55);
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--text-500);
+  cursor: pointer; background: rgba(255,255,255,0.41);
+  transition: all var(--dur-micro) ease;
+}
+.angle-preset:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+.angle-preset.selected { background: var(--text-900); color: #FFFFFF; border-color: var(--text-900); }
+.preview-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(30,46,62,0.75); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-md);
+  padding: 4px 10px; font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--gold);
+}
+.completion-hint { margin-top: 4px; font-size: 12px; color: var(--status-warn); display: flex; align-items: center; gap: 5px; }
+
+/* ── SEARCH BOX ───────────────────────────────────────────── */
+.search-box {
+  display: flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(197,200,202,0.60); border-radius: var(--radius-md);
+  padding: 7px 12px; background: rgba(255,255,255,0.42); width: 186px;
+}
+.search-box:focus-within { border-color: var(--stone-400); background: rgba(255,255,255,0.72); }
+.search-box input { border: none; outline: none; background: transparent; font-size: 13px; color: var(--text-700); width: 100%; font-family: var(--font-body); }
+.search-box input::placeholder { color: var(--text-300); }
+
+/* ── FIELD ROW (two-column form field, matches VV screenshot style) ─ */
+.field-row {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); padding: 11px 14px; margin-bottom: 8px;
+  cursor: pointer; transition: border-color var(--dur-micro) ease;
+}
+.field-row:hover { border-color: var(--stone-400); }
+.field-row .fval { flex: 1; font-size: 13px; color: var(--text-300); font-style: italic; }
+.field-row .fval.filled { color: var(--text-900); font-style: normal; font-weight: 500; }
+.field-row .fname { font-size: 13px; color: var(--text-500); margin-right: 10px; }
+.field-row .farrow { font-size: 11px; color: var(--text-300); }
+
+.asset-header { display: flex; justify-content: space-between; align-items: center; margin: 18px 0 10px; }
+.asset-header-title { font-size: 15px; font-weight: 500; color: var(--text-900); }
+
+.drop-zone {
+  border: 1.5px dashed rgba(197,200,202,0.60); border-radius: var(--radius-md);
+  padding: 42px 20px; text-align: center;
+  background: rgba(255,255,255,0.34); font-size: 13px; color: var(--text-300);
+  margin-top: 8px; cursor: pointer;
+}
+.drop-zone:hover { border-color: var(--gold); background: var(--gold-dim); }
+
+.btn-page-nav {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid rgba(197,200,202,0.55); background: rgba(255,255,255,0.41);
+  color: var(--text-500); font-size: 13px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: all var(--dur-micro) ease;
+}
+.btn-page-nav:hover { border-color: var(--stone-400); color: var(--text-900); }
+.page-circle {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1.5px solid var(--stone-400); background: transparent;
+  font-family: var(--font-display); font-size: 11px; font-weight: 700;
+  color: var(--text-700); display: inline-flex; align-items: center; justify-content: center;
+}
+
+.hotspots-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.hotspots-title { font-size: 15px; font-weight: 500; color: var(--text-900); }
+.hotspots-edit { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--gold); cursor: pointer; }
+.hotspots-empty { font-size: 13px; color: var(--text-500); }
+
+/* ── GALLERY ROWS ──────────────────────────────────────── */
+.gal-row-actions { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+.btn-gal-action {
+  padding: 4px 10px; border-radius: var(--radius-md);
+  font-family: var(--font-display); font-size: 9.5px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  cursor: pointer; border: 1px solid rgba(197,200,202,0.60);
+  background: rgba(255,255,255,0.41); color: var(--stone-600);
+  transition: all var(--dur-micro) ease;
+}
+.btn-gal-action:hover { border-color: var(--stone-400); background: rgba(255,255,255,0.65); }
+.btn-gal-action.danger { color: #C0504A; border-color: rgba(192,80,74,0.35); background: rgba(192,80,74,0.06); }
+.btn-gal-action.danger:hover { background: rgba(192,80,74,0.12); }
+.gal-inline-edit { display: flex; align-items: center; gap: 10px; }
+.gal-dimmed { opacity: 0.32; pointer-events: none; }
+
+/* ── ASSET ITEM ────────────────────────────────────────── */
+.asset-item {
+  border: 1px solid rgba(228,226,223,0.60); border-radius: var(--radius-md);
+  padding: 10px 12px; margin-bottom: 12px;
+  background: rgba(255,255,255,0.35);
+}
+.asset-upload-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.asset-meta-row { display: flex; align-items: flex-start; gap: 10px; }
+.asset-thumb {
+  width: 72px; height: 54px; border-radius: var(--radius-md); flex-shrink: 0;
+  border: 1px solid rgba(228,226,223,0.55);
+  background: linear-gradient(135deg,#c8d4d8,#d4ccbe);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(197,200,202,0.50); border-radius: 2px; }
+
+/* ── BUILDINGS: STATUS BADGES ──────────────────────────────── */
+.angle-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px; cursor: pointer; white-space: nowrap;
+}
+.angle-badge.no-angles { background: rgba(184,149,90,0.10); color: var(--gold); border: 1px solid rgba(184,149,90,0.35); }
+.angle-badge.has-angles { background: rgba(30,46,62,0.07); color: var(--text-700); border: 1px solid rgba(30,46,62,0.20); }
+
+/* Angle sub-row info line */
+.bld-sub-info { font-size: 12px; color: var(--text-500); }
+.bld-sub-dot { color: var(--stone-400); margin: 0 5px; }
+.bld-sub-status-ok { color: var(--status-ok); }
+
+/* Panel section labels */
+.pnl-section-label {
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  color: var(--text-500); margin: 16px 0 6px;
+}
+/* Note box */
+.note-box {
+  background: rgba(184,149,90,0.07); border: 1px solid rgba(184,149,90,0.22);
+  border-radius: var(--radius-md); padding: 10px 12px;
+  font-size: 12px; color: var(--text-700); line-height: 1.55; margin-bottom: 16px;
+}
+/* Angle name input row */
+.angle-name-row {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 8px;
+}
+.angle-name-row .anr-val { flex: 1; font-size: 14px; color: var(--text-900); font-weight: 500; }
+.angle-name-row .anr-hint { font-size: 11px; color: var(--text-300); font-style: italic; }
+/* Preset buttons */
+.angle-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.preset-btn {
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(197,200,202,0.65);
+  background: rgba(255,255,255,0.50); color: var(--text-700);
+  cursor: pointer;
+}
+.preset-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+/* File hint tags */
+.file-hints { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 8px; }
+.file-hint-tag {
+  font-family: var(--font-display); font-size: 9px; font-weight: 700;
+  letter-spacing: var(--tracking-ui); text-transform: uppercase;
+  padding: 3px 7px; border-radius: 4px;
+  background: rgba(197,200,202,0.30); color: var(--text-500);
+}
+.file-hint-tag.no { background: rgba(184,149,90,0.12); color: var(--gold); }
+/* Uploaded file row */
+.uploaded-file-row {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.50); border: 1px solid rgba(197,200,202,0.55);
+  border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 8px;
+}
+.uploaded-file-name { flex: 1; font-size: 12px; color: var(--text-700); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.uploaded-replace { font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: var(--tracking-ui); text-transform: uppercase; color: var(--gold); cursor: pointer; flex-shrink: 0; }
+
+/* ── LEVELS inline edit ──────────────────────────────────── */
+.lvl-num-input {
+  border: 1.5px solid var(--gold-border); background: rgba(255,255,255,0.85);
+  border-radius: var(--radius-md); padding: 7px 10px;
+  font-size: 14px; color: var(--text-900); font-family: var(--font-body);
+  font-weight: 500; width: 110px; outline: none;
+  transition: border-color var(--dur-micro) ease;
+}
+.lvl-num-input:focus { border-color: var(--gold); }
+.lvl-dimmed { opacity: 0.30; pointer-events: none; }
+.lvl-edit-row td { background: rgba(184,149,90,0.06); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ SIDEBAR ════════════════════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">offplan<span style="color:var(--gold)">.</span>online</div>
+    <div class="sidebar-project">
+      <span class="sidebar-project-name">Côte Palm Beach</span>
+      <svg viewBox="0 0 20 20"><path d="M5 8l5 5 5-5z"/></svg>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label">Setup</div>
+  <a id="nav-theme"        onclick="goTo('theme')"        class="done"><span class="step-num">✓</span>Theme</a>
+  <a id="nav-features"     onclick="goTo('features')"     class="done"><span class="step-num">✓</span>Features</a>
+  <a id="nav-labels"       onclick="goTo('labels')"       class="active"><span class="step-num">3</span>Labels &amp; Terms</a>
+  <a id="nav-buildings"    onclick="goTo('buildings')"    ><span class="step-num">4</span>Buildings</a>
+  <a id="nav-levels"       onclick="goTo('levels')"><span class="step-num">5</span>Levels</a>
+  <a id="nav-amenities"    onclick="goTo('amenities')"><span class="step-num">6</span>Amenities</a>
+  <a id="nav-floorplates"  onclick="goTo('floorplates')"><span class="step-num">7</span>Floor Plates</a>
+  <a id="nav-floorplans"   onclick="goTo('floorplans')"><span class="step-num">8</span>Floor Plans</a>
+  <a id="nav-units"        onclick="goTo('units')"><span class="step-num">9</span>Units</a>
+  <a id="nav-panoramas"    onclick="goTo('placeholder')"><span class="step-num">10</span>360 Panoramas</a>
+  <a id="nav-hotspots"     onclick="goTo('placeholder')"><span class="step-num">11</span>Unit Hotspots</a>
+
+  <div class="sidebar-section-label">Media</div>
+  <a id="nav-location"  onclick="goTo('location')">Location</a>
+  <a id="nav-galleries" onclick="goTo('galleries')">Galleries</a>
+  <a onclick="goTo('placeholder')">Branding</a>
+
+  <div class="sidebar-bottom">
+    <a href="#">Sign Out</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════════════════════ -->
+<div class="main">
+
+  <!-- WORKFLOW BAR (updated by JS) -->
+  <div class="workflow-bar" id="workflow-bar"></div>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area">
+
+    <!-- ══════════════ SCREEN: THEME ══════════════════════════ -->
+    <div class="screen active" id="screen-theme">
+      <!-- Left: section list -->
+      <div class="list-panel">
+        <div class="list-header">
+          <div>
+            <h1>Theme</h1>
+            <div class="list-header-sub">Branding, logos, media and colours</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <div class="lt-list-item" id="th-hlogo" onclick="selectTheme('hlogo',this)">Header Logo <span class="lt-chevron">›</span></div>
+          <div class="lt-list-item" id="th-plogo" onclick="selectTheme('plogo',this)">Popup Logo <span class="lt-chevron">›</span></div>
+          <div class="lt-list-item" id="th-favicon" onclick="selectTheme('favicon',this)">Favicon <span class="lt-chevron">›</span></div>
+          <div class="lt-list-item" id="th-sharing" onclick="selectTheme('sharing',this)">Sharing Image <span class="lt-chevron">›</span></div>
+          <div class="lt-list-item" id="th-welcome" onclick="selectTheme('welcome',this)">Welcome Media <span class="lt-chevron">›</span></div>
+          <div class="lt-list-item" id="th-colours" onclick="selectTheme('colours',this)">Colours <span class="lt-chevron">›</span></div>
+        </div>
+      </div>
+      <!-- Right: detail -->
+      <div class="right-panel" id="theme-right-panel" style="display:none;">
+
+        <!-- Header Logo -->
+        <div id="th-detail-hlogo" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Header Logo</div>
+            <div class="panel-subtitle">Shown in the top navigation bar</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Main Logo</label>
+              <div class="upload-zone has-file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span class="upload-filename">logo1.png</span>
+                <span class="upload-replace">Replace</span>
+              </div>
+              <div class="preview-wrap"><div class="preview-inner" style="height:90px;"><span style="font-size:24px;font-weight:300;color:#bbb;letter-spacing:-1px;font-family:Georgia,serif;">Tapestry</span></div></div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Custom Width (px)</label>
+              <input class="text-input" type="text" value="200" style="max-width:180px;">
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+        <!-- Popup Logo -->
+        <div id="th-detail-plogo" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Popup Logo</div>
+            <div class="panel-subtitle">Shown in the welcome modal</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Popup Logo</label>
+              <div class="upload-zone has-file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span class="upload-filename">logo2.png</span>
+                <span class="upload-replace">Replace</span>
+              </div>
+              <div class="preview-wrap"><div class="preview-inner dark" style="height:90px;"><span style="font-size:20px;font-weight:300;color:rgba(255,255,255,.85);letter-spacing:-1px;font-family:Georgia,serif;">apestry</span></div></div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Custom Width (px)</label>
+              <input class="text-input" type="text" value="150" style="max-width:180px;">
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+        <!-- Favicon -->
+        <div id="th-detail-favicon" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Favicon</div>
+            <div class="panel-subtitle">Browser tab icon — 32×32 or 64×64 px</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <div class="format-tags"><span class="format-tag">PNG</span><span class="format-tag">ICO</span><span class="format-tag">32 × 32 or 64 × 64</span></div>
+              <div class="upload-zone has-file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span class="upload-filename">favicon1.png</span>
+                <span class="upload-replace">Replace</span>
+              </div>
+              <div class="preview-wrap" style="width:72px;margin-top:12px;"><div class="preview-inner" style="height:72px;"><span style="font-size:32px;font-weight:700;color:#111;font-family:Georgia,serif;">T</span></div></div>
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+        <!-- Sharing Image -->
+        <div id="th-detail-sharing" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Sharing Image</div>
+            <div class="panel-subtitle">OG image for social media shares</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <div class="format-tags"><span class="format-tag">PNG or JPG</span><span class="format-tag">1200 × 630</span><span class="format-tag warn">No PDF</span></div>
+              <div class="upload-zone has-file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span class="upload-filename">test_sharing_img_landscape.jpg</span>
+                <span class="upload-replace">Replace</span>
+              </div>
+              <div class="preview-wrap"><div class="preview-inner tall" style="background:linear-gradient(135deg,#c8d4d8,#d8cfc8);"><span style="font-size:12px;color:rgba(0,0,0,.22);">Social share preview</span></div></div>
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+        <!-- Welcome Media -->
+        <div id="th-detail-welcome" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Welcome Media</div>
+            <div class="panel-subtitle">Shown on first visit or per session</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Type &amp; Frequency</label>
+              <div class="radio-group" style="margin-bottom:14px;">
+                <label class="radio-opt"><input type="radio" name="mtype" checked> Video</label>
+                <label class="radio-opt"><input type="radio" name="mtype"> Image</label>
+                <span style="width:1px;height:14px;background:rgba(197,200,202,.6);margin:0 4px;"></span>
+                <label class="radio-opt"><input type="radio" name="mfreq" checked> Per Session</label>
+                <label class="radio-opt"><input type="radio" name="mfreq"> Per Visit</label>
+                <a class="remove-link">Remove</a>
+              </div>
+              <div class="upload-zone has-file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                <span class="upload-filename">Buildings_From_Rooftop_promo.mp4</span>
+                <span class="upload-replace">Replace</span>
+              </div>
+              <div class="preview-wrap"><div class="preview-inner tall dark"><div style="width:42px;height:42px;background:rgba(255,255,255,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;padding-left:3px;"><div style="width:0;height:0;border-style:solid;border-width:8px 0 8px 14px;border-color:transparent transparent transparent #1E2E3E;"></div></div></div></div>
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+        <!-- Colours -->
+        <div id="th-detail-colours" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Colours</div>
+            <div class="panel-subtitle">Unit status colour coding</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Unit Status Colours</label>
+              <div class="colour-row">
+                <div class="colour-swatch" style="background:#151414;"></div>
+                <span class="colour-hex">#151414</span>
+                <span class="colour-label">Unit Unspecified</span>
+              </div>
+              <div class="colour-add">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Colour
+              </div>
+            </div>
+          </div>
+          <div class="panel-actions"><button class="btn-secondary">Discard</button><button class="btn-save">Save</button></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: FEATURES ═══════════════════════ -->
+    <div class="screen" id="screen-features">
+      <div class="list-panel">
+        <div class="list-header">
+          <div>
+            <h1>Features</h1>
+            <div class="list-header-sub">Enable or disable modules for this project</div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Filter features">
+            </div>
+            <button class="btn-primary">Save</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:55%">Feature</th><th style="width:30%">Description</th><th style="width:15%;text-align:right;padding-right:28px;">Enabled</th></tr></thead>
+            <tbody>
+              <tr><td><div class="feat-name">Project</div></td><td><span style="font-size:12px;color:var(--text-300);">Core project page</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Units</div></td><td><span style="font-size:12px;color:var(--text-300);">Unit listing &amp; detail</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Galleries</div></td><td><span style="font-size:12px;color:var(--text-300);">Photo &amp; media galleries</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Exterior</div></td><td><span style="font-size:12px;color:var(--text-300);">Building exterior views</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Interior</div></td><td><span style="font-size:12px;color:var(--text-300);">Unit interior views</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Floor Plans</div></td><td><span style="font-size:12px;color:var(--text-300);">Unit floor plan images</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Floor Plates</div></td><td><span style="font-size:12px;color:var(--text-300);">Level floor plate views</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Unit List</div></td><td><span style="font-size:12px;color:var(--text-300);">Sortable price list table</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Price List</div></td><td><span style="font-size:12px;color:var(--text-300);">Price visibility on units</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Unit Statuses</div></td><td><span style="font-size:12px;color:var(--text-300);">Available / sold / reserved</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Amenities</div></td><td><span style="font-size:12px;color:var(--text-300);">Project amenity section</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Location</div></td><td><span style="font-size:12px;color:var(--text-300);">Map &amp; location section</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Views</div></td><td><span style="font-size:12px;color:var(--text-300);">Building view directions</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Level Views</div></td><td><span style="font-size:12px;color:var(--text-300);">Per-level view images</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Unit Views</div></td><td><span style="font-size:12px;color:var(--text-300);">Per-unit view images</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Labels &amp; Terms</div></td><td><span style="font-size:12px;color:var(--text-300);">Customise UI terminology</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch on" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+              <tr><td><div class="feat-name">Panorama Optimisation</div></td><td><span style="font-size:12px;color:var(--text-300);">Compress 360° on upload</span></td><td style="text-align:right;padding-right:28px;"><div class="toggle-switch" onclick="toggleFeat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: LABELS & TERMS ═════════════════ -->
+    <div class="screen" id="screen-labels">
+      <div class="list-panel">
+        <div class="list-header">
+          <div>
+            <h1>Labels &amp; Terms</h1>
+            <div class="list-header-sub">Customise how the interface names things for your project</div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <div class="lt-list-item" id="lt-top" onclick="selectTerm('top',this)">
+            Top Menu <span class="lt-chevron">›</span>
+          </div>
+          <div class="lt-list-item" id="lt-bottom" onclick="selectTerm('bottom',this)">
+            Bottom Menu <span class="lt-chevron">›</span>
+          </div>
+          <div class="lt-list-item" id="lt-interface" onclick="selectTerm('interface',this)">
+            Interface Terms <span class="lt-chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel" id="labels-right-panel" style="display:none;">
+        <!-- Top Menu detail -->
+        <div id="lt-detail-top" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Top Menu</div>
+            <div class="panel-subtitle">Navigation labels shown in the top bar</div>
+          </div>
+          <div class="panel-inner">
+            <div class="lt-col-headers">
+              <div class="lt-col-header">Plural</div>
+              <div class="lt-col-header">Singular</div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Exterior</span><span class="lt-field-value">Exterior</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Exterior</span><span class="lt-field-value">Exterior</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Interior</span><span class="lt-field-value">Interior</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Interior</span><span class="lt-field-value">Interior</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Locations</span><span class="lt-field-value">Locations</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Location</span><span class="lt-field-value">Location</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Level Views</span><span class="lt-field-value">Level Views</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Level View</span><span class="lt-field-value">Level View</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Unit Views</span><span class="lt-field-value">Unit Views</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Unit View</span><span class="lt-field-value">Unit View</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Amenities</span><span class="lt-field-value">Amenities</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Amenity</span><span class="lt-field-value">Amenity</span></div>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Bottom Menu detail -->
+        <div id="lt-detail-bottom" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Bottom Menu</div>
+            <div class="panel-subtitle">Navigation labels shown in the bottom bar</div>
+          </div>
+          <div class="panel-inner">
+            <div class="lt-col-headers">
+              <div class="lt-col-header">Plural</div>
+              <div class="lt-col-header">Singular</div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Floor Plates</span><span class="lt-field-value">Floor Plates</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Floor Plate</span><span class="lt-field-value">Floor Plate</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Galleries</span><span class="lt-field-value">Galleries</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Gallery</span><span class="lt-field-value">Gallery</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Unit Lists</span><span class="lt-field-value">Unit Lists</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Unit List</span><span class="lt-field-value">Unit List</span></div>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Interface Terms detail -->
+        <div id="lt-detail-interface" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Interface Terms</div>
+            <div class="panel-subtitle">Admin panel labels and object names</div>
+          </div>
+          <div class="panel-inner">
+            <div class="lt-col-headers">
+              <div class="lt-col-header">Plural</div>
+              <div class="lt-col-header">Singular</div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Buildings</span><span class="lt-field-value">Buildings</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Building</span><span class="lt-field-value">Building</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Areas</span><span class="lt-field-value">Areas</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Areas</span><span class="lt-field-value">Area</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Flat</span><span class="lt-field-value">Units</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Flat</span><span class="lt-field-value">Unit</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Levels</span><span class="lt-field-value">Levels</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Levels</span><span class="lt-field-value">Level</span></div>
+            </div>
+            <div class="lt-fields-grid">
+              <div class="lt-field-pair"><span class="lt-field-label">Floor Plans</span><span class="lt-field-value">Floor Plans</span></div>
+              <div class="lt-field-pair"><span class="lt-field-label">Floor Plan</span><span class="lt-field-value">Floor Plan</span></div>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: BUILDINGS ══════════════════════ -->
+    <div class="screen" id="screen-buildings">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>3 Buildings</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 1</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openBldPanel('building-create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:40%">Name</th><th style="width:10%">Angles</th><th style="width:16%">Type</th><th style="width:34%">Status</th></tr></thead>
+            <tbody>
+              <!-- Development -->
+              <tr id="bld-row-dev" onclick="toggleBldExpand('dev')">
+                <td><span class="expand-toggle" id="bld-toggle-dev">▶</span>Development</td>
+                <td>0</td>
+                <td></td>
+                <td><span class="angle-badge no-angles" onclick="event.stopPropagation();openBldPanel('angle-create','Development')">+ No Angles</span></td>
+              </tr>
+
+              <!-- House and Land (expanded, East selected) -->
+              <tr id="bld-row-hal" onclick="toggleBldExpand('hal')">
+                <td><span class="expand-toggle" id="bld-toggle-hal">▼</span>House and Land</td>
+                <td>3</td>
+                <td><span class="tag-type">Image</span></td>
+                <td><span class="angle-badge has-angles">+ 3 Angles</span></td>
+              </tr>
+              <tr class="sub-row bld-angle-sub" data-parent="hal" onclick="selectAngle(this,'House and Land','East')">
+                <td colspan="4"><span class="bld-sub-info" style="padding-left:46px;">East<span class="bld-sub-dot">·</span><span class="bld-sub-status-ok">Image uploaded</span></span></td>
+              </tr>
+              <tr class="sub-row bld-angle-sub" data-parent="hal" onclick="selectAngle(this,'House and Land','North')">
+                <td colspan="4"><span class="bld-sub-info" style="padding-left:46px;">North<span class="bld-sub-dot">·</span><span class="bld-sub-status-ok">Image uploaded</span></span></td>
+              </tr>
+              <tr class="sub-row bld-angle-sub" data-parent="hal" onclick="selectAngle(this,'House and Land','West')">
+                <td colspan="4"><span class="bld-sub-info" style="padding-left:46px;">West<span class="bld-sub-dot">·</span><span style="color:var(--stone-500)">No image</span></span></td>
+              </tr>
+
+              <!-- Building 2 -->
+              <tr id="bld-row-b2" onclick="toggleBldExpand('b2')">
+                <td><span class="expand-toggle" id="bld-toggle-b2">▶</span>Building 2</td>
+                <td>0</td>
+                <td><span class="tag-type">Image</span></td>
+                <td><span class="angle-badge no-angles" onclick="event.stopPropagation();openBldPanel('angle-create','Building 2')">+ No Angles</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel: 4 states -->
+      <div class="right-panel" id="buildings-right-panel" style="display:none;">
+
+        <!-- Empty -->
+        <div id="bld-pnl-empty" style="display:none;flex-direction:column;flex:1;align-items:center;justify-content:center;gap:8px;">
+          <div style="font-size:28px;opacity:.12;">◻</div>
+          <p style="font-size:13px;color:var(--text-300);">Select an angle or click Create</p>
+        </div>
+
+        <!-- Building Creation -->
+        <div id="bld-pnl-building-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Building Creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row">
+              <span class="fval">Please Add</span>
+              <span class="fname">Building Name</span>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please select</span>
+              <span class="fname">Type</span>
+              <span class="farrow">▾</span>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please select</span>
+              <span class="fname">Default Unit Walkthrough</span>
+              <span class="farrow">▾</span>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please select</span>
+              <span class="fname">Default Unit View</span>
+              <span class="farrow">▾</span>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please select</span>
+              <span class="fname">Default Level View</span>
+              <span class="farrow">▾</span>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please select</span>
+              <span class="fname">Default Floor Plan Level</span>
+              <span class="farrow">▾</span>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openBldPanel('empty')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Exterior Angle Creation -->
+        <div id="bld-pnl-angle-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Exterior Angle</div>
+            <div class="panel-subtitle" id="bld-angle-create-sub">House and Land · New angle</div>
+          </div>
+          <div class="panel-inner">
+            <div class="note-box">Add one angle per visible side (East, West, North…). Unit hotspots are pinned here in <strong>Step 10</strong> — after Units are set up.</div>
+            <div class="pnl-section-label">Angle Name</div>
+            <div class="angle-name-row">
+              <span class="anr-val" id="bld-create-angle-val">East</span>
+              <span class="anr-hint">pick below or rename</span>
+            </div>
+            <div class="angle-presets" id="bld-create-presets">
+              <button class="preset-btn active" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">East</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">West</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">North</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">South</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">NE</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">NW</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">SE</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">SW</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">Front</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-create-angle-val','bld-create-presets')">Back</button>
+            </div>
+            <div class="pnl-section-label">Exterior Image</div>
+            <div class="file-hints">
+              <span class="file-hint-tag">PNG or JPG</span>
+              <span class="file-hint-tag">Max 5 MB</span>
+              <span class="file-hint-tag no">No PDF</span>
+              <span class="file-hint-tag">Landscape preferred</span>
+            </div>
+            <div class="drop-zone">Drag and drop an image file here, or click to select</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openBldPanel('empty')">Discard</button>
+            <button class="btn-save">Save Angle</button>
+          </div>
+        </div>
+
+        <!-- Exterior Angle Information -->
+        <div id="bld-pnl-angle-info" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Exterior Angle</div>
+            <div class="panel-subtitle">House and Land · East</div>
+          </div>
+          <div class="panel-inner">
+            <div class="pnl-section-label">Angle Name</div>
+            <div class="angle-name-row">
+              <span class="anr-val" id="bld-angle-name-val">East</span>
+              <span class="anr-hint">pick below or rename</span>
+            </div>
+            <div class="angle-presets" id="bld-info-presets">
+              <button class="preset-btn active" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">East</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">West</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">North</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">South</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">NE</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">NW</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">SE</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">SW</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">Front</button>
+              <button class="preset-btn" onclick="setAnglePreset(this,'bld-angle-name-val','bld-info-presets')">Back</button>
+            </div>
+            <div class="pnl-section-label">Exterior Image</div>
+            <div class="file-hints">
+              <span class="file-hint-tag">PNG or JPG</span>
+              <span class="file-hint-tag">Max 5 MB</span>
+              <span class="file-hint-tag no">No PDF</span>
+              <span class="file-hint-tag">Landscape preferred</span>
+            </div>
+            <div class="uploaded-file-row">
+              <span style="font-size:14px;">📄</span>
+              <span class="uploaded-file-name">2-JPEG_streetscape_2_cote_palm_beac…</span>
+              <span class="uploaded-replace">Replace</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner" style="height:150px;background:linear-gradient(160deg,#c8d4d8 0%,#b8c8cc 40%,#a8bcc2 100%);position:relative;overflow:hidden;">
+                <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:70px;height:110px;background:rgba(80,90,100,0.45);border-radius:2px 2px 0 0;"></div>
+                <div style="position:absolute;bottom:0;left:calc(50% + 40px);width:40px;height:75px;background:rgba(80,90,100,0.30);border-radius:2px 2px 0 0;"></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:rgba(100,110,90,0.40);"></div>
+                <span id="bld-preview-label" style="position:absolute;top:10px;right:12px;font-family:var(--font-display);font-size:9px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:rgba(255,255,255,.55);">East Angle</span>
+              </div>
+            </div>
+            <div style="margin-top:18px;">
+              <div class="hotspots-header">
+                <span class="hotspots-title">Hotspots</span>
+                <a class="hotspots-edit">Edit</a>
+              </div>
+              <p class="hotspots-empty">There are currently 0 Hotspots on this angle</p>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openBldPanel('empty')">Discard</button>
+            <button class="btn-save">Save Angle</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: GALLERIES ═══════════════════════ -->
+    <div class="screen" id="screen-galleries">
+      <!-- Left: galleries list -->
+      <div class="list-panel">
+        <div class="list-header">
+          <div>
+            <h1>Galleries</h1>
+            <div class="list-header-sub">3 galleries · 37 total assets</div>
+          </div>
+          <div class="list-header-actions">
+            <button class="btn-primary" onclick="openGalPanel('gallery-create')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:40%">Name</th><th style="width:10%">Albums</th><th style="width:50%"></th></tr></thead>
+            <tbody>
+              <!-- Gallery: Test quality -->
+              <tr id="gal-row-testq" class="gal-gallery-row" onclick="toggleGalExpand('testq')">
+                <td><span class="expand-toggle" id="gal-toggle-testq">▶</span>Test quality</td>
+                <td>5</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();openGalPanel('album-create','Test quality')">Add Album</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startGalEdit('testq','Test quality')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation();">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="gal-edit-testq" style="display:none;">
+                <td colspan="3" style="padding:8px 22px;">
+                  <div class="gal-inline-edit">
+                    <input class="text-input" id="gal-input-testq" type="text" value="Test quality" style="max-width:260px;">
+                    <button class="btn-secondary" onclick="cancelGalEdit('testq')">Discard</button>
+                    <button class="btn-save" onclick="cancelGalEdit('testq')">Confirm</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="sub-row gal-album-sub" data-parent="testq" style="display:none;" onclick="clickAlbumRow(this,'Test quality','Render 1',3)"><td style="padding-left:46px;">Render 1</td><td>3</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="testq" style="display:none;" onclick="clickAlbumRow(this,'Test quality','Render 2',4)"><td style="padding-left:46px;">Render 2</td><td>4</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="testq" style="display:none;" onclick="clickAlbumRow(this,'Test quality','Day',6)"><td style="padding-left:46px;">Day</td><td>6</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="testq" style="display:none;" onclick="clickAlbumRow(this,'Test quality','Night',5)"><td style="padding-left:46px;">Night</td><td>5</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="testq" style="display:none;" onclick="clickAlbumRow(this,'Test quality','Aerial',7)"><td style="padding-left:46px;">Aerial</td><td>7</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+
+              <!-- Gallery: Renders (expanded by default) -->
+              <tr id="gal-row-renders" class="gal-gallery-row" onclick="toggleGalExpand('renders')">
+                <td><span class="expand-toggle" id="gal-toggle-renders">▼</span>Renders</td>
+                <td>31</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();openGalPanel('album-create','Renders')">Add Album</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startGalEdit('renders','Renders')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation();">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="gal-edit-renders" style="display:none;">
+                <td colspan="3" style="padding:8px 22px;">
+                  <div class="gal-inline-edit">
+                    <input class="text-input" id="gal-input-renders" type="text" value="Renders" style="max-width:260px;">
+                    <button class="btn-secondary" onclick="cancelGalEdit('renders')">Discard</button>
+                    <button class="btn-save" onclick="cancelGalEdit('renders')">Confirm</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="sub-row gal-album-sub" data-parent="renders" onclick="clickAlbumRow(this,'Renders','Interior',15)"><td style="padding-left:46px;">Interior</td><td>15</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="renders" onclick="clickAlbumRow(this,'Renders','Pool',2)"><td style="padding-left:46px;">Pool</td><td>2</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="renders" onclick="clickAlbumRow(this,'Renders','Communal',5)"><td style="padding-left:46px;">Communal</td><td>5</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="renders" onclick="clickAlbumRow(this,'Renders','Lobby',4)"><td style="padding-left:46px;">Lobby</td><td>4</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+              <tr class="sub-row gal-album-sub" data-parent="renders" onclick="clickAlbumRow(this,'Renders','Exterior',5)"><td style="padding-left:46px;">Exterior</td><td>5</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+
+              <!-- Gallery: Post-Dep Test -->
+              <tr id="gal-row-postdep" class="gal-gallery-row" onclick="toggleGalExpand('postdep')">
+                <td><span class="expand-toggle" id="gal-toggle-postdep">▶</span>Post-Dep Test</td>
+                <td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();openGalPanel('album-create','Post-Dep Test')">Add Album</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startGalEdit('postdep','Post-Dep Test')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation();">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="gal-edit-postdep" style="display:none;">
+                <td colspan="3" style="padding:8px 22px;">
+                  <div class="gal-inline-edit">
+                    <input class="text-input" id="gal-input-postdep" type="text" value="Post-Dep Test" style="max-width:260px;">
+                    <button class="btn-secondary" onclick="cancelGalEdit('postdep')">Discard</button>
+                    <button class="btn-save" onclick="cancelGalEdit('postdep')">Confirm</button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="sub-row gal-album-sub" data-parent="postdep" style="display:none;" onclick="clickAlbumRow(this,'Post-Dep Test','Test Album',1)"><td style="padding-left:46px;">Test Album</td><td>1</td><td><a class="remove-link" onclick="event.stopPropagation();">Delete</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel: multi-state -->
+      <div class="right-panel" id="galleries-right-panel" style="display:none;">
+        <!-- Empty state -->
+        <div id="gal-pnl-empty" style="display:none;flex-direction:column;flex:1;align-items:center;justify-content:center;gap:8px;">
+          <div style="font-size:28px;opacity:.12;">◻</div>
+          <p style="font-size:13px;color:var(--text-300);">Select an album or click Create</p>
+        </div>
+
+        <!-- Gallery Creation -->
+        <div id="gal-pnl-gallery-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Gallery Creation</div>
+            <div class="panel-subtitle">Add a new gallery to this project</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Gallery Name</label>
+              <input class="text-input" type="text" placeholder="e.g. Aerial">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Gallery Order</label>
+              <input class="text-input" type="number" value="4" style="max-width:100px;">
+            </div>
+            <div class="form-section-title">First Album</div>
+            <div class="form-field">
+              <label class="form-label">Album Name</label>
+              <input class="text-input" type="text" placeholder="e.g. Exterior">
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openGalPanel('empty')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Album Information -->
+        <div id="gal-pnl-album-info" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Album Information</div>
+            <div class="panel-subtitle" id="gal-album-subtitle">Renders · Interior</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Album Name</label>
+              <input class="text-input" id="gal-album-name" type="text" value="Interior">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Album Order</label>
+              <input class="text-input" type="number" value="1" style="max-width:100px;">
+            </div>
+            <div class="form-section-title">Assets</div>
+            <div class="asset-item">
+              <div class="asset-upload-row">
+                <div class="upload-zone has-file" style="flex:1;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span class="upload-filename">interior_living_01.jpg</span>
+                  <span class="upload-replace">Replace</span>
+                </div>
+                <a class="remove-link" style="flex-shrink:0;margin-left:8px;">Remove</a>
+              </div>
+              <div class="asset-meta-row">
+                <div class="asset-thumb" style="background:linear-gradient(135deg,#c8c8bc,#d8d0c4);"></div>
+                <div>
+                  <label class="form-label">Panorama Order</label>
+                  <input class="text-input" type="number" value="1" style="max-width:72px;">
+                </div>
+              </div>
+            </div>
+            <div class="asset-item">
+              <div class="asset-upload-row">
+                <div class="upload-zone has-file" style="flex:1;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span class="upload-filename">interior_bedroom_02.jpg</span>
+                  <span class="upload-replace">Replace</span>
+                </div>
+                <a class="remove-link" style="flex-shrink:0;margin-left:8px;">Remove</a>
+              </div>
+              <div class="asset-meta-row">
+                <div class="asset-thumb" style="background:linear-gradient(135deg,#b8c0b0,#c8c4b8);"></div>
+                <div>
+                  <label class="form-label">Panorama Order</label>
+                  <input class="text-input" type="number" value="2" style="max-width:72px;">
+                </div>
+              </div>
+            </div>
+            <div class="form-section-title">New Asset</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-secondary" style="display:flex;align-items:center;gap:6px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Image
+              </button>
+              <button class="btn-secondary" style="display:flex;align-items:center;gap:6px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Video
+              </button>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openGalPanel('empty')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Album Creation -->
+        <div id="gal-pnl-album-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Album Creation</div>
+            <div class="panel-subtitle" id="gal-album-create-subtitle">In Renders</div>
+          </div>
+          <div class="panel-inner">
+            <div class="form-field">
+              <label class="form-label">Album Name</label>
+              <input class="text-input" type="text" placeholder="e.g. Lobby">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Album Order</label>
+              <input class="text-input" type="number" value="6" style="max-width:100px;">
+            </div>
+            <div class="form-section-title">New Asset</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn-secondary" style="display:flex;align-items:center;gap:6px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Image
+              </button>
+              <button class="btn-secondary" style="display:flex;align-items:center;gap:6px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Video
+              </button>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openGalPanel('empty')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: LOCATION ══════════════════════════ -->
+    <div class="screen" id="screen-location">
+      <!-- Left: upload form -->
+      <div class="list-panel">
+        <div class="list-header">
+          <div>
+            <h1>Location</h1>
+            <div class="list-header-sub">Aerial image shown on the project location section</div>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:20px 22px;">
+          <div class="form-section-title" style="margin-top:0;">Asset</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <span style="font-size:13px;color:var(--text-500);">Location aerial image</span>
+            <a class="remove-link">Remove</a>
+          </div>
+          <div class="form-field">
+            <div class="format-tags">
+              <span class="format-tag">Screenshot</span>
+              <span class="format-tag">Location Aerial Image</span>
+            </div>
+            <div class="upload-zone has-file">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8955A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span class="upload-filename">aerial_palm_beach_dubai.jpg</span>
+              <span class="upload-replace">Browse</span>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Image Order</label>
+            <input class="text-input" type="number" value="1" style="max-width:100px;">
+          </div>
+        </div>
+        <div class="panel-actions">
+          <div></div>
+          <button class="btn-save">Save</button>
+        </div>
+      </div>
+      <!-- Right: aerial preview -->
+      <div class="right-panel" style="width:520px;min-width:400px;">
+        <div class="panel-header-strip">
+          <div class="panel-title">Preview</div>
+          <div class="panel-subtitle">aerial_palm_beach_dubai.jpg</div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:20px 22px;display:flex;flex-direction:column;gap:14px;">
+          <div class="preview-wrap" style="flex:1;">
+            <div class="preview-inner" style="height:100%;min-height:280px;position:relative;overflow:hidden;background:linear-gradient(160deg,#7ab0c8 0%,#6ea4bc 30%,#5896ae 60%,#4a88a0 100%);">
+              <div style="position:absolute;inset:0;opacity:.28;background:repeating-linear-gradient(0deg,transparent,transparent 22px,rgba(255,255,255,.14) 22px,rgba(255,255,255,.14) 23px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,255,255,.08) 30px,rgba(255,255,255,.08) 31px);"></div>
+              <!-- abstract building footprints -->
+              <div style="position:absolute;bottom:38px;left:42%;width:52px;height:34px;background:rgba(255,255,255,.20);border-radius:3px;border:1px solid rgba(255,255,255,.36);"></div>
+              <div style="position:absolute;bottom:28px;left:55%;width:34px;height:22px;background:rgba(255,255,255,.15);border-radius:2px;border:1px solid rgba(255,255,255,.24);"></div>
+              <div style="position:absolute;bottom:44px;left:30%;width:42px;height:28px;background:rgba(255,255,255,.17);border-radius:3px;border:1px solid rgba(255,255,255,.28);"></div>
+              <div style="position:absolute;bottom:20px;left:62%;width:24px;height:16px;background:rgba(255,255,255,.12);border-radius:2px;border:1px solid rgba(255,255,255,.18);"></div>
+              <!-- location pin -->
+              <div style="position:absolute;top:38%;left:48%;transform:translate(-50%,-50%);">
+                <div style="width:16px;height:16px;border-radius:50%;background:var(--gold);border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.35);"></div>
+              </div>
+              <span style="position:absolute;bottom:10px;right:14px;font-family:var(--font-display);font-size:9px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:rgba(255,255,255,.40);">Location Aerial</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;">
+            <a href="#" style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--gold);text-decoration:none;">Edit</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PLACEHOLDER ════════════════════════════ -->
+    <!-- ══════════════ SCREEN: LEVELS ══════════════════════════ -->
+    <div class="screen" id="screen-levels">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>27 Levels</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 3</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openLvlPanel('create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Level</th><th style="width:180px"></th></tr></thead>
+            <tbody id="lvl-tbody">
+
+              <tr class="lvl-row" id="lvl-row-0" onclick="clickLvlRow(this,-1,'Test')">
+                <td>-1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(0,-1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-0" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="-1">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(0)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(0)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-1" onclick="clickLvlRow(this,0,'')">
+                <td>0</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(1,0)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-1" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="0">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(1)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(1)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-2" onclick="clickLvlRow(this,1,'')">
+                <td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-2" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="1">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(2)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(2)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-3" onclick="clickLvlRow(this,2,'')">
+                <td>2</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(3,2)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-3" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="2">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(3)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(3)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-4" onclick="clickLvlRow(this,3,'')">
+                <td>3</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(4,3)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-4" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="3">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(4)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(4)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-5" onclick="clickLvlRow(this,4,'')">
+                <td>4</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(5,4)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-5" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="4">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(5)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(5)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-6" onclick="clickLvlRow(this,5,'')">
+                <td>5</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(6,5)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-6" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="5">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(6)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(6)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-7" onclick="clickLvlRow(this,6,'')">
+                <td>6</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(7,6)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-7" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="6">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(7)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(7)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-8" onclick="clickLvlRow(this,7,'')">
+                <td>7</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(8,7)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-8" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="7">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(8)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(8)">Confirm</button>
+                </div>
+              </td></tr>
+
+              <tr class="lvl-row" id="lvl-row-9" onclick="clickLvlRow(this,8,'')">
+                <td>8</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startLvlEdit(9,8)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr class="lvl-edit-row" id="lvl-edit-9" style="display:none;"><td colspan="2" style="padding:8px 22px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="number" class="lvl-num-input" value="8">
+                  <div style="flex:1"></div>
+                  <button class="btn-gal-action" onclick="cancelLvlEdit(9)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmLvlEdit(9)">Confirm</button>
+                </div>
+              </td></tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel: create + info -->
+      <div class="right-panel" id="levels-right-panel" style="display:none;">
+
+        <!-- Level creation -->
+        <div id="lvl-pnl-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Level creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Level</span></div>
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Label</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">Asset</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span>
+              <span class="fname">View Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:10px;">Browse</span>
+            </div>
+            <div class="drop-zone">Drag and drop an image file here, or click to select it</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openLvlPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Information (editing existing level) -->
+        <div id="lvl-pnl-info" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Information</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval filled" id="lvl-info-num">-1</span><span class="fname">Level</span></div>
+            <div class="field-row"><span class="fval" id="lvl-info-label">Please Add</span><span class="fname">Label</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">Asset</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span>
+              <span class="fname">View Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:10px;">Browse</span>
+            </div>
+            <div class="drop-zone">Drag and drop an image file here, or click to select it</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openLvlPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: AMENITIES ══════════════════════════ -->
+    <div class="screen" id="screen-amenities">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>1 Amenity</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 1</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openAmnPanel('create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th style="width:110px"></th></tr></thead>
+            <tbody id="amn-tbody">
+              <tr class="amn-row" onclick="clickAmnRow(this,'Gymnasium')">
+                <td>Gymnasium</td>
+                <td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="right-panel" id="amenities-right-panel" style="display:none;">
+
+        <!-- Create -->
+        <div id="amn-pnl-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Amenity Creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Amenity Title</span></div>
+            <div class="field-row"><span class="fval">0</span><span class="fname">Amenity Order</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">New Asset</span>
+            </div>
+            <button class="btn-gal-action">+ Panorama</button>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openAmnPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Information -->
+        <div id="amn-pnl-info" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Amenity Information</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval filled" id="amn-info-title">Gymnasium</span><span class="fname">Amenity Title</span></div>
+            <div class="field-row"><span class="fval filled">1</span><span class="fname">Amenity Order</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">Panorama Image 1</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval filled" style="font-size:11px;max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">test_gym%201.webp</span>
+              <span class="fname">Panorama Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner dark" style="height:108px;">
+                <span style="color:rgba(255,255,255,0.10);font-size:10px;letter-spacing:0.1em;">360°</span>
+              </div>
+            </div>
+            <div class="field-row" style="margin-top:8px;"><span class="fval filled">1 of 1</span><span class="fname">Panorama Title</span></div>
+            <div class="field-row"><span class="fval filled">1</span><span class="fname">Panorama Order</span></div>
+            <div class="hotspots-header" style="margin-top:12px;">
+              <span class="hotspots-title" style="font-size:13px;">Hotspots (1 pcs)</span>
+              <span class="hotspots-edit">Edit</span>
+            </div>
+            <div class="asset-header" style="margin-top:4px;">
+              <span class="asset-header-title">New Asset</span>
+            </div>
+            <button class="btn-gal-action">+ Panorama</button>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openAmnPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: UNITS ══════════════════════════════ -->
+    <div class="screen" id="screen-units">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>23 Units</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 3</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openUnitPanel('create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th style="width:170px">Price</th>
+                <th style="width:170px">Status</th>
+                <th style="width:270px"></th>
+              </tr>
+            </thead>
+            <tbody id="unit-tbody">
+
+              <!-- ── Unit 0: 6k test (has rooms) ── -->
+              <tr class="unit-row" id="unit-row-0">
+                <td><span class="expand-toggle" id="unit-toggle-0" onclick="event.stopPropagation();toggleUnitExpand(0)">▶</span> 6k test</td>
+                <td></td><td>Sold</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(0)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(0,'6k test','','Sold')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-0" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="6k test" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Sold</option><option>Available</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(0)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(0)">Confirm</button>
+                </div></td>
+              </tr>
+              <tr data-unit="0" id="unit-sub-0-0" class="unit-sub-row" style="display:none;" onclick="clickRoomRow(this,'HP 60')"><td colspan="3" style="padding:8px 22px 8px 46px;font-size:13px;color:var(--stone-700);">HP 60</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr data-unit="0" id="unit-sub-0-1" class="unit-sub-row" style="display:none;" onclick="clickRoomRow(this,'Without HP 60')"><td colspan="3" style="padding:8px 22px 8px 46px;font-size:13px;color:var(--stone-700);">Without HP 60</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr data-unit="0" id="unit-sub-0-2" class="unit-sub-row" style="display:none;" onclick="clickRoomRow(this,'HP 80')"><td colspan="3" style="padding:8px 22px 8px 46px;font-size:13px;color:var(--stone-700);">HP 80</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr data-unit="0" id="unit-sub-0-3" class="unit-sub-row" style="display:none;" onclick="clickRoomRow(this,'HP 40')"><td colspan="3" style="padding:8px 22px 8px 46px;font-size:13px;color:var(--stone-700);">HP 40</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+
+              <!-- ── Units 1–9 (no rooms) ── -->
+              <tr class="unit-row" id="unit-row-1">
+                <td><span class="expand-toggle" id="unit-toggle-1" onclick="event.stopPropagation();toggleUnitExpand(1)">▶</span> Highpass mode test</td>
+                <td>$111</td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(1)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(1,'Highpass mode test','$111','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-1" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Highpass mode test" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" value="$111" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(1)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(1)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-2">
+                <td><span class="expand-toggle" id="unit-toggle-2" onclick="event.stopPropagation();toggleUnitExpand(2)">▶</span> Narrow 2.5k 100</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(2)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(2,'Narrow 2.5k 100','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-2" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 2.5k 100" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(2)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(2)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-3">
+                <td><span class="expand-toggle" id="unit-toggle-3" onclick="event.stopPropagation();toggleUnitExpand(3)">▶</span> Narrow 2.5k 40</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(3)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(3,'Narrow 2.5k 40','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-3" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 2.5k 40" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(3)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(3)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-4">
+                <td><span class="expand-toggle" id="unit-toggle-4" onclick="event.stopPropagation();toggleUnitExpand(4)">▶</span> Narrow 2.5k 60</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(4)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(4,'Narrow 2.5k 60','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-4" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 2.5k 60" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(4)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(4)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-5">
+                <td><span class="expand-toggle" id="unit-toggle-5" onclick="event.stopPropagation();toggleUnitExpand(5)">▶</span> Narrow 2.5k 80</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(5)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(5,'Narrow 2.5k 80','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-5" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 2.5k 80" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(5)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(5)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-6">
+                <td><span class="expand-toggle" id="unit-toggle-6" onclick="event.stopPropagation();toggleUnitExpand(6)">▶</span> Narrow 3k 100</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(6)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(6,'Narrow 3k 100','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-6" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 3k 100" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(6)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(6)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-7">
+                <td><span class="expand-toggle" id="unit-toggle-7" onclick="event.stopPropagation();toggleUnitExpand(7)">▶</span> Narrow 3k 40</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(7)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(7,'Narrow 3k 40','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-7" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 3k 40" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(7)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(7)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-8">
+                <td><span class="expand-toggle" id="unit-toggle-8" onclick="event.stopPropagation();toggleUnitExpand(8)">▶</span> Narrow 3k 60</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(8)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(8,'Narrow 3k 60','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-8" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 3k 60" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(8)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(8)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="unit-row" id="unit-row-9">
+                <td><span class="expand-toggle" id="unit-toggle-9" onclick="event.stopPropagation();toggleUnitExpand(9)">▶</span> Narrow 3k 80</td>
+                <td></td><td>Available</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();clickAddRoom(9)">Add Room</button>
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startUnitEdit(9,'Narrow 3k 80','','Available')">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="unit-edit-9" class="unit-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td><input type="text" class="lvl-num-input" value="Narrow 3k 80" style="width:170px;font-size:13px;"></td>
+                <td><input type="text" class="lvl-num-input" placeholder="Price" style="width:110px;font-size:13px;"></td>
+                <td><select style="border:1.5px solid var(--gold-border);background:rgba(255,255,255,0.85);border-radius:var(--radius-md);padding:7px 10px;font-size:13px;color:var(--text-900);font-family:var(--font-body);font-weight:500;outline:none;width:120px;"><option>Available</option><option>Sold</option></select></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelUnitEdit(9)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmUnitEdit(9)">Confirm</button>
+                </div></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="right-panel" id="units-right-panel" style="display:none;">
+
+        <!-- Unit Creation -->
+        <div id="unit-pnl-create" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Unit creation</div>
+          </div>
+          <div class="panel-inner">
+            <input type="text" class="text-input" placeholder="Unit Number" style="margin-bottom:8px;">
+            <input type="text" class="text-input" placeholder="Unit Price" style="margin-bottom:16px;">
+            <div class="field-row"><span class="fval">Please select</span><span class="fname">Unit Status</span><span class="farrow">▾</span></div>
+            <div class="field-row"><span class="fval">Please select</span><span class="fname">Unit Level</span><span class="farrow">▾</span></div>
+            <div class="field-row"><span class="fval">Please select</span><span class="fname">Unit Aspect</span><span class="farrow">▾</span></div>
+            <div class="field-row"><span class="fval">Please select</span><span class="fname">Floor Plan Type</span><span class="farrow">▾</span></div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Unit View Image</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span>
+              <span class="fname">Unit View Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="drop-zone" style="padding:24px 20px;">Drag and drop an image file here, or click to select it</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openUnitPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Room Creation -->
+        <div id="unit-pnl-room-create" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Room Creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Room Title</span></div>
+            <div class="field-row"><span class="fval">0</span><span class="fname">Room Order</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="asset-header"><span class="asset-header-title">New Asset</span></div>
+            <button class="btn-gal-action">+ Panorama</button>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openUnitPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Room Information -->
+        <div id="unit-pnl-room-info" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Room Information</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval filled" id="unit-room-title">HP 60</span><span class="fname">Room Title</span></div>
+            <div class="field-row"><span class="fval filled">0</span><span class="fname">Room Order</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Panorama Image 1</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval filled" style="font-size:11px;max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">cam%202%20HP%20...</span>
+              <span class="fname">Panorama Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner tall" style="background:linear-gradient(135deg,#f5f0e8 0%,#e8dfd0 50%,#f2ede4 100%);">
+                <span style="color:rgba(160,130,90,0.20);font-size:10px;letter-spacing:0.1em;">360°</span>
+              </div>
+            </div>
+            <div class="field-row" style="margin-top:8px;"><span class="fval filled" id="unit-room-pano-title">HP 60</span><span class="fname">Panorama Title</span></div>
+            <div class="field-row"><span class="fval filled">0</span><span class="fname">Panorama Order</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 6px;">
+              <span style="font-size:13px;color:var(--text-700);">Default Panorama</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:600;color:var(--status-ok);" id="unit-pano-on-label">On</span>
+                <label class="toggle-switch on" onclick="this.classList.toggle('on');document.getElementById('unit-pano-on-label').textContent=this.classList.contains('on')?'On':'Off';document.getElementById('unit-pano-on-label').style.color=this.classList.contains('on')?'var(--status-ok)':'var(--text-300)';">
+                  <input type="checkbox" checked>
+                  <div class="toggle-track"></div>
+                  <div class="toggle-thumb"></div>
+                </label>
+              </div>
+            </div>
+            <div class="hotspots-header">
+              <span class="hotspots-title" style="font-size:13px;">Hotspots (0 pcs)</span>
+              <span class="hotspots-edit">Edit</span>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openUnitPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: FLOOR PLANS ════════════════════════ -->
+    <div class="screen" id="screen-floorplans">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>13 Plans</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 2</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openFplPanel('create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:120px">Floor Plan</th>
+                <th style="width:160px">Bedrooms</th>
+                <th style="width:160px">Bathrooms</th>
+                <th>Carparks</th>
+                <th style="width:170px"></th>
+              </tr>
+            </thead>
+            <tbody id="fpl-tbody">
+
+              <tr class="fpl-row" id="fpl-row-0" onclick="clickFplRow(this,'A',3,2,1)">
+                <td>A</td><td>3</td><td>2</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(0,3,2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-0" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">A</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(0)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(0)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-1" onclick="clickFplRow(this,'B',3,2,2)">
+                <td>B</td><td>3</td><td>2</td><td>2</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(1,3,2,2)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-1" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">B</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(1)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(1)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-2" onclick="clickFplRow(this,'C',2,1,1)">
+                <td>C</td><td>2</td><td>1</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(2,2,1,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-2" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">C</td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(2)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(2)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-3" onclick="clickFplRow(this,'D',3,2,2)">
+                <td>D</td><td>3</td><td>2</td><td>2</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(3,3,2,2)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-3" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">D</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(3)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(3)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-4" onclick="clickFplRow(this,'E',3,2,1)">
+                <td>E</td><td>3</td><td>2</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(4,3,2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-4" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">E</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(4)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(4)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-5" onclick="clickFplRow(this,'F',3,2,1)">
+                <td>F</td><td>3</td><td>2</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(5,3,2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-5" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">F</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(5)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(5)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-6" onclick="clickFplRow(this,'G',3,2.5,2)">
+                <td>G</td><td>3</td><td>2.5</td><td>2</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(6,3,2.5,2)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-6" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">G</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" step="0.5" class="lvl-num-input" value="2.5" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(6)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(6)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-7" onclick="clickFplRow(this,'H',3,2,1)">
+                <td>H</td><td>3</td><td>2</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(7,3,2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-7" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">H</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(7)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(7)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-8" onclick="clickFplRow(this,'I',3,2,1)">
+                <td>I</td><td>3</td><td>2</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(8,3,2,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-8" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">I</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="2" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(8)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(8)">Confirm</button>
+                </div></td>
+              </tr>
+
+              <tr class="fpl-row" id="fpl-row-9" onclick="clickFplRow(this,'J',3,2.5,1)">
+                <td>J</td><td>3</td><td>2.5</td><td>1</td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="event.stopPropagation();startFplEdit(9,3,2.5,1)">Edit</button>
+                  <button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button>
+                </div></td>
+              </tr>
+              <tr id="fpl-edit-9" class="fpl-edit-row" style="display:none;background:rgba(184,149,90,0.06);">
+                <td style="font-weight:600;color:var(--text-900);">J</td>
+                <td><input type="number" class="lvl-num-input" value="3" style="width:80px;"></td>
+                <td><input type="number" step="0.5" class="lvl-num-input" value="2.5" style="width:80px;"></td>
+                <td><input type="number" class="lvl-num-input" value="1" style="width:80px;"></td>
+                <td><div class="gal-row-actions">
+                  <button class="btn-gal-action" onclick="cancelFplEdit(9)">Discard</button>
+                  <button class="btn-gal-action" style="background:var(--navy);color:#fff;border-color:var(--navy);" onclick="confirmFplEdit(9)">Confirm</button>
+                </div></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="right-panel" id="floorplans-right-panel" style="display:none;">
+
+        <!-- Create -->
+        <div id="fpl-pnl-create" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Floor Plan Creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Floor Plan Type</span></div>
+            <div class="field-row"><span class="fval">0</span><span class="fname">Bedrooms</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval">0</span><span class="fname">Bathrooms</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval">0</span><span class="fname">Carparks</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="asset-header" style="margin-top:16px;"><span class="asset-header-title">Areas</span></div>
+            <div class="field-row"><span class="fval">0.0 M²</span><span class="fname">Internal Size</span></div>
+            <div class="field-row"><span class="fval">0.0 M²</span><span class="fname">External Size</span></div>
+            <div class="field-row"><span class="fval">0.0 M²</span><span class="fname">Landscaped Size</span></div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Floor Plan</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span><span class="fname">Floor Plan</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="drop-zone" style="padding:24px 20px;">Drag and drop an image file here, or click to select it</div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Indicator</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span><span class="fname">Indicator</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="drop-zone" style="padding:24px 20px;">Drag and drop an image file here, or click to select it</div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openFplPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Information -->
+        <div id="fpl-pnl-info" style="display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Information</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval filled" id="fpl-info-type">A</span><span class="fname">Floor Plan Type</span></div>
+            <div class="field-row"><span class="fval filled" id="fpl-info-beds">3</span><span class="fname">Bedrooms</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval filled" id="fpl-info-baths">2</span><span class="fname">Bathrooms</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval filled" id="fpl-info-cars">1</span><span class="fname">Carparks</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Powder</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="field-row"><span class="fval">Please Add</span><span class="fname">Multi Purpose Room</span><span style="font-size:10px;color:var(--text-300);margin-left:4px;">⇅</span></div>
+            <div class="asset-header" style="margin-top:16px;"><span class="asset-header-title">Areas</span></div>
+            <div class="field-row"><span class="fval filled">170.0 M²</span><span class="fname">Internal Size</span></div>
+            <div class="field-row"><span class="fval filled">39.0 M²</span><span class="fname">External Size</span></div>
+            <div class="field-row"><span class="fval filled">0.0 M²</span><span class="fname">Landscaped Size</span></div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Floor Plan</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval filled" style="font-size:11px;">A.webp</span>
+              <span class="fname">Floor Plan</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner tall" style="background:rgba(255,255,255,0.82);">
+                <svg width="150" height="130" viewBox="0 0 150 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="4" width="142" height="122" stroke="#888" stroke-width="2" fill="rgba(248,247,245,0.3)"/>
+                  <rect x="4" y="4" width="58" height="52" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="62" y="4" width="32" height="26" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="94" y="4" width="52" height="52" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="62" y="30" width="32" height="26" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <line x1="4" y1="88" x2="100" y2="88" stroke="#bbb" stroke-width="1"/>
+                  <line x1="100" y1="56" x2="100" y2="126" stroke="#bbb" stroke-width="1"/>
+                  <rect x="4" y="88" width="96" height="38" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="4" y="56" width="58" height="32" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="100" y="56" width="46" height="70" stroke="#aaa" stroke-width="1" fill="rgba(242,240,237,0.3)"/>
+                  <rect x="14" y="14" width="18" height="14" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="102" y="14" width="30" height="20" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="12" y="100" width="50" height="18" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <div class="asset-header" style="margin-top:16px;">
+              <span class="asset-header-title">Indicator</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval filled" style="font-size:11px;">A-map.webp</span>
+              <span class="fname">Indicator</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner tall" style="background:rgba(255,255,255,0.82);">
+                <svg width="150" height="110" viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="4" width="142" height="102" stroke="#888" stroke-width="1.5" fill="none"/>
+                  <rect x="52" y="36" width="46" height="38" stroke="#ccc" stroke-width="1" fill="rgba(200,200,200,0.15)"/>
+                  <rect x="4" y="4" width="48" height="50" fill="rgba(40,80,40,0.22)" stroke="#3a6a3a" stroke-width="1.5"/>
+                  <rect x="52" y="4" width="46" height="32" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="98" y="4" width="48" height="50" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="98" y="54" width="48" height="52" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="4" y="54" width="48" height="52" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="52" y="74" width="46" height="32" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <text x="22" y="33" font-size="9" fill="#3a6a3a" font-family="Helvetica,sans-serif" font-weight="700" text-anchor="middle">A</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openFplPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════ SCREEN: FLOOR PLATES ═══════════════════════ -->
+    <div class="screen" id="screen-floorplates">
+      <div class="list-panel">
+        <div class="list-header">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <h1>21 Plates</h1>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <button class="btn-page-nav">‹</button>
+              <span class="page-circle">1</span>
+              <span style="font-size:12px;color:var(--text-300);">of 3</span>
+              <button class="btn-page-nav">›</button>
+            </div>
+          </div>
+          <div class="list-header-actions">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A09E9C" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" placeholder="Search">
+            </div>
+            <button class="btn-primary" onclick="openFpPanel('create')">Create</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Level</th><th style="width:110px"></th></tr></thead>
+            <tbody id="fp-tbody">
+              <tr class="fp-row" onclick="clickFpRow(this,'0')"><td>0</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'1')"><td>1</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'2')"><td>2</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'3')"><td>3</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'4')"><td>4</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'5')"><td>5</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'6')"><td>6</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'7')"><td>7</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'8')"><td>8</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+              <tr class="fp-row" onclick="clickFpRow(this,'9')"><td>9</td><td style="text-align:right;"><button class="btn-gal-action danger" onclick="event.stopPropagation()">Delete</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right panel -->
+      <div class="right-panel" id="floorplates-right-panel" style="display:none;">
+
+        <!-- Create -->
+        <div id="fp-pnl-create" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Floor Plate Creation</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval">Please select</span><span class="fname">Level</span><span class="farrow">▾</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">Asset</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval">Please Add</span>
+              <span class="fname">Floor Plate Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="drop-zone" style="padding:28px 20px;">Drag and drop an image file here, or click to select it</div>
+            <p style="font-size:12px;color:var(--text-300);margin-top:14px;">Please, add Floor Plate Image to add hotspots</p>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openFpPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+        <!-- Information -->
+        <div id="fp-pnl-info" style="display:none;flex-direction:column;flex:1;">
+          <div class="panel-header-strip">
+            <div class="panel-title">Information</div>
+          </div>
+          <div class="panel-inner">
+            <div class="field-row"><span class="fval filled" id="fp-info-level">0</span><span class="fname">Level</span><span class="farrow">▾</span></div>
+            <div class="asset-header">
+              <span class="asset-header-title">Asset</span>
+              <a class="remove-link">Remove</a>
+            </div>
+            <div class="field-row">
+              <span class="fval filled" style="font-size:11px;">0_hl.webp</span>
+              <span class="fname">Floor Plate Image</span>
+              <span style="font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--text-500);cursor:pointer;margin-left:8px;">Browse</span>
+            </div>
+            <div class="preview-wrap">
+              <div class="preview-inner tall" style="background:rgba(255,255,255,0.80);">
+                <svg width="130" height="110" viewBox="0 0 130 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="6" y="6" width="118" height="98" stroke="#9a9594" stroke-width="1.5" fill="none"/>
+                  <line x1="6" y1="38" x2="78" y2="38" stroke="#9a9594" stroke-width="1.5"/>
+                  <line x1="78" y1="6" x2="78" y2="104" stroke="#9a9594" stroke-width="1.5"/>
+                  <line x1="6" y1="72" x2="78" y2="72" stroke="#9a9594" stroke-width="1.5"/>
+                  <line x1="100" y1="6" x2="100" y2="60" stroke="#9a9594" stroke-width="1.5"/>
+                  <line x1="78" y1="60" x2="124" y2="60" stroke="#9a9594" stroke-width="1.5"/>
+                  <line x1="40" y1="38" x2="40" y2="6" stroke="#9a9594" stroke-width="1.5"/>
+                  <rect x="14" y="14" width="18" height="14" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                  <rect x="84" y="14" width="10" height="10" stroke="#ccc" stroke-width="0.75" fill="none"/>
+                </svg>
+              </div>
+            </div>
+            <div class="hotspots-header" style="margin-top:14px;">
+              <span class="hotspots-title">Hotspots</span>
+              <span class="hotspots-edit">Edit</span>
+            </div>
+            <p style="font-size:12px;color:var(--text-300);margin-top:4px;" id="fp-hotspots-note">There are currently 0 on this Floor Plate</p>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-secondary" onclick="openFpPanel('none')">Discard</button>
+            <button class="btn-save">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="screen" id="screen-placeholder">
+      <div class="single-panel" style="align-items:center;justify-content:center;gap:12px;color:var(--text-300);">
+        <div style="font-size:32px;opacity:.2;">⬜</div>
+        <p style="font-size:14px;">Screenshots coming in next batch</p>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+</div><!-- /main -->
+
+<script>
+const screens = {
+  theme:     { label:'Theme',          step:1,  wf:['done','done','done','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  features:  { label:'Features',       step:2,  wf:['done','done','done','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  labels:    { label:'Labels & Terms', step:3,  wf:['done','done','active','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  buildings: { label:'Buildings',      step:4,  wf:['done','done','done','active','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  levels:    { label:'Levels',         step:5,  wf:['done','done','done','done','active','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  amenities:   { label:'Amenities',    step:6,  wf:['done','done','done','done','done','active','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+  floorplates: { label:'Floor Plates', step:7,  wf:['done','done','done','done','done','done','active','upcoming','upcoming','upcoming','upcoming'] },
+  floorplans:  { label:'Floor Plans',  step:8,  wf:['done','done','done','done','done','done','done','active','upcoming','upcoming','upcoming'] },
+  units:       { label:'Units',        step:9,  wf:['done','done','done','done','done','done','done','done','active','upcoming','upcoming'] },
+  galleries: { label:'Galleries',      step:0,  wf:['done','done','done','done','done','done','done','done','done','done','done'] },
+  location:  { label:'Location',       step:0,  wf:['done','done','done','done','done','done','done','done','done','done','done'] },
+  placeholder:{ label:'',              step:0,  wf:['done','done','done','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming','upcoming'] },
+};
+
+const wfLabels = ['Theme','Features','Labels & Terms','Buildings','Levels','Amenities','Floor Plates','Floor Plans','Units','360 Panoramas','Unit Hotspots'];
+const navIds = ['nav-theme','nav-features','nav-labels','nav-buildings',null,null,null,null,null,null,null];
+
+let current = 'labels';
+
+function goTo(id) {
+  if (!screens[id]) id = 'placeholder';
+
+  // hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+
+  // sidebar active
+  document.querySelectorAll('.sidebar a').forEach(a => {
+    a.classList.remove('active');
+    if (!a.classList.contains('done')) return;
+  });
+  const navMap = { theme:'nav-theme', features:'nav-features', labels:'nav-labels', buildings:'nav-buildings', levels:'nav-levels', amenities:'nav-amenities', floorplates:'nav-floorplates', floorplans:'nav-floorplans', units:'nav-units', galleries:'nav-galleries', location:'nav-location' };
+  if (navMap[id]) {
+    document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+    document.getElementById(navMap[id])?.classList.add('active');
+    // mark setup step numbering (only applies to numbered setup screens)
+    const order = ['theme','features','labels','buildings','levels','amenities'];
+    const idx = order.indexOf(id);
+    if (idx !== -1) {
+      order.forEach((k,i) => {
+        const el = document.getElementById('nav-' + k);
+        if (!el) return;
+        el.classList.remove('done','active');
+        if (i < idx) { el.classList.add('done'); el.querySelector('.step-num').textContent = '✓'; }
+        else if (i === idx) { el.classList.add('active'); el.querySelector('.step-num').textContent = i+1; }
+        else { el.querySelector('.step-num').textContent = i+1; }
+      });
+    } else {
+      // Media section — all setup steps stay done
+      order.forEach((k,i) => {
+        const el = document.getElementById('nav-' + k);
+        if (!el) return;
+        el.classList.remove('active'); el.classList.add('done');
+        if (el.querySelector('.step-num')) el.querySelector('.step-num').textContent = '✓';
+      });
+    }
+  }
+
+  // workflow bar
+  const cfg = screens[id];
+  const bar = document.getElementById('workflow-bar');
+  bar.innerHTML = wfLabels.map((lbl,i) => {
+    const cls = cfg.wf[i] || 'upcoming';
+    const text = cls === 'done' ? '✓ ' + lbl : (i+1) + ' · ' + lbl;
+    const arrow = i < wfLabels.length-1 ? '<span class="wf-arrow">›</span>' : '';
+    return `<div class="wf-step"><span class="wf-label ${cls}">${text}</span>${arrow}</div>`;
+  }).join('');
+
+  current = id;
+}
+
+// Theme section selection
+function selectTheme(sec, el) {
+  const panel = document.getElementById('theme-right-panel');
+  const isActive = el.classList.contains('active');
+  document.querySelectorAll('[id^="th-"]').forEach(i => { if (i.classList.contains('lt-list-item')) i.classList.remove('active'); });
+  if (isActive) {
+    panel.style.display = 'none';
+    return;
+  }
+  el.classList.add('active');
+  panel.style.display = 'flex';
+  panel.style.flexDirection = 'column';
+  ['hlogo','plogo','favicon','sharing','welcome','colours'].forEach(s => {
+    const d = document.getElementById('th-detail-' + s);
+    if (d) { d.style.display = s === sec ? 'flex' : 'none'; d.style.flexDirection = 'column'; d.style.flex = '1'; }
+  });
+}
+
+// Labels & Terms term selection (toggle)
+function selectTerm(term, el) {
+  const panel = document.getElementById('labels-right-panel');
+  const isActive = el.classList.contains('active');
+  document.querySelectorAll('.lt-list-item').forEach(i => i.classList.remove('active'));
+  if (isActive) {
+    panel.style.display = 'none';
+    return;
+  }
+  el.classList.add('active');
+  panel.style.display = 'flex';
+  panel.style.flexDirection = 'column';
+  ['top','bottom','interface'].forEach(t => {
+    const d = document.getElementById('lt-detail-' + t);
+    if (d) { d.style.display = t === term ? 'flex' : 'none'; d.style.flexDirection = 'column'; d.style.flex = '1'; }
+  });
+}
+
+// Buildings
+function selectRow(row, name) {
+  document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('active-row'));
+  row.classList.add('active-row');
+  document.getElementById('panel-sub').textContent = name + ' · East-West';
+}
+function toggleExpand(row, id) {
+  const sub = document.getElementById(id);
+  const t = row.querySelector('.expand-toggle');
+  if (!sub) return;
+  const open = sub.style.display !== 'none';
+  sub.style.display = open ? 'none' : 'table-row';
+  if (t) t.textContent = open ? '▶' : '▼';
+  selectRow(row, row.querySelector('td').textContent.replace(/[▶▼]/g,'').trim());
+}
+function pickAngle(btn) {
+  document.querySelectorAll('.angle-preset').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('angle-val').textContent = btn.textContent;
+  document.getElementById('preview-badge').textContent = btn.textContent + ' angle';
+}
+function toggleFeat(el) { el.classList.toggle('on'); }
+
+// Galleries
+const galExpanded = { renders: true };
+
+function toggleGalExpand(id) {
+  const isOpen = !!galExpanded[id];
+  galExpanded[id] = !isOpen;
+  const toggle = document.getElementById('gal-toggle-' + id);
+  if (toggle) toggle.textContent = isOpen ? '▶' : '▼';
+  document.querySelectorAll('[data-parent="' + id + '"]').forEach(r => {
+    r.style.display = isOpen ? 'none' : 'table-row';
+  });
+}
+
+function openGalPanel(type, galleryName, albumName) {
+  const outerPanel = document.getElementById('galleries-right-panel');
+  const panels = ['empty','gallery-create','album-info','album-create'];
+  panels.forEach(p => {
+    const el = document.getElementById('gal-pnl-' + p);
+    if (el) el.style.display = 'none';
+  });
+  if (type === 'empty') {
+    if (outerPanel) outerPanel.style.display = 'none';
+    document.querySelectorAll('.gal-album-sub').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outerPanel) { outerPanel.style.display = 'flex'; outerPanel.style.flexDirection = 'column'; }
+  const target = document.getElementById('gal-pnl-' + type);
+  if (target) { target.style.display = 'flex'; target.style.flexDirection = 'column'; target.style.flex = '1'; }
+  if (type === 'album-info' && albumName) {
+    const sub = document.getElementById('gal-album-subtitle');
+    const inp = document.getElementById('gal-album-name');
+    if (sub) sub.textContent = (galleryName || '') + ' · ' + albumName;
+    if (inp) inp.value = albumName;
+  }
+  if (type === 'album-create' && galleryName) {
+    const sub = document.getElementById('gal-album-create-subtitle');
+    if (sub) sub.textContent = 'In ' + galleryName;
+  }
+}
+
+function clickAlbumRow(rowEl, gallery, album, count) {
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.gal-album-sub').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openGalPanel('empty'); return; }
+  rowEl.classList.add('active-row');
+  openGalPanel('album-info', gallery, album);
+}
+
+function startGalEdit(id) {
+  const row = document.getElementById('gal-row-' + id);
+  const editRow = document.getElementById('gal-edit-' + id);
+  if (!row || !editRow) return;
+  row.style.display = 'none';
+  editRow.style.display = 'table-row';
+  document.querySelectorAll('.gal-gallery-row').forEach(r => {
+    if (r.id !== 'gal-row-' + id) r.classList.add('gal-dimmed');
+  });
+  document.querySelectorAll('.gal-album-sub').forEach(r => r.classList.add('gal-dimmed'));
+}
+
+function cancelGalEdit(id) {
+  const row = document.getElementById('gal-row-' + id);
+  const editRow = document.getElementById('gal-edit-' + id);
+  if (row) row.style.display = 'table-row';
+  if (editRow) editRow.style.display = 'none';
+  document.querySelectorAll('.gal-gallery-row,.gal-album-sub').forEach(r => r.classList.remove('gal-dimmed'));
+}
+
+function toggleBldExpand(id) {
+  const subs = document.querySelectorAll('[data-parent="' + id + '"]');
+  const toggle = document.getElementById('bld-toggle-' + id);
+  const visible = subs.length > 0 && subs[0].style.display !== 'none';
+  subs.forEach(s => s.style.display = visible ? 'none' : 'table-row');
+  if (toggle) toggle.textContent = visible ? '▶' : '▼';
+}
+
+function openBldPanel(type, buildingName) {
+  const outer = document.getElementById('buildings-right-panel');
+  document.querySelectorAll('[id^="bld-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'empty') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.bld-angle-sub').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('bld-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+}
+
+function selectAngle(rowEl, building, angle) {
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.bld-angle-sub').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openBldPanel('empty'); return; }
+  rowEl.classList.add('active-row');
+  openBldPanel('angle-info');
+  const nameEl = document.getElementById('bld-angle-name-val');
+  if (nameEl) nameEl.textContent = angle;
+  const previewLabel = document.getElementById('bld-preview-label');
+  if (previewLabel) previewLabel.textContent = angle + ' Angle';
+  document.querySelectorAll('#bld-info-presets .preset-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === angle.toLowerCase());
+  });
+}
+
+function setAnglePreset(btn, valId, presetsId) {
+  document.querySelectorAll('#' + presetsId + ' .preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const valEl = document.getElementById(valId);
+  if (valEl) valEl.textContent = btn.textContent.trim();
+  const previewLabel = document.getElementById('bld-preview-label');
+  if (previewLabel && presetsId === 'bld-info-presets') previewLabel.textContent = btn.textContent.trim() + ' Angle';
+}
+
+// Levels
+function openLvlPanel(type, levelNum, levelLabel) {
+  const outer = document.getElementById('levels-right-panel');
+  document.querySelectorAll('[id^="lvl-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'none') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.lvl-row').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('lvl-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+  if (type === 'info') {
+    const numEl = document.getElementById('lvl-info-num');
+    const lblEl = document.getElementById('lvl-info-label');
+    if (numEl) { numEl.textContent = levelNum ?? ''; numEl.className = 'fval filled'; }
+    if (lblEl) {
+      if (levelLabel) { lblEl.textContent = levelLabel; lblEl.className = 'fval filled'; }
+      else { lblEl.textContent = 'Please Add'; lblEl.className = 'fval'; }
+    }
+  }
+}
+
+function clickLvlRow(rowEl, levelNum, levelLabel) {
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.lvl-row').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openLvlPanel('none'); return; }
+  rowEl.classList.add('active-row');
+  openLvlPanel('info', levelNum, levelLabel);
+}
+
+function startLvlEdit(idx, currentVal) {
+  openLvlPanel('none');
+  document.querySelectorAll('.lvl-row').forEach(r => r.classList.remove('active-row'));
+  const staticRow = document.getElementById('lvl-row-' + idx);
+  const editRow = document.getElementById('lvl-edit-' + idx);
+  if (!staticRow || !editRow) return;
+  staticRow.style.display = 'none';
+  editRow.style.display = 'table-row';
+  document.querySelectorAll('#lvl-tbody tr').forEach(r => {
+    if (r.id !== 'lvl-edit-' + idx) r.classList.add('lvl-dimmed');
+  });
+  const inp = editRow.querySelector('.lvl-num-input');
+  if (inp) { inp.value = currentVal; inp.focus(); }
+}
+
+function cancelLvlEdit(idx) {
+  const staticRow = document.getElementById('lvl-row-' + idx);
+  const editRow = document.getElementById('lvl-edit-' + idx);
+  if (staticRow) staticRow.style.display = 'table-row';
+  if (editRow) editRow.style.display = 'none';
+  document.querySelectorAll('#lvl-tbody tr').forEach(r => r.classList.remove('lvl-dimmed'));
+}
+
+function confirmLvlEdit(idx) {
+  const editRow = document.getElementById('lvl-edit-' + idx);
+  const staticRow = document.getElementById('lvl-row-' + idx);
+  if (editRow && staticRow) {
+    const inp = editRow.querySelector('.lvl-num-input');
+    if (inp) staticRow.querySelector('td').textContent = inp.value;
+  }
+  cancelLvlEdit(idx);
+}
+
+// Units
+let unitActiveEdit = -1;
+
+function openUnitPanel(type) {
+  const outer = document.getElementById('units-right-panel');
+  document.querySelectorAll('[id^="unit-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'none') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.unit-row,.unit-sub-row').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('unit-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+}
+
+function clickRoomRow(subRowEl, roomTitle) {
+  if (unitActiveEdit >= 0) cancelUnitEdit(unitActiveEdit);
+  const isActive = subRowEl.classList.contains('active-row');
+  document.querySelectorAll('.unit-row,.unit-sub-row').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openUnitPanel('none'); return; }
+  subRowEl.classList.add('active-row');
+  const titleEl = document.getElementById('unit-room-title');
+  if (titleEl) titleEl.textContent = roomTitle;
+  const panoEl = document.getElementById('unit-room-pano-title');
+  if (panoEl) panoEl.textContent = roomTitle;
+  openUnitPanel('room-info');
+}
+
+function clickAddRoom(unitIdx) {
+  if (unitActiveEdit >= 0) cancelUnitEdit(unitActiveEdit);
+  document.querySelectorAll('.unit-row').forEach(r => r.classList.remove('active-row'));
+  const rowEl = document.getElementById('unit-row-' + unitIdx);
+  if (rowEl) rowEl.classList.add('active-row');
+  openUnitPanel('room-create');
+}
+
+function startUnitEdit(idx, number, price, status) {
+  if (unitActiveEdit >= 0) cancelUnitEdit(unitActiveEdit);
+  openUnitPanel('none');
+  document.querySelectorAll('.unit-row').forEach(r => r.classList.remove('active-row'));
+  const staticRow = document.getElementById('unit-row-' + idx);
+  const editRow = document.getElementById('unit-edit-' + idx);
+  if (!staticRow || !editRow) return;
+  staticRow.style.display = 'none';
+  editRow.style.display = 'table-row';
+  document.querySelectorAll('#unit-tbody tr').forEach(r => {
+    if (r.id !== 'unit-edit-' + idx) r.classList.add('gal-dimmed');
+  });
+  unitActiveEdit = idx;
+}
+
+function cancelUnitEdit(idx) {
+  const staticRow = document.getElementById('unit-row-' + idx);
+  const editRow = document.getElementById('unit-edit-' + idx);
+  if (staticRow) staticRow.style.display = 'table-row';
+  if (editRow) editRow.style.display = 'none';
+  document.querySelectorAll('#unit-tbody tr').forEach(r => r.classList.remove('gal-dimmed'));
+  unitActiveEdit = -1;
+}
+
+function confirmUnitEdit(idx) { cancelUnitEdit(idx); }
+
+function toggleUnitExpand(idx) {
+  const subs = document.querySelectorAll('[data-unit="' + idx + '"]');
+  const toggle = document.getElementById('unit-toggle-' + idx);
+  if (!subs.length) return;
+  const visible = subs[0].style.display !== 'none';
+  subs.forEach(s => s.style.display = visible ? 'none' : 'table-row');
+  if (toggle) toggle.textContent = visible ? '▶' : '▼';
+}
+
+// Floor Plans
+let fplActiveEdit = -1;
+
+function openFplPanel(type, planType, beds, baths, cars) {
+  const outer = document.getElementById('floorplans-right-panel');
+  document.querySelectorAll('[id^="fpl-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'none') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.fpl-row').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('fpl-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+  if (type === 'info') {
+    const el = (id) => document.getElementById(id);
+    if (el('fpl-info-type')) el('fpl-info-type').textContent = planType ?? '';
+    if (el('fpl-info-beds')) el('fpl-info-beds').textContent = beds ?? '';
+    if (el('fpl-info-baths')) el('fpl-info-baths').textContent = baths ?? '';
+    if (el('fpl-info-cars')) el('fpl-info-cars').textContent = cars ?? '';
+  }
+}
+
+function clickFplRow(rowEl, planType, beds, baths, cars) {
+  if (fplActiveEdit >= 0) cancelFplEdit(fplActiveEdit);
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.fpl-row').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openFplPanel('none'); return; }
+  rowEl.classList.add('active-row');
+  openFplPanel('info', planType, beds, baths, cars);
+}
+
+function startFplEdit(idx, beds, baths, cars) {
+  if (fplActiveEdit >= 0) cancelFplEdit(fplActiveEdit);
+  openFplPanel('none');
+  document.querySelectorAll('.fpl-row').forEach(r => r.classList.remove('active-row'));
+  const staticRow = document.getElementById('fpl-row-' + idx);
+  const editRow = document.getElementById('fpl-edit-' + idx);
+  if (!staticRow || !editRow) return;
+  staticRow.style.display = 'none';
+  editRow.style.display = 'table-row';
+  document.querySelectorAll('#fpl-tbody tr').forEach(r => {
+    if (r.id !== 'fpl-edit-' + idx) r.classList.add('gal-dimmed');
+  });
+  fplActiveEdit = idx;
+}
+
+function cancelFplEdit(idx) {
+  const staticRow = document.getElementById('fpl-row-' + idx);
+  const editRow = document.getElementById('fpl-edit-' + idx);
+  if (staticRow) staticRow.style.display = 'table-row';
+  if (editRow) editRow.style.display = 'none';
+  document.querySelectorAll('#fpl-tbody tr').forEach(r => r.classList.remove('gal-dimmed'));
+  fplActiveEdit = -1;
+}
+
+function confirmFplEdit(idx) { cancelFplEdit(idx); }
+
+// Floor Plates
+function openFpPanel(type, level) {
+  const outer = document.getElementById('floorplates-right-panel');
+  document.querySelectorAll('[id^="fp-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'none') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.fp-row').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('fp-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+  if (type === 'info' && level !== undefined) {
+    const lvlEl = document.getElementById('fp-info-level');
+    if (lvlEl) lvlEl.textContent = level;
+    const noteEl = document.getElementById('fp-hotspots-note');
+    if (noteEl) noteEl.textContent = 'There are currently 0 on this Floor Plate';
+  }
+}
+
+function clickFpRow(rowEl, level) {
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.fp-row').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openFpPanel('none'); return; }
+  rowEl.classList.add('active-row');
+  openFpPanel('info', level);
+}
+
+// Amenities
+function openAmnPanel(type, name) {
+  const outer = document.getElementById('amenities-right-panel');
+  document.querySelectorAll('[id^="amn-pnl-"]').forEach(p => { p.style.display = 'none'; p.style.flex = ''; });
+  if (type === 'none') {
+    if (outer) outer.style.display = 'none';
+    document.querySelectorAll('.amn-row').forEach(r => r.classList.remove('active-row'));
+    return;
+  }
+  if (outer) { outer.style.display = 'flex'; outer.style.flexDirection = 'column'; }
+  const panel = document.getElementById('amn-pnl-' + type);
+  if (panel) { panel.style.display = 'flex'; panel.style.flex = '1'; }
+  if (type === 'info' && name) {
+    const titleEl = document.getElementById('amn-info-title');
+    if (titleEl) titleEl.textContent = name;
+  }
+}
+
+function clickAmnRow(rowEl, name) {
+  const isActive = rowEl.classList.contains('active-row');
+  document.querySelectorAll('.amn-row').forEach(r => r.classList.remove('active-row'));
+  if (isActive) { openAmnPanel('none'); return; }
+  rowEl.classList.add('active-row');
+  openAmnPanel('info', name);
+}
+
+// Init
+goTo('labels');
+</script>
+</body>
+</html>

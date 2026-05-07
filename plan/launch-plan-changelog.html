@@ -304,6 +304,42 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.4 — 2026-05-06 (CONV-17)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый <code>/plan permission-and-tenancy-model</code> interview (Blocks A-G по 36 sub-вопросам). Ratification Phase 1.3 + cross-cutting decisions integration в 7 phase'ов Stage 1.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Foundational decisions section (новая верхняя секция Stage 1)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Вставлена прямо после priority order callout, перед Phase 1.1. <strong>Обязательное чтение перед phase'ами</strong> — объясняет «кто есть кто», «как работает подписка», «как раздаются доступы», «что видят разные viewers».</li>
+      <li>7 deep-dive subsections с anchor navigation: §1 Кто есть кто (entity glossary с real-world examples) · §2 Регистрация и онбординг (3 paths) · §3 Подписка Модель 4 + suspension flow · §4 Раздача доступов (invitations matrix + 5-role permissions table + S·1 stock allocation) · §5 Что кому видно (4 viewer states + Public Visibility 3 presets) · §6 Buyer flow (Variant E2 — tokenised unit links) · §7 Edge cases (suspension / GDPR / conflicts / referrals). <strong>Reservations & status flow удалена</strong> — Partner менеджит reservation процесс в своей CRM, в нашей админке только manual unit status flips.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">v4.4 delta callouts добавлены к 7 phase'ам</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>1.2</strong> — +Free Guest tier signup endpoint, +Hybrid login surfaces (per-Partner branded + central fallback), +Personal invite flow E.4, +Workspace switcher UI, +Auth methods (Google + email/password)</li>
+      <li><strong>1.3</strong> — RATIFIED: авторитативные decisions по всем 10 subtasks (1.3.1-1.3.10) с reference на foundational sections. ADR 0009 + ADR 0010 + ADR 0005 update будут созданы при ratification сессии.</li>
+      <li><strong>1.4</strong> — +Suspension management UI, +GDPR/ADGM erasure processing, +Stock allocation conflict reconciliation, +Owner lockout recovery, +Reserved subdomain (<code>staff</code>)</li>
+      <li><strong>1.7</strong> — +Public Visibility settings UI (Private / Discovery / Full sales presets + Advanced overrides), +Anonymous visitor flow, +Subdomain pattern (default + custom domain Tier 2+), +Project URL structure, +Stock allocation mode toggle (Closed pool default / Open pool opt-in per-project)</li>
+      <li><strong>1.9</strong> — +GDPR/ADGM right-to-erasure clause (jurisdiction-agnostic), +Reverse invite legal framework, +Buyer data export for KYC, +Hosting region disclosure, +Audit log retention notice</li>
+      <li><strong>1.10</strong> — +Buyer-aware unit pages (Variant E2 tokenised URLs), +Anonymous unit pages, +Status badge rendering, +Manual status change UI (no system-managed locks), +Buyer attribution preservation</li>
+      <li><strong>1.11</strong> — +Buyer entity = passwordless per-presentation, +Email content composition (auto-summary + agent free-text + N tokenised links), +Token expiry handling 90d, +Buyer self-service actions, +Forward email handling, +NO dedicated shortlist page (design-decision)</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Open Questions section (новая в конце Stage 1)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Parked product question:</strong> Cyprus vs Abu Dhabi (ADGM) — contemplating only, not blocking. Privacy schema jurisdiction-agnostic.</li>
+      <li><strong>7 tech questions для Ильи:</strong> Wildcard SSL strategy, Multi-tenant DB strategy, Token storage/hashing, Email provider, Existing Super Admin Panel reuse, Real-time sync для unit status, VV API audit. Required before final tech-estimate.</li>
+      <li><strong>Pricing tier specifics</strong> — отдельный <code>/plan onboarding-trial-mode</code> + ADR 0008.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Эффект на метрики</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Главный plan вырос с ~3070 строк до ~3400 строк (foundational section + 7 callouts + open questions)</li>
+      <li>Phase 1.3 готов к ratification как полноценный engineering brief для Ильи</li>
+      <li>Все cross-cutting decisions (Buyer flow, Public Visibility, Permissions matrix, Stock allocation S·1) видны в одном документе для review с Романом</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.3 — 2026-05-04 (CONV-15)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> 2-часовой звонок Сергея с Романом + 7 уточняющих заметок Сергея. Интеграция критичных пунктов из звонка в Stage 1.</p>
 

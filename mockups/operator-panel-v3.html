@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>offplan.online — Operator Panel · Warm Stone</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Warm Stone (product) — synced with brandbook v2.2 / tokens.css ── */
+  --navy:       #29261b;  /* deep espresso — was navy blue */
+  --navy-light: #3a3528;  /* hover state */
+  --gold:       #B8955A;
+  --gold-light: #C9A96E;
+  --gold-pale:  #F5EDD8;
+  --stone-50:   #FAFAF8;
+  --stone-100:  #F2F0ED;
+  --stone-200:  #E4E2DF;
+  --stone-300:  #D4CCC2;
+  --stone-400:  #C0B8AE;
+  --text-900:   #29261b;
+  --text-700:   #3D3B39;
+  --text-500:   #6A6865;
+  --text-300:   #A09E9C;
+  /* status pairs — warm-stone palette */
+  --sa-bg:   #EAF0E6; --sa-tx: #4A6B3E;   /* available / paid / active — sage */
+  --st-bg:   #F5EDD8; --st-tx: #7A5A1E;   /* trial / pending — amber */
+  --su-bg:   #EDE8E3; --su-tx: #5A4A3A;   /* suspended — stone */
+  --ch-bg:   #F0EDE8; --ch-tx: #6A6865;   /* churned — neutral */
+  --fa-bg:   #F5E8E6; --fa-tx: #8A3A2E;   /* failed — terracotta */
+  --font-ui:   'Helvetica Neue', 'Inter', Helvetica, Arial, sans-serif;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --r-sm: 2px; --r-md: 4px; --r-lg: 8px;
+  --sidebar-w-collapsed: 64px;
+  --sidebar-w-expanded: 220px;
+  --atmo-sky:     #BBC8D6;
+  --atmo-plaster: #D4CBBF;
+  --atmo-stone:   #C8C1B6;
+  --atmo-deep:    #B8B0A8;
+  --atmo-anchor:  #A8A29C;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%; font-family: var(--font-body); color: var(--text-900);
+  font-size: 14px; line-height: 1.5; font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(160deg, var(--atmo-sky) 0%, var(--atmo-plaster) 22%, var(--atmo-stone) 45%, var(--atmo-deep) 68%, var(--atmo-anchor) 100%) fixed;
+}
+body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse at 15% 5%, rgba(255,240,210,0.45) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 95%, rgba(168,162,156,0.35) 0%, transparent 55%);
+}
+
+/* ── LAYOUT ─────────────────────────────────────── */
+.shell { display: flex; height: 100vh; overflow: hidden; position: relative; z-index: 1; }
+
+/* ── SIDEBAR — glass icon-rail, expandable ────── */
+.sidebar { width: var(--sidebar-w-collapsed); background: rgba(255,255,255,0.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-right: 1px solid rgba(255,255,255,0.5); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; transition: width 0.28s cubic-bezier(0.16,1,0.3,1); position: relative; }
+.sidebar.expanded { width: var(--sidebar-w-expanded); }
+.sidebar-brand { height: 56px; padding: 0 18px; border-bottom: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand-mark { width: 32px; height: 22px; flex-shrink: 0; color: var(--text-900); display: flex; align-items: center; justify-content: center; }
+.brand-mark svg { width: 100%; height: 100%; display: block; }
+.brand-name { font-family: var(--font-ui); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-900); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+.brand-name em { color: var(--gold); font-style: normal; }
+.sidebar.expanded .brand-name { opacity: 1; }
+.sidebar-collapse-handle { position: absolute; top: 80px; right: -11px; z-index: 5; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 1px solid var(--stone-200); box-shadow: var(--shadow-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-500); transition: all 0.15s; opacity: 0; pointer-events: none; }
+.sidebar:hover .sidebar-collapse-handle { opacity: 1; pointer-events: auto; }
+.sidebar-collapse-handle:hover { color: var(--text-900); border-color: var(--stone-400); }
+.nav-label { padding: 18px 20px 6px; font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-300); white-space: nowrap; opacity: 0; transition: opacity 0.2s; height: 32px; }
+.sidebar.expanded .nav-label { opacity: 1; }
+.nav-item { display: flex; align-items: center; gap: 14px; height: 40px; margin: 2px 8px; padding: 0 14px; font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-500); cursor: pointer; border-radius: var(--r-sm); transition: all 0.15s; user-select: none; border-left: 2px solid transparent; }
+.nav-item:hover { background: rgba(255,255,255,0.5); color: var(--text-900); }
+.nav-item.active { background: rgba(30,46,62,0.08); color: var(--navy); border-left-color: var(--navy); }
+.nav-glyph { width: 20px; flex-shrink: 0; text-align: center; font-size: 16px; line-height: 1; color: inherit; }
+.nav-text { white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+.sidebar.expanded .nav-text { opacity: 1; }
+.nav-badge { margin-left: auto; padding: 1px 6px; background: rgba(184,149,90,0.18); color: var(--gold); font-size: 10px; border-radius: var(--r-sm); opacity: 0; transition: opacity 0.2s; }
+.sidebar.expanded .nav-badge { opacity: 1; }
+.nav-badge.alert { background: rgba(122,42,30,0.14); color: var(--fa-tx); }
+.sidebar-spacer { flex: 1; }
+.sidebar-user { height: 56px; padding: 0 18px; border-top: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.u-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: #fff; font-family: var(--font-ui); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.u-info { display: flex; flex-direction: column; min-width: 0; opacity: 0; transition: opacity 0.2s; }
+.sidebar.expanded .u-info { opacity: 1; }
+.u-name { font-family: var(--font-ui); font-size: 11px; font-weight: 500; color: var(--text-900); letter-spacing: 0.04em; white-space: nowrap; }
+.u-role { font-size: 10px; color: var(--text-500); letter-spacing: 0.04em; white-space: nowrap; }
+.u-signout { margin-left: auto; font-size: 10px; color: var(--text-300); cursor: pointer; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0; transition: opacity 0.2s; }
+.sidebar.expanded .u-signout { opacity: 1; }
+.u-signout:hover { color: var(--text-700); }
+
+/* ── MAIN ───────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { height: 56px; background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; padding: 0 32px; gap: 16px; flex-shrink: 0; }
+.topbar-title { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-900); }
+.topbar-spacer { flex: 1; }
+.topbar-search { height: 32px; padding: 0 14px; border: 1px solid var(--stone-300); border-radius: var(--r-md); font-family: var(--font-body); font-size: 13px; color: var(--text-700); background: var(--stone-50); width: 240px; outline: none; transition: border-color 0.15s; }
+.topbar-search:focus { border-color: var(--gold); }
+.topbar-search::placeholder { color: var(--text-300); }
+.content { flex: 1; overflow-y: auto; padding: 32px; }
+
+/* ── PAGE VISIBILITY ────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── PAGE HEADER ────────────────────────────────── */
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+.page-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-300); margin-bottom: 3px; }
+.page-title { font-family: var(--font-ui); font-size: 24px; font-weight: 300; letter-spacing: -0.01em; color: var(--text-900); }
+
+/* ── BUTTONS ────────────────────────────────────── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--stone-300); border-radius: var(--r-md); font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-700); background: #fff; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn:hover { border-color: var(--stone-400); color: var(--text-900); }
+.btn-primary { background: var(--navy); border-color: var(--navy); color: #fff; }
+.btn-primary:hover { background: var(--navy-light); border-color: var(--navy-light); }
+.btn-danger { border-color: #E8A49A; color: var(--fa-tx); }
+.btn-danger:hover { background: var(--fa-bg); }
+
+/* ── ALERT BANNER ───────────────────────────────── */
+.alert-banner { background: var(--fa-bg); border: 1px solid #F5C6BC; border-radius: var(--r-md); padding: 12px 20px; margin-bottom: 24px; font-size: 13px; color: var(--fa-tx); display: flex; align-items: center; gap: 10px; }
+.alert-banner a { margin-left: auto; color: var(--gold); text-decoration: none; font-weight: 500; font-size: 12px; cursor: pointer; white-space: nowrap; letter-spacing: 0.04em; }
+.alert-banner a:hover { text-decoration: underline; }
+
+/* ── KPI ROW ────────────────────────────────────── */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+.kpi-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.6); border-radius: var(--r-md); padding: 20px; transition: box-shadow 0.15s; box-shadow: var(--shadow-sm); }
+.kpi-card:hover { box-shadow: var(--shadow-md); }
+.kpi-label { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-300); margin-bottom: 6px; }
+.kpi-value { font-family: var(--font-ui); font-size: 28px; font-weight: 300; letter-spacing: -0.02em; color: var(--text-900); line-height: 1.1; margin-bottom: 4px; }
+.kpi-meta { font-size: 12px; color: var(--text-300); }
+.kpi-meta.good { color: var(--sa-tx); }
+.kpi-meta.warn { color: var(--st-tx); }
+.kpi-meta.error { color: var(--fa-tx); }
+.kpi-gold .kpi-value { color: var(--gold); }
+
+/* ── TWO COL ────────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+/* ── CARD ───────────────────────────────────────── */
+.card { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.6); border-radius: var(--r-md); overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+.card-header { padding: 14px 24px; border-bottom: 1px solid var(--stone-100); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-500); }
+.card-link { font-size: 12px; color: var(--gold); text-decoration: none; cursor: pointer; }
+.card-link:hover { text-decoration: underline; }
+
+/* ── TABLE CARD ─────────────────────────────────── */
+.table-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.6); border-radius: var(--r-md); overflow: hidden; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+.table-toolbar { padding: 14px 24px; border-bottom: 1px solid var(--stone-100); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filter-pill { padding: 5px 12px; border: 1px solid var(--stone-200); border-radius: 20px; font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-500); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.filter-pill:hover { border-color: var(--stone-400); color: var(--text-700); }
+.filter-pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.t-spacer { flex: 1; }
+.t-count { font-size: 12px; color: var(--text-300); }
+.t-select { border: 1px solid var(--stone-300); border-radius: var(--r-md); padding: 5px 10px; font-size: 12px; color: var(--text-500); background: var(--stone-50); outline: none; cursor: pointer; }
+
+table { width: 100%; border-collapse: collapse; }
+thead th { padding: 10px 14px; text-align: left; font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-300); border-bottom: 1px solid var(--stone-100); white-space: nowrap; }
+thead th.sorted { color: var(--text-700); }
+thead th.sorted::after { content: ' ↓'; }
+tbody tr { border-bottom: 1px solid var(--stone-100); transition: background 0.1s; cursor: pointer; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--stone-50); }
+tbody tr.row-selected { background: #F5F0E8; }
+tbody td { padding: 10px 14px; font-size: 13px; color: var(--text-700); vertical-align: middle; }
+
+/* ── PILLS ──────────────────────────────────────── */
+.pill { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 20px; font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
+.p-active    { background: var(--sa-bg); color: var(--sa-tx); }
+.p-trial     { background: var(--st-bg); color: var(--st-tx); }
+.p-suspended { background: var(--su-bg); color: var(--su-tx); }
+.p-churned   { background: var(--ch-bg); color: var(--ch-tx); }
+.p-failed    { background: var(--fa-bg); color: var(--fa-tx); }
+.p-paid      { background: var(--sa-bg); color: var(--sa-tx); }
+.p-starter   { background: var(--stone-100); color: var(--text-500); }
+.p-pro       { background: var(--navy); color: #fff; }
+.p-enterprise{ background: var(--gold); color: #fff; }
+.p-ob-done   { background: var(--sa-bg); color: var(--sa-tx); }
+.p-ob-prog   { background: var(--st-bg); color: var(--st-tx); }
+.p-ob-none   { background: var(--ch-bg); color: var(--ch-tx); }
+.p-pub       { background: var(--sa-bg); color: var(--sa-tx); }
+.p-draft     { background: var(--st-bg); color: var(--st-tx); }
+.p-inactive  { background: var(--su-bg); color: var(--su-tx); }
+.p-owner     { background: var(--navy); color: #fff; }
+.p-admin     { background: var(--stone-100); color: var(--text-500); }
+.p-editor    { background: var(--stone-100); color: var(--text-300); }
+
+/* ── CLIENT CELL ────────────────────────────────── */
+.cl-cell { display: flex; align-items: center; gap: 10px; }
+.cl-av { width: 32px; height: 32px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-family: var(--font-ui); font-size: 12px; font-weight: 500; flex-shrink: 0; text-transform: uppercase; }
+.cl-name { font-weight: 500; color: var(--text-900); font-size: 13px; }
+.cl-sub { font-size: 11px; color: var(--text-300); margin-top: 1px; }
+.av1 { background: #E8F0F5; color: #1E3E5A; }
+.av2 { background: #F5EAE0; color: #5A3A1E; }
+.av3 { background: #EAF0E8; color: #2A4A2E; }
+.av4 { background: #F0EAF5; color: #3A2A5A; }
+.av5 { background: #F5F0E8; color: #5A4A1E; }
+.av6 { background: #EAF5F5; color: #1E4A4A; }
+.av7 { background: #F5EAF0; color: #5A1E3A; }
+.av8 { background: #F0F5EA; color: #2A5A1E; }
+
+/* ── MRR CELL ───────────────────────────────────── */
+.mrr-v { font-family: var(--font-ui); color: var(--text-900); }
+.mrr-u { font-size: 11px; color: var(--text-300); }
+.mrr-nil { color: var(--text-300); }
+.mrr-fail { color: var(--fa-tx); }
+
+/* ── ROW ACTIONS ────────────────────────────────── */
+.row-acts { display: flex; gap: 6px; justify-content: flex-end; }
+.row-btn { padding: 4px 10px; border: 1px solid var(--stone-200); border-radius: var(--r-sm); font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-500); background: transparent; cursor: pointer; transition: all 0.1s; white-space: nowrap; }
+.row-btn:hover { border-color: var(--stone-400); color: var(--text-700); background: var(--stone-50); }
+.row-btn.danger { border-color: #E8A49A; color: var(--fa-tx); }
+.row-btn.danger:hover { background: var(--fa-bg); }
+.row-btn.gold { border-color: var(--gold); color: var(--gold); }
+.row-btn.gold:hover { background: var(--gold-pale); }
+
+/* ── OVERVIEW WIDGETS ───────────────────────────── */
+.list-item { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-bottom: 1px solid var(--stone-100); }
+.list-item:last-child { border-bottom: none; }
+.li-main { flex: 1; min-width: 0; }
+.li-name { font-size: 13px; font-weight: 500; color: var(--text-900); }
+.li-meta { font-size: 11px; color: var(--text-300); margin-top: 1px; }
+.li-time { font-size: 11px; color: var(--text-300); white-space: nowrap; }
+.li-action { font-size: 11px; color: var(--gold); cursor: pointer; white-space: nowrap; }
+.li-action:hover { text-decoration: underline; }
+
+/* ── REVENUE SUMMARY ────────────────────────────── */
+.rev-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+
+/* ── METHOD LABELS ──────────────────────────────── */
+.m-post   { font-family: var(--font-ui); font-size: 11px; font-weight: 500; color: #2A6A2A; }
+.m-patch  { font-family: var(--font-ui); font-size: 11px; font-weight: 500; color: var(--st-tx); }
+.m-delete { font-family: var(--font-ui); font-size: 11px; font-weight: 500; color: var(--fa-tx); }
+.m-get    { font-family: var(--font-ui); font-size: 11px; font-weight: 500; color: var(--text-300); }
+.log-toggle { cursor: pointer; color: var(--text-300); font-size: 12px; user-select: none; }
+.log-detail { display: none; background: var(--stone-50); padding: 10px 20px; font-family: var(--font-mono); font-size: 11px; color: var(--text-500); line-height: 1.6; border-top: 1px solid var(--stone-100); }
+.log-detail.open { display: block; }
+
+/* ── SETTINGS STUB ──────────────────────────────── */
+.stub { text-align: center; padding: 80px 40px; color: var(--text-300); }
+.stub h3 { font-family: var(--font-ui); font-size: 18px; font-weight: 300; color: var(--text-500); margin-bottom: 10px; }
+
+/* ── PROJECT DETAIL ─────────────────────────────── */
+.proj-item { cursor: pointer; }
+.proj-arrow { margin-left: auto; font-size: 16px; color: var(--text-300); line-height: 1; }
+.proj-item:hover .proj-arrow { color: var(--text-700); }
+.proj-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); cursor: pointer; }
+.proj-back:hover { text-decoration: underline; }
+.proj-detail-name { font-family: var(--font-ui); font-size: 16px; font-weight: 400; color: var(--text-900); margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--stone-200); }
+.field-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--stone-100); }
+.field-row:last-child { border-bottom: none; }
+.field-lbl { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-300); width: 110px; flex-shrink: 0; }
+.field-val { flex: 1; font-size: 13px; color: var(--text-700); }
+.field-input { flex: 1; border: 1px solid var(--stone-300); border-radius: var(--r-sm); padding: 5px 9px; font-size: 13px; color: var(--text-700); background: var(--stone-50); outline: none; font-family: var(--font-body); }
+.field-input:focus { border-color: var(--gold); }
+.field-select { flex: 1; border: 1px solid var(--stone-300); border-radius: var(--r-sm); padding: 5px 9px; font-size: 13px; color: var(--text-700); background: var(--stone-50); outline: none; cursor: pointer; }
+.manager-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.manager-tag { padding: 3px 9px; background: var(--stone-100); border-radius: var(--r-sm); font-size: 11px; color: var(--text-500); font-family: var(--font-ui); }
+.asset-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--stone-100); }
+.asset-row:last-child { border-bottom: none; }
+.asset-filename { flex: 1; font-size: 12px; color: var(--text-500); font-family: var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.asset-label { font-size: 12px; color: var(--text-300); width: 90px; }
+.asset-btn { padding: 4px 10px; border: 1px solid var(--stone-300); border-radius: var(--r-sm); font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-500); background: transparent; cursor: pointer; }
+.asset-btn:hover { border-color: var(--stone-400); color: var(--text-700); }
+.asset-thumbs { display: flex; gap: 6px; margin-top: 6px; }
+.asset-thumb { width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--stone-200); border: 1px solid var(--stone-300); object-fit: cover; }
+.asset-video-preview { width: 100%; max-height: 100px; border-radius: var(--r-sm); background: #1A1917; margin-top: 6px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 12px; }
+.ft-list { display: flex; flex-direction: column; }
+.ft-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--stone-100); }
+.ft-row:last-child { border-bottom: none; }
+.ft-row.dimmed { opacity: 0.45; }
+.ft-name { flex: 1; font-size: 13px; color: var(--text-700); }
+.ft-status { font-size: 11px; font-family: var(--font-ui); margin-left: 6px; }
+.ft-status.on { color: var(--sa-tx); }
+.ft-status.off { color: var(--text-300); }
+.ft-toggle { display: flex; border: 1px solid var(--stone-300); border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
+.ft-btn { padding: 4px 11px; font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.07em; color: var(--text-300); background: transparent; border: none; cursor: pointer; transition: all 0.12s; }
+.ft-btn.sel-off { background: var(--stone-200); color: var(--text-700); }
+.ft-btn.sel-on  { background: var(--navy); color: #fff; }
+.proj-save-bar { display: flex; gap: 8px; justify-content: flex-end; padding-top: 16px; margin-top: 8px; border-top: 1px solid var(--stone-200); }
+
+/* ── DRAWER ─────────────────────────────────────── */
+.drawer-overlay { position: fixed; inset: 0; background: rgba(26,25,23,0.32); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 100; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+.drawer { position: fixed; top: 0; right: 0; width: 520px; height: 100vh; background: #fff; box-shadow: var(--shadow-lg); z-index: 101; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); overflow: hidden; }
+.drawer.open { transform: translateX(0); }
+.dr-header { padding: 24px; border-bottom: 1px solid var(--stone-200); display: flex; align-items: flex-start; gap: 14px; }
+.dr-avatar { width: 44px; height: 44px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-family: var(--font-ui); font-size: 17px; font-weight: 500; flex-shrink: 0; }
+.dr-block { flex: 1; }
+.dr-eyebrow { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-300); margin-bottom: 3px; }
+.dr-title { font-family: var(--font-ui); font-size: 18px; font-weight: 300; color: var(--text-900); margin-bottom: 8px; }
+.dr-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.dr-close { background: none; border: none; font-size: 22px; color: var(--text-300); cursor: pointer; line-height: 1; padding: 2px; flex-shrink: 0; }
+.dr-close:hover { color: var(--text-700); }
+.dr-actions { padding: 10px 24px; border-bottom: 1px solid var(--stone-100); display: flex; gap: 8px; flex-wrap: wrap; }
+.dr-tabs { display: flex; border-bottom: 1px solid var(--stone-200); padding: 0 24px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+.dr-tabs::-webkit-scrollbar { display: none; }
+.dr-tab { padding: 12px 14px; font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-300); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.15s; flex-shrink: 0; }
+.dr-tab.active { color: var(--text-900); border-bottom-color: var(--text-900); }
+.dr-tab:hover:not(.active) { color: var(--text-700); }
+.dr-body { flex: 1; overflow-y: auto; padding: 24px; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── DRAWER CONTENT HELPERS ─────────────────────── */
+.sec-title { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-300); margin: 20px 0 8px; }
+.sec-title:first-child { margin-top: 0; }
+.info-row { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--stone-100); }
+.info-row:last-child { border-bottom: none; }
+.info-lbl { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-300); width: 120px; flex-shrink: 0; }
+.info-val { font-size: 13px; color: var(--text-700); }
+.metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 16px; }
+.metric-box { background: var(--stone-50); border: 1px solid var(--stone-200); border-radius: var(--r-md); padding: 14px; text-align: center; }
+.metric-lbl { font-family: var(--font-ui); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-300); margin-bottom: 4px; }
+.metric-val { font-family: var(--font-ui); font-size: 22px; font-weight: 300; color: var(--text-900); }
+.metric-val.gold { color: var(--gold); }
+.proj-list { display: flex; flex-direction: column; gap: 8px; }
+.proj-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--stone-50); border: 1px solid var(--stone-200); border-radius: var(--r-md); }
+.proj-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-900); }
+.proj-meta { font-size: 11px; color: var(--text-300); }
+.user-list { display: flex; flex-direction: column; gap: 8px; }
+.user-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--stone-50); border: 1px solid var(--stone-200); border-radius: var(--r-md); }
+.user-av { width: 28px; height: 28px; border-radius: 50%; background: var(--stone-200); color: var(--text-500); font-family: var(--font-ui); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.user-name { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-900); }
+.user-email { font-size: 11px; color: var(--text-300); }
+.pay-list { display: flex; flex-direction: column; }
+.pay-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--stone-100); }
+.pay-item:last-child { border-bottom: none; }
+.pay-amount { font-family: var(--font-ui); font-size: 14px; font-weight: 400; color: var(--text-900); white-space: nowrap; }
+.pay-meta { flex: 1; font-size: 11px; color: var(--text-300); }
+.sub-box { background: var(--stone-50); border: 1px solid var(--stone-200); border-radius: var(--r-lg); padding: 20px; margin-bottom: 16px; }
+.sub-plan { font-family: var(--font-ui); font-size: 16px; font-weight: 300; color: var(--text-900); margin-bottom: 2px; }
+.sub-price { font-family: var(--font-ui); font-size: 26px; font-weight: 300; color: var(--gold); margin-bottom: 16px; }
+.sub-price span { font-size: 13px; color: var(--text-300); }
+.ob-list { display: flex; flex-direction: column; gap: 8px; }
+.ob-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--stone-50); border: 1px solid var(--stone-200); border-radius: var(--r-md); font-size: 13px; }
+.check { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; font-weight: 500; }
+.check-y { background: var(--sa-bg); color: var(--sa-tx); }
+.check-n { background: var(--stone-200); color: var(--text-300); }
+.ob-lbl { flex: 1; color: var(--text-700); }
+.ob-date { font-size: 11px; color: var(--text-300); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ── SIDEBAR ──────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-collapse-handle" onclick="toggleSidebar()" id="sidebar-handle" title="Toggle sidebar">›</button>
+  <div class="sidebar-brand">
+    <div class="brand-mark" aria-label="offplan.online">
+      <svg viewBox="0 0 56 38" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+        <g>
+          <path d="M 4 36 L 28 4"/>
+          <path d="M 4 36 L 28 10"/>
+          <path d="M 4 36 L 28 16"/>
+          <path d="M 4 36 L 28 22"/>
+          <path d="M 4 36 L 28 28"/>
+          <path d="M 4 36 L 28 34"/>
+        </g>
+        <path d="M 28 4 Q 42 20 52 36" opacity="0.55"/>
+        <line x1="4" y1="36" x2="52" y2="36" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="brand-name">offplan<em>.</em>online</div>
+  </div>
+  <div class="nav-label">Operations</div>
+  <div class="nav-item active" onclick="goPage('overview',this)"><span class="nav-glyph">◐</span><span class="nav-text">Overview</span></div>
+  <div class="nav-item" onclick="goPage('clients',this)"><span class="nav-glyph">▦</span><span class="nav-text">Studios</span><span class="nav-badge">24</span></div>
+  <div class="nav-item" onclick="goPage('payments',this)"><span class="nav-glyph">◰</span><span class="nav-text">Payments</span><span class="nav-badge alert">1</span></div>
+  <div class="nav-item" onclick="goPage('auditlog',this)"><span class="nav-glyph">⌂</span><span class="nav-text">Audit Log</span></div>
+  <div class="nav-label">System</div>
+  <div class="nav-item" onclick="goPage('settings',this)"><span class="nav-glyph">◍</span><span class="nav-text">Settings</span></div>
+  <div class="sidebar-spacer"></div>
+  <div class="sidebar-user">
+    <div class="u-avatar">S</div>
+    <div class="u-info"><div class="u-name">Sergey</div><div class="u-role">Operator</div></div>
+    <div class="u-signout">Out</div>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────── -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title" id="topbar-title">Overview</div>
+    <div class="topbar-spacer"></div>
+    <input class="topbar-search" placeholder="Search clients, projects, users…">
+  </header>
+  <div class="content">
+
+    <!-- ══════════════════ PAGE: OVERVIEW ═══════════════ -->
+    <div class="page active" id="page-overview">
+      <div class="page-header">
+        <div><div class="page-eyebrow">Operations</div><div class="page-title">Overview</div></div>
+        <button class="btn btn-primary" onclick="goPage('clients',document.querySelector('[onclick*=clients]'))">+ Add Client</button>
+      </div>
+
+      <div class="alert-banner">
+        ⚠ <strong>Atlas CGI</strong> — failed payment, 12 days overdue. Last charge AED 2,400 was declined.
+        <a onclick="goPage('payments',document.querySelector('[onclick*=payments]'))">Resolve →</a>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card"><div class="kpi-label">Total Clients</div><div class="kpi-value">24</div><div class="kpi-meta good">+3 this month</div></div>
+        <div class="kpi-card"><div class="kpi-label">Active</div><div class="kpi-value">18</div><div class="kpi-meta">75% of total</div></div>
+        <div class="kpi-card"><div class="kpi-label">Trials</div><div class="kpi-value">4</div><div class="kpi-meta warn">2 ending this week</div></div>
+        <div class="kpi-card"><div class="kpi-label">Failed Payments</div><div class="kpi-value">1</div><div class="kpi-meta error">Action required</div></div>
+        <div class="kpi-card kpi-gold"><div class="kpi-label">MRR</div><div class="kpi-value">13,600</div><div class="kpi-meta">AED / month</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Recent Signups</div><a class="card-link" onclick="goPage('clients',document.querySelector('[onclick*=clients]'))">View all →</a></div>
+          <div class="list-item"><div class="cl-av av6" style="width:32px;height:32px;">VD</div><div class="li-main"><div class="li-name">Vue 3D Studio</div><div class="li-meta">Trial · 0 projects · <span style="color:var(--fa-tx);">onboarding not started</span></div></div><div class="li-time">Today</div></div>
+          <div class="list-item"><div class="cl-av av4" style="width:32px;height:32px;">PA</div><div class="li-main"><div class="li-name">Pixel Architecture</div><div class="li-meta">Starter · 2 projects · setup complete</div></div><div class="li-time">2 days ago</div></div>
+          <div class="list-item"><div class="cl-av av3" style="width:32px;height:32px;">MR</div><div class="li-main"><div class="li-name">Meridian Renders</div><div class="li-meta">Trial · 1 project · in progress</div></div><div class="li-time">4 days ago</div></div>
+          <div class="list-item"><div class="cl-av av2" style="width:32px;height:32px;">AC</div><div class="li-main"><div class="li-name">Atlas CGI</div><div class="li-meta">Pro · 3 projects · <span style="color:var(--fa-tx);">payment failed</span></div></div><div class="li-time">6 days ago</div></div>
+          <div class="list-item"><div class="cl-av av7" style="width:32px;height:32px;">AD</div><div class="li-main"><div class="li-name">Arch Studio Dubai</div><div class="li-meta">Pro · 7 projects · setup complete</div></div><div class="li-time">1 week ago</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Attention Needed</div></div>
+          <div class="list-item"><div class="li-main"><div class="li-name">Vue 3D Studio</div><div class="li-meta">Trial ends in 3 days</div></div><span class="pill p-trial">Trial</span><div class="li-action">Extend →</div></div>
+          <div class="list-item"><div class="li-main"><div class="li-name">Meridian Renders</div><div class="li-meta">Trial ends in 5 days</div></div><span class="pill p-trial">Trial</span><div class="li-action">Extend →</div></div>
+          <div class="list-item"><div class="li-main"><div class="li-name">Atlas CGI</div><div class="li-meta">Payment failed 12 days ago</div></div><span class="pill p-failed">Failed</span><div class="li-action">Resolve →</div></div>
+          <div class="list-item"><div class="li-main"><div class="li-name">Côte Visualisation</div><div class="li-meta">Renews in 8 days</div></div><span class="pill p-active">Active</span><div class="li-action" style="color:var(--text-300);">—</div></div>
+          <div class="list-item"><div class="li-main"><div class="li-name">Skyline Visuals</div><div class="li-meta">Suspended 14 days ago</div></div><span class="pill p-suspended">Suspended</span><div class="li-action">Review →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PAGE: CLIENTS ════════════════ -->
+    <div class="page" id="page-clients">
+      <div class="page-header">
+        <div><div class="page-eyebrow">Operations</div><div class="page-title">Clients</div></div>
+        <button class="btn btn-primary">+ Add client manually</button>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="filter-pill active">All · 24</div>
+          <div class="filter-pill">Active · 18</div>
+          <div class="filter-pill">Trial · 4</div>
+          <div class="filter-pill">Suspended · 1</div>
+          <div class="filter-pill">Churned · 1</div>
+          <div class="t-spacer"></div>
+          <div class="t-count">Showing 8 of 24</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th><th>Plan</th><th>Status</th><th>MRR</th><th>Projects</th><th>Onboarding</th><th class="sorted">Last active</th><th>Signed up</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="openDrawer()" class="row-selected">
+              <td><div class="cl-cell"><div class="cl-av av1">CV</div><div><div class="cl-name">Côte Visualisation Studio</div><div class="cl-sub">cote-studio.offplan.online</div></div></div></td>
+              <td><span class="pill p-pro">Pro</span></td><td><span class="pill p-active">Active</span></td>
+              <td><span class="mrr-v">2,400 <span class="mrr-u">AED</span></span></td><td>5</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>Today, 09:42</td><td>12 Mar 2026</td>
+              <td><div class="row-acts"><button class="row-btn">Edit</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av2">AC</div><div><div class="cl-name">Atlas CGI</div><div class="cl-sub">atlas-cgi.offplan.online</div></div></div></td>
+              <td><span class="pill p-pro">Pro</span></td><td><span class="pill p-failed">Failed</span></td>
+              <td><span class="mrr-v mrr-fail">0 <span class="mrr-u">AED</span></span></td><td>3</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>Yesterday</td><td>22 Apr 2026</td>
+              <td><div class="row-acts"><button class="row-btn danger">Resolve</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av3">MR</div><div><div class="cl-name">Meridian Renders</div><div class="cl-sub">meridian.offplan.online</div></div></div></td>
+              <td><span class="pill p-trial">Trial</span></td><td><span class="pill p-trial">Trial</span></td>
+              <td><span class="mrr-nil">—</span></td><td>1</td>
+              <td><span class="pill p-ob-prog">In Progress</span></td><td>2 days ago</td><td>24 Apr 2026</td>
+              <td><div class="row-acts"><button class="row-btn">Edit</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av4">PA</div><div><div class="cl-name">Pixel Architecture</div><div class="cl-sub">pixel-arch.offplan.online</div></div></div></td>
+              <td><span class="pill p-starter">Starter</span></td><td><span class="pill p-active">Active</span></td>
+              <td><span class="mrr-v">800 <span class="mrr-u">AED</span></span></td><td>2</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>3 days ago</td><td>26 Apr 2026</td>
+              <td><div class="row-acts"><button class="row-btn">Edit</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av5">SV</div><div><div class="cl-name">Skyline Visuals</div><div class="cl-sub">skyline.offplan.online</div></div></div></td>
+              <td><span class="pill p-pro">Pro</span></td><td><span class="pill p-suspended">Suspended</span></td>
+              <td><span class="mrr-nil">0 <span style="font-size:11px;">AED</span></span></td><td>4</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>14 days ago</td><td>01 Feb 2026</td>
+              <td><div class="row-acts"><button class="row-btn">Reactivate</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av6">VD</div><div><div class="cl-name">Vue 3D Studio</div><div class="cl-sub">vue3d.offplan.online</div></div></div></td>
+              <td><span class="pill p-trial">Trial</span></td><td><span class="pill p-trial">Trial</span></td>
+              <td><span class="mrr-nil">—</span></td><td>0</td>
+              <td><span class="pill p-ob-none">Pending</span></td><td>Today, 11:02</td><td>28 Apr 2026</td>
+              <td><div class="row-acts"><button class="row-btn gold">Nudge</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av7">AD</div><div><div class="cl-name">Arch Studio Dubai</div><div class="cl-sub">arch-dubai.offplan.online</div></div></div></td>
+              <td><span class="pill p-pro">Pro</span></td><td><span class="pill p-active">Active</span></td>
+              <td><span class="mrr-v">2,400 <span class="mrr-u">AED</span></span></td><td>7</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>Today, 08:15</td><td>10 Jan 2026</td>
+              <td><div class="row-acts"><button class="row-btn">Edit</button></div></td>
+            </tr>
+            <tr>
+              <td><div class="cl-cell"><div class="cl-av av8">RH</div><div><div class="cl-name">Render House</div><div class="cl-sub">renderhouse.offplan.online</div></div></div></td>
+              <td><span class="pill p-enterprise">Enterprise</span></td><td><span class="pill p-active">Active</span></td>
+              <td><span class="mrr-v">8,000 <span class="mrr-u">AED</span></span></td><td>12</td>
+              <td><span class="pill p-ob-done">Set up</span></td><td>Yesterday</td><td>05 Dec 2025</td>
+              <td><div class="row-acts"><button class="row-btn">Edit</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PAGE: PAYMENTS ═══════════════ -->
+    <div class="page" id="page-payments">
+      <div class="page-header">
+        <div><div class="page-eyebrow">Operations</div><div class="page-title">Payments</div></div>
+        <button class="btn">+ Manual entry</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding:10px 16px;background:var(--stone-100);border-radius:var(--r-md);border:1px solid var(--stone-200);">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--sa-tx);flex-shrink:0;"></div>
+        <div style="font-size:13px;color:var(--text-500);">Provider: <strong style="color:var(--text-900);">Manual entry</strong></div>
+        <div style="flex:1;"></div>
+        <span onclick="goPage('settings',document.querySelector('[onclick*=settings]'))" style="font-size:12px;color:var(--gold);cursor:pointer;font-weight:600;">Change provider →</span>
+      </div>
+      <div class="rev-row">
+        <div class="kpi-card kpi-gold"><div class="kpi-label">MRR</div><div class="kpi-value">13,600</div><div class="kpi-meta">AED / month</div></div>
+        <div class="kpi-card"><div class="kpi-label">ARR (projected)</div><div class="kpi-value">163,200</div><div class="kpi-meta">AED / year</div></div>
+        <div class="kpi-card"><div class="kpi-label">Collected Apr</div><div class="kpi-value">11,200</div><div class="kpi-meta good">AED this month</div></div>
+        <div class="kpi-card"><div class="kpi-label">Failed</div><div class="kpi-value">2,400</div><div class="kpi-meta error">1 outstanding</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="filter-pill active">All</div>
+          <div class="filter-pill">Paid</div>
+          <div class="filter-pill">Failed</div>
+          <div class="filter-pill">Manual</div>
+          <div class="t-spacer"></div>
+          <select class="t-select"><option>April 2026</option><option>March 2026</option><option>February 2026</option></select>
+        </div>
+        <table>
+          <thead>
+            <tr><th class="sorted">Date</th><th>Client</th><th>Plan</th><th>Amount</th><th>Currency</th><th>Method</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>28 Apr 2026</td><td><strong>Render House</strong></td><td><span class="pill p-enterprise">Enterprise</span></td><td><strong>8,000</strong></td><td><span style="font-size:11px;color:var(--text-300);">AED</span></td><td><span style="font-size:12px;color:var(--text-300);">Manual</span></td><td><span class="pill p-paid">Paid</span></td><td><button class="row-btn">Receipt</button></td></tr>
+            <tr><td>27 Apr 2026</td><td><strong>Arch Studio Dubai</strong></td><td><span class="pill p-pro">Pro</span></td><td><strong>2,400</strong></td><td><span style="font-size:11px;color:var(--text-300);">AED</span></td><td><span style="font-size:12px;color:var(--text-300);">Manual</span></td><td><span class="pill p-paid">Paid</span></td><td><button class="row-btn">Receipt</button></td></tr>
+            <tr><td>22 Apr 2026</td><td><strong>Atlas CGI</strong></td><td><span class="pill p-pro">Pro</span></td><td><strong>2,400</strong></td><td><span style="font-size:11px;color:var(--text-300);">AED</span></td><td><span style="font-size:12px;color:var(--text-300);">Manual</span></td><td><span class="pill p-failed">Failed</span></td><td><button class="row-btn danger">Retry</button></td></tr>
+            <tr><td>20 Apr 2026</td><td><strong>Côte Visualisation</strong></td><td><span class="pill p-pro">Pro</span></td><td><strong>2,400</strong></td><td><span style="font-size:11px;color:var(--text-300);">AED</span></td><td><span style="font-size:12px;color:var(--text-300);">Manual</span></td><td><span class="pill p-paid">Paid</span></td><td><button class="row-btn">Receipt</button></td></tr>
+            <tr><td>15 Apr 2026</td><td><strong>Pixel Architecture</strong></td><td><span class="pill p-starter">Starter</span></td><td><strong>800</strong></td><td><span style="font-size:11px;color:var(--text-300);">AED</span></td><td><span style="font-size:12px;color:var(--text-300);">Manual</span></td><td><span class="pill p-paid">Paid</span></td><td><button class="row-btn">Receipt</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PAGE: AUDIT LOG ══════════════ -->
+    <div class="page" id="page-auditlog">
+      <div class="page-header">
+        <div><div class="page-eyebrow">System</div><div class="page-title">Audit Log</div></div>
+        <span style="font-size:13px;color:var(--text-300);">23,803 entries total</span>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="filter-pill active">All</div>
+          <div class="filter-pill">POST</div>
+          <div class="filter-pill">PATCH</div>
+          <div class="filter-pill">DELETE</div>
+          <div style="width:1px;height:20px;background:var(--stone-200);margin:0 4px;flex-shrink:0;"></div>
+          <select class="t-select"><option>All tenants</option><option>Côte Visualisation</option><option>Atlas CGI</option><option>Render House</option></select>
+          <input type="text" placeholder="Date range…" style="border:1px solid var(--stone-300);border-radius:var(--r-md);padding:5px 10px;font-size:12px;color:var(--text-500);background:var(--stone-50);width:130px;outline:none;">
+          <div class="t-spacer"></div>
+          <div class="t-count">Page 1 of 2,381</div>
+        </div>
+        <table>
+          <thead>
+            <tr><th></th><th>Method</th><th>Tenant</th><th>Actor</th><th>Description</th><th class="sorted">Time</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width:30px;"><span class="log-toggle" onclick="toggleLog(this)">▶</span></td>
+              <td><span class="m-post">POST</span></td><td>offplan.online</td>
+              <td><span style="font-size:12px;">Sergey (operator)</span></td>
+              <td style="font-size:12px;color:var(--text-500);">Generate super admin access token</td>
+              <td style="font-size:12px;">28/04/2026 17:09</td>
+            </tr>
+            <tr><td colspan="6" style="padding:0;"><div class="log-detail">POST https://cote.volumevision.app/api/v1/login/super_admin/access_token/<br>actor_id: operator_sergey · org_id: cote-studio · ip: 94.25.131.xx</div></td></tr>
+            <tr>
+              <td><span class="log-toggle" onclick="toggleLog(this)">▶</span></td>
+              <td><span class="m-post">POST</span></td><td>houseandland</td>
+              <td><span style="font-size:12px;">System</span></td>
+              <td style="font-size:12px;color:var(--text-500);">Project feature flags updated</td>
+              <td style="font-size:12px;">28/04/2026 15:45</td>
+            </tr>
+            <tr><td colspan="6" style="padding:0;"><div class="log-detail">PATCH https://admin.houseandland.volumevision.app/api/v1/projects/42/<br>fields: {features.exterior: true, features.minimap: false}</div></td></tr>
+            <tr>
+              <td><span class="log-toggle" onclick="toggleLog(this)">▶</span></td>
+              <td><span class="m-patch">PATCH</span></td><td>cote-studio</td>
+              <td><span style="font-size:12px;">Vladimir (studio admin)</span></td>
+              <td style="font-size:12px;color:var(--text-500);">Unit status changed: available → reserved</td>
+              <td style="font-size:12px;">28/04/2026 15:44</td>
+            </tr>
+            <tr><td colspan="6" style="padding:0;"><div class="log-detail">PATCH https://admin.cote.volumevision.app/api/v1/units/184/<br>fields: {status: "reserved"} · prev: "available"</div></td></tr>
+            <tr>
+              <td><span class="log-toggle" onclick="toggleLog(this)">▶</span></td>
+              <td><span class="m-post">POST</span></td><td>offplan.online</td>
+              <td><span style="font-size:12px;">Sergey (operator)</span></td>
+              <td style="font-size:12px;color:var(--text-500);">New client created: Vue 3D Studio</td>
+              <td style="font-size:12px;">28/04/2026 11:02</td>
+            </tr>
+            <tr><td colspan="6" style="padding:0;"><div class="log-detail">POST https://offplan.online/api/v1/organisations/<br>body: {name: "Vue 3D Studio", plan: "trial", subdomain: "vue3d"}</div></td></tr>
+            <tr>
+              <td><span class="log-toggle" onclick="toggleLog(this)">▶</span></td>
+              <td><span class="m-patch">PATCH</span></td><td>base</td>
+              <td><span style="font-size:12px;">Unknown user</span></td>
+              <td style="font-size:12px;color:var(--text-500);">Project settings updated</td>
+              <td style="font-size:12px;">23/04/2026 16:44</td>
+            </tr>
+            <tr><td colspan="6" style="padding:0;"><div class="log-detail">PATCH https://admin.base.volumevision.app/api/v1/projects/3/<br>actor_id: null · org_id: null (legacy row — pre-migration)</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══════════════════ PAGE: SETTINGS ═══════════════ -->
+    <div class="page" id="page-settings">
+      <div class="page-header"><div><div class="page-eyebrow">System</div><div class="page-title">Settings</div></div></div>
+
+      <!-- Payment Provider -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">Payment Provider</div>
+          <span style="font-size:11px;font-family:var(--font-ui);color:var(--st-tx);background:var(--st-bg);padding:3px 9px;border-radius:20px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">Phase 1.5</span>
+        </div>
+        <div style="padding:24px;">
+          <div style="background:var(--stone-50);border:1px solid var(--stone-200);border-radius:var(--r-md);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--sa-tx);flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-900);">Manual entry</div>
+              <div style="font-size:12px;color:var(--text-300);margin-top:2px;">Payments recorded manually by operator. No gateway connected.</div>
+            </div>
+            <span style="font-size:11px;font-family:var(--font-ui);color:var(--sa-tx);font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">Active</span>
+          </div>
+
+          <div style="font-family:var(--font-ui);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-300);margin-bottom:10px;">Switch provider — available in Phase 1.5</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+            <div class="provider-card" style="flex:1;min-width:130px;border:1px solid var(--stone-200);border-radius:var(--r-md);padding:14px 16px;opacity:0.5;cursor:not-allowed;">
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-900);margin-bottom:3px;">Stripe</div>
+              <div style="font-size:11px;color:var(--text-300);">Cards · global</div>
+            </div>
+            <div class="provider-card" style="flex:1;min-width:130px;border:1px solid var(--stone-200);border-radius:var(--r-md);padding:14px 16px;opacity:0.5;cursor:not-allowed;">
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-900);margin-bottom:3px;">Paddle</div>
+              <div style="font-size:11px;color:var(--text-300);">Cards · global · MoR</div>
+            </div>
+            <div class="provider-card" style="flex:1;min-width:130px;border:1px solid var(--stone-200);border-radius:var(--r-md);padding:14px 16px;opacity:0.5;cursor:not-allowed;">
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-900);margin-bottom:3px;">PayTabs</div>
+              <div style="font-size:11px;color:var(--text-300);">Cards · AED · MENA</div>
+            </div>
+            <div class="provider-card" style="flex:1;min-width:130px;border:1px solid var(--stone-200);border-radius:var(--r-md);padding:14px 16px;opacity:0.5;cursor:not-allowed;">
+              <div style="font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--text-900);margin-bottom:3px;">Telr</div>
+              <div style="font-size:11px;color:var(--text-300);">Cards · AED · UAE</div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--stone-100);padding-top:20px;opacity:0.45;pointer-events:none;">
+            <div style="font-family:var(--font-ui);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-300);margin-bottom:14px;">Configuration</div>
+            <div class="field-row"><div class="field-lbl">Publishable key</div><input class="field-input" placeholder="pk_live_…" disabled></div>
+            <div class="field-row"><div class="field-lbl">Secret key</div><input class="field-input" placeholder="sk_live_…" type="password" disabled></div>
+            <div class="field-row">
+              <div class="field-lbl">Webhook URL</div>
+              <div style="flex:1;font-family:var(--font-mono);font-size:12px;color:var(--text-300);background:var(--stone-100);padding:5px 9px;border-radius:var(--r-sm);">https://offplan.online/api/webhooks/stripe</div>
+              <button class="asset-btn" disabled>Copy</button>
+            </div>
+            <div class="field-row">
+              <div class="field-lbl">Mode</div>
+              <div class="ft-toggle" style="opacity:0.5;">
+                <button class="ft-btn sel-off">Test</button>
+                <button class="ft-btn">Live</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 placeholder -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">More settings</div>
+          <span style="font-size:11px;font-family:var(--font-ui);color:var(--text-300);background:var(--stone-100);padding:3px 9px;border-radius:20px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;">Stage 2</span>
+        </div>
+        <div class="stub" style="padding:40px;">
+          <p style="color:var(--text-300);font-size:13px;">Operator team management, email templates, and notification preferences — Stage 2.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ══════════════════ DRAWER ════════════════════ -->
+<div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer">
+  <div class="dr-header">
+    <div class="dr-avatar av1">CV</div>
+    <div class="dr-block">
+      <div class="dr-eyebrow">Studio Client</div>
+      <div class="dr-title">Côte Visualisation Studio</div>
+      <div class="dr-pills">
+        <span class="pill p-pro">Pro</span>
+        <span class="pill p-active">Active</span>
+        <span class="pill p-ob-done">Set up</span>
+      </div>
+    </div>
+    <button class="dr-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="dr-actions">
+    <button class="btn">↻ Reset password</button>
+    <button class="btn">+ Extend trial</button>
+    <button class="btn">✎ Change plan</button>
+    <button class="btn btn-danger">⏸ Suspend</button>
+  </div>
+  <div class="dr-tabs">
+    <div class="dr-tab active" onclick="goTab('overview',this)">Overview</div>
+    <div class="dr-tab" onclick="goTab('projects',this)">Projects · 5</div>
+    <div class="dr-tab" onclick="goTab('subscription',this)">Subscription</div>
+    <div class="dr-tab" onclick="goTab('users',this)">Users · 3</div>
+    <div class="dr-tab" onclick="goTab('dpayments',this)">Payments</div>
+  </div>
+  <div class="dr-body">
+
+    <!-- TAB: Overview -->
+    <div class="tab-pane active" id="tab-overview">
+      <div class="sec-title">Organisation</div>
+      <div class="info-row"><div class="info-lbl">Owner</div><div class="info-val"><strong>Vladimir Volkov</strong> · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="adc2dac3c8dfedcec2d9c883ded9d8c9c4c2">[email&#160;protected]</a></div></div>
+      <div class="info-row"><div class="info-lbl">Subdomain</div><div class="info-val">cote-studio.offplan.online</div></div>
+      <div class="info-row"><div class="info-lbl">Country</div><div class="info-val">United Arab Emirates</div></div>
+      <div class="info-row"><div class="info-lbl">Signed up</div><div class="info-val">12 March 2026 · 47 days ago</div></div>
+      <div class="info-row"><div class="info-lbl">Last active</div><div class="info-val">Today, 9:42 AM</div></div>
+      <div class="sec-title">Key metrics</div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="metric-lbl">Projects</div><div class="metric-val">5</div></div>
+        <div class="metric-box"><div class="metric-lbl">Users</div><div class="metric-val">3</div></div>
+        <div class="metric-box"><div class="metric-lbl">MRR</div><div class="metric-val gold">2,400</div></div>
+      </div>
+      <div class="sec-title">Onboarding checklist</div>
+      <div class="ob-list">
+        <div class="ob-item"><div class="check check-y">✓</div><div class="ob-lbl">Account created</div><div class="ob-date">12 Mar 2026</div></div>
+        <div class="ob-item"><div class="check check-y">✓</div><div class="ob-lbl">First project created</div><div class="ob-date">13 Mar 2026</div></div>
+        <div class="ob-item"><div class="check check-y">✓</div><div class="ob-lbl">First asset uploaded</div><div class="ob-date">13 Mar 2026</div></div>
+        <div class="ob-item"><div class="check check-y">✓</div><div class="ob-lbl">Team member invited</div><div class="ob-date">15 Mar 2026</div></div>
+        <div class="ob-item"><div class="check check-y">✓</div><div class="ob-lbl">Project published (URL live)</div><div class="ob-date">18 Mar 2026</div></div>
+      </div>
+    </div>
+
+    <!-- TAB: Projects -->
+    <div class="tab-pane" id="tab-projects">
+
+      <!-- Project list -->
+      <div id="proj-list-view">
+        <div class="sec-title">Projects (5)</div>
+        <div class="proj-list">
+          <div class="proj-item" onclick="openProject()"><div class="proj-name">Côte Résidence Dubai</div><span class="pill p-pub">Published</span><div class="proj-meta">142 units</div><span class="proj-arrow">›</span></div>
+          <div class="proj-item" onclick="openProject()"><div class="proj-name">Marina Heights Tower</div><span class="pill p-pub">Published</span><div class="proj-meta">86 units</div><span class="proj-arrow">›</span></div>
+          <div class="proj-item" onclick="openProject()"><div class="proj-name">Palm Residence</div><span class="pill p-draft">Draft</span><div class="proj-meta">64 units</div><span class="proj-arrow">›</span></div>
+          <div class="proj-item" onclick="openProject()"><div class="proj-name">Creek View Apartments</div><span class="pill p-draft">Draft</span><div class="proj-meta">210 units</div><span class="proj-arrow">›</span></div>
+          <div class="proj-item" onclick="openProject()"><div class="proj-name">Downtown Lofts</div><span class="pill p-inactive">Inactive</span><div class="proj-meta">38 units</div><span class="proj-arrow">›</span></div>
+        </div>
+      </div>
+
+      <!-- Project settings detail (hidden until project clicked) -->
+      <div id="proj-detail-view" style="display:none">
+        <div class="proj-back" onclick="closeProject()">← Projects</div>
+        <div class="proj-detail-name">Côte Résidence Dubai <span class="pill p-pub" style="vertical-align:middle;font-size:10px;">Published</span></div>
+
+        <div class="sec-title">Information</div>
+        <div class="field-row"><div class="field-lbl">Project name</div><input class="field-input" value="Côte Résidence Dubai"></div>
+        <div class="field-row"><div class="field-lbl">Domain</div><div class="field-val" style="font-family:var(--font-mono);font-size:12px;color:var(--text-300);">cote.volumevision.app</div></div>
+        <div class="field-row"><div class="field-lbl">Admin domain</div><div class="field-val" style="font-family:var(--font-mono);font-size:12px;color:var(--text-300);">cote.admin.volumevision.app</div></div>
+        <div class="field-row"><div class="field-lbl">Address</div><input class="field-input" value="Dubai Creek Harbour, Dubai, UAE"></div>
+        <div class="field-row"><div class="field-lbl">Theme</div><select class="field-select"><option selected>Base</option><option>Dark</option><option>Light</option></select></div>
+        <div class="field-row" style="align-items:flex-start;padding-top:10px;"><div class="field-lbl" style="margin-top:4px;">Managers</div><div class="manager-tags"><span class="manager-tag"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b6e6f627f64794b7d64677e666e7d6278626465256a7b7b">[email&#160;protected]</a></span><span class="manager-tag"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f99b988a9cb98f96958c949c8f908a909697d79096">[email&#160;protected]</a></span><span class="manager-tag"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1ccc0d2d5c4d3e1d7cecdd4ccc4d7c8d2c8cecf8fc0d1d1">[email&#160;protected]</a></span></div></div>
+
+        <div class="sec-title" style="margin-top:20px;">Assets</div>
+        <div class="asset-row">
+          <div class="asset-label">Main logo</div>
+          <div class="asset-filename">logo_cote_main_v3.png</div>
+          <button class="asset-btn">Browse</button>
+        </div>
+        <div class="asset-thumbs">
+          <div class="asset-thumb" style="background:var(--stone-300);"></div>
+          <div class="asset-thumb" style="background:var(--stone-200);"></div>
+          <div class="asset-thumb" style="background:var(--stone-200);"></div>
+        </div>
+        <div class="asset-row" style="margin-top:10px;">
+          <div class="asset-label">Welcome video</div>
+          <div class="asset-filename">cote_welcome_intro.mp4</div>
+          <button class="asset-btn">Browse</button>
+        </div>
+        <div class="asset-video-preview" style="height:68px;">▶ 0:07 preview</div>
+
+        <div class="sec-title" style="margin-top:20px;">Features</div>
+        <div class="ft-list">
+          <div class="ft-row"><div class="ft-name">Project <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Units <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Galleries <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Interior <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row dimmed"><div class="ft-name">Exterior <span class="ft-status off">Inactive</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Minimap <span class="ft-status off">Inactive</span></div><div class="ft-toggle"><button class="ft-btn sel-off" onclick="ftClick(this,'off')">Off</button><button class="ft-btn" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Panorama optimisation <span class="ft-status off">Inactive</span></div><div class="ft-toggle"><button class="ft-btn sel-off" onclick="ftClick(this,'off')">Off</button><button class="ft-btn" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Labels &amp; Terms <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Floor Plans <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Floor Plates <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Unit List <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Price List <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+          <div class="ft-row"><div class="ft-name">Unit Statuses <span class="ft-status on">Active</span></div><div class="ft-toggle"><button class="ft-btn" onclick="ftClick(this,'off')">Off</button><button class="ft-btn sel-on" onclick="ftClick(this,'on')">On</button></div></div>
+        </div>
+
+        <div class="proj-save-bar">
+          <button class="btn" onclick="closeProject()">Discard</button>
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB: Subscription -->
+    <div class="tab-pane" id="tab-subscription">
+      <div class="sub-box">
+        <div class="sub-plan">Pro Plan</div>
+        <div class="sub-price">AED 2,400 <span>/ month</span></div>
+        <div class="info-row"><div class="info-lbl">Status</div><div class="info-val"><span class="pill p-active">Active</span></div></div>
+        <div class="info-row"><div class="info-lbl">Started</div><div class="info-val">12 March 2026</div></div>
+        <div class="info-row"><div class="info-lbl">Next billing</div><div class="info-val">06 May 2026 · in 8 days</div></div>
+        <div class="info-row"><div class="info-lbl">Provider</div><div class="info-val">Manual entry</div></div>
+      </div>
+      <div class="sec-title">Plan limits</div>
+      <div class="info-row"><div class="info-lbl">Projects</div><div class="info-val">Up to 20 (using 5)</div></div>
+      <div class="info-row"><div class="info-lbl">Users</div><div class="info-val">Up to 10 (using 3)</div></div>
+      <div class="info-row"><div class="info-lbl">Storage</div><div class="info-val">50 GB included</div></div>
+      <div class="info-row"><div class="info-lbl">Custom domain</div><div class="info-val">✓ Included</div></div>
+    </div>
+
+    <!-- TAB: Users -->
+    <div class="tab-pane" id="tab-users">
+      <div class="sec-title">Team members (3)</div>
+      <div class="user-list">
+        <div class="user-item"><div class="user-av">VV</div><div style="flex:1;"><div class="user-name">Vladimir Volkov</div><div class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="600f170e051220030f14054e13141504090f">[email&#160;protected]</a></div></div><span class="pill p-owner">Owner</span></div>
+        <div class="user-item"><div class="user-av">AM</div><div style="flex:1;"><div class="user-name">Anna Marchuk</div><div class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c2d22222d0c2f233829623f3839282523">[email&#160;protected]</a></div></div><span class="pill p-admin">Admin</span></div>
+        <div class="user-item"><div class="user-av">KP</div><div style="flex:1;"><div class="user-name">Kirill Petrov</div><div class="user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="711a1803181d1d31121e05145f02050415181e">[email&#160;protected]</a></div></div><span class="pill p-editor">Editor</span></div>
+      </div>
+    </div>
+
+    <!-- TAB: Payments -->
+    <div class="tab-pane" id="tab-dpayments">
+      <div class="sec-title">Payment history</div>
+      <div class="pay-list">
+        <div class="pay-item"><div><div class="pay-amount">AED 2,400</div><div class="pay-meta">20 Apr 2026 · Manual</div></div><div style="flex:1;"></div><span class="pill p-paid">Paid</span></div>
+        <div class="pay-item"><div><div class="pay-amount">AED 2,400</div><div class="pay-meta">20 Mar 2026 · Manual</div></div><div style="flex:1;"></div><span class="pill p-paid">Paid</span></div>
+        <div class="pay-item"><div><div class="pay-amount">AED 2,400</div><div class="pay-meta">12 Mar 2026 · Manual (first payment)</div></div><div style="flex:1;"></div><span class="pill p-paid">Paid</span></div>
+      </div>
+    </div>
+
+  </div><!-- /dr-body -->
+</aside>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const pageTitles = {overview:'Overview',clients:'Clients',payments:'Payments',auditlog:'Audit Log',settings:'Settings'};
+
+  function goPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+    document.getElementById('topbar-title').textContent = pageTitles[id] || id;
+  }
+  function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const h = document.getElementById('sidebar-handle');
+    sb.classList.toggle('expanded');
+    h.textContent = sb.classList.contains('expanded') ? '‹' : '›';
+  }
+
+  function openDrawer() {
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('drawer').classList.add('open');
+  }
+  function closeDrawer() {
+    document.getElementById('overlay').classList.remove('open');
+    document.getElementById('drawer').classList.remove('open');
+    closeProject();
+  }
+
+  function goTab(id, el) {
+    document.querySelectorAll('.tab-pane').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.dr-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+  }
+
+  function toggleLog(el) {
+    const row = el.closest('tr');
+    const detail = row.nextElementSibling.querySelector('.log-detail');
+    const open = detail.classList.toggle('open');
+    el.textContent = open ? '▼' : '▶';
+  }
+
+  function openProject() {
+    document.getElementById('proj-list-view').style.display = 'none';
+    document.getElementById('proj-detail-view').style.display = 'block';
+  }
+  function closeProject() {
+    document.getElementById('proj-detail-view').style.display = 'none';
+    document.getElementById('proj-list-view').style.display = 'block';
+  }
+  function ftClick(btn, side) {
+    const toggle = btn.closest('.ft-toggle');
+    toggle.querySelectorAll('.ft-btn').forEach(b => b.classList.remove('sel-on','sel-off'));
+    if (side === 'off') btn.classList.add('sel-off');
+    else btn.classList.add('sel-on');
+    const nameEl = toggle.closest('.ft-row').querySelector('.ft-status');
+    if (nameEl) { nameEl.textContent = side === 'on' ? 'Active' : 'Inactive'; nameEl.className = 'ft-status ' + (side === 'on' ? 'on' : 'off'); }
+  }
+
+  document.querySelectorAll('.table-toolbar').forEach(tb => {
+    tb.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', function() {
+        tb.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  });
+</script>
+</body>
+</html>
