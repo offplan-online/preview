@@ -1959,7 +1959,7 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-.bg-welcome  { background-image: url('assets/rr-hero.jpg'); background-size: cover; background-position: center 30%; }
+.bg-welcome  { background-image: url('assets/tapestry-hero.jpg'); background-size: cover; background-position: center 20%; }
 .bg-video    { background-image: url('assets/rr-video-bg.jpg'); background-size: cover; background-position: center; }
 .bg-interior { background: linear-gradient(160deg, #d8cfc2 0%, #b8a896 60%, #6a5848 100%); }
 .bg-amenity  { background: linear-gradient(150deg, #cbc1b0 0%, #a89880 50%, #5a4838 100%); }
@@ -2279,6 +2279,43 @@ a { color: inherit; text-decoration: none; }
 .dev-nav:not(.hidden) ~ .dev-fab { display: none; }
 
 /* ══════════════════════════════════════════════════════════════════════ */
+/* LOCATION SCREEN                                                         */
+/* ══════════════════════════════════════════════════════════════════════ */
+.loc-pins { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.loc-pin {
+  position: absolute; transform: translate(-50%, -100%);
+  display: flex; flex-direction: column; align-items: center;
+  pointer-events: auto; cursor: default;
+  transition: opacity var(--dur);
+}
+.loc-pin:hover { opacity: 0.85; }
+.loc-card {
+  background: rgba(8,14,24,0.78);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r-md); padding: 9px 14px;
+  text-align: center; white-space: nowrap; margin-bottom: 6px;
+}
+.loc-name {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #fff; font-weight: 500;
+}
+.loc-dist {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em;
+  color: var(--gold); margin-top: 3px;
+}
+.loc-stem {
+  width: 1px; height: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(184,149,90,0.90));
+}
+.loc-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,149,90,0.28), 0 0 14px rgba(184,149,90,0.40);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
 /* LOGIN MODAL (Phase 1.10.0 + 1.3.3)                                    */
 /* ══════════════════════════════════════════════════════════════════════ */
 .login-wrap {
@@ -2593,6 +2630,8 @@ a { color: inherit; text-decoration: none; }
   <a data-goto="shimmer"><span class="num">6.1</span>Shimmer</a>
   <div class="dev-nav-section">List</div>
   <a data-goto="unit-list"><span class="num">7.1</span>Unit List</a>
+  <div class="dev-nav-section">Location</div>
+  <a data-goto="location"><span class="num">8.1</span>Location</a>
   <div class="dev-nav-section">Buyer / Auth</div>
   <a data-goto="login"><span class="num">L</span>Login Modal</a>
   <a data-goto="buyer-unit"><span class="num">B</span>Buyer Unit Page</a>
@@ -2902,6 +2941,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -2962,6 +3002,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3119,6 +3160,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3329,6 +3371,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3573,6 +3616,7 @@ a { color: inherit; text-decoration: none; }
       <a class="active">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3648,6 +3692,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a class="active">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3721,6 +3766,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a class="active">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -3798,6 +3844,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a class="active">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
@@ -4389,6 +4436,114 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 <!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- 8.1 LOCATION                                                         -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<section class="screen" data-screen="location">
+  <div class="static-bg" style="background-image:url('assets/orama-location.webp');background-size:cover;background-position:center 40%"></div>
+
+  <!-- gradient vignette — darker bottom so chrome reads, lighter top for pins -->
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,20,0.22) 0%,transparent 25%,transparent 68%,rgba(10,14,20,0.55) 100%);pointer-events:none;z-index:2"></div>
+
+  <!-- Top chrome -->
+  <div class="top-chrome" style="z-index:10">
+    <div class="top-left"><div class="brand-velvet md">VELVET</div></div>
+    <nav class="top-nav">
+      <a data-goto="building">Exterior</a>
+      <a data-goto="interior">Interior</a>
+      <a data-goto="unit-views">Views</a>
+      <a data-goto="amenities">Amenities</a>
+      <a class="active">Location</a>
+    </nav>
+    <div class="top-right">
+      <div class="unit-toggle">
+        <button class="active">AED</button><button>USD</button>
+        <span class="div"></span>
+        <button class="active">SQM</button><button>SQFT</button>
+      </div>
+      <button class="corner-btn" title="Search"><svg class="icon"><use href="#ic-search"/></svg></button>
+      <button class="corner-btn" data-goto="login" title="Sign in"><svg class="icon"><use href="#ic-user"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Location pins -->
+  <div class="loc-pins">
+
+    <!-- Surfers Paradise CBD — skyline visible top-right -->
+    <div class="loc-pin" style="left:78%;top:42%">
+      <div class="loc-card">
+        <div class="loc-name">Surfers Paradise CBD</div>
+        <div class="loc-dist">3 km · 8 min drive</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+    <!-- Q1 Tower / Beach -->
+    <div class="loc-pin" style="left:88%;top:35%">
+      <div class="loc-card">
+        <div class="loc-name">Surfers Paradise Beach</div>
+        <div class="loc-dist">4.2 km · 10 min drive</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+    <!-- Light Rail -->
+    <div class="loc-pin" style="left:52%;top:68%">
+      <div class="loc-card">
+        <div class="loc-name">Southport Light Rail</div>
+        <div class="loc-dist">650 m · 8 min walk</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+    <!-- Gold Coast University Hospital -->
+    <div class="loc-pin" style="left:22%;top:50%">
+      <div class="loc-card">
+        <div class="loc-name">GCU Hospital</div>
+        <div class="loc-dist">2.8 km · 6 min drive</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+    <!-- Pacific Fair -->
+    <div class="loc-pin" style="left:14%;top:38%">
+      <div class="loc-card">
+        <div class="loc-name">Pacific Fair Shopping</div>
+        <div class="loc-dist">8 km · 15 min drive</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+    <!-- Gold Coast Airport -->
+    <div class="loc-pin" style="left:38%;top:82%">
+      <div class="loc-card">
+        <div class="loc-name">Gold Coast Airport</div>
+        <div class="loc-dist">22 km · 20 min drive</div>
+      </div>
+      <div class="loc-stem"></div>
+      <div class="loc-dot"></div>
+    </div>
+
+  </div>
+
+  <!-- Bottom chrome -->
+  <div class="bottom-chrome" style="z-index:10">
+    <div class="bottom-left"></div>
+    <nav class="bottom-nav">
+      <a data-goto="apt-filters">Apartments</a>
+      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-goto="album">Gallery</a>
+      <a data-goto="unit-list">Unit List</a>
+    </nav>
+    <div class="bottom-right"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
 <!-- L. LOGIN MODAL (Phase 1.10.0 + 1.3.3)                              -->
 <!-- Two states: anonymous sign-in · buyer-token arrival                -->
 <!-- ════════════════════════════════════════════════════════════════════ -->
@@ -4515,6 +4670,7 @@ a { color: inherit; text-decoration: none; }
       <a data-goto="interior">Interior</a>
       <a data-goto="unit-views">Views</a>
       <a data-goto="amenities">Amenities</a>
+      <a data-goto="location">Location</a>
     </nav>
     <div class="top-right">
       <div class="unit-toggle">
