@@ -2483,42 +2483,32 @@ a { color: inherit; text-decoration: none; }
   overflow: visible;
 }
 .wt-line {
-  stroke: rgba(232,213,176,0.38); stroke-width: 1;
-  fill: none;
-  vector-effect: non-scaling-stroke;
-  transition: stroke 220ms, opacity 220ms;
-}
-.wt-dot {
-  fill: rgba(232,213,176,0.55);
-  vector-effect: non-scaling-stroke;
-  transition: fill 220ms, r 220ms;
-}
-.wt-tick { /* the short horizontal end of the callout line */
-  stroke: rgba(232,213,176,0.38); stroke-width: 1;
+  stroke: rgba(232,213,176,0.90); stroke-width: 1;
   fill: none; vector-effect: non-scaling-stroke;
-  transition: stroke 220ms;
 }
-.wt-group.active .wt-line  { stroke: rgba(232,213,176,0.95); }
-.wt-group.active .wt-tick  { stroke: rgba(232,213,176,0.95); }
-.wt-group.active .wt-dot   { fill: var(--gold); r: 4; }
+.wt-tick {
+  stroke: rgba(232,213,176,0.90); stroke-width: 1;
+  fill: none; vector-effect: non-scaling-stroke;
+}
+/* Lines + items hidden by default — revealed only from panel dropdown hover */
+.wt-group { opacity: 0; transition: opacity 200ms; }
+.wt-group.active { opacity: 1; }
 
 .wt-item {
-  position: absolute; pointer-events: auto; cursor: pointer;
+  position: absolute; pointer-events: none; cursor: default;
   transform: translateY(-50%);
+  opacity: 0; transition: opacity 200ms;
+}
+.wt-item.active {
+  opacity: 1; pointer-events: auto; cursor: pointer;
 }
 .wt-card {
-  background: rgba(8,14,24,0.68);
+  background: rgba(8,14,24,0.82);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(232,213,176,0.28);
+  border: 1px solid rgba(232,213,176,0.70);
   border-radius: var(--r-sm);
   padding: 9px 14px;
   white-space: nowrap;
-  transition: background 200ms, border-color 200ms;
-}
-.wt-item:hover .wt-card,
-.wt-item.active .wt-card {
-  background: rgba(8,14,24,0.88);
-  border-color: rgba(232,213,176,0.75);
 }
 .wt-card-eyebrow {
   font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.20em;
@@ -2534,10 +2524,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Compact floor-level badges */
-.wt-badges {
-  position: absolute; left: var(--panel-w, 80px); top: 0; bottom: 0;
-  width: 0; pointer-events: none; z-index: 6;
-}
+.wt-badges { display: none; } /* hidden — walkthroughs discovered via panel dropdown only */
 .wt-badge {
   position: absolute; left: 28px;
   transform: translateY(-50%);
@@ -6095,8 +6082,10 @@ document.addEventListener('click', (e) => {
 
   list.querySelectorAll('.ip-wt-item').forEach(item => {
     item.addEventListener('mouseenter', () => {
-      // Only show callouts when on building screen
-      if (!document.querySelector('.screen[data-screen="building"].active')) return;
+      // Navigate to building if not already there
+      if (!document.querySelector('.screen[data-screen="building"].active')) {
+        showScreen('building');
+      }
       const group = document.getElementById(item.dataset.wtGroup);
       group?.classList.add('active');
       document.getElementById(item.dataset.wtItem)?.classList.add('active');
@@ -6110,8 +6099,7 @@ document.addEventListener('click', (e) => {
       }
     });
     item.addEventListener('mouseleave', () => {
-      const group = document.getElementById(item.dataset.wtGroup);
-      group?.classList.remove('active');
+      document.getElementById(item.dataset.wtGroup)?.classList.remove('active');
       document.getElementById(item.dataset.wtItem)?.classList.remove('active');
       document.getElementById('wtThumb')?.classList.remove('visible');
     });
