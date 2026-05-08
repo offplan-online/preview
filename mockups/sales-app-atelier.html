@@ -2472,6 +2472,79 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════ */
+/* FLOOR PLANS DRAWER — left slide-in                                      */
+/* ══════════════════════════════════════════════════════════════════════ */
+.fp-drawer {
+  position: fixed; left: 0; top: 0; bottom: 0; z-index: 80;
+  width: 380px;
+  background: rgba(248,246,242,0.97);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--stone-200);
+  box-shadow: 4px 0 40px rgba(20,28,38,0.14);
+  display: flex; flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 280ms var(--ease);
+  overflow: hidden;
+}
+.fp-drawer.open { transform: translateX(0); }
+.fp-drawer-scrim { position: fixed; inset: 0; z-index: 79; display: none; }
+.fp-drawer-scrim.open { display: block; }
+.fp-drawer-head {
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--stone-200);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.fp-drawer-title {
+  font-family: var(--font-display); font-size: 22px; font-weight: 400; color: var(--text-900);
+}
+.fp-drawer-close {
+  width: 32px; height: 32px; border-radius: var(--r-pill);
+  background: var(--stone-100); border: 1px solid var(--stone-200);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-500); cursor: pointer; transition: all var(--dur);
+}
+.fp-drawer-close:hover { background: var(--stone-200); color: var(--text-900); }
+.fp-drawer-close .icon { width: 12px; height: 12px; }
+.fp-drawer-filters {
+  padding: 12px 18px; border-bottom: 1px solid var(--stone-200);
+  display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
+}
+.fp-drawer-filter-row { display: flex; flex-direction: column; gap: 5px; }
+.fp-drawer-filter-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-300);
+}
+.fp-drawer-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.fp-drawer-chip {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.10em;
+  text-transform: uppercase; color: var(--text-700);
+  padding: 4px 10px; border-radius: var(--r-pill);
+  background: var(--stone-100); border: 1px solid var(--stone-200);
+  cursor: pointer; transition: all var(--dur);
+}
+.fp-drawer-chip.on { background: var(--text-900); color: var(--gold-light); border-color: var(--text-900); }
+.fp-drawer-chip:hover:not(.on) { border-color: var(--text-500); }
+.fp-drawer-grid {
+  flex: 1; overflow-y: auto;
+  padding: 12px 14px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.fp-drawer-card {
+  background: #fff; border: 1px solid var(--stone-200);
+  border-radius: var(--r-md); overflow: hidden;
+  cursor: pointer; transition: all var(--dur);
+}
+.fp-drawer-card:hover { border-color: var(--gold-border); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.fp-drawer-card-img { width: 100%; aspect-ratio: 5/2; object-fit: contain; padding: 8px; background: var(--stone-50); display: block; }
+.fp-drawer-card-svg { width: 100%; aspect-ratio: 5/2; display: flex; align-items: center; justify-content: center; background: var(--stone-50); padding: 8px; }
+.fp-drawer-card-svg svg { width: 90%; height: auto; color: var(--text-600); }
+.fp-drawer-card-body { padding: 8px 10px 10px; }
+.fp-drawer-card-eye { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-300); margin-bottom: 2px; }
+.fp-drawer-card-name { font-family: var(--font-display); font-size: 14px; font-weight: 400; color: var(--text-900); line-height: 1.1; margin-bottom: 3px; }
+.fp-drawer-card-price { font-family: var(--font-display); font-size: 13px; color: var(--gold); }
+
+/* ══════════════════════════════════════════════════════════════════════ */
 /* WALKTHROUGH CALLOUTS — architectural lines on building exterior          */
 /* ══════════════════════════════════════════════════════════════════════ */
 .wt-overlay {
@@ -3459,10 +3532,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a class="primary" data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -3621,10 +3692,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a class="primary">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -3832,10 +3901,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a class="primary">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4074,10 +4141,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a class="primary">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4150,10 +4215,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4223,10 +4286,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4301,10 +4362,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4376,10 +4435,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -4440,10 +4497,8 @@ a { color: inherit; text-decoration: none; }
       <button class="corner-btn" data-goto="welcome" title="Restart"><svg class="icon"><use href="#ic-restart"/></svg></button>
     </div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right">
       <button class="corner-btn" title="Language"><svg class="icon"><use href="#ic-lang"/></svg></button>
@@ -5029,10 +5084,8 @@ a { color: inherit; text-decoration: none; }
   <div class="bottom-chrome" style="z-index:10">
     <div class="bottom-left"></div>
     <nav class="bottom-nav">
-      <a data-goto="apt-filters">Apartments</a>
-      <a data-goto="floor-plates">Floor Plates</a>
+      <a data-toggle="fp-drawer">Floor Plans</a>
       <a data-goto="album">Gallery</a>
-      <a data-goto="unit-list">Unit List</a>
     </nav>
     <div class="bottom-right"></div>
   </div>
@@ -6313,6 +6366,128 @@ document.getElementById('svBack').addEventListener('click', () => {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') svModal.classList.remove('open');
+});
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- FLOOR PLANS DRAWER                                                     -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="fp-drawer-scrim" id="fpDrawerScrim"></div>
+<div class="fp-drawer" id="fpDrawer">
+
+  <div class="fp-drawer-head">
+    <div class="fp-drawer-title">Floor Plans</div>
+    <button class="fp-drawer-close" id="fpDrawerClose"><svg class="icon"><use href="#ic-close"/></svg></button>
+  </div>
+
+  <div class="fp-drawer-filters">
+    <div class="fp-drawer-filter-row">
+      <div class="fp-drawer-filter-label">Bedrooms</div>
+      <div class="fp-drawer-chips">
+        <button class="fp-drawer-chip">Studio</button>
+        <button class="fp-drawer-chip on">1 BR</button>
+        <button class="fp-drawer-chip on">2 BR</button>
+        <button class="fp-drawer-chip on">3 BR</button>
+        <button class="fp-drawer-chip">Penthouse</button>
+      </div>
+    </div>
+    <div class="fp-drawer-filter-row">
+      <div class="fp-drawer-filter-label">View</div>
+      <div class="fp-drawer-chips">
+        <button class="fp-drawer-chip on">Ocean</button>
+        <button class="fp-drawer-chip">City</button>
+        <button class="fp-drawer-chip">Park</button>
+      </div>
+    </div>
+    <div class="fp-drawer-filter-row">
+      <div class="fp-drawer-filter-label">Aspect</div>
+      <div class="fp-drawer-chips">
+        <button class="fp-drawer-chip">N</button>
+        <button class="fp-drawer-chip">E</button>
+        <button class="fp-drawer-chip on">S</button>
+        <button class="fp-drawer-chip on">W</button>
+        <button class="fp-drawer-chip">NE</button>
+        <button class="fp-drawer-chip">SW</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fp-drawer-grid">
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <img class="fp-drawer-card-img" src="assets/fp-plan-north.webp" alt="North">
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 1 · Studio</div>
+        <div class="fp-drawer-card-name">Garden Studio</div>
+        <div class="fp-drawer-card-price">From AED 1.4M</div>
+      </div>
+    </div>
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <img class="fp-drawer-card-img" src="assets/fp-plan-east.webp" alt="East">
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 2 · Corner</div>
+        <div class="fp-drawer-card-name">Corner One</div>
+        <div class="fp-drawer-card-price">From AED 1.6M</div>
+      </div>
+    </div>
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <div class="fp-drawer-card-svg"><svg viewBox="0 0 200 130"><use href="#fp-twobd"/></svg></div>
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 3 · Garden</div>
+        <div class="fp-drawer-card-name">Two-Bed Garden</div>
+        <div class="fp-drawer-card-price">From AED 2.1M</div>
+      </div>
+    </div>
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <div class="fp-drawer-card-svg"><svg viewBox="0 0 200 130"><use href="#fp-twobd"/></svg></div>
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 4 · Ocean</div>
+        <div class="fp-drawer-card-name">Two-Bed Ocean</div>
+        <div class="fp-drawer-card-price">From AED 2.4M</div>
+      </div>
+    </div>
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <div class="fp-drawer-card-svg"><svg viewBox="0 0 200 130"><use href="#fp-threebd"/></svg></div>
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 5 · Skyhome</div>
+        <div class="fp-drawer-card-name">Three-Bed Skyhome</div>
+        <div class="fp-drawer-card-price">From AED 2.85M</div>
+      </div>
+    </div>
+    <div class="fp-drawer-card" data-goto="apt-stack">
+      <div class="fp-drawer-card-svg"><svg viewBox="0 0 200 130"><use href="#fp-threebd"/></svg></div>
+      <div class="fp-drawer-card-body">
+        <div class="fp-drawer-card-eye">Type 6 · Penthouse</div>
+        <div class="fp-drawer-card-name">Penthouse West</div>
+        <div class="fp-drawer-card-price">From AED 4.2M</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// FLOOR PLANS DRAWER
+// ══════════════════════════════════════════════════════════════════════
+const fpDrawer      = document.getElementById('fpDrawer');
+const fpDrawerScrim = document.getElementById('fpDrawerScrim');
+
+function openFpDrawer()  { fpDrawer.classList.add('open'); fpDrawerScrim.classList.add('open'); }
+function closeFpDrawer() { fpDrawer.classList.remove('open'); fpDrawerScrim.classList.remove('open'); }
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-toggle="fp-drawer"]')) { openFpDrawer(); return; }
+  if (e.target.closest('#fpDrawerClose') || e.target.closest('#fpDrawerScrim')) { closeFpDrawer(); return; }
+  // Plan card click inside drawer → navigate + close
+  const card = e.target.closest('.fp-drawer-card[data-goto]');
+  if (card) { closeFpDrawer(); showScreen(card.dataset.goto); return; }
+  // Filter chips toggle
+  const chip = e.target.closest('.fp-drawer-chip');
+  if (chip) { chip.classList.toggle('on'); }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeFpDrawer();
 });
 </script>
 </body>
