@@ -3819,42 +3819,36 @@ a { color: inherit; text-decoration: none; }
       </button>
 
       <div class="stack-tower-head">
-        <div class="stack-tower-eyebrow">Type 5 · Skyhome</div>
-        <div class="stack-tower-title">Three-Bed Skyhome</div>
-        <div class="stack-tower-sub">3 BD <span style="color:var(--stone-300)">·</span> 2 BA <span style="color:var(--stone-300)">·</span> 187 m² <span style="color:var(--stone-300)">·</span> SW</div>
+        <div class="stack-tower-eyebrow">Villa · Type A</div>
+        <div class="stack-tower-title">Villa South</div>
+        <div class="stack-tower-sub">2 BD <span style="color:var(--stone-300)">·</span> 2 BA <span style="color:var(--stone-300)">·</span> 132 m² <span style="color:var(--stone-300)">·</span> S</div>
       </div>
 
       <div class="stack-tower-viz" id="towerViz">
-        <!-- Floors 1-13, type 5 exists on 8, 9, 10, 11. Selected = 10 -->
-        <div class="tower-floor"><span class="num">01</span><span></span></div>
-        <div class="tower-floor"><span class="num">02</span><span></span></div>
-        <div class="tower-floor"><span class="num">03</span><span></span></div>
-        <div class="tower-floor"><span class="num">04</span><span></span></div>
-        <div class="tower-floor"><span class="num">05</span><span></span></div>
-        <div class="tower-floor"><span class="num">06</span><span></span></div>
+        <!-- Villa type exists on levels 2, 3, 4, 6. Selected = 2 (unit 212) -->
         <div class="tower-floor"><span class="num">07</span><span></span></div>
-        <div class="tower-floor has-unit" data-floor="8">
-          <span class="num">08</span>
-          <span class="price">AED 2.85M</span>
+        <div class="tower-floor has-unit" data-floor="6">
+          <span class="num">06</span>
+          <span class="price">AED 1.65M</span>
           <span class="status-dot avail"></span>
         </div>
-        <div class="tower-floor has-unit" data-floor="9">
-          <span class="num">09</span>
-          <span class="price">AED 2.95M</span>
+        <div class="tower-floor"><span class="num">05</span><span></span></div>
+        <div class="tower-floor has-unit" data-floor="4">
+          <span class="num">04</span>
+          <span class="price">AED 1.55M</span>
+          <span class="status-dot avail"></span>
+        </div>
+        <div class="tower-floor has-unit" data-floor="3">
+          <span class="num">03</span>
+          <span class="price">AED 1.48M</span>
+          <span class="status-dot avail"></span>
+        </div>
+        <div class="tower-floor has-unit selected" data-floor="2">
+          <span class="num">02</span>
+          <span class="price">AED 1.4M</span>
           <span class="status-dot reserved"></span>
         </div>
-        <div class="tower-floor has-unit selected" data-floor="10">
-          <span class="num">10</span>
-          <span class="price">AED 3.20M</span>
-          <span class="status-dot"></span>
-        </div>
-        <div class="tower-floor has-unit" data-floor="11">
-          <span class="num">11</span>
-          <span class="price">AED 3.45M</span>
-          <span class="status-dot avail"></span>
-        </div>
-        <div class="tower-floor"><span class="num">12</span><span></span></div>
-        <div class="tower-floor"><span class="num">13</span><span></span></div>
+        <div class="tower-floor"><span class="num">01</span><span></span></div>
       </div>
 
       <div class="stack-tower-legend">
@@ -4418,10 +4412,14 @@ a { color: inherit; text-decoration: none; }
           <!-- Unit hotspots on the floor plate -->
           <div class="fp-hotspot avail" style="left: 36%; top: 42%"
                data-unit="801" data-status="avail" data-status-label="Available"
-               data-beds="3" data-size="187 m²" data-price="AED 3.20M" data-level="10" data-type="3-7 North · SW">01</div>
+               data-beds="3" data-size="187 m²" data-price="AED 3.20M" data-level="2" data-type="3-7 North · SW">01</div>
           <div class="fp-hotspot reserved" style="left: 64%; top: 42%"
                data-unit="802" data-status="reserved" data-status-label="Reserved"
-               data-beds="3" data-size="200 m²" data-price="AED 3.45M" data-level="10" data-type="1-2 South · SE">02</div>
+               data-beds="3" data-size="200 m²" data-price="AED 3.45M" data-level="2" data-type="1-2 South · SE">02</div>
+          <!-- Unit 212 — Villa · South, level 2 (highlighted path from unit list) -->
+          <div class="fp-hotspot reserved active" style="left: 52%; top: 68%"
+               data-unit="212" data-status="reserved" data-status-label="Reserved"
+               data-beds="2" data-size="132 m²" data-price="AED 1.4M" data-level="2" data-type="Villa · South">212</div>
 
           <!-- Popup card (shared, positioned by JS) -->
           <div class="fp-popup" id="fpPopup">
@@ -4442,6 +4440,10 @@ a { color: inherit; text-decoration: none; }
               <div class="fp-popup-row"><span class="k">Size</span><span class="v" id="fpPopupSize">187 m²</span></div>
               <div class="fp-popup-row"><span class="k">Level</span><span class="v" id="fpPopupLevel">10</span></div>
             </div>
+            <button class="fp-popup-cta" id="fpPopupPlan"
+                    style="background:var(--stone-100);color:var(--text-700);border:1px solid var(--stone-200);margin-bottom:6px">
+              View floor plan ↗
+            </button>
             <button class="fp-popup-cta" data-goto="apt-stack" id="fpPopupCta">View unit stack →</button>
           </div>
         </div>
@@ -4789,9 +4791,9 @@ a { color: inherit; text-decoration: none; }
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr data-goto="floor-plates" style="cursor:pointer" title="View unit 212 on floor plate">
               <td class="fav-cell"><svg class="icon"><use href="#ic-heart"/></svg></td>
-              <td class="unit-num">212</td><td class="num-cell">2</td><td>Villa</td><td>S</td><td class="num-cell">2</td><td class="num-cell">2</td><td class="num-cell">2</td><td class="num-cell">1</td><td class="num-cell">132</td><td class="bold-cell">AED 1.4M</td><td><span class="status-tag reserved">Reserved</span></td>
+              <td class="unit-num" style="color:var(--gold)">212 →</td><td class="num-cell">2</td><td>Villa</td><td>S</td><td class="num-cell">2</td><td class="num-cell">2</td><td class="num-cell">2</td><td class="num-cell">1</td><td class="num-cell">132</td><td class="bold-cell">AED 1.4M</td><td><span class="status-tag reserved">Reserved</span></td>
             </tr>
             <tr>
               <td class="fav-cell on"><svg class="icon"><use href="#ic-heart"/></svg></td>
@@ -6017,9 +6019,24 @@ document.addEventListener('click', (e) => {
   });
 })();
 
+// Table row data-goto (unit list → floor-plates)
+document.addEventListener('click', (e) => {
+  const row = e.target.closest('tr[data-goto]');
+  if (!row || e.target.closest('td.fav-cell')) return;
+  showScreen(row.dataset.goto);
+  // Auto-open popup for unit 212 when landing on floor-plates
+  if (row.dataset.goto === 'floor-plates') {
+    setTimeout(() => {
+      const hs = document.querySelector('.fp-hotspot[data-unit="212"]');
+      if (hs) openFpPopup(hs);
+    }, 80);
+  }
+});
+
 // ══════════════════════════════════════════════════════════════════════
 // FLOOR PLATE — unit hotspot popup
 // ══════════════════════════════════════════════════════════════════════
+let openFpPopup = () => {};
 (function () {
   const popup = document.getElementById('fpPopup');
   if (!popup) return;
@@ -6051,8 +6068,27 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('.fp-hotspot').forEach(h => h.classList.remove('active'));
   }
 
+  openFpPopup = openPopup; // expose for external use
+
   document.addEventListener('click', (e) => {
     if (e.target.closest('#fpPopupClose')) { closePopup(); return; }
+    // "View floor plan" button → open plan lightbox with Villa plan
+    if (e.target.closest('#fpPopupPlan')) {
+      const card = document.querySelector('[data-lb-title="Garden Studio"]')
+                || document.querySelector('.plan-card');
+      if (card) {
+        const thumb = card.querySelector('.plan-card-thumb');
+        if (thumb) {
+          // Directly open lightbox with north plan (Villa = north type for mockup)
+          document.getElementById('plbTitle').textContent = 'Villa — Floor Plan';
+          document.getElementById('plbSub').textContent   = 'Type · Villa · 2 BR · 132 m² · South';
+          const inner = document.getElementById('plbInner');
+          inner.innerHTML = '<img src="assets/fp-plan-north.webp" alt="Villa floor plan">';
+          document.getElementById('planLb').classList.add('open');
+        }
+      }
+      return;
+    }
     const hs = e.target.closest('.fp-hotspot[data-unit]');
     if (hs) { e.stopPropagation(); openPopup(hs); return; }
     if (!e.target.closest('#fpPopup')) closePopup();
