@@ -304,6 +304,54 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.10 — 2026-05-08 (CONV-27, Wave 2 Chunk 6)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §7 Edge cases — turn-by-turn проход через все 5 subsections, locked 10 architectural additions. Strategic decision: <strong>§7.2 GDPR / ADGM right-to-erasure + §7.3 Multi-jurisdiction compliance — DEFERRED</strong> до lock'а jurisdiction (Cyprus default по memory, под review awaiting Roman ratification) + подключения юриста (Cyprus / EU / UAE) + активации sub-plan'а <code>plans/legal-multi-party-framework.md</code>. План: <code>plans/stage1-chunk-6-edges.md</code>.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">§7 Edge cases — parking-lot callout + 10 additions</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Parking-lot callout</strong> добавлен в начало §7 (после lead) — visible status «§7.2 + §7.3 DEFERRED, не править до jurisdiction lock + lawyer + sub-plan activation».</li>
+      <li><strong>§7.1 User deactivation — 4 additions</strong> (4 → 7 bullets):
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>A — Buyer-records persistence:</em> buyer-records деактивированного SA остаются в DB; attribution preserved (commission через handoff per CONV-22); link не воидится — удаление только через GDPR erasure.</li>
+          <li><em>B — Deactivated user UX:</em> деактивированный = анонимный посетитель. Логин fail'ится generic'ом без указания причины (security: не leak'аем «kicked by colleague»). Прямые ссылки на проекты работают по правилам Public Visibility per §5.</li>
+          <li><em>C — Self-leave vs Owner-removes:</em> Settings → Leave Organisation с confirmation modal (lose access to N projects, M assigned units cascade up); same downstream flow что Owner-removes, разница только в actor в audit log. Owner self-leave disabled — требуется ownership transfer first per §3.</li>
+          <li><em>D — Re-invite no auto-restore</em> (amend existing bullet 4): re-invite same email = fresh membership; assignments / buyer-records НЕ auto-restore (manual reassignment by SM/Admin).</li>
+        </ul>
+      </li>
+      <li><strong>§7.4 Conflict resolution — 3 additions</strong> (4 → 7 bullets; «Owner erasure» skipped → defer to GDPR sub-plan):
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>A — Race condition Open pool:</em> два SA одновременно жмут «Mark as Reserved» на same unit (Open pool — оба видят/могут). First-click-wins; loser получает modal «Только что зарезервировал Алексей в 14:23 — обнови». Audit log пишет обе попытки + winner. Появилось после CONV-26 §6.1 verification form.</li>
+          <li><em>B — Org suspension с active tokens:</em> tokens продолжают работать read-only до 90d expiry. CTA «Связаться со мной» disabled с tooltip. Полный block backfire'нет на buyer experience и сорвёт active deal flow.</li>
+          <li><em>D — Visibility flip с active tokens:</em> tokens = pre-auth'ed visitor, bypass'ят Visibility setting (consistent с §5.1 PIN bypass + §6 token mechanics). Новый Visibility применяется только к новым anonymous посетителям.</li>
+        </ul>
+      </li>
+      <li><strong>§7.5 Referral architecture — 3 additions, schema-level</strong> (4 → 7 bullets):
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>A — Multi-Org referee:</em> только первая Organisation Client'а с заполненным <code>referred_by_user_id</code> триггерит payout. Schema: <code>Organisation.referred_by_user_id</code> (nullable, set один раз). Защита от gaming: создал 5 Org'ов → payout × 1.</li>
+          <li><em>B — Cycle prevention:</em> self-ref или reverse-ref → запись в <code>referrals</code> с <code>payout_status: ineligible_cycle</code>. Audit запись остаётся для visibility / detection.</li>
+          <li><em>C — Sponsor visibility screen</em> (expanded with inline table): Settings → Referrals — top block (свой ref-code + URL + копировать + aggregate metrics) + table (anonymized Org #abc12 / signup date / current status / upgrade date / payout status). НЕ показываем PII (email, имя Owner'а, имя Org / subdomain). Stage 1 не в scope: invite-link generator, ручной revocation/edit, pagination.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase callouts (light updates)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.4 (Operator Dashboard)</strong> — v4.10 callout: self-leave events distinct actor в audit log; suspension state visibility («N active read-only tokens» в Project drawer); Visibility-flip log («M existing tokens still bypass»); aggregate <code>ineligible_cycle</code> counter (anti-fraud signal для cycle gaming).</li>
+      <li><strong>Phase 1.10 (Sales App)</strong> — v4.10 callout: Open pool optimistic lock (compare-and-swap → 409 Conflict + collision modal); Suspension Organisation middleware (token paths read-only, authed paths block с banner); Visibility-flip middleware (token bypass до 90d expiry, anonymous получает новый preset).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто в этом chunk (parking-lot)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§7.2 GDPR / ADGM right-to-erasure proper sweep</strong> — sub-plan <code>plans/legal-multi-party-framework.md</code> activation (status: stub) после jurisdiction lock + lawyer.</li>
+      <li><strong>§7.3 Multi-jurisdiction compliance proper sweep</strong> (AML / sanctions / cookies / data residency / tax) — same parking-lot.</li>
+      <li><strong>Access expansion</strong> (новые роли / actions / invitation types из Roman call'а) — awaiting jurisdiction lock + lawyer engagement.</li>
+      <li><strong>Cyprus jurisdiction confirmation</strong> — memory <code>project_legal_entity_cyprus.md</code> говорит «decided», user в CONV-27 сказал «есть вопрос где будет компания открываться» — clarify в next session.</li>
+      <li><strong>Wave 2 Chunks 7-8</strong> (Phase callouts deep rewrite включая 1.7 deep rewrite; ADR placeholders 0008 / 0011 / 0012 + 0005 v3 update).</li>
+      <li><strong>6 sub-plans + 5 ADRs</strong> — отдельные /plan сессии после Wave 2 close.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.9 — 2026-05-08 (CONV-26, Wave 2 Chunk 5)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §6 User Journeys (12 решений) — D+E status-change form unified mechanism (form shape, smart-match logic, triggers + symmetric reverse, buyer-record fate) + G channels (Email / WhatsApp / Copy link через light deep-link approach с <code>?ch=</code> tracking). Strategic insight: D (status protection) и E (buyer↔unit linkage) объединены в один verification form — заполнение auto-link'ует buyer-record by email lookup (smart-match), убирает излишний шаг ручного linking. F (request-more, F-A buyer browse scope from token) — <strong>deferred Open Question</strong> с двумя candidate variants для Roman ratification. План: <code>plans/stage1-chunk-5-journeys.md</code>.</p>
 

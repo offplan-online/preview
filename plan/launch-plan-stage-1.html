@@ -1188,13 +1188,20 @@
   <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">Foundational · 7 / 7</div>
   <h3 style="border:none; padding:0; margin:0 0 12px; color:var(--navy);">Edge cases (suspension / GDPR / conflicts / referrals)</h3>
 
+  <div style="margin:14px 0; padding:12px 16px; background:var(--sand-50); border:1px solid var(--gold); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; font-size:13px; color:var(--text-mid);">
+    <strong style="color:var(--navy);">⏸ Parking-lot (CONV-27):</strong> §7.2 GDPR / ADGM right-to-erasure + §7.3 Multi-jurisdiction compliance — <strong>DEFERRED</strong> до (1) lock'а jurisdiction (Cyprus default по memory, под review awaiting Roman ratification); (2) подключения юриста (Cyprus / EU / UAE); (3) активации sub-plan'а <code>plans/legal-multi-party-framework.md</code>. До этого момента не править. Архитектурные edge cases (§7.1 deactivation / §7.4 conflicts / §7.5 referrals) — closed in Chunk 6.
+  </div>
+
   <details>
-  <summary class="task-label">User deactivation — что происходит когда Owner убирает member'а <span class="count">(4)</span></summary>
+  <summary class="task-label">User deactivation — что происходит когда Owner убирает member'а <span class="count">(7)</span></summary>
   <ul>
     <li><strong>Active sessions:</strong> immediate logout (security paramount).</li>
     <li><strong>Assignments cascade:</strong> escalate up к Sales Manager/Admin owning Organisation + audit + email notification (см. секция 4.4).</li>
     <li><strong>Audit log retention:</strong> per ADR 0004.</li>
-    <li><strong>Re-invite после удаления:</strong> new invitation flow (single-use token, full personal-invite process). «Restore deleted user» button → Stage 2.</li>
+    <li><strong>Re-invite после удаления:</strong> new invitation flow (single-use token, full personal-invite process). «Restore deleted user» button → Stage 2. <strong>При re-invite того же email</strong> → fresh membership; assignments и buyer-records <strong>НЕ auto-restore</strong> (manual reassignment by Sales Manager / Admin) — защита от accidental restore'ов после подозрительных деактиваций.</li>
+    <li><strong>Buyer-records деактивированного Sales Agent'а:</strong> остаются в DB, attribution к SA preserved (commission через handoff к другому SA per CONV-22 attribution rules). Link не воидится — удаление только через GDPR erasure (см. <a href="#fd-edges">§7.2</a>).</li>
+    <li><strong>Login attempt после deactivation:</strong> деактивированный = анонимный посетитель. Логин fail'ится generic'ом («не получилось войти», без причины — security: не leak'аем «kicked by colleague»). Прямые ссылки на проекты работают по правилам Public Visibility per <a href="#fd-visibility">§5</a> (Private = 404, Discovery = limited, Full sales = full, PIN-protected = PIN gate). Никаких спецбаннеров про suspension.</li>
+    <li><strong>Self-leave (user-initiated):</strong> Settings → Leave Organisation — confirmation modal с consequences (lose access to N projects, M assigned units cascade up to SM/Admin per <a href="#fd-access">§4.4</a>). Same downstream flow что Owner-removes — разница только в trigger / actor в audit log. <strong>Owner self-leave disabled</strong> — single Owner per Organisation, требуется ownership transfer first per <a href="#fd-billing-transfer">§3</a>.</li>
   </ul>
   </details>
 
@@ -1218,22 +1225,51 @@
   </details>
 
   <details>
-  <summary class="task-label">Conflict resolution edge cases <span class="count">(4)</span></summary>
+  <summary class="task-label">Conflict resolution edge cases <span class="count">(7)</span></summary>
   <ul>
     <li><strong>Two Organisations претендуют на один unit:</strong> не должно быть в S·1 (assignment exclusive). Admin-error bug → manual reconciliation через operator dashboard (Phase 1.4).</li>
     <li><strong>Buyer в двух Sales Agent'ах одновременно:</strong> OK by design — разные buyer-records под одним email, разная attribution. Кто из Sales Agent'ов закроет deal — тот получит attribution.</li>
     <li><strong>Deactivated Sales Agent с assigned units:</strong> cascade per секция 4.4 — escalate up к Sales Manager/Admin, manual redistribute.</li>
     <li><strong>Owner lockout (forgot 2FA):</strong> manual operator reset Stage 1 — recovery flow: email + identity verification → operator manually resets MFA. Automated recovery → Stage 2.</li>
+    <li><strong>Race condition при Mark as Reserved (Open pool):</strong> два Sales Agent'а одновременно жмут «Mark as Reserved» на тот же unit (Open pool — оба видят и могут). <strong>First-click-wins:</strong> победитель — первый запрос дошедший до server. Loser получает modal «Только что зарезервировал <em>Алексей</em> в 14:23 — обнови страницу». Audit log записывает обе попытки + winner. Появилось после CONV-26 §6.1 verification form — раньше status-change формы не было.</li>
+    <li><strong>Suspension Organisation с активными buyer-tokens:</strong> Organisation заморожена (неуплата / chargeback) — tokens продолжают работать <strong>read-only до 90d expiry</strong>. CTA «Связаться со мной» disabled с tooltip «Project temporarily unavailable, contact your Sales Agent directly». Полный block ударил бы по buyer experience и сорвал active deal flow.</li>
+    <li><strong>Visibility setting flip с активными tokens:</strong> Owner меняет Public Visibility (Discovery → Private или PIN-protected → Full sales) пока есть active buyer-tokens. Tokens = pre-auth'ed visitor, <strong>bypass'ят Visibility setting</strong> (consistent с <a href="#fd-visibility-pin">§5.1 PIN bypass</a> + <a href="#fd-buyer">§6 token mechanics</a>). Новый Visibility применяется только к новым anonymous посетителям; existing token holders работают до 90d expiry по своему правилу.</li>
   </ul>
   </details>
 
   <details>
-  <summary class="task-label">Referral architecture (data model only Stage 1) <span class="count">(4)</span></summary>
+  <summary class="task-label">Referral architecture (data model only Stage 1) <span class="count">(7)</span></summary>
   <ul>
     <li><strong>Sponsor scope:</strong> any user (Free Guest и paying Client равно могут рефить). Free Guest credit активируется только если Organisation sponsor'а upgrade'нется на платный tier.</li>
     <li><strong>Attribution:</strong> URL param (<code>?ref=ABC123</code>) primary + signup form input backup. <strong>No cookie tracking</strong> (избегаем consent banner / EU compliance overhead).</li>
     <li><strong>Schema:</strong> <code>referral_codes</code> (user_id, code) + <code>referrals</code> (sponsor, referee, attribution_method, signup_at, upgraded_to_client_at, payout_status, payout_amount). <strong>Stage 1 = storage + dashboard stats only</strong>; payouts → Phase 4.2.</li>
     <li><strong>Levels:</strong> flat — single level only (no MLM-style chains). Schema extensible для multi-level если потом решим (миграция, не rebuild).</li>
+    <li><strong>Multi-Organisation referee:</strong> Client создал несколько Organisations через одну signup-сессию (с <code>?ref=</code>). Только <strong>первая Organisation</strong> с заполненным <code>referred_by_user_id</code> триггерит payout. Schema: <code>Organisation.referred_by_user_id</code> (nullable, set один раз при create). Защита от gaming: создал 5 Org'ов → payout × 1, не × 5.</li>
+    <li><strong>Cycle prevention:</strong> self-ref (<code>sponsor_id == new_organisation.owner_id</code>) или reverse-ref (sponsor_id ранее уже был referee этого owner'а) → запись в <code>referrals</code> создаётся с <code>payout_status: ineligible_cycle</code>. Audit запись остаётся для visibility / detection — не блокируем insert hard.</li>
+    <li><strong>Sponsor visibility:</strong> отдельный экран Settings → Referrals в Client'овой админке.
+      <div style="margin:8px 0; padding:10px 14px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; font-size:13px;">
+        <strong style="color:var(--navy);">Top block:</strong> свой ref-код + готовая URL <code>https://app.offplan.online/?ref=&lt;code&gt;</code> + кнопка «Скопировать ссылку». Агрегированные метрики «приглашено: N · апгрейднулись: M · в платном статусе: K».
+      </div>
+      <div style="margin:8px 0; padding:10px 14px; background:#fff; border:1px solid var(--border); border-radius:6px; font-size:13px;">
+        <strong style="color:var(--navy);">Таблица referees</strong> (sort: signup_at desc):
+        <table style="margin:6px 0 0; font-size:12.5px;">
+          <thead><tr><th style="width:140px;">Колонка</th><th>Что показано</th></tr></thead>
+          <tbody>
+            <tr><td>Organisation</td><td>Anonymized <code>Org #abc12</code> (5-char hash от Organisation id)</td></tr>
+            <tr><td>Зарегистрирован</td><td>дата signup</td></tr>
+            <tr><td>Текущий статус</td><td>Free Guest / Trial / Paid Tier 1 / Paid Tier 2</td></tr>
+            <tr><td>Апгрейд</td><td>дата первого upgrade на paid tier (или «—»)</td></tr>
+            <tr><td>Payout</td><td><code>pending</code> / <code>paid</code> / <code>ineligible_cycle</code> / <code>refunded</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin:8px 0; padding:10px 14px; background:#fff; border:1px solid var(--border); border-radius:6px; font-size:13px;">
+        <strong style="color:var(--navy);">НЕ показываем</strong> (privacy): email / имя Owner'а referee, имя Organisation / subdomain, проекты / юниты / metrics, activity log.
+      </div>
+      <div style="margin:8px 0 0; padding:10px 14px; background:#fff; border:1px solid var(--border); border-radius:6px; font-size:13px;">
+        <strong style="color:var(--navy);">Stage 1 не в scope:</strong> генератор invite-ссылок (sponsor копирует URL вручную из top block); ручной revocation / edit <code>payout_status</code>; pagination (Stage 2 если &gt;50 referrals). Payout-логика → <a href="#fd-billing">§3 Billing</a> + Phase 4.2.
+      </div>
+    </li>
   </ul>
   </details>
 </div>
@@ -1705,6 +1741,7 @@
     <li><em>v4.7 (CONV-24):</em> <strong>View-as-Agent (<a href="#fd-access">§4.6</a>) — team-level admin tool, ≠ Stage 4 operator impersonation.</strong> Read-only debug surface внутри клиентской админки (Owner / Admin / Sales Manager). Operator impersonation (login as Client от лица staff'а для support escalation) — отдельный flow, deferred to Stage 4.</li>
     <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected projects visibility в operator dashboard.</strong> Operator может видеть «Project X is PIN-protected» (флаг в Project list / Project drawer) для support troubleshooting (e.g., «client says PIN doesn't work»), но <strong>не видит самого PIN value</strong> (security — operator не должен знать пользовательские secrets, hashed at rest). Anti-brute-force flag — failed PIN attempts &gt;3/час с одного IP highlighted в Project drawer + aggregate counter «N failed-PIN events / 24h» в overview. См. <a href="#fd-visibility-pin">§5.1 audit log</a>.</li>
     <li><em>v4.9 (CONV-26):</em> <strong>Status-flip audit visibility + reverse-flip email pipeline + channel analytics.</strong> Operator dashboard читает audit log entries для status flips (forward + reverse) per Organisation — для support troubleshooting (e.g., «client claims refund but unit Sold» → operator смотрит timeline). Reverse-flip emails (SA → SM, SM → Admin/Owner) идут через <a href="#phase-1-8">Phase 1.8</a> transactional email infra; operator видит этот класс events как separate event «status-reverse-notification-sent». Anti-abuse aggregate: «Organisation X had &gt;20 reverse-flips в 30 дней» highlighted в overview (фрод-индикатор: фейковые reservations и тут же откаты для commission games). Channel analytics aggregate (Email / WhatsApp / Copy opens по проектам через <code>?ch=</code> URL parameter) — standalone widget в operator overview для product decisions. См. <a href="#fd-buyer-status">§6.1 audit log</a> + <a href="#fd-buyer-channels">§6.2 tracking</a>.</li>
+    <li><em>v4.10 (CONV-27):</em> <strong>Operator visibility для §7 edge cases (deactivation + conflicts + referrals).</strong> Audit log читает self-leave events с distinct actor (<em>«User X self-left Organisation Y»</em> vs <em>«Owner removed user X»</em>) — operator различает trigger в timeline. Suspension state для buyer-tokens — operator видит «Project P has N active read-only tokens (Org suspended)» в Project drawer для support troubleshooting. Visibility-flip с active tokens — operator видит «Visibility changed from X to Y, M existing tokens still bypass to old preset» в Project log. Referrals: aggregate counter «N referrals в <code>ineligible_cycle</code> state» в operator overview — anti-fraud signal для cycle gaming через несколько Organisations. См. <a href="#fd-edges">§7</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Operator dashboard 2FA mandatory always (внутренний tooling). См. <a href="#fd-onboarding">Foundational §2</a>.</p>
 </div>
@@ -2842,6 +2879,7 @@
     <li><em>v4.7 (CONV-24):</em> <strong>View-as mode rendering</strong> — Sales Agent unit list / authed sales-app views должны поддерживать "view-as" mode когда Sales Manager / Admin инспектирует team-member view (см. <a href="#fd-access">§4.6</a>). Render exactly как target user видит: stock filtered, buyer profiles target user'а, его metrics. Все mutating actions disabled. Top banner «Viewing as Иван — Exit».</li>
     <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected gate routing</strong> — sales-app middleware на anonymous request в PIN-protected проект делает sequence проверок (least → most invasive): (1) buyer-token (<code>?b=&lt;t&gt;</code>) валиден → bypass PIN → render After-PIN preset; (2) <code>pin_&lt;project_id&gt;</code> cookie валиден → bypass PIN → render After-PIN preset; (3) auth status — logged-in member owning/guest org → bypass PIN; (4) иначе → render content с CSS <code>filter: blur(12-16px)</code> + fixed PIN entry overlay (Email us mailto / Call us tel CTA из contact fields). Submit PIN → server validates → set 30-day cookie → redirect. Owner changes PIN → invalidate all existing cookies. См. <a href="#fd-visibility-pin">§5.1</a>.</li>
     <li><em>v4.9 (CONV-26):</em> <strong>Status-change verification form UI (D+E unified) + 3-channel buyer-link send.</strong> Form: button-driven status select («Mark as Reserved» / «Mark as Sold» в unit card) + email-required field with smart-match autocomplete + auto-fill name/phone from existing buyer-record + optional notes/file upload. Reverse-direction symmetric per <a href="#fd-access">§4.2</a> with email notification одну ступень выше (SA → SM, SM → Admin/Owner). Buyer-link send modal: 3 channel buttons (Email native via <a href="#phase-1-8">Phase 1.8</a> / WhatsApp via <code>https://wa.me/&lt;phone&gt;?text=...</code> deep-link, открывает SA's own WhatsApp / Copy link clipboard) + <code>?ch=email|wa|link</code> URL parameter tracking. Phone-empty disables WhatsApp button с tooltip. Multi-channel в одну операцию OK (same buyer-token URL, разный <code>?ch=</code>). F-A (buyer browse scope from valid token) — deferred Open Question, две candidate variants documented в <code>plans/stage1-chunk-5-journeys.md</code> для Roman ratification. См. <a href="#fd-buyer-status">§6.1</a> + <a href="#fd-buyer-channels">§6.2</a>.</li>
+    <li><em>v4.10 (CONV-27):</em> <strong>Routing для §7 edge cases.</strong> Status-change form submit в Open pool: server-side optimistic lock (compare-and-swap на <code>unit.status</code>) — first-click пробежал, second-click получает <code>409 Conflict</code> + frontend modal «Только что зарезервировал X в TIMESTAMP — обнови». Suspension Organisation: middleware проверяет <code>organisation.status</code> — если <code>suspended</code>, anonymous + token paths render content read-only (CTA «Связаться со мной» disabled с tooltip), authed paths block с suspension banner. Visibility flip с active tokens: middleware sequence (Phase 1.10 PIN gate routing extended) — buyer-token bypass'ит новую Visibility setting до 90d expiry, anonymous посетители получают новый preset. См. <a href="#fd-edges">§7.4</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) и Phase 1.7 (Public Visibility settings). Buyer flow detailed в Phase 1.11 (Sales Presentation Layer).</p>
 </div>
