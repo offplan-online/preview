@@ -5318,8 +5318,9 @@ function updateLayout() {
   const active = document.querySelector('.screen.active');
   const panel = document.getElementById('infoPanelGlobal');
   const wantsPanel = active && active.hasAttribute('data-needs-panel');
+  const agentMode = document.body.classList.contains('agent-mode');
 
-  if (!wantsPanel) {
+  if (!wantsPanel || !agentMode) {
     panel.classList.remove('visible');
     document.documentElement.style.setProperty('--panel-w', '0px');
     return;
@@ -5956,7 +5957,7 @@ document.addEventListener('click', (e) => {
     </div>
   </div>
 
-  <button class="login-submit-btn">Sign in</button>
+  <button class="login-submit-btn" id="loginSubmitBtn">Sign in as Agent (demo)</button>
 
   <div class="login-footer">
     No account? <span class="login-link">Create one</span>
@@ -6084,6 +6085,19 @@ document.addEventListener('click', (e) => {
     e.stopPropagation(); close();
   });
 })();
+
+// ══════════════════════════════════════════════════════════════════════
+// AGENT MODE — panel visible only after sign-in
+// ══════════════════════════════════════════════════════════════════════
+document.getElementById('loginSubmitBtn')?.addEventListener('click', () => {
+  document.body.classList.add('agent-mode');
+  closeLoginPanel();
+  updateLayout();
+  // Update all user-icon buttons to show agent avatar
+  document.querySelectorAll('[data-toggle="login-panel"] svg').forEach(svg => {
+    svg.outerHTML = '<span style="font-family:var(--font-display);font-size:13px;font-weight:500;color:var(--gold-light);letter-spacing:0.02em">RW</span>';
+  });
+});
 
 // ══════════════════════════════════════════════════════════════════════
 // WALKTHROUGH DROPDOWN in info panel
