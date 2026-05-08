@@ -4516,7 +4516,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Surfers Paradise CBD -->
     <div class="loc-pin" style="left:78%;top:42%"
          data-sv-name="Surfers Paradise CBD" data-sv-dist="3 km · 8 min drive"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-27.9932,153.4312&cbp=12,20,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-27.9932,153.4312,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">Surfers Paradise CBD</div>
         <div class="loc-dist">3 km · 8 min drive</div>
@@ -4528,7 +4528,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Surfers Paradise Beach -->
     <div class="loc-pin" style="left:88%;top:35%"
          data-sv-name="Surfers Paradise Beach" data-sv-dist="4.2 km · 10 min drive"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-27.9978,153.4315&cbp=12,0,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-27.9978,153.4315,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">Surfers Paradise Beach</div>
         <div class="loc-dist">4.2 km · 10 min drive</div>
@@ -4540,7 +4540,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Southport Light Rail -->
     <div class="loc-pin" style="left:52%;top:68%"
          data-sv-name="Southport Light Rail" data-sv-dist="650 m · 8 min walk"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-27.9686,153.4029&cbp=12,0,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-27.9686,153.4029,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">Southport Light Rail</div>
         <div class="loc-dist">650 m · 8 min walk</div>
@@ -4552,7 +4552,7 @@ a { color: inherit; text-decoration: none; }
     <!-- GCU Hospital -->
     <div class="loc-pin" style="left:22%;top:50%"
          data-sv-name="Gold Coast University Hospital" data-sv-dist="2.8 km · 6 min drive"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-27.9395,153.3847&cbp=12,0,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-27.9395,153.3847,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">GCU Hospital</div>
         <div class="loc-dist">2.8 km · 6 min drive</div>
@@ -4564,7 +4564,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Pacific Fair -->
     <div class="loc-pin" style="left:14%;top:38%"
          data-sv-name="Pacific Fair Shopping Centre" data-sv-dist="8 km · 15 min drive"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-28.0239,153.4311&cbp=12,0,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-28.0239,153.4311,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">Pacific Fair Shopping</div>
         <div class="loc-dist">8 km · 15 min drive</div>
@@ -4576,7 +4576,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Gold Coast Airport -->
     <div class="loc-pin" style="left:38%;top:82%"
          data-sv-name="Gold Coast Airport" data-sv-dist="22 km · 20 min drive"
-         data-sv-url="https://maps.google.com/maps?q=&layer=c&cbll=-28.1645,153.5050&cbp=12,0,0,0,5&z=16&output=embed">
+         data-sv-url="https://www.google.com/maps/@-28.1645,153.5050,3a,75y,0h,90t/data=!3m1!1e1">
       <div class="loc-card">
         <div class="loc-name">Gold Coast Airport</div>
         <div class="loc-dist">22 km · 20 min drive</div>
@@ -5450,46 +5450,65 @@ document.addEventListener('click', (e) => {
 <div class="sv-modal" id="svModal">
   <div class="sv-bar">
     <div class="sv-info">
-      <div class="sv-name" id="svName">Gold Coast Airport</div>
-      <div class="sv-dist" id="svDist">22 km · 20 min drive</div>
+      <div class="sv-name" id="svName"></div>
+      <div class="sv-dist" id="svDist"></div>
     </div>
     <button class="sv-back" id="svBack">
       <svg class="icon"><use href="#ic-arrow-l"/></svg>
-      Back to Location
+      Back
     </button>
   </div>
-  <iframe class="sv-frame" id="svFrame" src="" allowfullscreen loading="lazy"
-    referrerpolicy="no-referrer"></iframe>
+  <!-- Street View card -->
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;padding:40px">
+    <div style="text-align:center">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.40);margin-bottom:14px">Google Street View</div>
+      <div id="svCardName" style="font-family:var(--font-display);font-size:48px;font-weight:300;color:#fff;line-height:1.1;margin-bottom:8px"></div>
+      <div id="svCardDist" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;color:var(--gold)"></div>
+    </div>
+    <a id="svOpenBtn" href="#" target="_blank" rel="noopener"
+       style="display:inline-flex;align-items:center;gap:12px;
+              padding:16px 32px;border-radius:var(--r-md);
+              background:var(--gold);color:#fff;
+              font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+              transition:background var(--dur);"
+       onmouseover="this.style.background='#a07840'" onmouseout="this.style.background='var(--gold)'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-opacity=".4"/><path d="M12 8v4l3 3"/></svg>
+      Walk this street →
+    </a>
+    <div style="font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.10em">Opens Google Maps Street View in a new tab</div>
+  </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════════════════════════════════
-// STREET VIEW — open on loc-pin click, close on Back button
+// STREET VIEW — click pin → overlay → open Google Maps in new tab
 // ══════════════════════════════════════════════════════════════════════
-const svModal = document.getElementById('svModal');
-const svFrame = document.getElementById('svFrame');
-const svName  = document.getElementById('svName');
-const svDist  = document.getElementById('svDist');
+const svModal   = document.getElementById('svModal');
+const svName    = document.getElementById('svName');
+const svDist    = document.getElementById('svDist');
+const svCardName= document.getElementById('svCardName');
+const svCardDist= document.getElementById('svCardDist');
+const svOpenBtn = document.getElementById('svOpenBtn');
 
 document.addEventListener('click', (e) => {
   const pin = e.target.closest('.loc-pin[data-sv-url]');
   if (!pin) return;
-  svName.textContent = pin.dataset.svName || '';
-  svDist.textContent = pin.dataset.svDist || '';
-  svFrame.src = pin.dataset.svUrl;
+  const name = pin.dataset.svName || '';
+  const dist = pin.dataset.svDist || '';
+  svName.textContent = name;
+  svDist.textContent = dist;
+  svCardName.textContent = name;
+  svCardDist.textContent = dist;
+  svOpenBtn.href = pin.dataset.svUrl;
   svModal.classList.add('open');
 });
 
 document.getElementById('svBack').addEventListener('click', () => {
   svModal.classList.remove('open');
-  svFrame.src = '';
 });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && svModal.classList.contains('open')) {
-    svModal.classList.remove('open');
-    svFrame.src = '';
-  }
+  if (e.key === 'Escape') svModal.classList.remove('open');
 });
 </script>
 </body>
