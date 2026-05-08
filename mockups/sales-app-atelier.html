@@ -1009,17 +1009,9 @@ a { color: inherit; text-decoration: none; }
 /* ══════════════════════════════════════════════════════════════════════ */
 /* UNIT VIEWS / LEVEL VIEWS (3.1 / 3.2 / 3.3)                             */
 /* ══════════════════════════════════════════════════════════════════════ */
-/* Sky view backdrop — placeholder until cityscape renders are available */
 .bg-skyview {
-  background:
-    linear-gradient(180deg,
-      #5a7a9a 0%,
-      #8aa3bc 18%,
-      #b3c2d2 32%,
-      #c8c1b6 48%,
-      #b0a596 62%,
-      #6a5a48 80%,
-      #2a2418 100%);
+  background-image: url('assets/rr-unit-view.jpg');
+  background-size: cover; background-position: center;
   position: relative;
 }
 .bg-skyview::after {
@@ -1967,12 +1959,11 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* Placeholder gradients */
-.bg-welcome  { background: linear-gradient(140deg, #c9bfae 0%, #b8a896 30%, #8a7866 65%, #4a3e34 100%); }
-.bg-video    { background: #0a0e14; }
+.bg-welcome  { background-image: url('assets/rr-hero.jpg'); background-size: cover; background-position: center 30%; }
+.bg-video    { background-image: url('assets/rr-video-bg.jpg'); background-size: cover; background-position: center; }
 .bg-interior { background: linear-gradient(160deg, #d8cfc2 0%, #b8a896 60%, #6a5848 100%); }
-.bg-skyview  { background: linear-gradient(180deg, #6b8eaf 0%, #a8b8c8 40%, #c0b8ae 75%, #6a6048 100%); }
 .bg-amenity  { background: linear-gradient(150deg, #cbc1b0 0%, #a89880 50%, #5a4838 100%); }
+.bg-building { background-image: url('assets/rr-building.jpg'); background-size: cover; background-position: center; }
 
 /* ══════════════════════════════════════════════════════════════════════ */
 /* WORDMARK — Velvet                                                      */
@@ -2639,7 +2630,8 @@ a { color: inherit; text-decoration: none; }
 <!-- 0.2 VIDEO                                                            -->
 <!-- ════════════════════════════════════════════════════════════════════ -->
 <section class="screen" data-screen="video">
-  <div class="video-frame">
+  <div class="static-bg bg-video"></div>
+  <div class="video-frame" style="background:rgba(8,12,20,0.55)">
     <button class="video-play" data-goto="building" title="Play"><svg class="icon"><use href="#ic-play"/></svg></button>
   </div>
 
@@ -2858,7 +2850,7 @@ a { color: inherit; text-decoration: none; }
   <!-- Static layer (default) — exterior render with 2D hotspots -->
   <div class="pan-stage" data-pan="vertical">
     <div class="pan-frame">
-      <img class="render" src="assets/velvet-exterior.jpg" alt="Velvet — exterior render" draggable="false">
+      <img class="render" src="assets/rr-building.jpg" alt="Riviera Residences — exterior render" draggable="false">
       <!-- 21 hotspots in 2D % coords on image -->
       <div class="hotspot" style="left: 47%; top: 22%"></div>
       <div class="hotspot" style="left: 51%; top: 22%"></div>
@@ -3796,7 +3788,7 @@ a { color: inherit; text-decoration: none; }
 <!-- 3.3 LEVEL VIEWS (vertical level slider)                              -->
 <!-- ════════════════════════════════════════════════════════════════════ -->
 <section class="screen" data-screen="level-views" data-needs-panel>
-  <div class="static-bg bg-skyview"><div class="horizon-haze"></div></div>
+  <div class="static-bg" style="background-image:url('assets/rr-sky-villa.jpg');background-size:cover;background-position:center top"><div class="horizon-haze"></div></div>
 
   <!-- Top chrome -->
   <div class="top-chrome">
@@ -4646,7 +4638,7 @@ a { color: inherit; text-decoration: none; }
           <div class="bu-gal-label">Plan</div>
         </div>
         <div class="bu-gal-thumb">
-          <img src="assets/velvet-exterior.jpg" alt="Exterior" style="object-position:center 30%">
+          <img src="assets/rr-building.jpg" alt="Exterior" style="object-position:center 30%">
         </div>
         <div class="bu-gal-thumb" style="background:rgba(50,56,64,0.10)">
           <div class="bu-gal-label">Interior</div>
