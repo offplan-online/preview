@@ -2214,7 +2214,7 @@
 </div>
 
 <!-- Фаза 1.7 -->
-<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.7.8.</p>
+<div id="phase-1-7" class="phase"><span class="phase-num">Фаза 1.7</span><h3>Платёжная инфраструктура + Sales Page <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Студия проходит signup → trial → подписка полностью сама. Плюс публичная страница, которая продаёт. <strong>Помимо месячной подписки</strong> — flat-fee tier (оплата за настройку проекта + SLA на новые проекты), см. 1.7.8. <strong>Public Visibility</strong> + <strong>Stock allocation</strong> presets — спец живёт в <a href="#fd-visibility">Foundational §5</a> + <a href="#fd-access">§4.4</a>; Phase 1.7 строит config UI и rendering layer (см. 1.7.12).</p>
 <div class="phase-files"><strong>Файлы фазы</strong>
   <a href="landing-v3.html">Landing v3 (выбранный)</a>
   <a href="landing-v1.html">v1</a>
@@ -2224,38 +2224,26 @@
 </div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <strong>📌 v4.11 — CONV-27 (Chunk 7 deep rewrite):</strong>
   <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.7.X — 4 landing pages by audience</strong> (general / studio / agency / developer — каждой свой messaging и features)</li>
-    <li><strong>+ 1.7.Y — Demo iframe embed pattern</strong> для лендингов (живой проект iframe'ом на странице — Роман: «нахрен убьёт конкурентов»)</li>
-    <li><strong>+ 1.7.Z — Free tier billing</strong> (no-charge tier, но tracked в biling — нужно для метрик и conversion analytics)</li>
-    <li><strong>+ 1.7.AA — Custom domain + DKIM self-serve flow</strong> (Organisation Owner прописывает CNAME + DKIM в DNS, мы верифицируем; emails уходят от его домена)</li>
+    <li>v4.3 (CONV-15 Roman call) + v4.4 (CONV-17 permission-and-tenancy) callouts <strong>absorbed</strong> в task body — 4 новых tasks (1.7.9 / 1.7.10 / 1.7.11 / 1.7.12) и updates в 1.7.1.</li>
+    <li><strong>Stock allocation toggle</strong> (was 1.7.EE in v4.4) — moved to <a href="#fd-access">Foundational §4.4</a>; cross-link в phase desc, отдельная task'а нет.</li>
+    <li><strong>Public Visibility detail</strong> (was 1.7.BB in v4.4) — spec живёт в <a href="#fd-visibility">§5</a> + <a href="#fd-visibility-pin">§5.1</a>; Phase 1.7 keeps только config UI task (1.7.12).</li>
+    <li>Stale resolved Q's в 1.7.5 + 1.7.7 — cleaned (resolved per §3 Trial / payments-research).</li>
   </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plans: <code>plans/landing-pages-by-audience.md</code>. Связано с ADR 0008 (Free tier scope) и ADR 0011 (Email sender architecture).</p>
-</div>
-
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.7.BB — Public Visibility settings UI</strong> — Organisation Settings → Public Visibility dropdown с 3 preset'ами (<strong>Private</strong> / <strong>Discovery</strong> default Day-1 / <strong>Full sales</strong>). Plus collapsible «Advanced overrides» с granular toggles (Show prices / Show availability / Show floorplates / Show price range / Allow inquiry submission). Изменение toggle вручную → preset переключается на «Custom». Per-project override → Stage 2. См. <a href="#fd-visibility">Foundational §5</a>.</li>
-    <li><strong>+ 1.7.CC — Anonymous visitor flow per Public Visibility</strong> — sales-page rendering для viewer state #1 (anonymous, no buyer-token). Hero + branding + projects list (или скрыто per preset). «Request access» CTA → отправка inquiry в Organisation-админку. Heart / «Связаться со мной» actions всегда hidden для anonymous (требуют buyer-token).</li>
-    <li><strong>+ 1.7.DD — Subdomain pattern (default + custom domain)</strong> — Organisation создание flow выставляет subdomain на <code>{slug}.offplan.online</code> (validation: уникальность + не в reserved list <code>staff</code>/<code>app</code>/<code>api</code>/etc). Custom domain как opt-in feature в Tier 2+ — self-service CNAME wizard в админке.</li>
-    <li><strong>+ 1.7.EE — Stock allocation mode toggle (Project Settings)</strong> — рядом с Public Visibility presets, отдельный per-project toggle: 🔒 Closed pool (default, secure by default — guest orgs видят 0 пока не assign'нули) / 🔓 Open pool (opt-in, «Internal pool» видят все включая guest orgs — broker-style). См. <a href="#fd-access">Foundational §4.4</a>.</li>
-    <li><strong>+ 1.7.EE — Project URL structure</strong> — namespaced <code>{slug}.offplan.online/projects/{project-slug}</code>. Безопасно для будущих system pages (<code>/login</code>, <code>/settings</code>, etc).</li>
-    <li><strong>1.7.AA уточнение DKIM</strong> — Tier 2+ feature, custom domain wizard включает DKIM setup для transactional emails (buyer presentations уходят от <code>{custom-domain}</code>).</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy) и Phase 1.10 (Sales-app). Public Visibility = global per Organisation Stage 1, per-project override → Stage 2.</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan: <code>plans/landing-pages-by-audience.md</code> владеет 4-audience landing спекой. Plan: <code>plans/stage1-chunk-7-phase17-rewrite.md</code>.</p>
 </div></div>
 
 <div class="task">
-  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Landing page</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
+  <div class="task-title"><span class="task-id">1.7.1</span><span class="task-name">Landing pages (4 audiences)</span><span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Marketing+Design</span><span class="marker m-time">⏱</span></div>
   <p class="task-files"><strong>📁 Мокапы (от 2026-04-29):</strong> <a href="landing-v3.html">v3 — выбранный (demo-led hybrid)</a> · <a href="landing-v1.html">v1</a> · <a href="landing-v2.html">v2</a> · <a href="landing-variants.html">сравнение всех вариантов</a></p>
-  <p class="task-desc">Публичная страница offplan.online, которая конвертирует посетителя в trial signup.</p>
+  <p class="task-desc">Публичные landing pages на <code>app.offplan.online</code> которые конвертируют посетителя в trial signup. <strong>4 audience-specific landings</strong> (general / studio / agency / developer) — каждой свой messaging и features. <strong>Детальная 4-audience спека</strong> — sub-plan <code>plans/landing-pages-by-audience.md</code> (status: stub, отдельная /plan-сессия после Wave 2).</p>
   <details>
-  <summary class="task-label">Что конкретно нужно сделать <span class="count">(9)</span></summary>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(11)</span></summary>
   <ul>
     <li>Hero: главный месседж + CTA «Start your 14-day trial — no card required» (см. <a href="#fd-billing-trial">§3 Trial period</a>)</li>
+    <li><strong>Demo iframe embed pattern</strong> (CONV-15 Roman call: «нахрен убьёт конкурентов») — живой проект iframe'ом на странице, чтобы visitor сразу видел работающий продукт. Per audience: general → showcase project, studio → их собственный demo project (template), agency → multi-project view, developer → builder UX preview.</li>
     <li>Ценностное предложение (модули: Walkthroughs, floor plans, unit list, inline-editing roadmap)</li>
     <li>Кейс-стади с цифрами от реального клиента</li>
     <li>Сравнение с конкурентами (Matterport, Kuula) — честное</li>
@@ -2264,6 +2252,7 @@
     <li>Testimonials (после первых пилотных студий)</li>
     <li>CTA в нескольких местах</li>
     <li>Footer с Legal links (ToS, Privacy, DPA)</li>
+    <li><strong>Anonymous viewer rendering on per-Organisation sales page</strong> (<code>{slug}.offplan.online</code> root) — Hero + branding + projects list (или скрыто per Public Visibility preset). «Request access» CTA для anonymous → отправка inquiry в Organisation-админку. Heart / «Связаться со мной» actions всегда hidden для anonymous (требуют buyer-token). Spec — <a href="#fd-visibility">§5</a>.</li>
   </ul>
 </details>
   <details>
@@ -2349,8 +2338,8 @@
   </ul>
 </details>
   <details>
-  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
-  <ul><li>❓ Без карты vs с картой</li><li>❓ Block vs read-only по истечении</li></ul>
+  <summary class="task-label">Открытые вопросы <span class="count">(0)</span></summary>
+  <ul><li>✅ Все Q's resolved через <a href="#fd-billing-trial">§3 Trial period</a> (CONV-24): trial без карты, 14 дней T1, auto-downgrade к Free Guest read-only по истечении.</li></ul>
 </details>
   <div class="task-deps">Зависит от: 1.7.3 · Блокирует: 2.6.4</div>
 </div>
@@ -2395,10 +2384,8 @@
   <details>
   <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
   <ul>
-    <li>✅ <s>Refund policy — 14 дней / pro-rata / never / case-by-case?</s> — <strong>Решено:</strong> usage-based no-refund (B2B + service commencement waiver) — см. <a href="../legal/tos.html">ToS §4.3 + §5</a></li>
-    <li>✅ <s>Single currency или multi-currency?</s> — <strong>Решено:</strong> multi-currency (USD / EUR / AED / AUD per <a href="payments-research.html">payments-research.html</a>)</li>
-    <li>❓ Chargeback — auto-freeze или wait-and-see?</li>
-    <li>Tax engine — Stripe Tax / Avalara / Paddle handles?</li>
+    <li>❓ Chargeback handling — auto-freeze on dispute (per <a href="../decisions/0006-chargeback-auto-freeze.md">ADR 0006</a>) или wait-and-see? <strong>Tentative:</strong> ADR 0006 default (auto-freeze) — accept unless reverted.</li>
+    <li>❓ Tax engine — Stripe Tax (built-in, US/EU/UK/AU coverage) / Avalara (mature, expensive) / Paddle handles (если provider Paddle)?</li>
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.7.3 · Блокирует: Стадию 2 (возможны refund-запросы)</div>
@@ -2439,6 +2426,120 @@
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.7.2, 1.7.3 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.9</span><span class="task-name">Subdomain selection + Project URL structure</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">При создании Organisation Owner выбирает subdomain (default <code>{slug}.offplan.online</code>). Validation: уникальность + reserved blacklist (<code>app</code> / <code>api</code> / <code>admin</code> / <code>staff</code> / <code>www</code> / <code>blog</code> / <code>docs</code> / <code>help</code> / <code>support</code> / <code>status</code> / <code>auth</code> / <code>login</code> / etc). Project URL — namespaced path: <code>{slug}.offplan.online/projects/{project-slug}</code>. Безопасно для будущих system pages (<code>/login</code>, <code>/settings</code>, etc.) которые не будут конфликтовать с project URLs.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
+  <ul>
+    <li>Subdomain input в Organisation creation form: real-time validation (availability check + reserved blacklist warning + format rules a-z/0-9/dash, 3-32 chars).</li>
+    <li>Reserved blacklist в config (не хардкод) — расширяемо без релиза.</li>
+    <li>Subdomain change UI в Organisation Settings (Owner / Admin) — после change: 30-day soft redirect от старого subdomain'а на новый, потом hard 410.</li>
+    <li>Project slug input в Project creation form: validation (unique within Organisation + format rules) + auto-suggest from project name.</li>
+    <li>Project URL pattern enforced на routing layer: <code>{slug}.offplan.online/projects/{project-slug}</code> + system pages под <code>app.offplan.online</code> или namespaced под Organisation root но с reserved prefixes.</li>
+    <li>Custom domain (Tier 2+) overrides default subdomain — см. 1.7.10.</li>
+  </ul>
+  </details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul>
+    <li>❓ Subdomain change frequency limit (предотвратить abuse): hard cap «1 change / 90 days» или soft warning?</li>
+    <li>❓ После custom domain (1.7.10) — старый subdomain продолжает работать как fallback или disabled?</li>
+  </ul>
+  </details>
+  <div class="task-deps">Зависит от: 1.3 (Tenancy) · Блокирует: 1.7.10, 1.10</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.10</span><span class="task-name">Custom domain self-serve flow + DKIM (Tier 2+)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Tier 2+ feature — Organisation Owner подключает собственный domain (<code>presentations.developer-x.com</code>) вместо subdomain'а <code>{slug}.offplan.online</code>. Self-serve flow: wizard в Settings → Domain — Owner прописывает CNAME + DKIM записи в DNS своего регистратора, мы автоматически верифицируем. После activation: Sales App страницы рендерятся под custom domain; transactional emails (buyer presentations) уходят от <code>{custom-domain}</code>.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(7)</span></summary>
+  <ul>
+    <li>Settings → Domain page (Owner / Admin only) — current domain status + «Connect custom domain» CTA.</li>
+    <li>Domain wizard: 3 steps — (1) Owner вводит domain + paste запись «Add CNAME → ...» в clipboard; (2) Owner добавляет в DNS своего registrar'а; (3) Owner жмёт «Verify» — мы DNS-резолвим CNAME через 5 retry с exponential backoff.</li>
+    <li>DKIM setup как часть wizard'а — auto-generate DKIM keypair, public key показываем Owner'у для копирования в DNS как TXT record.</li>
+    <li>SSL/TLS provisioning automatic через Let's Encrypt (Cloudflare-fronted: API call → certificate within 5 min).</li>
+    <li>Email sending updated — все transactional emails (presentation links, password resets) routes through Organisation's custom domain если configured (с fallback на default domain при failure).</li>
+    <li>Domain change / removal flow — soft redirect (30d) от старого custom domain на default subdomain.</li>
+    <li>Tier-gating — feature available только для Tier 2+ subscriptions; Tier 1 / Free Guest получают upgrade modal при попытке connect.</li>
+  </ul>
+  </details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>❓ Email sender architecture — single-domain (offplanonline.com отправляет от имени всех clients) vs per-org domain (каждая Org свой DKIM)? Решение → <strong>ADR 0011</strong> (placeholder, write в Chunk 8).</li>
+    <li>❓ Multiple custom domains per Organisation (apex + www + presentations.x.com) или single?</li>
+    <li>❓ Two-domain setup для нашего team-side (<code>offplan.online</code> для team-коммуникаций + <code>offplanonline.com</code> для system / transactional emails) — это в Phase 1.8, не 1.7.</li>
+  </ul>
+  </details>
+  <div class="task-deps">Зависит от: 1.7.9 (Subdomain), 1.8.6 (Transactional email), <a href="../decisions/">ADR 0011</a> (Email sender architecture, pending) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.11</span><span class="task-name">Free tier billing tracking</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Product+Tech</span><span class="marker m-q">❓</span></div>
+  <p class="task-desc">No-charge tier для guest organisations (<a href="#fd-roles">§1 Free Guest</a>) — billing запись не выставляет invoice'ы, но всё равно tracked в billing system для metrics + conversion analytics («N Free Guest Orgs converted to paid в этом месяце»). <strong>Detailed scope (limits / expiry / conversion triggers) — awaiting <a href="../decisions/">ADR 0008</a> (Free tier scope, pending Chunk 8).</strong></p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать (after ADR 0008) <span class="count">(4)</span></summary>
+  <ul>
+    <li>Billing system schema — tier <code>free_guest</code> вместе со <code>starter</code> / <code>tier_1</code> / <code>tier_2</code> / <code>tier_3_enterprise</code>.</li>
+    <li>Conversion funnel tracking — events «free_guest_signup» / «free_guest_to_paid» / «free_guest_churned».</li>
+    <li>Free tier limits enforcement (лимиты на проекты / units / seats — exact numbers per ADR 0008).</li>
+    <li>Upgrade modal — trigger conditions per ADR 0008 (e.g., «trying to create 2-й project as Free Guest»).</li>
+  </ul>
+  </details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(1)</span></summary>
+  <ul>
+    <li>❓ <strong>ADR 0008 placeholder</strong> — Free tier limits (projects / units / seats), expiry policy (do Free Guest accounts expire?), conversion triggers (lazy «attempt to upgrade» или active «trial expired»?). Will be written в Chunk 8.</li>
+  </ul>
+  </details>
+  <div class="task-deps">Зависит от: 1.7.3 (Payment integration), <a href="../decisions/">ADR 0008</a> (pending) · Блокирует: Free Guest tier shipping</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.7.12</span><span class="task-name">Public Visibility — config UI + anonymous render</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Реализация <a href="#fd-visibility">Foundational §5 Visibility presets</a> (Private / Discovery / Full sales / PIN-protected) + <a href="#fd-visibility-pin">§5.1 PIN-protected detailed spec</a>. <strong>Spec живёт в Foundational</strong> — этот task = build против фиксированного спека. Two parts: (1) <strong>config UI</strong> для Owner / Admin (set preset per-project в Project Settings + Object Builder), (2) <strong>anonymous render</strong> на sales-page (<code>{slug}.offplan.online/projects/{project-slug}</code>) согласно selected preset.</p>
+  <details>
+  <summary class="task-label">Config UI (admin side) <span class="count">(4)</span></summary>
+  <ul>
+    <li>Project Settings → Public Visibility section — radio с 4 presets (Private / Discovery / Full sales / PIN-protected) + preview text для каждого.</li>
+    <li>PIN-protected — раскрываются 4 conditional fields (PIN required min 4 char, After-PIN view Discovery|Full sales, Contact email required, Contact phone optional) — см. <a href="#fd-visibility-pin">§5.1</a>.</li>
+    <li>Same UI surface в Object Builder при создании проекта (default Discovery; Owner может сразу выбрать).</li>
+    <li>Audit log entry на каждое изменение Public Visibility (audit visible to Owner / Admin / SM per <a href="#fd-access">§4.2</a>).</li>
+  </ul>
+  </details>
+  <details>
+  <summary class="task-label">Anonymous render (sales-page side) <span class="count">(5)</span></summary>
+  <ul>
+    <li>Routing middleware: anonymous request → check Public Visibility preset:
+      <ul>
+        <li><strong>Private</strong> → 404 (project не существует для анонимных)</li>
+        <li><strong>Discovery</strong> → renders Hero + branding + projects list (без цен), heart / inquiry CTAs hidden</li>
+        <li><strong>Full sales</strong> → full content (renders + 360° + цены); inquiry CTA visible но требует buyer-token для submit</li>
+        <li><strong>PIN-protected</strong> → blur + PIN entry overlay (см. <a href="#fd-visibility-pin">§5.1</a> routing sequence)</li>
+      </ul>
+    </li>
+    <li>«Request access» CTA для Discovery — отправка inquiry в Organisation-админку (creates lead).</li>
+    <li>Buyer-token bypass'ит Visibility preset (per <a href="#fd-edges">§7.4 Visibility flip с active tokens</a>).</li>
+    <li>Visibility flip с active tokens — existing tokens работают по своему правилу до 90d expiry, anonymous получают новый preset (см. §7.4 D).</li>
+    <li>Heart / «Связаться со мной» actions — всегда hidden для anonymous, require valid buyer-token.</li>
+  </ul>
+  </details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(2)</span></summary>
+  <ul>
+    <li>❓ «Request access» в Discovery preset — куда ведёт inquiry? Generic Organisation contact email или per-project contact (как в PIN-protected)? Скорее всего Owner email (как PIN-protected default).</li>
+    <li>❓ Stage 2 — granular per-field overrides (показать прайс но скрыть availability, etc) — сейчас deferred per <a href="#fd-visibility">§5</a>.</li>
+  </ul>
+  </details>
+  <div class="task-deps">Зависит от: 1.3 (Tenancy), 1.10 (Sales App routing), Foundational §5 + §5.1 (ratified) · Блокирует: —</div>
 </div>
 
 <!-- Фаза 1.8 — Security & Infrastructure Foundation -->
