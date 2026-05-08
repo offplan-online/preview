@@ -304,6 +304,50 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.8 — 2026-05-08 (CONV-25, Wave 2 Chunk 4)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §5 Visibility (12 решений) — PIN-protected preset spec + Custom preset cleanup. Strategic insight: PIN-protected — не «новый preset», а формализация уже задекларированного 4-го варианта из §1.2 Object Builder; «Custom» удалён из Stage 1 (granular toggles deferred Stage 2). План: <code>plans/stage1-chunk-4-visibility.md</code>.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">§5 Visibility cleanup + PIN-protected preset</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§5 lead rewrite</strong> — «global per Organisation» → «per-project setting (Object Builder + Project Settings)». Org-default Visibility deferred Stage 2.</li>
+      <li><strong>Preset table — 4 чистые rows</strong>: Private / Discovery / Full sales / PIN-protected. <strong>«Custom» preset удалён</strong>. PIN-protected row кратко описывает blur + PIN gate + cross-link на §5.1.</li>
+      <li><strong>Advanced overrides <code>&lt;details&gt;</code></strong> → repurpose как Stage 2 deferral note (granular toggles deferred; объяснение почему «Custom» убран).</li>
+      <li><strong>Новая §5.1 — PIN-protected detailed spec</strong> (anchor <code>fd-visibility-pin</code>) — 4 styled boxes:
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>Anonymous visitor flow</em> — URL → CSS blur(12-16px) on content wrapper → fixed PIN entry overlay (project name + input + Open project + Email us / Call us CTAs) → submit → 30-day cookie → After-PIN preset; rate-limit 5 attempts → 30s cooldown.</li>
+          <li><em>PIN bypass cases</em> — valid 30d cookie, buyer-token (<code>?b=...</code>), logged-in team member owning/guest org, Owner-changed-PIN invalidates cookies.</li>
+          <li><em>PIN config UI</em> — 4 conditional fields: PIN (required, free-format min 4 char, hashed at rest), After-PIN view (Discovery | Full sales), Contact email (required, default = Owner email), Contact phone (optional). Permission: Owner / Admin (matching §4.2 row).</li>
+          <li><em>Audit log</em> — PIN set/changed (without value), failed attempts &gt;3/hr flagged в operator panel, successful entries aggregate counter only. Schema → Phase 1.3 implementation.</li>
+        </ul>
+      </li>
+      <li><strong>Viewer states table — substate note</strong>: state #1 anonymous может иметь valid <code>pin_&lt;project_id&gt;</code> cookie → renders как After-PIN preset без blur.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Cross-link патчи в существующие секции</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§4.2 Permissions matrix row label</strong> — «Public Visibility settings (Private / Discovery / Full sales)» → «(Private / Discovery / Full sales / PIN-protected)». Permissions без изменений (Owner / Admin only).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase callouts (light updates)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.2 (Object Builder)</strong> — v4.5 callout получил bullet про 4 conditional поля для PIN-protected preset (PIN / After-PIN view / contact email / contact phone), которые разворачиваются в Object Builder + Project Settings.</li>
+      <li><strong>Phase 1.10 (Sales App)</strong> — v4.7 callout получил bullet про PIN gate routing: middleware sequence (buyer-token → cookie → auth → blur+overlay), CSS blur effect, 30-day cookie, Owner-PIN-change cookie invalidation.</li>
+      <li><strong>Phase 1.4 (Operator Dashboard)</strong> — v4.7 callout получил bullet про operator visibility (видит «PIN-protected» флаг для support, не видит PIN value; anti-brute-force flag для failed attempts &gt;3/hr).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто в этом chunk</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Org-default Visibility — Stage 2 if multi-project studios попросят.</li>
+      <li>Granular per-field overrides («ex-Custom toggles») — Stage 2.</li>
+      <li>«Request access» CTAs в Private + Discovery preset'ах — куда ведут (по аналогии с PIN per-project contact?). Open Question; mini-patch после Chunk 4 если нужно.</li>
+      <li>PIN-protected UI mockup в <code>docs/mockups/admin-panel-atelier.html</code> — отдельный track.</li>
+      <li>PIN backend (hashed storage, rate-limit middleware, audit log table) — Phase 1.3 + 1.10 implementation.</li>
+      <li>Phase 1.10 sales-app routing detailed pseudocode — Phase 1.10 build / sub-plan.</li>
+      <li>Wave 2 Chunks 5-8 (§6 Journeys, §7 Edges, deep Phase callouts, ADRs).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.7 — 2026-05-08 (CONV-24, Wave 2 Chunk 3)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §4 Access (3 решения по Actions column / Internal vs External SA / View-as-Agent). Strategic insight: Internal vs External Sales Agent — это <em>не разные роли</em>, а <strong>одна роль с разным operational context</strong>; базовые permissions идентичны, различия — в orbital осях (stock pool default, cross-team visibility, invitation source, removal authority, reports/analytics scope). План: <code>plans/stage1-chunk-3-access.md</code>.</p>
 

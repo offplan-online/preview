@@ -883,7 +883,7 @@
       <tr><td>Create / edit buyer profiles</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>✅ (own)</td></tr>
       <tr><td>Send presentation emails to buyers</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>✅ (own)</td></tr>
       <tr><td>Change unit status (available → reserved → sold)</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>✅ (own assigned)</td></tr>
-      <tr><td>Public Visibility settings (Private / Discovery / Full sales)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>Public Visibility settings (Private / Discovery / Full sales / PIN-protected)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
       <tr><td>Branding / theme customisation (project-level)</td><td>✅</td><td>✅</td><td>—</td><td>✅</td><td>—</td></tr>
       <tr><td>Branding / theme customisation (Organisation-level)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
     </tbody>
@@ -971,13 +971,14 @@
       <tr><td><strong>4. Organisation team member (logged in)</strong></td><td>Залогинен в Organisation, открыл публичную страницу subdomain'а.</td><td>Видит страницу всегда как <strong>Full sales preset</strong> — независимо от Public Visibility setting. Stock allocation (<a href="#fd-access">§4.4</a>) фильтрует какие юниты ему видны (Sales Agent = только assigned; Content Editor/Sales Manager/Admin/Owner = всё). Admin-панель / edit-overlay — отдельная surface, не описывается в этой таблице.</td></tr>
     </tbody>
   </table>
+  <p style="margin:8px 0 0; font-size:13px; color:var(--text-mid);"><strong>Substate (PIN-protected projects):</strong> visitor в state #1 может иметь valid <code>pin_&lt;project_id&gt;</code> cookie от предыдущего входа — рендер тогда такой же как у соответствующего After-PIN preset (Discovery или Full sales), без blur. См. <a href="#fd-visibility-pin">§5.1</a>.</p>
 
   <p style="margin:14px 0 18px; padding:12px 16px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; font-size:13.5px;">
     <strong>Login entry surface (state #1 → state #4):</strong> на каждой странице sales-app — маленькая иконка <strong>в правом верхнем углу</strong>. Anonymous viewer (state #1) видит её как «Sign in». Click → modal с Google / email login (re-use auth backend из <a href="#phase-1-3">1.3.3</a>). После логина та же страница перезагружается в state #4 (Organisation team member). Logout → возврат к anonymous view. Buyer-token URL'ы (state #2/#3) — отдельный механизм, не требуют логина. Реализация: <a href="#phase-1-10">Phase 1.10.0</a>.
   </p>
 
-  <h4 style="color:var(--navy); margin:20px 0 10px;">Public Visibility settings — 3 preset'а + Custom</h4>
-  <p style="margin-bottom:10px;">Глобальная настройка per Organisation (Organisation Settings → <strong>Public Visibility</strong>). Определяет какие поля видит <strong>anonymous visitor</strong> (state #1 из таблицы выше) на публичной странице — цены, availability, floorplates. На Buyer-flow и team members не влияет.</p>
+  <h4 style="color:var(--navy); margin:20px 0 10px;">Public Visibility settings — 4 preset'а (per-project)</h4>
+  <p style="margin-bottom:10px;"><strong>Per-project setting</strong> (Object Builder при создании проекта + Project Settings → <strong>Public Visibility</strong>). Определяет какие поля видит <strong>anonymous visitor</strong> (state #1 из таблицы выше) на публичной странице конкретного проекта — цены, availability, floorplates, или (для PIN-protected) blurred тизер с PIN-gate. На Buyer-flow (state #2) и team members (state #4) не влияет. <strong>Org-default Visibility — deferred to Stage 2</strong> (если многопроектные студии попросят).</p>
   <p style="margin-bottom:10px;"><strong>Не путать со Stock allocation (<a href="#fd-access">§4.4</a>) — это две разные оси:</strong></p>
   <ul style="margin:0 0 12px 20px; font-size:13.5px;">
     <li><strong>Public Visibility</strong> = какие <strong>поля</strong> показываем anonymous'у (цены? availability badges? floorplates?). Применяется ко всем юнитам.</li>
@@ -988,25 +989,70 @@
     <thead><tr><th style="width:130px;">Preset</th><th>Что видит anonymous</th></tr></thead>
     <tbody>
       <tr><td><strong>Private</strong></td><td>Только hero (logo, branding, tagline) + «Request access» CTA. Никаких проектов, юнитов, рендеров.</td></tr>
-      <tr><td><strong>Discovery</strong> <em style="color:var(--gold);">(по умолчанию)</em></td><td>Все проекты Organisation'ы видны — hero, рендеры, 360°, floorplates, список юнитов. <strong>Цены и индивидуальные статусы юнитов скрыты</strong> — отображается только counter «N units available» на проект. CTA «Request access» открывает запрос на доступ к Full sales view.</td></tr>
+      <tr><td><strong>Discovery</strong> <em style="color:var(--gold);">(по умолчанию для нового проекта)</em></td><td>Все проекты Organisation'ы видны — hero, рендеры, 360°, floorplates, список юнитов. <strong>Цены и индивидуальные статусы юнитов скрыты</strong> — отображается только counter «N units available» на проект. CTA «Request access» открывает запрос на доступ к Full sales view.</td></tr>
       <tr><td><strong>Full sales</strong></td><td>Всё что в Discovery + цены per unit + availability badges per unit (<code>available / reserved / sold</code>). Полноценный public sales-сайт — anonymous видит каждый юнит во всех проектах Organisation'ы независимо от stock allocation assignments.</td></tr>
-      <tr><td><strong>Custom</strong></td><td>Granular toggles по полям (см. блок «Advanced overrides» ниже) — для случаев когда не подходит ни один из 3 preset'ов.</td></tr>
+      <tr><td><strong>PIN-protected</strong></td><td>Содержимое проекта показывается с CSS blur (силуэты + цвета без деталей); поверх — PIN entry overlay с «Enter PIN» + «Contact us» CTA. Правильный PIN → 30-day cookie + разблокируется выбранный <em>After-PIN view</em> (Discovery или Full sales — Owner выбирает). Buyer-token (<code>?b=...</code>) bypass'ит PIN. Полный spec — см. <a href="#fd-visibility-pin" style="color:var(--navy);">§5.1 ниже</a>.</td></tr>
     </tbody>
   </table>
 
   <details>
-  <summary class="task-label">Advanced overrides (granular toggles при выборе «Custom») <span class="count">(6)</span></summary>
-  <ul>
-    <li><code>[ ] Show prices publicly</code> (default OFF в Discovery, ON в Full sales)</li>
-    <li><code>[ ] Show unit-level availability badges</code> (default OFF в Discovery, ON в Full sales)</li>
-    <li><code>[ ] Show floorplates publicly</code> (default ON во всех presets кроме Private)</li>
-    <li><code>[ ] Show price range в hero</code> (default ON)</li>
-    <li><code>[ ] Allow inquiry submission</code> (default ON — для «Request access» CTA)</li>
-    <li>Heart / «Связаться со мной» actions для anonymous всегда <strong>скрыты</strong> (требуют buyer-token)</li>
-  </ul>
+  <summary class="task-label">Granular field-level overrides — deferred to Stage 2 <span class="count">(deferred)</span></summary>
+  <p style="font-size:13px; color:var(--text-mid);">В первой итерации planning'а §5 предполагался <strong>«Custom» preset</strong> с granular toggle'ами (show prices / availability / floorplates / price range / inquiry / heart actions). На <em>2026-05-08 (CONV-25)</em> этот preset удалён из Stage 1 — 4 базовых preset'а (Private / Discovery / Full sales / PIN-protected) покрывают MVP-needs студий. Granular per-field overrides вернутся в Stage 2 если многопроектная студия запросит гибрид (например, «Discovery + show prices» — между Discovery и Full sales). Heart / «Связаться» actions для anonymous всегда <strong>скрыты</strong> (требуют buyer-token).</p>
   </details>
 
-  <p style="font-size:13px; color:var(--text-mid); margin-top:14px;"><strong>Per-project override</strong> (один проект public, другой private) — Stage 2 toggle. В Stage 1 Public Visibility = global per Organisation.</p>
+  <h4 id="fd-visibility-pin" style="color:var(--navy); margin:24px 0 10px;">5.1 — PIN-protected preset (deep spec)</h4>
+  <p style="margin-bottom:10px;"><strong>Use case:</strong> застройщик / студия хочет показать проект приватно (pre-launch teaser, VIP-listing, ранний preview для investor'ов) — отдаёт URL + PIN устно или в одном email. Anonymous, не зная PIN, видит только blurred тизер; знающие PIN — открывают полную страницу.</p>
+
+  <div style="margin:12px 0; padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">
+    <strong style="color:var(--navy); font-size:14px;">Anonymous visitor flow (без правильного cookie)</strong>
+    <ol style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li>URL: <code>{slug}.offplan.online/projects/{project-slug}</code> — обычный sales-app URL.</li>
+      <li>Содержимое проекта рендерится в полном объёме (как After-PIN preset выглядел бы) <strong>с CSS <code>filter: blur(12-16px)</code> на content wrapper</strong> — силуэты hero, рендеров, floorplate, units list видны, но не читаемы.</li>
+      <li>Поверх blur'а — fixed PIN entry overlay (centered card, brandbook v2 styling) с:
+        <ul style="margin:4px 0 0 16px;">
+          <li>Заголовок: «<em>Project Name</em>» (project-name виден, чтобы пользователь понял на что зашёл) + строка «Эта страница защищена. Введите PIN для доступа.»</li>
+          <li>Input field — PIN (free-format string min 4 char — Owner определяет numeric или alphanumeric при setup'е)</li>
+          <li>Кнопка «Open project» (submit)</li>
+          <li>Sub-block «Не знаете PIN?» с двумя actions: <strong>Email us</strong> (<code>mailto:&lt;contact_email&gt;?subject=Access request: &lt;Project name&gt;</code>) + <strong>Call us</strong> (<code>tel:&lt;contact_phone&gt;</code> если phone не пустой; иначе кнопка скрыта).</li>
+        </ul>
+      </li>
+      <li>Submit → server validates PIN → если correct → <strong>set cookie <code>pin_&lt;project_id&gt;=&lt;random_token&gt;</code> на 30 дней</strong>, redirect на same URL → теперь user видит After-PIN preset (Discovery или Full sales — what Owner выбрал). Если incorrect → form shows error «Wrong PIN» + tracks attempt в audit log; rate-limit 5 attempts → 30s cooldown.</li>
+    </ol>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">
+    <strong style="color:var(--navy); font-size:14px;">PIN bypass cases (visitor видит After-PIN preset напрямую)</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Valid 30-day cookie</strong> на этом проекте — re-entry не нужен.</li>
+      <li><strong>Buyer-token URL</strong> (<code>?b=&lt;token&gt;</code>) — token = pre-auth со стороны Sales Agent'а, который buyer'у эту ссылку прислал. Buyer не должен знать PIN (он его не должен видеть). Token валиден → bypass PIN entirely → render полная unit-page (state #2 в viewer states таблице).</li>
+      <li><strong>Logged-in team member</strong> owning Organisation — Owner / Admin / Sales Manager / Content Editor / Sales Agent → state #4 в таблице, всегда Full sales (PIN не нужен). Logged-in member guest organisation — same: bypass PIN (он уже authenticated в системе с правом на этот проект).</li>
+      <li><strong>Owner изменил PIN</strong> → все existing cookies invalidated (security default — изменение PIN это «отозвать access у тех кто PIN знает»). Visitors с invalid cookie возвращаются на blurred PIN entry screen.</li>
+    </ul>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">PIN config UI (Project Settings → Public Visibility = PIN-protected)</strong>
+    <p style="font-size:13.5px; color:var(--text-mid); margin:8px 0;">Когда Owner / Admin выбирает «PIN-protected» preset для проекта (в Object Builder при создании ИЛИ в Project Settings потом) — разворачиваются 4 поля:</p>
+    <ul style="margin:0 0 0 20px; font-size:13.5px;">
+      <li><strong>PIN</strong> (required) — text input, free-format string (min 4 char). Hashed at rest (bcrypt / argon2 — implementation Phase 1.3).</li>
+      <li><strong>After PIN: visitor sees</strong> (required) — radio / dropdown: <code>Discovery</code> (по умолчанию) | <code>Full sales</code>. Pre-launch без финальных цен → Discovery. С готовыми ценами → Full sales.</li>
+      <li><strong>Contact email</strong> (required) — visitor который не знает PIN отправит запрос на доступ. Default = Owner email; editable. Per-project — может быть отдельный «секретарь / менеджер / агент» на каждый проект.</li>
+      <li><strong>Contact phone</strong> (optional) — phone number в международном формате. Если заполнен — на PIN screen появляется кнопка «Call us» рядом с «Email us».</li>
+    </ul>
+    <p style="font-size:13px; color:var(--text-mid); margin-top:8px;">Permission to set / change PIN: <strong>Owner / Admin</strong> (matching <a href="#fd-access" style="color:var(--text-mid);">§4.2</a> row «Public Visibility settings»). Sales Manager / Content Editor / Sales Agent — нет.</p>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">Audit log</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li>PIN set / changed: «User X set / changed PIN for Project Y at TIMESTAMP» — visible to Owner / Admin (НЕ показывает сам PIN value).</li>
+      <li>Failed PIN attempts (&gt;3 в час с одного IP) — flag в operator panel (<a href="#phase-1-4" style="color:var(--text-mid);">Phase 1.4</a>) для anti-brute-force monitoring.</li>
+      <li>Successful PIN entry — НЕ per-attributed event (anonymous visitor); только aggregate counter «N PIN-passed views в day» для analytics.</li>
+    </ul>
+    <p style="font-size:13px; color:var(--text-mid); margin-top:8px;">Schema-level дизайн audit таблицы — <a href="#phase-1-3" style="color:var(--text-mid);">Phase 1.3</a> implementation level (consistent с pattern <a href="#fd-access" style="color:var(--text-mid);">§4.6 View-as-Agent</a> audit).</p>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-mid); margin-top:14px;"><strong>Cross-link:</strong> <a href="#phase-1-2" style="color:var(--text-mid);">Phase 1.2 Object Builder</a> — surface этих 4 полей в creation flow · <a href="#phase-1-10" style="color:var(--text-mid);">Phase 1.10 Sales App</a> — routing logic для blur + PIN entry + cookie + buyer-token bypass · <a href="#phase-1-4" style="color:var(--text-mid);">Phase 1.4 Operator Dashboard</a> — operator может видеть «Project X is PIN-protected» (для support troubleshooting) но не PIN value.</p>
 </div>
 
 <!-- ─── 6. Buyer flow ─── -->
@@ -1241,6 +1287,7 @@
     <li><strong>1.2.Z update:</strong> не «Quick Build only для Free» — а «Object Builder only для Trial (full admin залочен) + Object Builder + Full Admin для Paid».</li>
     <li><strong>❌ 1.2.4 (wizard) DEPRECATED</strong> — Object Builder заменяет 4-шаговый wizard. Studio profile setup (logo, brand color) перенесён в Settings → опциональный.</li>
     <li><strong>❌ 1.2.5 (demo-project vs empty-state) DEPRECATED</strong> — Live Preview в правой панели даёт time-to-first-value без шаблонного demo-проекта.</li>
+    <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected preset config — 4 conditional поля</strong> в Object Builder (и Project Settings). Когда Owner / Admin выбирает Public Visibility = «PIN-protected» — разворачиваются: PIN (required, free-format string min 4 char), After-PIN view (Discovery | Full sales), Contact email (required, default = Owner email), Contact phone (optional). См. <a href="#fd-visibility-pin">§5.1</a> для полного UX flow + <a href="#fd-visibility">§5</a> для preset table.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan <code>plans/onboarding-trial-mode.md</code> нужно обновить с учётом Atelier model. Связано с ADR 0008 (Tier model + admin mode coupling).</p>
 </div>
@@ -1563,6 +1610,7 @@
     <li><strong>+ 1.4.DD — Owner lockout recovery</strong> — manual operator MFA reset Stage 1 (email + identity verification). Automated recovery → Stage 2.</li>
     <li><strong>Reserved subdomain</strong> — <code>staff</code> в blacklist при создании Organisation subdomain (вместе с <code>app</code>, <code>api</code>, <code>admin</code>, etc.).</li>
     <li><em>v4.7 (CONV-24):</em> <strong>View-as-Agent (<a href="#fd-access">§4.6</a>) — team-level admin tool, ≠ Stage 4 operator impersonation.</strong> Read-only debug surface внутри клиентской админки (Owner / Admin / Sales Manager). Operator impersonation (login as Client от лица staff'а для support escalation) — отдельный flow, deferred to Stage 4.</li>
+    <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected projects visibility в operator dashboard.</strong> Operator может видеть «Project X is PIN-protected» (флаг в Project list / Project drawer) для support troubleshooting (e.g., «client says PIN doesn't work»), но <strong>не видит самого PIN value</strong> (security — operator не должен знать пользовательские secrets, hashed at rest). Anti-brute-force flag — failed PIN attempts &gt;3/час с одного IP highlighted в Project drawer + aggregate counter «N failed-PIN events / 24h» в overview. См. <a href="#fd-visibility-pin">§5.1 audit log</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Operator dashboard 2FA mandatory always (внутренний tooling). См. <a href="#fd-onboarding">Foundational §2</a>.</p>
 </div>
@@ -2698,6 +2746,7 @@
     <li><strong>+ 1.10.FF — Buyer attribution preservation</strong> — даже после expired token (90d), redirect на main project page сохраняет buyer-record attribution. Это влияет на Sales-app routing (token decoder must check expiry status, not just presence).</li>
     <li><strong>1.10.Y уточнение auth-scoped views</strong> — agent логинится → видит только свой allocated сток per S·1 stock allocation rules (assigned units exclusive). Content Editor видит всё всегда (assignment не блокирует content access). См. <a href="#fd-access">Foundational §4.4</a>.</li>
     <li><em>v4.7 (CONV-24):</em> <strong>View-as mode rendering</strong> — Sales Agent unit list / authed sales-app views должны поддерживать "view-as" mode когда Sales Manager / Admin инспектирует team-member view (см. <a href="#fd-access">§4.6</a>). Render exactly как target user видит: stock filtered, buyer profiles target user'а, его metrics. Все mutating actions disabled. Top banner «Viewing as Иван — Exit».</li>
+    <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected gate routing</strong> — sales-app middleware на anonymous request в PIN-protected проект делает sequence проверок (least → most invasive): (1) buyer-token (<code>?b=&lt;t&gt;</code>) валиден → bypass PIN → render After-PIN preset; (2) <code>pin_&lt;project_id&gt;</code> cookie валиден → bypass PIN → render After-PIN preset; (3) auth status — logged-in member owning/guest org → bypass PIN; (4) иначе → render content с CSS <code>filter: blur(12-16px)</code> + fixed PIN entry overlay (Email us mailto / Call us tel CTA из contact fields). Submit PIN → server validates → set 30-day cookie → redirect. Owner changes PIN → invalidate all existing cookies. См. <a href="#fd-visibility-pin">§5.1</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) и Phase 1.7 (Public Visibility settings). Buyer flow detailed в Phase 1.11 (Sales Presentation Layer).</p>
 </div>
