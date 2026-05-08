@@ -5818,6 +5818,9 @@ document.addEventListener('click', (e) => {
   const screen = row.closest('.screen');
   screen.querySelectorAll('.unit-row').forEach(r => r.classList.remove('selected'));
   row.classList.add('selected');
+  // Open info panel in unit-detail mode
+  const panel = document.getElementById('infoPanelGlobal');
+  if (panel) setPanelState(panel, 'expanded', 'unit');
   // Sync tower viz
   const floorNum = row.querySelector('.ur-floor .num')?.textContent.trim();
   if (floorNum) {
