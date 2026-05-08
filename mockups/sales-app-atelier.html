@@ -688,6 +688,7 @@ a { color: inherit; text-decoration: none; }
   position: relative;
 }
 .plan-card-thumb svg.fp { width: 80%; height: 80%; }
+.plan-card-thumb img.fp { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 .plan-card-thumb-aspect {
   position: absolute; bottom: 8px; right: 10px;
   font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
@@ -3535,7 +3536,7 @@ a { color: inherit; text-decoration: none; }
         <article class="plan-card" data-goto="apt-stack">
           <button class="plan-card-fav" data-toggle="fav" title="Save"><svg class="icon"><use href="#ic-heart"/></svg></button>
           <div class="plan-card-thumb">
-            <svg class="fp"><use href="#fp-studio"/></svg>
+            <img class="fp" src="assets/fp-plan-north.webp" alt="North plan">
             <span class="plan-card-thumb-aspect">N · 12, 14</span>
           </div>
           <div class="plan-card-body">
@@ -3552,7 +3553,7 @@ a { color: inherit; text-decoration: none; }
         <article class="plan-card" data-goto="apt-stack">
           <button class="plan-card-fav on" data-toggle="fav" title="Save"><svg class="icon"><use href="#ic-heart"/></svg></button>
           <div class="plan-card-thumb">
-            <svg class="fp"><use href="#fp-corner"/></svg>
+            <img class="fp" src="assets/fp-plan-east.webp" alt="East plan">
             <span class="plan-card-thumb-aspect">NE · 4–10</span>
           </div>
           <div class="plan-card-body">
@@ -4311,7 +4312,7 @@ a { color: inherit; text-decoration: none; }
       <div class="fm-head">
         <div class="fm-head-left">
           <button class="fm-building-select">Sunrise <span class="arrow">▾</span></button>
-          <div class="fm-level-title">Level <strong>10</strong></div>
+          <div class="fm-level-title">Level <strong id="fpLevelNum">2</strong></div>
         </div>
         <button class="fm-close" data-goto="building"><svg class="icon"><use href="#ic-close"/></svg></button>
       </div>
@@ -4321,34 +4322,8 @@ a { color: inherit; text-decoration: none; }
 
         <!-- Floor plan drawing -->
         <div class="fm-canvas">
-          <svg class="fp-large" viewBox="0 0 560 380" fill="none" stroke="var(--text-700)" stroke-width="1.4" opacity="0.80">
-            <!-- Outer shell -->
-            <rect x="40" y="30" width="480" height="320" stroke-width="2"/>
-            <!-- Core walls -->
-            <line x1="40"  y1="180" x2="300" y2="180"/>
-            <line x1="300" y1="30"  x2="300" y2="350"/>
-            <line x1="300" y1="180" x2="520" y2="180"/>
-            <line x1="40"  y1="120" x2="150" y2="120"/>
-            <line x1="150" y1="30"  x2="150" y2="180"/>
-            <line x1="370" y1="30"  x2="370" y2="120"/>
-            <line x1="300" y1="120" x2="520" y2="120"/>
-            <!-- Balcony lines -->
-            <line x1="40"  y1="30"  x2="15"  y2="30"  stroke-dasharray="4,3"/>
-            <line x1="15"  y1="30"  x2="15"  y2="350" stroke-dasharray="4,3"/>
-            <line x1="40"  y1="350" x2="15"  y2="350" stroke-dasharray="4,3"/>
-            <line x1="520" y1="80"  x2="548" y2="80"  stroke-dasharray="4,3"/>
-            <line x1="548" y1="80"  x2="548" y2="270" stroke-dasharray="4,3"/>
-            <line x1="520" y1="270" x2="548" y2="270" stroke-dasharray="4,3"/>
-            <!-- Door arcs (simplified) -->
-            <path d="M 150 120 Q 130 100 110 120" stroke-dasharray="3,2"/>
-            <path d="M 300 120 Q 320 100 340 120" stroke-dasharray="3,2"/>
-            <!-- Room labels -->
-            <text x="95"  y="80"  font-family="'JetBrains Mono', monospace" font-size="11" fill="var(--text-400)" opacity="0.55" text-anchor="middle">BED 2</text>
-            <text x="225" y="100" font-family="'JetBrains Mono', monospace" font-size="11" fill="var(--text-400)" opacity="0.55" text-anchor="middle">LIVING</text>
-            <text x="95"  y="270" font-family="'JetBrains Mono', monospace" font-size="11" fill="var(--text-400)" opacity="0.55" text-anchor="middle">MASTER</text>
-            <text x="420" y="70"  font-family="'JetBrains Mono', monospace" font-size="11" fill="var(--text-400)" opacity="0.55" text-anchor="middle">KITCHEN</text>
-            <text x="420" y="260" font-family="'JetBrains Mono', monospace" font-size="11" fill="var(--text-400)" opacity="0.55" text-anchor="middle">BED 3</text>
-          </svg>
+          <img id="fpPlateImg" src="assets/fp-plate-l2.png" alt="Floor plate"
+               style="width:100%;height:100%;object-fit:contain;display:block;padding:16px">
           <!-- Unit hotspots on the floor plate -->
           <div class="fp-hotspot avail" style="left: 36%; top: 42%"
                data-unit="801" data-status="avail" data-status-label="Available"
@@ -4384,18 +4359,19 @@ a { color: inherit; text-decoration: none; }
         <div class="fm-level-rail">
           <div class="head">Level</div>
           <div class="arrow"><svg><use href="#ic-arrow-u"/></svg></div>
-          <div class="fm-lnum">14</div>
-          <div class="fm-lnum">13</div>
-          <div class="fm-lnum">12</div>
-          <div class="fm-lnum">11</div>
-          <div class="fm-lnum active">10</div>
-          <div class="fm-lnum">9</div>
-          <div class="fm-lnum">8</div>
-          <div class="fm-lnum">7</div>
-          <div class="fm-lnum">6</div>
-          <div class="fm-lnum">5</div>
-          <div class="fm-lnum">4</div>
-          <div class="fm-lnum">3</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">14</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">13</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">12</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">11</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">10</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">9</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">8</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">7</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">6</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l6.webp">5</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l2.png">4</div>
+          <div class="fm-lnum" data-plate="assets/fp-plate-l2.png">3</div>
+          <div class="fm-lnum active" data-plate="assets/fp-plate-l2.png">2</div>
           <div class="arrow"><svg><use href="#ic-arrow-d"/></svg></div>
         </div>
       </div>
@@ -5616,6 +5592,11 @@ document.addEventListener('click', (e) => {
   const modal = lnum.closest('.floor-modal');
   const title = modal?.querySelector('.fm-level-title strong');
   if (title) title.textContent = lnum.textContent.trim();
+  // Swap floor plate image if data-plate present
+  const plateImg = modal?.querySelector('#fpPlateImg');
+  if (plateImg && lnum.dataset.plate) plateImg.src = lnum.dataset.plate;
+  const levelNum = document.getElementById('fpLevelNum');
+  if (levelNum) levelNum.textContent = lnum.textContent.trim();
 });
 
 // ══════════════════════════════════════════════════════════════════════
