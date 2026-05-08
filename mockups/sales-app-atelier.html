@@ -2379,6 +2379,47 @@ a { color: inherit; text-decoration: none; }
   color: rgba(255,255,255,0.38); margin-top: 3px;
 }
 
+/* Compact floor-level badges */
+.wt-badges {
+  position: absolute; left: var(--panel-w, 80px); top: 0; bottom: 0;
+  width: 0; pointer-events: none; z-index: 6;
+}
+.wt-badge {
+  position: absolute; left: 28px;
+  transform: translateY(-50%);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px 5px 8px;
+  background: rgba(8,14,24,0.55);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(232,213,176,0.25);
+  border-radius: var(--r-pill);
+  color: rgba(255,255,255,0.70);
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer; pointer-events: auto;
+  transition: background 180ms, border-color 180ms, color 180ms;
+  white-space: nowrap;
+}
+.wt-badge::before {
+  content: '';
+  position: absolute; right: 100%; top: 50%;
+  transform: translateY(-50%);
+  width: 24px; height: 1px;
+  background: rgba(232,213,176,0.30);
+  transition: background 180ms;
+}
+.wt-badge-icon { color: var(--gold); opacity: 0.70; flex-shrink: 0; transition: opacity 180ms; }
+.wt-badge:hover,
+.wt-badge.active {
+  background: rgba(8,14,24,0.82);
+  border-color: rgba(232,213,176,0.75);
+  color: #fff;
+}
+.wt-badge:hover::before,
+.wt-badge.active::before { background: rgba(232,213,176,0.85); }
+.wt-badge:hover .wt-badge-icon,
+.wt-badge.active .wt-badge-icon { opacity: 1; }
+
 /* Thumbnail */
 .wt-thumb {
   position: absolute; bottom: 106px; right: 28px;
@@ -3157,6 +3198,34 @@ a { color: inherit; text-decoration: none; }
       </div>
     </div>
 
+  </div>
+
+  <!-- Compact tour badges — floor-level markers on building edge -->
+  <div class="wt-badges">
+    <div class="wt-badge" data-group="wtGroup1" data-item="wtItem1"
+         data-thumb="assets/rr-lobby.jpg" data-thumb-lbl="Lobby · Ground Floor · 360°"
+         data-goto="interior" style="top:66%">
+      <div class="wt-badge-icon">
+        <svg viewBox="0 0 20 20" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="10" cy="10" r="7"/>
+          <path d="M10 7v3l2 2"/>
+          <path d="M7 10a3 3 0 1 0 6 0 3 3 0 0 0-6 0" stroke-opacity=".4"/>
+        </svg>
+      </div>
+      <span>Interior</span>
+    </div>
+    <div class="wt-badge" data-group="wtGroup2" data-item="wtItem2"
+         data-thumb="assets/rr-amenities.jpg" data-thumb-lbl="Pool Deck · Level 3 · 360°"
+         data-goto="amenities" style="top:50%">
+      <div class="wt-badge-icon">
+        <svg viewBox="0 0 20 20" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="10" cy="10" r="7"/>
+          <path d="M10 7v3l2 2"/>
+          <path d="M7 10a3 3 0 1 0 6 0 3 3 0 0 0-6 0" stroke-opacity=".4"/>
+        </svg>
+      </div>
+      <span>Amenities</span>
+    </div>
   </div>
 
   <!-- Thumbnail preview (G) -->
@@ -5681,26 +5750,36 @@ document.addEventListener('click', (e) => {
   const thumbImg = document.getElementById('wtThumbImg');
   const thumbLbl = document.getElementById('wtThumbLbl');
 
-  document.querySelectorAll('.wt-item').forEach(item => {
-    const group = document.getElementById(item.dataset.group);
+  function activateWt(groupId, itemId, thumbSrc, thumbLabel) {
+    document.getElementById(groupId)?.classList.add('active');
+    document.getElementById(itemId)?.classList.add('active');
+    // also activate matching badge
+    document.querySelector(`.wt-badge[data-group="${groupId}"]`)?.classList.add('active');
+    thumbImg.src = thumbSrc || '';
+    thumbLbl.textContent = thumbLabel || '';
+    thumb.classList.add('visible');
+  }
+  function deactivateWt(groupId, itemId) {
+    document.getElementById(groupId)?.classList.remove('active');
+    document.getElementById(itemId)?.classList.remove('active');
+    document.querySelector(`.wt-badge[data-group="${groupId}"]`)?.classList.remove('active');
+    thumb.classList.remove('visible');
+  }
 
-    item.addEventListener('mouseenter', () => {
-      group?.classList.add('active');
-      item.classList.add('active');
-      thumbImg.src = item.dataset.thumb || '';
-      thumbLbl.textContent = item.dataset.thumbLbl || '';
-      thumb.classList.add('visible');
-      // Auto-expand left info panel to overview
-      const panel = document.getElementById('infoPanelGlobal');
-      if (panel && panel.dataset.state !== 'expanded') {
-        setPanelState(panel, 'expanded', 'overview');
-      }
-    });
-    item.addEventListener('mouseleave', () => {
-      group?.classList.remove('active');
-      item.classList.remove('active');
-      thumb.classList.remove('visible');
-    });
+  // callout label cards
+  document.querySelectorAll('.wt-item').forEach(item => {
+    item.addEventListener('mouseenter', () =>
+      activateWt(item.dataset.group, item.id, item.dataset.thumb, item.dataset.thumbLbl));
+    item.addEventListener('mouseleave', () =>
+      deactivateWt(item.dataset.group, item.id));
+  });
+
+  // compact badges
+  document.querySelectorAll('.wt-badge').forEach(badge => {
+    badge.addEventListener('mouseenter', () =>
+      activateWt(badge.dataset.group, badge.dataset.item, badge.dataset.thumb, badge.dataset.thumbLbl));
+    badge.addEventListener('mouseleave', () =>
+      deactivateWt(badge.dataset.group, badge.dataset.item));
   });
 })();
 
