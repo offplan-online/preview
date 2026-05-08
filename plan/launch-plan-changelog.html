@@ -304,6 +304,58 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.9 — 2026-05-08 (CONV-26, Wave 2 Chunk 5)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §6 User Journeys (12 решений) — D+E status-change form unified mechanism (form shape, smart-match logic, triggers + symmetric reverse, buyer-record fate) + G channels (Email / WhatsApp / Copy link через light deep-link approach с <code>?ch=</code> tracking). Strategic insight: D (status protection) и E (buyer↔unit linkage) объединены в один verification form — заполнение auto-link'ует buyer-record by email lookup (smart-match), убирает излишний шаг ручного linking. F (request-more, F-A buyer browse scope from token) — <strong>deferred Open Question</strong> с двумя candidate variants для Roman ratification. План: <code>plans/stage1-chunk-5-journeys.md</code>.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">§6 User Journeys additions</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§6 lead intro paragraph</strong> — flagging новые subsections §6.1 + §6.2 ниже existing <code>&lt;details&gt;</code> блоков (buyer entity model + token mechanics остаются без изменений).</li>
+      <li><strong>Новая §6.1 — Sales Agent status-change form (D+E unified mechanism)</strong> (anchor <code>fd-buyer-status</code>) — 4 styled boxes:
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>Form shape (augmented single-click verification)</em> — Trigger = button click («Mark as Reserved» амбер / «Mark as Sold» red) в unit card; Required = buyer email с autocomplete'ом из SA's records; Conditional required = name + phone если email НЕ matches existing record; Optional = notes (free text) + file upload (PDF / JPG signed booking letter, deposit receipt). Status выбирается кликом, не dropdown'ом.</li>
+          <li><em>Smart-match logic (E side)</em> — 3-step lookup: (1) SA's buyer-records → если match → display banner + auto-link; (2) Organisation-wide records → если match → warning «attributed to other SA» + создаётся новый record для current SA (per CONV-22 «разные records под одним email = разная attribution»); (3) если ни там, ни там → name + phone required, новый buyer-record.</li>
+          <li><em>Triggers + reverse direction policy</em> — Forward: Available → Reserved · Available → Sold · Reserved → Sold. Reverse: Sold → Reserved · Sold → Available · Reserved → Available. <strong>Симметричная policy</strong> — same permissions per §4.2 (Owner / Admin / SM / SA own assigned). Reverse-flip → audit log + email notification одну ступень выше (SA → SM, SM → Admin/Owner). Buyer-record остаётся в DB, link воидится; re-flip recreates link если same email.</li>
+          <li><em>Audit log</em> — Forward-flip: «User X marked unit Y as Reserved/Sold; linked to Buyer Z». Reverse-flip: «User X reverted unit Y from Sold → Reserved at TIMESTAMP. Voided link to Buyer Z». Visible to Owner / Admin / SM (full trail), SA (own actions only). Schema → Phase 1.3 implementation.</li>
+        </ul>
+      </li>
+      <li><strong>Новая §6.2 — Channels (G) — Email + WhatsApp + Copy link</strong> (anchor <code>fd-buyer-channels</code>) — 3 styled boxes:
+        <ul style="margin:4px 0 0 18px;">
+          <li><em>3 channels (Stage 1) table</em> — Email native через Phase 1.8 infra (SES / Mailgun); WhatsApp через <code>https://wa.me/&lt;phone&gt;?text=&lt;encoded&gt;</code> deep-link (открывает SA's own WhatsApp с предзаполненным message, ноль vendor integrations); Copy link clipboard. Tracking: <code>?ch=email|wa|link</code> URL parameter.</li>
+          <li><em>UI flow в Sales Agent admin'е</em> — modal с composeable message + selected units chips + 3 channel buttons. Phone-empty disables WhatsApp с tooltip. Multi-channel одновременно OK (same buyer-token, разный <code>?ch=</code>).</li>
+          <li><em>Default message text + locale</em> — Pre-filled на Org locale (English / Russian per ADR 0007). Template editable inline. Per-channel templates → Stage 2.</li>
+        </ul>
+      </li>
+      <li><strong>Stage 2 channels backlog note</strong> — SMS via Twilio (carrier compliance, monthly fee), centralised WhatsApp via Business API (vendor onboarding required).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Cross-link патчи в существующие секции</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§4.2 Permissions matrix — reverse-flip note paragraph</strong> под matrix table: reverse направление status change — same permissions как forward; каждый reverse-flip → audit log + email notification одну ступень выше; forward-flip — audit only без notification.</li>
+      <li><strong>§1 Sales Agent role definition cross-link refresh</strong> — verification form ссылка обновлена с <code>#phase-1-10</code> на <code>#fd-buyer-status</code> (более precise — спец живёт в §6.1, не в Phase 1.10 implementation level).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase callouts (light updates)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.10 (Sales App)</strong> — v4.9 callout: status-change verification form UI (button-driven, smart-match autocomplete, auto-fill, optional notes/file upload), 3-channel buyer-link send modal (Email / WhatsApp deep-link / Copy), <code>?ch=</code> URL parameter tracking, F-A deferred note.</li>
+      <li><strong>Phase 1.4 (Operator Dashboard)</strong> — v4.9 callout: status-flip audit visibility (forward + reverse) для support troubleshooting, reverse-flip email pipeline через Phase 1.8, anti-abuse aggregate «&gt;20 reverse-flips / 30 дней» highlighted, channel analytics widget (Email / WhatsApp / Copy opens) для product decisions.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто в этом chunk</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>F-A — Buyer browse scope from valid token</strong> — Open Question, две candidate variants ((i) Token = elevated to Full sales project-wide vs (iii) Token = Discovery elevation + per-project Owner toggle для Full sales) detail-spec'ed в plan'е. Awaiting Roman call ratification — mini-patch на §6 + Phase 1.10 callout после.</li>
+      <li>«Request more options» CTA spec — depends on F-A resolution.</li>
+      <li>SMS channel — Stage 2 (carrier compliance, monthly fee).</li>
+      <li>Centralised WhatsApp via Business API — Stage 2 (vendor onboarding, audit log, opt-in flows).</li>
+      <li>Per-channel templates (different text для Email vs WhatsApp) — Stage 2.</li>
+      <li>Arabic locale — Stage 2 (per ADR 0007 i18n).</li>
+      <li>Status-change form audit table schema — Phase 1.3 implementation.</li>
+      <li>Reverse-flip email templates + opt-out controls — Phase 1.8 implementation.</li>
+      <li>WhatsApp phone normalisation — Stage 1 simple regex; libphonenumber → Stage 2 если ошибки накопятся.</li>
+      <li>Wave 2 Chunks 6-8 (§7 Edge cases, deep Phase callouts, ADR placeholders).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.8 — 2026-05-08 (CONV-25, Wave 2 Chunk 4)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §5 Visibility (12 решений) — PIN-protected preset spec + Custom preset cleanup. Strategic insight: PIN-protected — не «новый preset», а формализация уже задекларированного 4-го варианта из §1.2 Object Builder; «Custom» удалён из Stage 1 (granular toggles deferred Stage 2). План: <code>plans/stage1-chunk-4-visibility.md</code>.</p>
 

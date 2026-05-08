@@ -616,7 +616,7 @@
       <tr><td><strong>Admin</strong></td><td>Всё что Owner, кроме billing/cancel/transfer. Может приглашать/удалять Clients, менять roles, устанавливать external agency relationships.</td></tr>
       <tr><td><strong>Sales Manager</strong></td><td>Operational sales lead = <strong>Content Editor + stock allocation + buyer flow</strong>. Не управляет командой и billing'ом, но имеет полный operational контроль над контентом, stock allocation, buyer flow. Приглашает Sales Agents.</td></tr>
       <tr><td><strong>Content Editor</strong></td><td>Контент: gallery, renders, floorplates, descriptions, переводы, <strong>цены юнитов</strong>. Не презентует, не приглашает. Видит всё в проекте (assignment не блокирует content access).</td></tr>
-      <tr><td><strong>Sales Agent</strong></td><td>Buyer / presentation flow. Меняет status assigned units через verification form (см. <a href="#phase-1-10" style="color:var(--navy);">Phase 1.10</a>). Не редактирует контент. Делится на <strong>Internal</strong> (Client из команды самой Organisation) и <strong>External</strong> (Client из другой Organisation, приглашён через guest-organisation invite) — operational различия в <a href="#fd-access" style="color:var(--navy);">§4.5</a>.</td></tr>
+      <tr><td><strong>Sales Agent</strong></td><td>Buyer / presentation flow. Меняет status assigned units через verification form (см. <a href="#fd-buyer-status" style="color:var(--navy);">§6.1</a>). Не редактирует контент. Делится на <strong>Internal</strong> (Client из команды самой Organisation) и <strong>External</strong> (Client из другой Organisation, приглашён через guest-organisation invite) — operational различия в <a href="#fd-access" style="color:var(--navy);">§4.5</a>.</td></tr>
       <tr><td><strong>Free Guest</strong></td><td>Property of Organisation: бесплатный tier. Organisation на Free Guest tier <strong>может</strong> быть guest organisation в чужих проектах (приглашена по reverse invite), <strong>не может</strong> создавать свои проекты. Path к upgrade'у — лениво при попытке «+ Create project».</td></tr>
     </tbody>
   </table>
@@ -888,6 +888,7 @@
       <tr><td>Branding / theme customisation (Organisation-level)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
     </tbody>
   </table>
+  <p style="font-size:13px; color:var(--text-mid); margin-top:8px;"><strong>Reverse-flip note (CONV-26):</strong> reverse направление status change (Sold → Reserved/Available, Reserved → Available) — same permissions как forward (Owner / Admin / SM / SA own assigned). Каждый reverse-flip → audit log + email notification к одному уровню выше (SA → SM, SM → Admin/Owner). Forward-flip — audit only, без notification (standard workflow). См. <a href="#fd-buyer-status">§6.1 — reverse direction policy</a>.</p>
 
   <h4 style="color:var(--navy); margin:20px 0 10px;">4.3 — Scoping: в каких проектах у user'а есть membership</h4>
   <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">«Scope» здесь = в каких проектах Organisation'ы у Client'а есть доступ. Что user видит и может <em>внутри</em> конкретного проекта — отдельная ось (роль §4.2 + stock allocation <a href="#fd-access" style="color:var(--text-mid);">§4.4</a>).</p>
@@ -1061,6 +1062,8 @@
   <h3 style="border:none; padding:0; margin:0 0 12px; color:var(--navy);">Buyer flow — Variant E2 (tokenised unit links, no dedicated dashboard)</h3>
   <p style="margin-bottom:14px;">Решение архитектуры buyer-presentation'а: <strong>email = и есть presentation</strong>. Никакой dedicated buyer-dashboard'а / shortlist-страницы в Stage 1. Каждый «лайк» во время презентации становится отдельной tokenised ссылкой в email'е.</p>
 
+  <p style="margin-bottom:14px; font-size:13.5px; color:var(--text-mid);"><strong>Внутри §6:</strong> существующие <code>&lt;details&gt;</code> блоки покрывают buyer entity model и token mechanics. Подробные subsections ниже: <a href="#fd-buyer-status" style="color:var(--text-mid);">§6.1 — Sales Agent status-change form (D+E unified mechanism)</a> + <a href="#fd-buyer-channels" style="color:var(--text-mid);">§6.2 — Channels (Email + WhatsApp + Copy link)</a>.</p>
+
   <details open>
   <summary class="task-label">Email content + token mechanics <span class="count">(5)</span></summary>
   <ul>
@@ -1088,6 +1091,96 @@
     <li><strong>Никакого device-pinning / cookie-binding</strong> — это убило бы legit forwarding (жена с телефона). Stage 2 (если попросят): opt-in checkbox «restrict to first device».</li>
   </ul>
   </details>
+
+  <h4 id="fd-buyer-status" style="color:var(--navy); margin:24px 0 10px;">6.1 — Sales Agent status-change form (D + E unified mechanism)</h4>
+  <p style="margin-bottom:10px;"><strong>Use case:</strong> Sales Agent проводит встречу с buyer'ом, договорился о reservation / sold deal'е, нужно поставить unit в Reserved / Sold + связать buyer'а с unit'ом для attribution / commission. Decision (CONV-22): D (status protection) и E (buyer↔unit linkage) <strong>объединены в один mechanism</strong> — заполнение status-change form auto-links buyer-record by email lookup (smart-match). Альтернатива (2 separate UI: status form + manual unit-buyer link в карточке) отвергнута как излишняя ручная работа.</p>
+
+  <div style="margin:12px 0; padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">
+    <strong style="color:var(--navy); font-size:14px;">Form shape (augmented single-click verification)</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Trigger:</strong> Sales Agent в админке Project → unit card → нажимает кнопку «Mark as Reserved» (амбер) или «Mark as Sold» (red). Status выбирается кликом, не dropdown'ом — reduces clicks, кнопки чётко разделены.</li>
+      <li><strong>Required field:</strong> <code>buyer email</code> (с autocomplete'ом из buyer-records этого Sales Agent'а — recent first).</li>
+      <li><strong>Conditional required:</strong> если email НЕ matches existing buyer-record → <code>buyer name</code> + <code>phone</code> становятся required (создаётся новый record). Если email matches existing record → name + phone displayed read-only (auto-fill из existing).</li>
+      <li><strong>Optional:</strong> <code>notes</code> (free text — deal value, conditions, comment) + <code>file upload</code> (PDF / JPG: signed booking letter, deposit receipt, photo подписанного контракта, etc.).</li>
+      <li><strong>Submit:</strong> server validates → создаёт/links buyer-record → flips unit status → audit log entry → email notification (см. ниже).</li>
+    </ul>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">
+    <strong style="color:var(--navy); font-size:14px;">Smart-match logic (email lookup, E side)</strong>
+    <ol style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Lookup в buyer-records этого Sales Agent'а</strong> (org-scope, recent first) — если email match → display banner «<em>Buyer found: <strong>Иван Петров</strong>, +971 50 123 45 67 — ваш buyer от 12 апреля</em>» + auto-link к существующему record'у.</li>
+      <li><strong>Lookup в Organisation-wide buyer-records</strong> (если в (1) match не найден) — если match → display warning «<em>Buyer <strong>Иван Петров</strong> existing, attributed to <strong>Алексей Иванов</strong>. New buyer-record will be created для вашей attribution. Continue?</em>». Решение per CONV-22: разные buyer-records под одним email = разная attribution; новый record создаётся для текущего SA.</li>
+      <li><strong>Если match не найден ни там, ни там</strong> → form требует name + phone, создаётся new buyer-record (attribution = текущий SA), unit↔buyer link создаётся.</li>
+    </ol>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">Triggers + reverse direction policy</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Forward triggers:</strong> Available → Reserved · Available → Sold · Reserved → Sold (с pre-fill «same buyer?» — если в Reserved уже есть linked buyer-record, форма pre-fill'ит email).</li>
+      <li><strong>Reverse triggers:</strong> Sold → Reserved · Sold → Available · Reserved → Available. Симметричная policy — same permissions per <a href="#fd-access">§4.2 «Change unit status»</a> row (Owner / Admin / SM / SA own-assigned). Sales Agent fixes own mistakes без эскалации к manager'у. Audit log + email notification catches abuse.</li>
+      <li><strong>Email notification на reverse-flip:</strong> к Sales Manager'у (если SA откатывает); к Admin / Owner (если SM откатывает). Forward-flip — без notification (standard workflow); reverse — «interesting event» worth surfacing.</li>
+      <li><strong>Buyer-record fate при reverse:</strong> buyer-record <strong>остаётся в DB</strong> (history + attribution preserved для commission). Unit↔buyer link <strong>воидится</strong> (audit log entry: «<em>User X reverted Sold → Reserved at TIMESTAMP, voided link to Buyer Y</em>»). Re-flip forward (Reserved → Sold снова) — SA re-fills форму; если same email — auto-link recreates от existing buyer-record. Никаких stale link'ов в DB.</li>
+    </ul>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">Audit log</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Forward-flip:</strong> «<em>User X marked unit Y as Reserved/Sold; linked to Buyer Z (existing | new) at TIMESTAMP. Notes: «...». File: foo.pdf (если приложен)</em>».</li>
+      <li><strong>Reverse-flip:</strong> «<em>User X reverted unit Y from Sold → Reserved at TIMESTAMP. Voided link to Buyer Z. Reason: «...» (notes если заполнено)</em>».</li>
+      <li><strong>Visible to:</strong> Owner / Admin / Sales Manager (full audit trail per Project в Project Settings → Activity log). Sales Agent — own actions only (own assigned units history).</li>
+      <li><strong>Schema-level дизайн</strong> — <a href="#phase-1-3" style="color:var(--text-mid);">Phase 1.3</a> implementation level (consistent с pattern <a href="#fd-access">§4.6 View-as-Agent</a> + <a href="#fd-visibility-pin">§5.1 PIN-protected</a> audit).</li>
+    </ul>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-mid); margin-top:14px;"><strong>Cross-link:</strong> <a href="#phase-1-10" style="color:var(--text-mid);">Phase 1.10</a> — verification form UI build + WhatsApp button (см. §6.2) · <a href="#phase-1-4" style="color:var(--text-mid);">Phase 1.4</a> — operator dashboard sees flip audit + reverse-flip emails · <a href="#fd-access">§4.2</a> — permission row для status changes (forward + reverse symmetric).</p>
+
+  <h4 id="fd-buyer-channels" style="color:var(--navy); margin:24px 0 10px;">6.2 — Channels — Email + WhatsApp + Copy link</h4>
+  <p style="margin-bottom:10px;"><strong>Use case:</strong> Sales Agent после встречи / звонка отправляет buyer'у tokenised presentation link через подходящий канал. UAE / MENA reality — WhatsApp dominant (~80% delivery), Email — деловой / formal, SMS — устаревает. Stage 1 covers 3 channels через <strong>light deep-link approach</strong> (zero vendor integrations).</p>
+
+  <div style="margin:12px 0; padding:14px 18px; background:var(--sand-50); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">
+    <strong style="color:var(--navy); font-size:14px;">3 channels (Stage 1)</strong>
+    <table style="margin:8px 0 0; font-size:13px;">
+      <thead><tr><th style="width:140px;">Channel</th><th>Mechanic</th><th>Tracking</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Email</strong></td><td>Native send из platform'ы через <a href="#phase-1-8" style="color:var(--text-mid);">Phase 1.8</a> infra (SES / Mailgun). Default sender = Organisation's verified email; subject = «<em>Presentation: &lt;Project name&gt;</em>»; body = composed message + tokenised links. Phase 1.8 handles delivery, bounces, opens.</td><td>URL: <code>?ch=email</code>. Opens counted в analytics.</td></tr>
+        <tr><td><strong>WhatsApp</strong></td><td>Deep-link to SA's own WhatsApp client: <code>https://wa.me/&lt;phone&gt;?text=&lt;encoded message&gt;</code>. SA жмёт кнопку «Send via WhatsApp» в admin'е → browser открывает <code>web.whatsapp.com</code> (или native app если на mobile) с предзаполненным message; SA жмёт «Send» уже там. <strong>Никаких vendor integrations</strong> — никакого WhatsApp Business API, никакой compliance approval, никаких monthly fees.</td><td>URL: <code>?ch=wa</code>. Opens counted.</td></tr>
+        <tr><td><strong>Copy link</strong></td><td>Кнопка «Copy buyer link» в admin'е → clipboard'у копируется tokenised URL с <code>?ch=link</code>. SA pastes куда хочет — Telegram / iMessage / LinkedIn DM / SMS / etc. Универсальный fallback.</td><td>URL: <code>?ch=link</code>. Opens counted (без знания target channel).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">UI flow в Sales Agent admin'е</strong>
+    <ol style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li>SA в Project admin'е → buyer-record card (или после Object Builder при создании презентации) → «<strong>Send to buyer</strong>» button.</li>
+      <li>Modal: <em>compose message</em> (default text editable: «Hi &lt;buyer_name&gt;, here's the presentation we discussed: &lt;link&gt;») + selected units (chips, removable) + 3 channel buttons:
+        <ul style="margin:4px 0 0 16px;">
+          <li><strong>📧 Send via Email</strong> — disabled if buyer email is empty.</li>
+          <li><strong>💬 Send via WhatsApp</strong> — disabled if buyer phone is empty (tooltip «Phone required for WhatsApp»).</li>
+          <li><strong>🔗 Copy link</strong> — always enabled.</li>
+        </ul>
+      </li>
+      <li>Click → action: Email отправляется с backend'а; WhatsApp / Copy открывают browser handlers.</li>
+      <li><strong>Multi-channel в одну операцию</strong> — SA может click Email AND WhatsApp одновременно («не уверен какой канал buyer чаще проверяет»). Same buyer-token URL, разный <code>?ch=</code> param на каждой версии — multi-channel attribution counter в analytics.</li>
+    </ol>
+  </div>
+
+  <div style="margin:12px 0; padding:14px 18px; background:#fff; border:1px solid var(--border); border-radius:6px;">
+    <strong style="color:var(--navy); font-size:14px;">Default message text + locale</strong>
+    <ul style="margin:8px 0 0 20px; font-size:13.5px; color:var(--text-mid);">
+      <li>Pre-filled на Org locale (Stage 1 supports English + Russian per ADR 0007 i18n; Arabic Stage 2 если рынок попросит).</li>
+      <li>Template (English): <em>«Hi &lt;buyer_name&gt;, here's the presentation we discussed: &lt;link&gt;»</em>. Russian: <em>«Привет &lt;buyer_name&gt;, вот презентация о которой мы говорили: &lt;link&gt;»</em>.</li>
+      <li>SA редактирует inline в admin'е перед клик'ом «Send» — full freedom для personalisation.</li>
+      <li><strong>Per-channel templates</strong> (different text для Email vs WhatsApp) — Stage 2 если попросят. В Stage 1 — same text для всех channels (SA может вручную подкорректировать перед каждым send'ом).</li>
+    </ul>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-mid); margin-top:14px;"><strong>Cross-link:</strong> <a href="#phase-1-10" style="color:var(--text-mid);">Phase 1.10</a> — UI flow build + 3 channel buttons · <a href="#phase-1-8" style="color:var(--text-mid);">Phase 1.8</a> — Email infra (already in plan) · <a href="#phase-1-4" style="color:var(--text-mid);">Phase 1.4</a> — operator dashboard channel analytics aggregate.</p>
+
+  <p style="font-size:13px; color:var(--text-mid); margin-top:8px;"><strong>Stage 2 channels backlog:</strong> SMS via Twilio (carrier compliance, monthly fee), centralised WhatsApp via Business API (от platform'ы send not from SA's phone — pretty UX, audit log, opt-in flows; vendor onboarding required).</p>
 </div>
 
 <!-- ─── 7. Edge cases ─── -->
@@ -1611,6 +1704,7 @@
     <li><strong>Reserved subdomain</strong> — <code>staff</code> в blacklist при создании Organisation subdomain (вместе с <code>app</code>, <code>api</code>, <code>admin</code>, etc.).</li>
     <li><em>v4.7 (CONV-24):</em> <strong>View-as-Agent (<a href="#fd-access">§4.6</a>) — team-level admin tool, ≠ Stage 4 operator impersonation.</strong> Read-only debug surface внутри клиентской админки (Owner / Admin / Sales Manager). Operator impersonation (login as Client от лица staff'а для support escalation) — отдельный flow, deferred to Stage 4.</li>
     <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected projects visibility в operator dashboard.</strong> Operator может видеть «Project X is PIN-protected» (флаг в Project list / Project drawer) для support troubleshooting (e.g., «client says PIN doesn't work»), но <strong>не видит самого PIN value</strong> (security — operator не должен знать пользовательские secrets, hashed at rest). Anti-brute-force flag — failed PIN attempts &gt;3/час с одного IP highlighted в Project drawer + aggregate counter «N failed-PIN events / 24h» в overview. См. <a href="#fd-visibility-pin">§5.1 audit log</a>.</li>
+    <li><em>v4.9 (CONV-26):</em> <strong>Status-flip audit visibility + reverse-flip email pipeline + channel analytics.</strong> Operator dashboard читает audit log entries для status flips (forward + reverse) per Organisation — для support troubleshooting (e.g., «client claims refund but unit Sold» → operator смотрит timeline). Reverse-flip emails (SA → SM, SM → Admin/Owner) идут через <a href="#phase-1-8">Phase 1.8</a> transactional email infra; operator видит этот класс events как separate event «status-reverse-notification-sent». Anti-abuse aggregate: «Organisation X had &gt;20 reverse-flips в 30 дней» highlighted в overview (фрод-индикатор: фейковые reservations и тут же откаты для commission games). Channel analytics aggregate (Email / WhatsApp / Copy opens по проектам через <code>?ch=</code> URL parameter) — standalone widget в operator overview для product decisions. См. <a href="#fd-buyer-status">§6.1 audit log</a> + <a href="#fd-buyer-channels">§6.2 tracking</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Operator dashboard 2FA mandatory always (внутренний tooling). См. <a href="#fd-onboarding">Foundational §2</a>.</p>
 </div>
@@ -2747,6 +2841,7 @@
     <li><strong>1.10.Y уточнение auth-scoped views</strong> — agent логинится → видит только свой allocated сток per S·1 stock allocation rules (assigned units exclusive). Content Editor видит всё всегда (assignment не блокирует content access). См. <a href="#fd-access">Foundational §4.4</a>.</li>
     <li><em>v4.7 (CONV-24):</em> <strong>View-as mode rendering</strong> — Sales Agent unit list / authed sales-app views должны поддерживать "view-as" mode когда Sales Manager / Admin инспектирует team-member view (см. <a href="#fd-access">§4.6</a>). Render exactly как target user видит: stock filtered, buyer profiles target user'а, его metrics. Все mutating actions disabled. Top banner «Viewing as Иван — Exit».</li>
     <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected gate routing</strong> — sales-app middleware на anonymous request в PIN-protected проект делает sequence проверок (least → most invasive): (1) buyer-token (<code>?b=&lt;t&gt;</code>) валиден → bypass PIN → render After-PIN preset; (2) <code>pin_&lt;project_id&gt;</code> cookie валиден → bypass PIN → render After-PIN preset; (3) auth status — logged-in member owning/guest org → bypass PIN; (4) иначе → render content с CSS <code>filter: blur(12-16px)</code> + fixed PIN entry overlay (Email us mailto / Call us tel CTA из contact fields). Submit PIN → server validates → set 30-day cookie → redirect. Owner changes PIN → invalidate all existing cookies. См. <a href="#fd-visibility-pin">§5.1</a>.</li>
+    <li><em>v4.9 (CONV-26):</em> <strong>Status-change verification form UI (D+E unified) + 3-channel buyer-link send.</strong> Form: button-driven status select («Mark as Reserved» / «Mark as Sold» в unit card) + email-required field with smart-match autocomplete + auto-fill name/phone from existing buyer-record + optional notes/file upload. Reverse-direction symmetric per <a href="#fd-access">§4.2</a> with email notification одну ступень выше (SA → SM, SM → Admin/Owner). Buyer-link send modal: 3 channel buttons (Email native via <a href="#phase-1-8">Phase 1.8</a> / WhatsApp via <code>https://wa.me/&lt;phone&gt;?text=...</code> deep-link, открывает SA's own WhatsApp / Copy link clipboard) + <code>?ch=email|wa|link</code> URL parameter tracking. Phone-empty disables WhatsApp button с tooltip. Multi-channel в одну операцию OK (same buyer-token URL, разный <code>?ch=</code>). F-A (buyer browse scope from valid token) — deferred Open Question, две candidate variants documented в <code>plans/stage1-chunk-5-journeys.md</code> для Roman ratification. См. <a href="#fd-buyer-status">§6.1</a> + <a href="#fd-buyer-channels">§6.2</a>.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) и Phase 1.7 (Public Visibility settings). Buyer flow detailed в Phase 1.11 (Sales Presentation Layer).</p>
 </div>
