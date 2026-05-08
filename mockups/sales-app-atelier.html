@@ -693,6 +693,102 @@ a { color: inherit; text-decoration: none; }
   object-fit: contain;
   display: block;
 }
+.plan-card-thumb { cursor: zoom-in; }
+.plan-card-thumb::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background 180ms;
+  z-index: 1;
+}
+.plan-card-thumb:hover::after { background: rgba(0,0,0,0.04); }
+.plan-card-thumb::before {
+  content: '\2315'; /* ⌕ */
+  position: absolute; bottom: 26px; right: 12px;
+  font-size: 16px; color: var(--text-400);
+  opacity: 0; transition: opacity 180ms; z-index: 3;
+}
+.plan-card-thumb:hover::before { opacity: 1; }
+
+/* ── Plan Lightbox ─────────────────────────────────────────────────── */
+.plan-lb {
+  position: fixed; inset: 0; z-index: 180;
+  display: none; flex-direction: column;
+  background: rgba(8,12,18,0.95);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: lbFade 180ms var(--ease);
+}
+.plan-lb.open { display: flex; }
+@keyframes lbFade { from { opacity:0; } to { opacity:1; } }
+
+.plan-lb-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 72px; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: linear-gradient(180deg, rgba(8,12,18,0.75) 0%, transparent 100%);
+  pointer-events: none;
+}
+.plan-lb-bar > * { pointer-events: auto; }
+.plan-lb-info { display: flex; flex-direction: column; gap: 2px; }
+.plan-lb-title { font-family: var(--font-display); font-size: 26px; font-weight: 300; color: #fff; line-height: 1; }
+.plan-lb-sub { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.40); }
+
+.plan-lb-stage {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; cursor: grab; position: relative;
+}
+.plan-lb-stage:active { cursor: grabbing; }
+.plan-lb-inner {
+  transform-origin: center center;
+  display: flex; align-items: center; justify-content: center;
+  will-change: transform;
+}
+.plan-lb-inner img {
+  max-width: 90vw; max-height: 80vh;
+  object-fit: contain; display: block;
+  user-select: none; -webkit-user-drag: none;
+}
+.plan-lb-inner svg.lb-svg {
+  width: min(88vw, 700px); height: auto;
+  color: var(--text-700);
+}
+
+.plan-lb-bottom {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: linear-gradient(0deg, rgba(8,12,18,0.70) 0%, transparent 100%);
+}
+.plan-lb-zoom-btns { display: flex; gap: 8px; }
+.plan-lb-zbtn {
+  width: 36px; height: 36px; border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.20);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; line-height: 1; cursor: pointer;
+  transition: background var(--dur);
+}
+.plan-lb-zbtn:hover { background: rgba(255,255,255,0.22); }
+.plan-lb-hint {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+}
+.plan-lb-goto {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: #fff; padding: 9px 16px;
+  background: var(--gold); border-radius: var(--r-sm);
+  transition: background var(--dur);
+}
+.plan-lb-goto:hover { background: #a07840; }
+.plan-lb-close {
+  width: 36px; height: 36px; border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.20);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background var(--dur);
+}
+.plan-lb-close:hover { background: rgba(255,255,255,0.22); }
+.plan-lb-close .icon { width: 14px; height: 14px; }
 .plan-card-thumb-aspect {
   position: absolute; bottom: 8px; right: 10px;
   font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
@@ -5741,6 +5837,37 @@ document.addEventListener('click', (e) => {
 });
 </script>
 <!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- PLAN LIGHTBOX — zoom viewer for floor plan cards                        -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="plan-lb" id="planLb">
+  <div class="plan-lb-bar">
+    <div class="plan-lb-info">
+      <div class="plan-lb-title" id="plbTitle"></div>
+      <div class="plan-lb-sub" id="plbSub"></div>
+    </div>
+    <button class="plan-lb-close" id="plbClose">
+      <svg class="icon"><use href="#ic-close"/></svg>
+    </button>
+  </div>
+
+  <div class="plan-lb-stage" id="plbStage">
+    <div class="plan-lb-inner" id="plbInner"></div>
+  </div>
+
+  <div class="plan-lb-bottom">
+    <div class="plan-lb-zoom-btns">
+      <button class="plan-lb-zbtn" id="plbZoomOut">−</button>
+      <button class="plan-lb-zbtn" id="plbZoomIn">+</button>
+      <button class="plan-lb-zbtn" id="plbZoomReset" style="font-size:11px;letter-spacing:0.06em">1:1</button>
+    </div>
+    <div class="plan-lb-hint">Scroll to zoom · drag to pan</div>
+    <button class="plan-lb-goto" data-goto="apt-stack" id="plbGoto">
+      View unit stack →
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
 <!-- LOGIN PANEL — top-right dropdown                                       -->
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 <div class="login-panel-scrim" id="loginScrim"></div>
@@ -5814,6 +5941,90 @@ document.addEventListener('click', (e) => {
 </div>
 
 <script>
+// ══════════════════════════════════════════════════════════════════════
+// PLAN LIGHTBOX — zoom + drag-to-pan viewer
+// ══════════════════════════════════════════════════════════════════════
+(function () {
+  const lb      = document.getElementById('planLb');
+  const inner   = document.getElementById('plbInner');
+  const title   = document.getElementById('plbTitle');
+  const sub     = document.getElementById('plbSub');
+  const stage   = document.getElementById('plbStage');
+
+  let scale = 1, tx = 0, ty = 0;
+  let dragging = false, dragX = 0, dragY = 0;
+
+  function applyT() {
+    inner.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
+  }
+  function clampT() {
+    // allow panning only when zoomed
+    if (scale <= 1) { tx = 0; ty = 0; }
+  }
+  function resetT() { scale = 1; tx = 0; ty = 0; applyT(); }
+
+  function open(thumb) {
+    const img  = thumb.querySelector('img.fp');
+    const use  = thumb.querySelector('svg.fp use');
+    const card = thumb.closest('.plan-card');
+    title.textContent = card.querySelector('.plan-card-title')?.textContent || '';
+    sub.textContent   = (card.querySelector('.plan-card-eyebrow')?.textContent || '') + '  ·  ' +
+                        (card.querySelector('.plan-card-specs')?.textContent || '');
+    if (img) {
+      inner.innerHTML = `<img src="${img.src}" alt="${title.textContent}">`;
+    } else if (use) {
+      const href = use.getAttribute('href');
+      inner.innerHTML = `<svg class="lb-svg" viewBox="0 0 200 130" fill="none" stroke="rgba(80,70,60,0.80)" stroke-width="1.4"><use href="${href}"/></svg>`;
+    }
+    resetT();
+    lb.classList.add('open');
+  }
+
+  function close() { lb.classList.remove('open'); inner.innerHTML = ''; }
+
+  // Open on thumb click
+  document.addEventListener('click', (e) => {
+    const thumb = e.target.closest('.plan-card-thumb');
+    if (!thumb) return;
+    e.stopPropagation();
+    open(thumb);
+  });
+
+  // Close
+  document.getElementById('plbClose').addEventListener('click', close);
+  lb.addEventListener('click', (e) => { if (e.target === lb || e.target === stage) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lb.classList.contains('open')) close(); });
+
+  // Zoom buttons
+  document.getElementById('plbZoomIn') .addEventListener('click', () => { scale = Math.min(scale + 0.5, 5); clampT(); applyT(); });
+  document.getElementById('plbZoomOut').addEventListener('click', () => { scale = Math.max(scale - 0.5, 0.5); clampT(); applyT(); });
+  document.getElementById('plbZoomReset').addEventListener('click', resetT);
+
+  // Scroll to zoom
+  stage.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scale = Math.max(0.4, Math.min(6, scale - e.deltaY * 0.002));
+    clampT(); applyT();
+  }, { passive: false });
+
+  // Drag to pan
+  stage.addEventListener('mousedown', (e) => {
+    if (scale <= 1) return;
+    dragging = true; dragX = e.clientX - tx; dragY = e.clientY - ty;
+    stage.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    tx = e.clientX - dragX; ty = e.clientY - dragY; applyT();
+  });
+  window.addEventListener('mouseup', () => { dragging = false; stage.style.cursor = ''; });
+
+  // "View unit stack" closes lightbox then navigates
+  document.getElementById('plbGoto').addEventListener('click', (e) => {
+    e.stopPropagation(); close();
+  });
+})();
+
 // ══════════════════════════════════════════════════════════════════════
 // FLOOR PLATE — unit hotspot popup
 // ══════════════════════════════════════════════════════════════════════
