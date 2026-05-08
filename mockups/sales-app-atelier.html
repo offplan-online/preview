@@ -3783,7 +3783,7 @@ a { color: inherit; text-decoration: none; }
 <!-- ════════════════════════════════════════════════════════════════════ -->
 <!-- C. APARTMENTS — VERTICAL STACK (Phase 1.10.2, Nadezhda flow step 5)  -->
 <!-- ════════════════════════════════════════════════════════════════════ -->
-<section class="screen" data-screen="apt-stack" data-needs-panel data-tone="light">
+<section class="screen" data-screen="apt-stack" data-needs-panel data-tone="light" data-panel-init="overview">
   <div class="filter-bg"></div>
 
   <!-- Top chrome -->
@@ -5277,6 +5277,11 @@ function showScreen(target) {
   });
   history.replaceState(null, '', '#' + target);
   updateLayout();
+  // Reset panel to overview when screen declares data-panel-init
+  if (next && next.dataset.panelInit) {
+    const panel = document.getElementById('infoPanelGlobal');
+    if (panel) setPanelState(panel, 'expanded', next.dataset.panelInit);
+  }
 }
 
 document.addEventListener('click', (e) => {
