@@ -5481,38 +5481,73 @@ document.addEventListener('click', (e) => {
 <!-- LOGIN PANEL — top-right dropdown                                       -->
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 <div class="login-panel-scrim" id="loginScrim"></div>
-<div class="login-panel" id="loginPanel">
+<div class="login-panel" id="loginPanel" style="width:360px;padding:0;overflow:hidden">
 
-  <div class="login-brand" style="margin-bottom:14px"><div class="brand-velvet sm dark">VELVET</div></div>
-  <div class="login-heading" style="font-size:26px;margin-bottom:4px">Welcome back</div>
-  <div class="login-sub" style="margin-bottom:20px">Sign in to save favourites and track availability</div>
-
-  <button class="login-google-btn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0">
-      <path d="M21.35 11.1H12v3.83h5.4c-.78 2.16-2.86 3.42-5.4 3.42-3.27 0-5.92-2.65-5.92-5.92s2.65-5.92 5.92-5.92c1.5 0 2.86.55 3.92 1.46l2.71-2.71C16.78 3.6 14.5 2.5 12 2.5 6.76 2.5 2.5 6.76 2.5 12s4.26 9.5 9.5 9.5c5.5 0 9.13-3.86 9.13-9.3 0-.62-.06-1.13-.18-1.6z" fill="currentColor"/>
-    </svg>
-    Continue with Google
-  </button>
-
-  <div class="login-or"><span>or</span></div>
-
-  <div class="login-field-group">
-    <div class="login-field">
-      <label class="login-label">Email</label>
-      <input type="email" class="login-input" placeholder="you@example.com" readonly>
-    </div>
-    <div class="login-field">
-      <label class="login-label">Password</label>
-      <input type="password" class="login-input" placeholder="••••••••" readonly>
+  <!-- Project identity -->
+  <div style="padding:22px 24px 16px;border-bottom:1px solid var(--stone-200)">
+    <div class="ip-eyebrow" style="margin-bottom:6px">Project</div>
+    <div style="font-family:var(--font-display);font-size:52px;font-weight:300;color:var(--text-900);line-height:1;margin-bottom:6px">Velvet</div>
+    <div class="ip-meta-row">
+      <span>Palm Beach</span><span class="dot">·</span>
+      <span>Gold Coast</span><span class="dot">·</span>
+      <span>Q3 2026</span>
     </div>
   </div>
 
-  <button class="login-submit-btn">Sign in</button>
-
-  <div class="login-footer">
-    Don't have an account? <span class="login-link">Create one</span>
-    &ensp;·&ensp;<span class="login-link">Forgot password</span>
+  <!-- Availability -->
+  <div style="padding:16px 24px;border-bottom:1px solid var(--stone-200)">
+    <div class="ip-section-title" style="margin-bottom:10px">Availability</div>
+    <div class="ip-tally">
+      <div class="ip-tally-cell avail"><div class="num">15</div><div class="lbl">Available</div></div>
+      <div class="ip-tally-cell reserved"><div class="num">7</div><div class="lbl">Reserved</div></div>
+      <div class="ip-tally-cell sold"><div class="num">2</div><div class="lbl">Sold</div></div>
+    </div>
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+      <div class="ip-kv"><span class="k">From</span><span class="v" style="font-family:var(--font-display);font-size:16px;color:var(--gold);letter-spacing:0">AED 1.2M – 4.8M</span></div>
+      <div class="ip-kv"><span class="k">Bedrooms</span><span class="v">1 – 4 BR</span></div>
+      <div class="ip-kv"><span class="k">Floor area</span><span class="v">68 – 312 m²</span></div>
+    </div>
   </div>
+
+  <!-- Agent -->
+  <div style="padding:16px 24px;border-bottom:1px solid var(--stone-200)">
+    <div class="ip-section-title" style="margin-bottom:10px">Your Agent</div>
+    <div class="ip-agent-card">
+      <div class="ip-agent-photo">RW</div>
+      <div class="ip-agent-info">
+        <div class="ip-agent-name">Roman Walker</div>
+        <div class="ip-agent-role">Sales · offplan.online</div>
+        <div class="ip-agent-row">
+          <button class="ip-agent-btn">Call</button>
+          <button class="ip-agent-btn">WhatsApp</button>
+          <button class="ip-agent-btn">Email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div style="padding:12px 24px;border-bottom:1px solid var(--stone-200)">
+    <button class="ip-action" data-goto="apt-filters" onclick="closeLoginPanel()">
+      <span><svg class="icon icon-sm" style="margin-right:10px;vertical-align:-3px"><use href="#ic-floor"/></svg>Browse apartments</span>
+      <span class="arrow">→</span>
+    </button>
+    <button class="ip-action" data-goto="album" onclick="closeLoginPanel()">
+      <span><svg class="icon icon-sm" style="margin-right:10px;vertical-align:-3px"><use href="#ic-zoom"/></svg>View gallery</span>
+      <span class="arrow">→</span>
+    </button>
+    <button class="ip-action" data-goto="unit-list" onclick="closeLoginPanel()">
+      <span><svg class="icon icon-sm" style="margin-right:10px;vertical-align:-3px"><use href="#ic-build"/></svg>Unit list</span>
+      <span class="arrow">→</span>
+    </button>
+  </div>
+
+  <!-- Sign in — secondary -->
+  <div style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+    <span style="font-size:12px;color:var(--text-300)">Save favourites across sessions</span>
+    <button style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;color:var(--text-700);padding:7px 14px;border:1px solid var(--stone-200);border-radius:var(--r-sm);background:var(--stone-50);transition:all var(--dur)" onmouseover="this.style.background='var(--text-900)';this.style.color='#fff'" onmouseout="this.style.background='var(--stone-50)';this.style.color='var(--text-700)'">Sign in</button>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════════════ -->
