@@ -304,6 +304,41 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.7 — 2026-05-08 (CONV-24, Wave 2 Chunk 3)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §4 Access (3 решения по Actions column / Internal vs External SA / View-as-Agent). Strategic insight: Internal vs External Sales Agent — это <em>не разные роли</em>, а <strong>одна роль с разным operational context</strong>; базовые permissions идентичны, различия — в orbital осях (stock pool default, cross-team visibility, invitation source, removal authority, reports/analytics scope). План: <code>plans/stage1-chunk-3-access.md</code>.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">§4 Access additions (foundational decisions section)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§4.2 Permissions matrix — 2 новые action rows</strong>: «Invite/remove internal Sales Agents (own team)» (Owner ✅, Admin ✅, Sales Manager ✅, Content Editor —, Sales Agent —) + «Invite/remove External Sales Agents (via guest organisation)» (Owner ✅, Admin ✅, остальные —). Resolves CONV-22 What's Next item «Actions column» — оказалось это новые matrix rows, не отдельная колонка. Header note добавлен: Sales Agent column применяется к обоим Internal и External — базовые permissions identical.</li>
+      <li><strong>Новая §4.5 — Internal vs External Sales Agent</strong> (anchor <code>fd-access</code> shared) — comparison table с 5 осями: stock pool default (Closed mode), cross-team visibility, invitation source, removal authority, reports/analytics scope. Cross-link на §1 SA definition + §4.4 Closed pool table.</li>
+      <li><strong>Новая §4.6 — View-as-Agent</strong> — admin debug + training tool. Доступно: Owner / Admin / Sales Manager. <strong>Read-only mode</strong> (Save / Edit / Delete / Send / Assign disabled с тултипом) — explicit decision: НЕ impersonation. Persistent banner «Viewing as Иван (Sales Agent) · Exit view-as-mode →». Audit log entry «User X viewed as User Y at TIMESTAMP, duration N min». Schema-level дизайн → Phase 1.3 implementation. Cross-link на Preview-as-Buyer (отдельная фича в presentation builder, Phase 1.11).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Cross-link патчи в существующие секции</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>§1 Sales Agent role definition</strong> — добавлен cross-link к §4.5 после описания Internal/External split: «operational различия в §4.5».</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase callouts (light updates)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.3 (Tenancy)</strong> — 1.3.2 Permission layers bullet расширен: «Internal/External SA operational split formalised в §4.5 — RBAC должен экспонировать обе variants через API + UI permissions filter (membership_type derived через organisation_id link)».</li>
+      <li><strong>Phase 1.4 (Operator Dashboard)</strong> — добавлен bullet про boundary: «View-as-Agent (§4.6) — team-level admin tool, ≠ Stage 4 operator impersonation». Operator impersonation (login as Client) остаётся deferred to Stage 4.</li>
+      <li><strong>Phase 1.10 (Sales App)</strong> — добавлен bullet про view-as mode rendering: sales-app authed views должны поддерживать view-as когда Sales Manager инспектирует team-member view. Top banner + mutating actions disabled.</li>
+      <li><strong>Phase 1.11 (Presentation Layer)</strong> — добавлен bullet про Preview-as-Buyer (related but separate from §4.6 View-as-Agent): кнопка в presentation builder перед Send, render с тестовым preview-token'ом, не consume реальный buyer token, не считается в audit log как buyer view.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто в этом chunk</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>ADR 0009 (Tenancy &amp; Permission Architecture) — placeholder remains.</li>
+      <li>View-as-Agent backend (audit log table schema) — Phase 1.3 implementation level.</li>
+      <li>View-as-Agent UI mockup в <code>docs/mockups/admin-panel-atelier.html</code> — отдельный track.</li>
+      <li>Preview-as-Buyer detailed spec — Phase 1.11 build / sub-plan <code>plans/buyer-profile-and-presentation.md</code>.</li>
+      <li>Reports/analytics row в §4.5 — гипотеза «Internal aggregate Organisation-level / External own + own guest org» может потребовать пересмотра при Roman ratification.</li>
+      <li>Wave 2 Chunks 4-8 (§5 Visibility, §6 Journeys, §7 Edge cases, deep Phase callouts, ADR placeholders) — последующие сессии.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.6 — 2026-05-08 (CONV-24, Wave 2 Chunk 2)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> закрытый /plan-interview по §3 Billing (4 решения по trial scope / trial expiry / ownership transfer UI / tier nomenclature). Strategic insight: trial без карты + ownership transfer до first payment = единый sales motion студия→девелопер. План: <code>plans/stage1-chunk-2-billing.md</code>.</p>
 

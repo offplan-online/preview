@@ -616,7 +616,7 @@
       <tr><td><strong>Admin</strong></td><td>Всё что Owner, кроме billing/cancel/transfer. Может приглашать/удалять Clients, менять roles, устанавливать external agency relationships.</td></tr>
       <tr><td><strong>Sales Manager</strong></td><td>Operational sales lead = <strong>Content Editor + stock allocation + buyer flow</strong>. Не управляет командой и billing'ом, но имеет полный operational контроль над контентом, stock allocation, buyer flow. Приглашает Sales Agents.</td></tr>
       <tr><td><strong>Content Editor</strong></td><td>Контент: gallery, renders, floorplates, descriptions, переводы, <strong>цены юнитов</strong>. Не презентует, не приглашает. Видит всё в проекте (assignment не блокирует content access).</td></tr>
-      <tr><td><strong>Sales Agent</strong></td><td>Buyer / presentation flow. Меняет status assigned units через verification form (см. <a href="#phase-1-10" style="color:var(--navy);">Phase 1.10</a>). Не редактирует контент. Делится на <strong>Internal</strong> (Client из команды самой Organisation) и <strong>External</strong> (Client из другой Organisation, приглашён через guest-organisation invite).</td></tr>
+      <tr><td><strong>Sales Agent</strong></td><td>Buyer / presentation flow. Меняет status assigned units через verification form (см. <a href="#phase-1-10" style="color:var(--navy);">Phase 1.10</a>). Не редактирует контент. Делится на <strong>Internal</strong> (Client из команды самой Organisation) и <strong>External</strong> (Client из другой Organisation, приглашён через guest-organisation invite) — operational различия в <a href="#fd-access" style="color:var(--navy);">§4.5</a>.</td></tr>
       <tr><td><strong>Free Guest</strong></td><td>Property of Organisation: бесплатный tier. Organisation на Free Guest tier <strong>может</strong> быть guest organisation в чужих проектах (приглашена по reverse invite), <strong>не может</strong> создавать свои проекты. Path к upgrade'у — лениво при попытке «+ Create project».</td></tr>
     </tbody>
   </table>
@@ -868,11 +868,14 @@
 
   <h4 style="color:var(--navy); margin:20px 0 10px;">4.2 — Permissions matrix (5 ролей)</h4>
   <p style="margin-bottom:10px;">Иерархия: <code>Owner ⊃ Admin ⊃ {Sales Manager, Content Editor, Sales Agent}</code> — Sales Manager / Content Editor / Sales Agent параллельны. <strong>Один Client = одна role per Organisation</strong> (если нужно и контент и продажи → Admin).</p>
+  <p style="margin-bottom:10px; font-size:13px; color:var(--text-mid);">Sales Agent column применяется к обоим <strong>Internal</strong> и <strong>External</strong> SA — базовые permissions идентичны (operational различия — в <a href="#fd-access" style="color:var(--text-mid);">§4.5</a> ниже).</p>
   <table style="margin:8px 0; font-size:13px;">
     <thead><tr><th>Действие</th><th style="width:60px;">Owner</th><th style="width:60px;">Admin</th><th style="width:60px;">Sales Manager</th><th style="width:60px;">Content Editor</th><th style="width:60px;">Sales Agent</th></tr></thead>
     <tbody>
       <tr><td>Billing / cancel / transfer</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
       <tr><td>Add/remove team members</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>Invite/remove internal Sales Agents (own team)</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td></tr>
+      <tr><td>Invite/remove External Sales Agents (via guest organisation)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
       <tr><td>Invite guest organisations</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
       <tr><td>Edit content (gallery, renders, floorplates, descriptions, переводы)</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr>
       <tr><td>Edit unit pricing</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr>
@@ -926,6 +929,31 @@
     <li><strong>Per-action scope</strong> (Иван может edit Buildings но не Branding) — Stage 2/3.</li>
   </ul>
   </details>
+
+  <h4 style="color:var(--navy); margin:20px 0 10px;">4.5 — Internal vs External Sales Agent</h4>
+  <p style="margin-bottom:10px;">Sales Agent — одна role с двумя operational контекстами: <strong>Internal</strong> (Client из team самой Organisation) и <strong>External</strong> (Client из guest organisation, приглашённой через guest-org invite). Базовые permissions в <a href="#fd-access" style="color:var(--navy);">§4.2</a> одинаковы; различия — на orbital осях:</p>
+  <table style="margin:8px 0; font-size:13px;">
+    <thead><tr><th style="width:200px;">Ось</th><th>Internal SA</th><th>External SA</th></tr></thead>
+    <tbody>
+      <tr><td>Stock pool default (Closed mode, см. §4.4)</td><td>Видит Internal pool</td><td>Не видит Internal pool — только assigned</td></tr>
+      <tr><td>Cross-team visibility</td><td>Видит коллег-Internal SA в своей Organisation</td><td>Видит только своих в guest organisation</td></tr>
+      <tr><td>Invitation source</td><td>Personal invite (см. §4.1) от Owner / Admin / Sales Manager</td><td>Член guest organisation, добавлен через org-invite от Owner / Admin</td></tr>
+      <tr><td>Removal authority</td><td>Owner / Admin / Sales Manager (revoke personal invite)</td><td>Admin owning Organisation (revoke guest-org membership) или Admin guest organisation удаляет user'а</td></tr>
+      <tr><td>Reports / analytics</td><td>Видит aggregate Organisation-level (own performance + team performance, без других guest orgs)</td><td>Видит только свои продажи + own guest organisation aggregate</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px; color:var(--text-mid); margin-top:8px;">Cross-link: <a href="#fd-roles" style="color:var(--text-mid);">§1 Sales Agent definition</a> · <a href="#fd-access" style="color:var(--text-mid);">§4.4 Stock allocation Closed pool table</a>.</p>
+
+  <h4 style="color:var(--navy); margin:20px 0 10px;">4.6 — View-as-Agent (admin debug + training)</h4>
+  <p style="margin-bottom:10px;"><strong>Use cases:</strong> Sales Manager хочет проверить что Иван видит правильно после assignment'ов; Admin отлаживает permissions setup перед onboarding нового члена команды; обучение нового Sales Manager'а («давайте посмотрим как видит работу новый коллега»).</p>
+  <ul style="margin-left:20px;">
+    <li><strong>Кому доступен:</strong> Owner / Admin / Sales Manager. Sales Agent — нет (свой view = normal login, см. viewer state #4 в <a href="#fd-visibility">§5</a>).</li>
+    <li><strong>UI:</strong> в шапке админки toggle/dropdown «View as…» → выбрать Sales Agent / другого Sales Manager. После выбора admin panel перерисовывается с perspective этого user'а; вверху страницы фиксированный banner: «Viewing as Иван (Sales Agent) · Exit view-as-mode →».</li>
+    <li><strong>Read-only mode:</strong> в view-as-режиме все действия залочены (Save / Edit / Delete / Send / Assign — disabled с тултипом «Disabled in view-as mode»). Это explicit decision — <strong>НЕ impersonation</strong>. Для actual impersonation (login as user) — отдельный operator flow в <a href="#phase-1-4">Phase 1.4</a>, deferred to Stage 4.</li>
+    <li><strong>Что показывается:</strong> stock filtered как для target user, list юнитов с их visibility/availability, buyer profiles target user'а, его сейлз-метрики. Permissions matrix фильтрует UI элементы.</li>
+    <li><strong>Audit log:</strong> entry «User X viewed as User Y at TIMESTAMP, duration N min». Compliance — important чтобы знать кто и когда смотрел чужие views. Schema-level дизайн — Phase 1.3 implementation level.</li>
+    <li><strong>Cross-link:</strong> <em>Preview-as-Buyer</em> — отдельная фича в presentation builder (не часть §4) для проверки как выглядит email-презентация для конкретного buyer'а перед отправкой. См. <a href="#phase-1-11">Phase 1.11</a>.</li>
+  </ul>
 </div>
 
 <!-- ─── 5. Что кому видно ─── -->
@@ -1342,7 +1370,7 @@
   <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) — авторитативные решения по всем 10 subtasks:</strong>
   <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
     <li><strong>1.3.1 Entity model</strong> — Client (identity, login) создаёт Organisation (tenant, subscription owner). Multi-select Organisation type (Studio/Agency/Developer). Один email = одна Client identity, Organisation switcher. Buyer = passwordless per-presentation, не Client. См. <a href="#fd-entities">Foundational §1</a>.</li>
-    <li><strong>1.3.2 Permission layers</strong> — 5 ролей (Owner / Admin / Sales Manager / Content Editor / Sales Agent), Sales Manager = объединённая operational роль (Content Editor + stock + buyers). Один Client = одна role per Organisation. Permission matrix + scoping (org-level default, project-level option Stage 1) — см. <a href="#fd-access">Foundational §4.2-4.3</a>.</li>
+    <li><strong>1.3.2 Permission layers</strong> — 5 ролей (Owner / Admin / Sales Manager / Content Editor / Sales Agent), Sales Manager = объединённая operational роль (Content Editor + stock + buyers). Один Client = одна role per Organisation. Permission matrix + scoping (org-level default, project-level option Stage 1) — см. <a href="#fd-access">Foundational §4.2-4.3</a>. <em>v4.7 (CONV-24):</em> Internal/External SA operational split formalised в <a href="#fd-access">§4.5</a> — RBAC должен экспонировать обе variants через API + UI permissions filter (membership_type derived через <code>organisation_id</code> link).</li>
     <li><strong>1.3.3 Login / auth multi-role</strong> — Hybrid login (per-Organisation branded <code>{slug}.offplan.online/login</code> + central fallback <code>app.offplan.online/login</code>). Google + email/password (UAE/MENA). 2FA optional Stage 1, mandatory для Owner+Admin Stage 2. Session 30d на <code>*.offplan.online</code>. См. <a href="#fd-onboarding">Foundational §2</a>.</li>
     <li><strong>1.3.4 Per-unit stock tagging</strong> — <strong>S·1 (Closed pool default + Single allocation, per-project Open mode toggle).</strong> Assignment = exclusivity scope. Targets Stage 1: guest organisation + specific personal user. Default mode: guest orgs видят 0 пока не assign'нули (secure by default). Open mode opt-in: «Internal pool» видят все включая guest orgs (broker-style). Cascade на удаление target'а: escalate up к Sales Manager/Admin, never auto-revert в Internal pool. Bulk operations: filter+checkbox+dropdown (critical UX в Closed mode). См. <a href="#fd-access">Foundational §4.4</a>.</li>
     <li><strong>1.3.5 Scoped URL routing</strong> — Default subdomain <code>{slug}.offplan.online</code> + custom domain Tier 2+ (CNAME wizard). Project URL: <code>{slug}.offplan.online/projects/{project-slug}</code> (namespaced, безопасно для system pages). Buyer URL: <code>{slug}.offplan.online/projects/{slug}/units/{id}?b=&lt;token&gt;</code> (tokenised query param, не отдельный route).</li>
@@ -1534,6 +1562,7 @@
     <li><strong>+ 1.4.CC — Stock allocation conflict reconciliation</strong> — manual UI для разрешения admin-error situations (two Organisations претендующих на один unit, etc.). См. <a href="#fd-edges">Foundational §7 — Conflicts</a>.</li>
     <li><strong>+ 1.4.DD — Owner lockout recovery</strong> — manual operator MFA reset Stage 1 (email + identity verification). Automated recovery → Stage 2.</li>
     <li><strong>Reserved subdomain</strong> — <code>staff</code> в blacklist при создании Organisation subdomain (вместе с <code>app</code>, <code>api</code>, <code>admin</code>, etc.).</li>
+    <li><em>v4.7 (CONV-24):</em> <strong>View-as-Agent (<a href="#fd-access">§4.6</a>) — team-level admin tool, ≠ Stage 4 operator impersonation.</strong> Read-only debug surface внутри клиентской админки (Owner / Admin / Sales Manager). Operator impersonation (login as Client от лица staff'а для support escalation) — отдельный flow, deferred to Stage 4.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Operator dashboard 2FA mandatory always (внутренний tooling). См. <a href="#fd-onboarding">Foundational §2</a>.</p>
 </div>
@@ -2668,6 +2697,7 @@
     <li><strong>+ 1.10.EE — Status change UI</strong> — Sales Agent / Sales Manager / Admin / Owner меняют unit status (<code>available</code> ↔ <code>reserved</code> ↔ <code>sold</code>) вручную в админке per permission matrix. Reason field optional. Audit log per change. <strong>Никаких system-managed timers / locks / <code>reservation_request</code> entity</strong> — Organisation решает когда менять status сама, reservation-процесс ведётся в его external CRM.</li>
     <li><strong>+ 1.10.FF — Buyer attribution preservation</strong> — даже после expired token (90d), redirect на main project page сохраняет buyer-record attribution. Это влияет на Sales-app routing (token decoder must check expiry status, not just presence).</li>
     <li><strong>1.10.Y уточнение auth-scoped views</strong> — agent логинится → видит только свой allocated сток per S·1 stock allocation rules (assigned units exclusive). Content Editor видит всё всегда (assignment не блокирует content access). См. <a href="#fd-access">Foundational §4.4</a>.</li>
+    <li><em>v4.7 (CONV-24):</em> <strong>View-as mode rendering</strong> — Sales Agent unit list / authed sales-app views должны поддерживать "view-as" mode когда Sales Manager / Admin инспектирует team-member view (см. <a href="#fd-access">§4.6</a>). Render exactly как target user видит: stock filtered, buyer profiles target user'а, его metrics. Все mutating actions disabled. Top banner «Viewing as Иван — Exit».</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) и Phase 1.7 (Public Visibility settings). Buyer flow detailed в Phase 1.11 (Sales Presentation Layer).</p>
 </div>
@@ -2898,6 +2928,7 @@
     <li><strong>+ 1.11.BB — Forward email handling</strong> — multi-session OK для shared token (жена / партнёр / друг кликают по той же ссылке = тот же buyer-record). Rate-limit на «Связаться со мной» submissions per token (max 1 active, cooldown между) + audit log по token'у с IP+timestamp.</li>
     <li><strong>+ 1.11.CC — NO dedicated shortlist page</strong> — design-decision: email = source of truth для shortlist'а. Sales Agent добавляет дополнительные units через followup email. Central shortlist page → Stage 2 если попросят.</li>
     <li><strong>1.11.1 уточнение Buyer schema</strong> — buyer-record fields: email, name, phone, agent_user_id (FK), client_id (FK), token_hash, created_at, expires_at, source_presentation_id. Liked units stored в <code>presentation_units</code> table (presentation_id, unit_id, position, added_at).</li>
+    <li><em>v4.7 (CONV-24):</em> <strong>Preview-as-Buyer (related but separate from <a href="#fd-access">§4.6</a> View-as-Agent)</strong> — кнопка в presentation builder перед «Send» позволяет Sales Agent / Sales Manager посмотреть как выглядит email-презентация для конкретного buyer'а (его tokenised unit-pages, attribution overlay). Render with тестовым preview-token'ом — не consume реальный buyer token, не считается в audit log как «buyer view». Disabled: heart / «Связаться» actions (preview-only mode).</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) — buyer entity model + permissions. Зависит от Phase 1.10 — buyer-aware unit pages.</p>
 </div>
