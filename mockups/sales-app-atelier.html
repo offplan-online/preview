@@ -1547,15 +1547,7 @@ a { color: inherit; text-decoration: none; }
   width: 100%; height: 100%;
   background-size: cover; background-position: center;
 }
-/* placeholder colour variants */
-.album-thumb.c1 .inner { background: linear-gradient(135deg, #c8b89a 0%, #a08060 100%); }
-.album-thumb.c2 .inner { background: linear-gradient(135deg, #98b0c8 0%, #6888a8 100%); }
-.album-thumb.c3 .inner { background: linear-gradient(135deg, #b8c8b0 0%, #8090 70%, #789878 100%); }
-.album-thumb.c4 .inner { background: linear-gradient(135deg, #d0c8b8 0%, #a89878 100%); }
-.album-thumb.c5 .inner { background: linear-gradient(135deg, #b0a898 0%, #807060 100%); }
-.album-thumb.c6 .inner { background: linear-gradient(135deg, #c0b0a0 0%, #908070 100%); }
-.album-thumb.c7 .inner { background: linear-gradient(135deg, #90a8b8 0%, #607888 100%); }
-.album-thumb.c8 .inner { background: linear-gradient(135deg, #a8c0b0 0%, #708860 100%); }
+.album-thumb .inner { background-size: cover; background-position: center; }
 
 /* Shimmer skeleton */
 .shimmer-body { flex: 1; min-height: 0; overflow: hidden; padding: 24px 28px; }
@@ -4658,31 +4650,31 @@ a { color: inherit; text-decoration: none; }
         <div class="album-section">
           <div class="album-section-title">Interior</div>
           <div class="album-grid">
-            <div class="album-thumb c1" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c4" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c5" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c2" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c6" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c3" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c7" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c8" data-goto="image"><div class="inner"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-lobby.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-interior.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-sky-villa.jpg');background-position:center top"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-unit-view.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-lobby.jpg');background-position:left center"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-interior.jpg');background-position:right center"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-video-bg.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-sky-villa.jpg')"></div></div>
           </div>
         </div>
         <div class="album-section">
           <div class="album-section-title">Communal</div>
           <div class="album-grid">
-            <div class="album-thumb c2" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c3" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c8" data-goto="image"><div class="inner"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-amenities.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-video-bg.jpg');background-position:center 30%"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-hero.jpg')"></div></div>
           </div>
         </div>
         <div class="album-section">
           <div class="album-section-title">Exterior</div>
           <div class="album-grid">
-            <div class="album-thumb c7" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c4" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c5" data-goto="image"><div class="inner"></div></div>
-            <div class="album-thumb c1" data-goto="image"><div class="inner"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/tapestry-hero.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-building.jpg')"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/rr-hero.jpg');background-position:center 40%"></div></div>
+            <div class="album-thumb" data-goto="image"><div class="inner" style="background-image:url('assets/orama-location.webp')"></div></div>
           </div>
         </div>
       </div>
@@ -4710,7 +4702,7 @@ a { color: inherit; text-decoration: none; }
         </div>
       </div>
       <div class="viewer-body">
-        <div class="viewer-placeholder"></div>
+        <img class="viewer-img" src="assets/rr-hero.jpg" alt="Velvet — aerial view">
         <div class="viewer-nav">
           <button class="viewer-nav-btn"><svg class="icon"><use href="#ic-arrow-l"/></svg></button>
           <span class="viewer-counter">01 / 06</span>
