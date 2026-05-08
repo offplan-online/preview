@@ -2490,38 +2490,75 @@ a { color: inherit; text-decoration: none; }
   stroke: rgba(232,213,176,0.90); stroke-width: 1;
   fill: none; vector-effect: non-scaling-stroke;
 }
-/* Lines + items hidden by default — revealed only from panel dropdown hover */
-.wt-group { opacity: 0; transition: opacity 200ms; }
-.wt-group.active { opacity: 1; }
-
+/* Walkthrough anchor badges — always visible, semi-transparent */
+.wt-group { display: none; } /* SVG lines hidden — anchors replace them */
 .wt-item {
-  position: absolute; pointer-events: none; cursor: default;
-  transform: translateY(-50%);
-  opacity: 0; transition: opacity 200ms;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto; cursor: pointer;
+  z-index: 6;
 }
-.wt-item.active {
-  opacity: 1; pointer-events: auto; cursor: pointer;
+/* Anchor pill */
+.wt-anchor {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 13px 7px 9px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--r-pill); color: rgba(255,255,255,0.88);
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; white-space: nowrap;
+  transition: background 180ms, border-color 180ms;
 }
-.wt-card {
-  background: rgba(8,14,24,0.82);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(232,213,176,0.70);
+.wt-item:hover .wt-anchor {
+  background: rgba(255,255,255,0.24);
+  border-color: rgba(232,213,176,0.55);
+}
+.wt-anchor-icon {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(184,149,90,0.30); border: 1px solid rgba(232,213,176,0.50);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--gold-light); flex-shrink: 0;
+}
+/* Hover popup card */
+.wt-popup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: 210px;
+  background: rgba(8,12,18,0.88);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  opacity: 0; pointer-events: none;
+  transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.40);
+}
+.wt-item:hover .wt-popup {
+  opacity: 1; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.wt-popup-img { width: 100%; height: 110px; object-fit: cover; display: block; }
+.wt-popup-body { padding: 11px 14px 13px; }
+.wt-popup-eyebrow {
+  font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+}
+.wt-popup-name {
+  font-family: var(--font-display); font-size: 17px; font-weight: 400;
+  color: #fff; line-height: 1.1; margin-bottom: 10px;
+}
+.wt-popup-cta {
+  width: 100%; padding: 8px 12px;
+  background: var(--gold); color: #fff;
   border-radius: var(--r-sm);
-  padding: 9px 14px;
-  white-space: nowrap;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  transition: background 160ms;
 }
-.wt-card-eyebrow {
-  font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.20em;
-  text-transform: uppercase; color: var(--gold); margin-bottom: 3px;
-}
-.wt-card-name {
-  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase; color: #fff;
-}
-.wt-card-hint {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.38); margin-top: 3px;
-}
+.wt-popup-cta:hover { background: #a07840; }
 
 /* Compact floor-level badges */
 .wt-badges { display: none; } /* hidden — walkthroughs discovered via panel dropdown only */
@@ -3178,34 +3215,6 @@ a { color: inherit; text-decoration: none; }
             <span class="arrow">→</span>
           </button>
 
-          <!-- Walkthroughs expandable -->
-          <div>
-            <button class="ip-action ip-wt-toggle" id="ipWtToggle" style="width:100%">
-              <span>
-                <svg class="icon icon-sm" style="margin-right:10px;vertical-align:-3px" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="10" r="7"/><path d="M10 7v3l2 2"/></svg>
-                360° Walkthroughs
-              </span>
-              <em class="ip-wt-arrow arrow">▾</em>
-            </button>
-            <div class="ip-wt-list" id="ipWtList">
-              <div class="ip-wt-item"
-                   data-wt-group="wtGroup1" data-wt-item="wtItem1"
-                   data-thumb="assets/rr-lobby.jpg" data-thumb-lbl="Lobby · Ground Floor · 360°"
-                   data-goto="interior">
-                <span class="ip-wt-num">2.1</span>
-                <span class="ip-wt-name">Interior · Lobby</span>
-                <span class="ip-wt-enter">Enter →</span>
-              </div>
-              <div class="ip-wt-item"
-                   data-wt-group="wtGroup2" data-wt-item="wtItem2"
-                   data-thumb="assets/rr-amenities.jpg" data-thumb-lbl="Pool Deck · Level 3 · 360°"
-                   data-goto="amenities">
-                <span class="ip-wt-num">4.1</span>
-                <span class="ip-wt-name">Amenities · Pool Deck</span>
-                <span class="ip-wt-enter">Enter →</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <button class="ip-cta">
@@ -3373,27 +3382,35 @@ a { color: inherit; text-decoration: none; }
     </svg>
 
     <!-- Label cards -->
-    <div class="wt-item" id="wtItem1" style="left:68%;top:66%"
-         data-group="wtGroup1"
-         data-thumb="assets/rr-lobby.jpg"
-         data-thumb-lbl="Lobby · Ground Floor · 360°"
-         data-goto="interior">
-      <div class="wt-card">
-        <div class="wt-card-eyebrow">2.1 Interior</div>
-        <div class="wt-card-name">Lobby Walkthrough</div>
-        <div class="wt-card-hint">360° · enter to explore</div>
+    <!-- Interior / Lobby anchor -->
+    <div class="wt-item" id="wtItem1" style="left:52%;top:72%" data-goto="interior">
+      <div class="wt-anchor">
+        <div class="wt-anchor-icon">⟳</div>
+        <span>Lobby</span>
+      </div>
+      <div class="wt-popup">
+        <img class="wt-popup-img" src="assets/rr-lobby.jpg" alt="Lobby">
+        <div class="wt-popup-body">
+          <div class="wt-popup-eyebrow">2.1 Interior · Ground Floor</div>
+          <div class="wt-popup-name">Lobby Walkthrough</div>
+          <button class="wt-popup-cta" data-goto="interior">Enter 360° →</button>
+        </div>
       </div>
     </div>
 
-    <div class="wt-item" id="wtItem2" style="left:68%;top:50%"
-         data-group="wtGroup2"
-         data-thumb="assets/rr-amenities.jpg"
-         data-thumb-lbl="Pool Deck · Level 3 · 360°"
-         data-goto="amenities">
-      <div class="wt-card">
-        <div class="wt-card-eyebrow">4.1 Amenities</div>
-        <div class="wt-card-name">Pool Deck Walkthrough</div>
-        <div class="wt-card-hint">360° · enter to explore</div>
+    <!-- Amenities / Pool Deck anchor -->
+    <div class="wt-item" id="wtItem2" style="left:44%;top:57%" data-goto="amenities">
+      <div class="wt-anchor">
+        <div class="wt-anchor-icon">⟳</div>
+        <span>Pool Deck</span>
+      </div>
+      <div class="wt-popup">
+        <img class="wt-popup-img" src="assets/rr-amenities.jpg" alt="Pool Deck">
+        <div class="wt-popup-body">
+          <div class="wt-popup-eyebrow">4.1 Amenities · Level 3</div>
+          <div class="wt-popup-name">Pool Deck Walkthrough</div>
+          <button class="wt-popup-cta" data-goto="amenities">Enter 360° →</button>
+        </div>
       </div>
     </div>
 
@@ -5256,7 +5273,8 @@ a { color: inherit; text-decoration: none; }
       <!-- Floor plan hero -->
       <div class="bu-fp-hero">
         <div class="bu-fp-hero-label">Three-Bedroom Villa · Type 5</div>
-        <svg class="bu-fp-large" viewBox="0 0 200 130"><use href="#fp-threebd"/></svg>
+        <img src="assets/fp-plan-north.webp" alt="Villa Floor Plan"
+             style="width:min(600px,88%);height:auto;object-fit:contain;filter:drop-shadow(0 4px 24px rgba(0,0,0,0.12))">
         <div class="bu-fp-badge-row">
           <span class="bu-fp-badge">3 Bedrooms</span>
           <span class="bu-fp-badge">234 m²</span>
@@ -5266,22 +5284,22 @@ a { color: inherit; text-decoration: none; }
         </div>
       </div>
 
-      <!-- Gallery strip (placeholder thumbnails) -->
+      <!-- Gallery strip -->
       <div class="bu-gallery-strip">
         <div class="bu-gal-thumb sel">
-          <div class="bu-gal-label">Plan</div>
+          <img src="assets/fp-plan-north.webp" alt="Plan" style="object-fit:contain;padding:4px">
         </div>
         <div class="bu-gal-thumb">
           <img src="assets/rr-building.jpg" alt="Exterior" style="object-position:center 30%">
         </div>
-        <div class="bu-gal-thumb" style="background:rgba(50,56,64,0.10)">
-          <div class="bu-gal-label">Interior</div>
+        <div class="bu-gal-thumb">
+          <img src="assets/rr-lobby.jpg" alt="Interior">
         </div>
-        <div class="bu-gal-thumb" style="background:rgba(50,56,64,0.10)">
-          <div class="bu-gal-label">View</div>
+        <div class="bu-gal-thumb">
+          <img src="assets/rr-unit-view.jpg" alt="View">
         </div>
-        <div class="bu-gal-thumb" style="background:rgba(184,149,90,0.08);border-color:rgba(184,149,90,0.25)">
-          <div class="bu-gal-label" style="color:var(--gold)">360°</div>
+        <div class="bu-gal-thumb" style="background:rgba(184,149,90,0.08);border-color:rgba(184,149,90,0.25);cursor:pointer">
+          <div class="bu-gal-label" style="color:var(--gold);font-size:9px">360°<br>Walkthrough</div>
         </div>
       </div>
 
