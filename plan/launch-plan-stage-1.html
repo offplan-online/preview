@@ -612,7 +612,7 @@
   <table style="margin:8px 0;">
     <thead><tr><th style="width:160px;">Роль</th><th>Что может</th></tr></thead>
     <tbody>
-      <tr><td><strong>Owner</strong></td><td>Client, создавший Organisation (или принявший ownership transfer). Единственный с billing access — полный контроль (transfer, cancel, tier change).</td></tr>
+      <tr><td><strong>Owner</strong></td><td>Client, создавший Organisation (или принявший ownership transfer — см. <a href="#fd-billing-transfer" style="color:var(--navy);">§3 Ownership transfer</a>). Единственный с billing access — полный контроль (transfer, cancel, tier change).</td></tr>
       <tr><td><strong>Admin</strong></td><td>Всё что Owner, кроме billing/cancel/transfer. Может приглашать/удалять Clients, менять roles, устанавливать external agency relationships.</td></tr>
       <tr><td><strong>Sales Manager</strong></td><td>Operational sales lead = <strong>Content Editor + stock allocation + buyer flow</strong>. Не управляет командой и billing'ом, но имеет полный operational контроль над контентом, stock allocation, buyer flow. Приглашает Sales Agents.</td></tr>
       <tr><td><strong>Content Editor</strong></td><td>Контент: gallery, renders, floorplates, descriptions, переводы, <strong>цены юнитов</strong>. Не презентует, не приглашает. Видит всё в проекте (assignment не блокирует content access).</td></tr>
@@ -630,7 +630,7 @@
   </ul>
   </details>
 
-  <div style="margin-top:14px; padding:12px 16px; background:var(--sand-50); border-radius:6px; font-size:13px; color:var(--text-mid);"><strong>Что вне Stage 1:</strong> secondary emails per Organisation (Stage 2), self-service Client identity merge (Stage 2), self-service Organisation ownership transfer после первого payment (Stage 2/3 — Stage 1 разрешает только до payment, см. <a href="#fd-billing">§3 Billing</a>).</div>
+  <div style="margin-top:14px; padding:12px 16px; background:var(--sand-50); border-radius:6px; font-size:13px; color:var(--text-mid);"><strong>Что вне Stage 1:</strong> secondary emails per Organisation (Stage 2), self-service Client identity merge (Stage 2), self-service Organisation ownership transfer после первого payment (Stage 2/3 — Stage 1 разрешает только до payment, см. <a href="#fd-billing-transfer">§3 Ownership transfer</a>).</div>
 </div>
 
 <!-- ─── User Journeys — четыре сценария — читать после §1 ─── -->
@@ -710,16 +710,27 @@
 <div id="fd-onboarding" style="margin:0 0 32px; padding:24px 28px; background:#fff; border:1px solid var(--border-mid); border-left:4px solid var(--gold); border-radius:10px;">
   <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">Foundational · 2 / 7</div>
   <h3 style="border:none; padding:0; margin:0 0 12px; color:var(--navy);">Регистрация и онбординг</h3>
-  <p style="margin-bottom:14px;">Три точки входа в систему. Каждая ведёт к разному результату. Пользователи никогда не «теряются» — аккаунт создаётся один раз (по email) и работает во всех компаниях, к которым человек подключается в будущем.</p>
+  <p style="margin-bottom:14px;">Три точки входа в систему. Каждая ведёт к разному результату. После регистрации на платный tier (path A) — экран-развилка из 3 опций (см. ниже), не сразу в Object Builder. Аккаунт создаётся один раз (по email) и работает во всех Organisations, к которым Client подключается в будущем.</p>
 
   <table style="margin:8px 0;">
     <thead><tr><th style="width:160px;">Путь</th><th>Кто и когда</th><th>Куда попадает</th></tr></thead>
     <tbody>
-      <tr><td><strong>(A) Регистрация — платный tier</strong></td><td>Студия / агентство / девелопер хочет свою организацию для своих проектов. Заходит на <code>offplan.online</code>, нажимает «Get started» → выбирает тариф → оплата.</td><td>Своя организация на <code>{slug}.offplan.online</code>. Роль Owner. Может создавать проекты, приглашать команду и гостевые организации.</td></tr>
+      <tr><td><strong>(A) Регистрация — платный tier</strong></td><td>Студия / агентство / девелопер хочет свою организацию для своих проектов. Заходит на <code>offplan.online</code>, нажимает «Get started» → выбирает тариф → попадает в Object Builder. <strong>Карта не привязывается</strong> на этом шаге — даётся 14-дневный trial T1 (см. <a href="#fd-billing-trial">§3 Trial period</a>).</td><td>Своя организация на <code>{slug}.offplan.online</code>. Роль Owner. Может создавать проекты, приглашать команду и гостевые организации. После trial без оплаты — auto-downgrade → Free Guest, projects read-only.</td></tr>
       <tr><td><strong>(B) Регистрация гостя (Free)</strong></td><td>Кто-то получил обратное приглашение — например, VV сделала проект и приглашает итальянского девелопера. Девелопер регистрируется на бесплатном тарифе по ссылке-приглашению.</td><td>Своя организация (бесплатный тариф) с уже подключённым гостевым доступом к нужному проекту. Может смотреть и редактировать контент по правам, но не может создавать свои проекты до перехода на платный тариф.</td></tr>
       <tr><td><strong>(C) Приглашение в команду</strong></td><td>Владелец Organisation приглашает человека в свою команду — например, Ивана как контент-редактора, сейлз-агента или сейлз-менеджера. Иван получает email от <code>{slug}@offplan.online</code>.</td><td>Иван присоединяется к организации в указанной роли (на уровне всей компании или конкретного проекта). Если у Ивана уже есть аккаунт на этом email — к нему добавляется участие в новой компании. Если нет — создаётся новый аккаунт.</td></tr>
     </tbody>
   </table>
+
+  <details>
+  <summary class="task-label">Entry-point choice — что Client видит сразу после signup (path A) <span class="count">(3 опции)</span></summary>
+  <p style="margin:10px 0; font-size:13px;">После signup'а на платный tier Client попадает <strong>не сразу в Object Builder</strong>, а на screen с выбором — у разных Client'ов разный intent: одни хотят один проект быстро, другие сначала собирают команду на 50 проектов вперёд. Дефолт-cursor на (1).</p>
+  <ul style="margin-left:20px;">
+    <li><strong>(1) «Start your first project»</strong> (primary CTA) — открывает Object Builder (см. <a href="#phase-1-2">Phase 1.2.4</a>). Single-project Client'ы регистрируются именно так. Самый частый путь.</li>
+    <li><strong>(2) «Set up your organisation»</strong> — мини-визард: types (Studio/Agency/Developer multi-select) + brand (logo + accent color) + invite команды. После — landing на Organisation dashboard, Client сам решит когда создавать первый проект.</li>
+    <li><strong>(3) «Skip»</strong> — landing на empty dashboard. Всё доступно через меню (invite, create project, settings). Для опытных или «я зашёл посмотреть».</li>
+  </ul>
+  <p style="margin:10px 0 0; font-size:13px; color:var(--text-mid);"><strong>Public Visibility preset</strong> спрашивается при создании <em>каждого</em> проекта (внутри Object Builder + дублируется в Project Settings) — 4 варианта (Private / Discovery / Full sales / PIN-protected, см. <a href="#fd-visibility">§5</a>). Дефолт = Discovery.</p>
+  </details>
 
   <details>
   <summary class="task-label">Login UX — где живёт login form и куда редиректит <span class="count">(3)</span></summary>
@@ -731,13 +742,15 @@
   </details>
 
   <details>
-  <summary class="task-label">Auth methods — Google + email/password <span class="count">(4)</span></summary>
+  <summary class="task-label">Auth methods — Google + Microsoft + email/password <span class="count">(5)</span></summary>
   <ul>
-    <li><strong>Основной способ:</strong> кнопка «Войти через Google» — большинство пользователей используют именно её.</li>
-    <li><strong>Запасной способ:</strong> email + пароль (для рынков UAE/MENA где Google менее распространён). Минимум 12 символов, без требований к составу, проверка по базе утёкших паролей при регистрации.</li>
+    <li><strong>Google OAuth:</strong> кнопка «Войти через Google» — большинство пользователей используют именно её.</li>
+    <li><strong>Microsoft OAuth:</strong> кнопка «Войти через Microsoft» — корпоративные клиенты (девелоперы, sales-агентства часто сидят на Microsoft 365 / Azure AD). Особенно актуально для UAE/MENA рынка.</li>
+    <li><strong>Email + пароль:</strong> fallback для тех, у кого нет Google/Microsoft аккаунта. Минимум 12 символов, без требований к составу, проверка по базе утёкших паролей при регистрации.</li>
     <li><strong>Сброс пароля:</strong> одноразовая ссылка на email, действует 60 минут.</li>
     <li><strong>Сессия:</strong> 30 дней с обновлением при активности (один cookie на <code>*.offplan.online</code>).</li>
   </ul>
+  <p style="margin:10px 0 0; font-size:13px; color:var(--text-mid);"><strong>Custom SSO (SAML / OIDC)</strong> — для enterprise Organisations с собственным IdP (Okta / Azure AD / Entra ID). Планируется как <strong>Tier 3 (Enterprise) feature в Stage 2</strong>. Stage 1 ограничен тремя способами выше. См. ADR 0005 (вторая ревизия pending — Microsoft + Custom SSO scope).</p>
   </details>
 
   <details>
@@ -756,7 +769,7 @@
 <div id="fd-billing" style="margin:0 0 32px; padding:24px 28px; background:#fff; border:1px solid var(--border-mid); border-left:4px solid var(--gold); border-radius:10px;">
   <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">Foundational · 3 / 7</div>
   <h3 style="border:none; padding:0; margin:0 0 12px; color:var(--navy);">Подписка — Модель 4 (тарифная система + бесплатные гостевые компании)</h3>
-  <p style="margin-bottom:14px;">Главное решение по оплате: <strong>подписка живёт на уровне Organisation</strong>. Каждая Organisation на своём tier. Тариф 2+ может приглашать guest organisations <strong>бесплатно</strong> (они работают на бесплатном тарифе). Это покрывает обратный сценарий (студия приглашает девелопера в своё пространство) и самостоятельный рост (девелопер пробует как гость → переходит на платный тариф).</p>
+  <p style="margin-bottom:14px;">Главное решение по оплате: <strong>подписка живёт на уровне Organisation</strong>. Каждая Organisation на своём tier — один из <strong>четырёх</strong>: Free Guest + три платных (T1, T2, T3). Tier 2+ может приглашать guest organisations <strong>бесплатно</strong> (они работают на бесплатном тарифе). Это покрывает обратный сценарий (студия приглашает девелопера в своё пространство) и самостоятельный рост (девелопер пробует как гость → переходит на платный тариф).</p>
 
   <details open>
   <summary class="task-label">Какие модели рассматривались и почему выбрали Модель 4 <span class="count">(4)</span></summary>
@@ -774,15 +787,49 @@
       <tr><td><strong>Free Guest</strong></td><td>Может быть гостевой компанией в чужих проектах (по обратному приглашению). Может приглашать пользователей в свою организацию (но они тоже видят только гостевой контент). Не может создавать собственные проекты. Не может приглашать гостевые компании.</td><td>$0</td></tr>
       <tr><td><strong>Tier 1</strong></td><td>Свои проекты с базовым лимитом. Все 5 ролей. Настройки видимости. Поддомен по умолчанию <code>{slug}.offplan.online</code>. Может приглашать гостевые компании.</td><td>TBD → ADR 0008</td></tr>
       <tr><td><strong>Tier 2</strong></td><td>Всё из Tier 1 + собственный домен (настройка через CNAME) + DKIM на свой домен + повышенные лимиты на проекты / команду / гостевые компании.</td><td>TBD → ADR 0008</td></tr>
-      <tr><td><strong>Custom</strong></td><td>Enterprise: единый вход для всей студии (Google Organisation / Microsoft), SLA, индивидуальные лимиты, дополнительные модули по запросу.</td><td>По договорённости</td></tr>
+      <tr><td><strong>Tier 3 (Enterprise)</strong></td><td>Всё из Tier 2 + единый вход для всей студии (Google Organisation / Microsoft / Custom SSO — SAML/OIDC), SLA, индивидуальные лимиты, дополнительные модули по запросу.</td><td>По договорённости</td></tr>
     </tbody>
   </table>
-  <p style="font-size:13px; color:var(--text-mid); font-style:italic; margin-top:8px;">⚠️ Это <strong>ориентировочный вид</strong>, не финальные тарифы — конкретные цены, лимиты (X проектов, Y участников команды) и возможное переименование (Tier 1/2/Custom vs Starter/Studio/Agency/Enterprise — см. 1.7.8 / Open Questions) — отдельная сессия <code>/plan onboarding-trial-mode</code> + ADR 0008. В рамках этого плана решена только <strong>структура</strong> (Free Guest существует, Модель 4 выбрана, 3 платных тарифа как ориентир).</p>
+  <p style="font-size:13px; color:var(--text-mid); font-style:italic; margin-top:8px;">⚠️ Это <strong>ориентировочный вид</strong>, не финальные тарифы. Конкретные цены, лимиты (X проектов, Y участников команды) и возможное переименование линейки (T1/T2/T3 vs Starter/Studio/Enterprise) — фиксируются в <strong>ADR 0008 (Tier model)</strong> + sub-plan <code>plans/onboarding-trial-mode.md</code>. В рамках этого плана зафиксирована только <strong>структура</strong>: 4 tier'а с описанным выше назначением.</p>
+
+  <details id="fd-billing-trial" open>
+  <summary class="task-label">Trial period — первые 14 дней для Path A signup <span class="count">(7)</span></summary>
+  <ul>
+    <li><strong>Триггер:</strong> Client регистрируется через <code>offplan.online</code>, выбирает tier на pricing page → попадает в Object Builder с <strong>14-дневным бесплатным доступом к T1</strong> функционалу. <strong>Карта не привязывается</strong> на этом шаге.</li>
+    <li><strong>Не применяется:</strong> Path B (guest invite — сразу Free Guest, без trial) и Path C (team invite — роль в чужой Organisation, без своей подписки).</li>
+    <li><strong>Что доступно во время trial:</strong> полный T1 функционал — создание projects, invite guest organisations, default subdomain <code>{slug}.offplan.online</code>, все 5 ролей, настройки видимости.</li>
+    <li><strong>Что НЕ доступно:</strong> T2/T3 фичи (custom domain, DKIM, SSO) — они нужны для production-deploy студии, повод для upgrade. Trial = T1 only, не выбор.</li>
+    <li><strong>UI:</strong> в шапке админки — badge <code>TRIAL — N days left</code>. Только Object Builder доступен; Full Admin залочен пока нет активной подписки (см. <a href="#phase-1-2">Phase 1.2 v4.5</a>).</li>
+    <li><strong>Email reminders:</strong> день 7, день 12, день 14 — нагретые CTA «выбрать tier и оплатить».</li>
+    <li><strong>По истечении без оплаты:</strong> auto-downgrade → Free Guest. Все trial-projects остаются в аккаунте, но <strong>read-only</strong> (нельзя редактировать, нельзя создавать новые). Публичный сайт проекта работает 30 дней, потом freeze («временно недоступно, свяжитесь с <code>{operator-email}</code>»). Оплатил в любой момент — полный доступ возвращается мгновенно (включая re-edit existing projects).</li>
+  </ul>
+  <div style="margin-top:10px; padding:10px 14px; background:var(--sand-50); border-radius:6px; font-size:12.5px; color:var(--text-mid);"><strong>Sales motion:</strong> trial без карты + <a href="#fd-billing-transfer">ownership transfer до first payment</a> = единый flow «студия делает проект на trial → передаёт девелоперу → девелопер платит со своей карты». См. <a href="#fd-billing-transfer">§3 Ownership transfer</a>.</div>
+  <p style="margin-top:10px; font-size:12px; color:var(--text-mid); font-style:italic;">Abuse mitigation Stage 1: email verification (already required) + rate-limit per IP. Если pattern злоупотребления появится — расширим в ADR 0008 / sub-plan.</p>
+  </details>
+
+  <details id="fd-billing-transfer">
+  <summary class="task-label">Ownership transfer — до first payment self-serve, после — через support <span class="count">(5)</span></summary>
+  <p style="margin-bottom:10px; font-size:13.5px;"><strong>Use case (главный sales motion):</strong> студия создаёт Organisation на trial, собирает контент проекта, передаёт ownership девелоперу. Девелопер регистрируется / принимает invite → ownership flips → девелопер делает first payment со своей карты → его billing с этого момента.</p>
+  <ul>
+    <li><strong>Когда self-serve доступен:</strong> на Organisation, где <strong>не было ни одного payment</strong> (trial period или Free Guest state). Owner может trigger'ить transfer самостоятельно.</li>
+    <li><strong>Flow (4 шага):</strong>
+      <ol style="margin:6px 0 0 18px; font-size:13px;">
+        <li>Owner идёт в <code>Settings → Transfer Ownership</code>. Вводит email получателя.</li>
+        <li>System отправляет email-инвайт с одноразовым токеном (7d expiry).</li>
+        <li>Получатель открывает email, регистрируется (если ещё нет аккаунта на этот email) или logs in, видит acceptance screen с описанием Organisation: slug, projects count, current tier (Trial / Free Guest).</li>
+        <li>На acceptance: получатель выбирает что произойдёт со старым Owner — стать Admin или быть удалённым из команды. Confirm → ownership flips, audit log entry «Ownership transferred from X to Y».</li>
+      </ol>
+    </li>
+    <li><strong>После first payment:</strong> UI кнопки скрыт. Settings page показывает: «Ownership transfer для Organisations с активной подпиской — через <code>support@offplan.online</code>. Self-serve версия — Stage 2/3 backlog.»</li>
+    <li><strong>Edge cases:</strong> если получатель отказывается / token expires — invite cancelled, ownership остаётся у текущего Owner. Если получатель уже Owner другой Organisation — ничего не ломается, у Client'а становится N memberships.</li>
+    <li><strong>Cross-link:</strong> <a href="#fd-entities">§1 Owner role</a> · ADR 0009 (Tenancy) — transfer mechanic учитывается в RBAC дизайне.</li>
+  </ul>
+  </details>
 
   <details>
-  <summary class="task-label">Что происходит при просрочке / отмене подписки <span class="count">(5)</span></summary>
+  <summary class="task-label">Что происходит при просрочке / отмене подписки (после first payment) <span class="count">(5)</span></summary>
   <ul>
-    <li><strong>Льготный период:</strong> 14 дней между просрочкой оплаты и блокировкой.</li>
+    <li><strong>Льготный период:</strong> 14 дней между просрочкой оплаты и блокировкой. <em>Применяется только к Organisations с активной подпиской — для trial expiry см. <a href="#fd-billing-trial">§3 Trial period</a>.</em></li>
     <li><strong>Частичная блокировка:</strong> вход в аккаунт работает, проекты видны, но редактирование / приглашения / публикация отключены. Публичный сайт проекта работает ещё 30 дней после блокировки. После 30 дней — сайт заморожен («временно недоступен, свяжитесь с <code>{operator-email}</code>»).</li>
     <li><strong>Статусы юнитов не меняются:</strong> юниты в статусе <code>reserved</code> или <code>sold</code> остаются как есть, мы ничего не сбрасываем автоматически. Organisation после восстановления продолжает работать с тем что было.</li>
     <li><strong>Ссылки для покупателей:</strong> работают 30 дней после блокировки. Потом страницы юнитов показывают «временно недоступно» с контактом оператора.</li>
@@ -791,11 +838,12 @@
   </details>
 
   <details>
-  <summary class="task-label">Как гость переходит на платный тариф <span class="count">(3)</span></summary>
+  <summary class="task-label">Как гость / trial переходит на платный тариф <span class="count">(4)</span></summary>
   <ul>
-    <li><strong>Момент перехода:</strong> гость в своей организации видит «Ваши проекты (0)» + кнопку «+ Создать первый проект».</li>
+    <li><strong>Path A (trial → paid):</strong> в badge «TRIAL — N days left» — клик → pricing modal → выбор tier (по умолчанию выбран тот что был при signup) → Stripe → first payment записан → trial badge исчезает, Full Admin открывается.</li>
+    <li><strong>Path B (Free Guest → paid):</strong> гость в своей организации видит «Ваши проекты (0)» + кнопку «+ Создать первый проект».</li>
     <li><strong>Нажатие → всплывающее окно:</strong> «Для создания проектов нужна подписка. Выберите тариф:» → оплата через Stripe.</li>
-    <li><strong>После оплаты:</strong> подписка активируется. Аккаунт остаётся прежним, добавляется <code>client_id</code>. Все существующие гостевые участия сохраняются.</li>
+    <li><strong>После оплаты (любой path):</strong> подписка активируется. Все существующие гостевые участия сохраняются. Trial-projects (если были) переходят из read-only в editable. Ownership transfer self-serve UI скрывается (см. <a href="#fd-billing-transfer">§3 Ownership transfer</a>).</li>
   </ul>
   </details>
 </div>
@@ -912,7 +960,7 @@
     <thead><tr><th style="width:130px;">Preset</th><th>Что видит anonymous</th></tr></thead>
     <tbody>
       <tr><td><strong>Private</strong></td><td>Только hero (logo, branding, tagline) + «Request access» CTA. Никаких проектов, юнитов, рендеров.</td></tr>
-      <tr><td><strong>Discovery</strong> <em style="color:var(--gold);">(по умолчанию)</em></td><td>Hero + список проектов + рендеры/360° walkthrough + floorplates + список юнитов <strong>без цен</strong> + counter «N units available» + «Request access» CTA.</td></tr>
+      <tr><td><strong>Discovery</strong> <em style="color:var(--gold);">(по умолчанию)</em></td><td>Все проекты Organisation'ы видны — hero, рендеры, 360°, floorplates, список юнитов. <strong>Цены и индивидуальные статусы юнитов скрыты</strong> — отображается только counter «N units available» на проект. CTA «Request access» открывает запрос на доступ к Full sales view.</td></tr>
       <tr><td><strong>Full sales</strong></td><td>Всё что в Discovery + цены per unit + availability badges per unit (<code>available / reserved / sold</code>). Полноценный public sales-сайт — anonymous видит каждый юнит во всех проектах Organisation'ы независимо от stock allocation assignments.</td></tr>
       <tr><td><strong>Custom</strong></td><td>Granular toggles по полям (см. блок «Advanced overrides» ниже) — для случаев когда не подходит ни один из 3 preset'ов.</td></tr>
     </tbody>
@@ -1160,7 +1208,7 @@
     <li><strong>✅ Object Builder = onboarding.</strong> После регистрации Client сразу попадает на Object Builder — никакого отдельного wizard'а. Visual ref: <a href="../mockups/admin-quick-build-atelier-standalone.html"><code>admin-quick-build-atelier-standalone.html</code></a> (заменяет <code>admin-quick-build-v2.html</code> как canonical ref для Phase 1.2).</li>
     <li><strong>Split-screen UX:</strong> слева — форма (Project Name → Subdomain auto-suggest + availability → Required Uploads 1/3); справа — Live Preview обновляется по мере загрузки (Desktop/Tablet/Mobile переключатель). Три загрузки: i. Exterior, ii. Floor Plans («Drop a folder — AI tags pages»), iii. Gallery.</li>
     <li><strong>[SAVE &amp; CONTINUE]</strong> — публикует проект. <strong>[SKIP]</strong> — переходит в full admin без создания проекта (только для Paid; на Trial недоступен).</li>
-    <li><strong>Trial (TRIAL - Nd badge в шапке):</strong> только Object Builder доступен. Full admin залочен пока нет активной подписки.</li>
+    <li><strong>Trial (TRIAL — N days left badge в шапке):</strong> 14 дней T1 без привязки карты. Только Object Builder доступен; Full Admin залочен пока нет активной подписки. По истечении: auto-downgrade → Free Guest, projects read-only (см. <a href="#fd-billing-trial">§3 Trial period</a>).</li>
     <li><strong>Paid subscription:</strong> Object Builder + Full Admin. Переключение в обе стороны из Full Admin.</li>
     <li><strong>1.2.Z update:</strong> не «Quick Build only для Free» — а «Object Builder only для Trial (full admin залочен) + Object Builder + Full Admin для Paid».</li>
     <li><strong>❌ 1.2.4 (wizard) DEPRECATED</strong> — Object Builder заменяет 4-шаговый wizard. Studio profile setup (logo, brand color) перенесён в Settings → опциональный.</li>
@@ -1236,7 +1284,7 @@
     <li><strong>Live Preview:</strong> правая панель рендерит реальный preview проекта по мере загрузки. Разделы с pending-контентом показывают «AWAITING UPLOAD →».</li>
     <li><strong>[SAVE &amp; CONTINUE]:</strong> публикует проект на subdomain → переходит в full admin (Paid) или остаётся в Object Builder (Trial, до апгрейда)</li>
     <li><strong>[SKIP]:</strong> пропускает Object Builder → переходит в full admin без созданного проекта. Доступен только для Paid. На Trial отсутствует.</li>
-    <li><strong>Trial-gate:</strong> TRIAL - Nd badge в шапке. Full admin недоступен / залочен пока нет подписки. Object Builder — единственная рабочая поверхность.</li>
+    <li><strong>Trial-gate:</strong> 14 дней T1 без карты. <code>TRIAL — N days left</code> badge в шапке. Full admin недоступен / залочен пока нет подписки. Object Builder — единственная рабочая поверхность. По истечении без оплаты — auto-downgrade → Free Guest, projects read-only (детали: <a href="#fd-billing-trial">§3 Trial period</a>).</li>
     <li><strong>Studio profile setup</strong> (logo, brand color) — не блокирует первый проект. Перенесён в full admin → Settings, опциональный.</li>
   </ul>
 </details>
@@ -1999,7 +2047,7 @@
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(9)</span></summary>
   <ul>
-    <li>Hero: главный месседж + CTA «Start free trial — 3 months free»</li>
+    <li>Hero: главный месседж + CTA «Start your 14-day trial — no card required» (см. <a href="#fd-billing-trial">§3 Trial period</a>)</li>
     <li>Ценностное предложение (модули: Walkthroughs, floor plans, unit list, inline-editing roadmap)</li>
     <li>Кейс-стади с цифрами от реального клиента</li>
     <li>Сравнение с конкурентами (Matterport, Kuula) — честное</li>
@@ -2034,13 +2082,13 @@
         <li>+ Project-based (flat-fee): см. 1.7.8</li>
       </ul>
     </li>
-    <li>Trial: 3 месяца free без карты</li>
+    <li>Trial: 14 дней T1 без карты (Path A signup, см. <a href="#fd-billing-trial">§3 Trial period</a>)</li>
     <li>Annual discount (отложить в Фазу 4.2)</li>
   </ul>
 </details>
   <details>
   <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
-  <ul><li>❓ Финальная цена и лимиты</li><li>❓ Trial без карты vs с картой</li><li>❓ По проектам / рендерам / seats?</li></ul>
+  <ul><li>❓ Финальная цена и лимиты (→ ADR 0008)</li><li>✅ <s>Trial без карты vs с картой</s> — <strong>resolved (CONV-24):</strong> без карты, 14 дней T1 (см. <a href="#fd-billing-trial">§3 Trial period</a>)</li><li>❓ По проектам / рендерам / seats? (→ ADR 0008)</li></ul>
 </details>
   <div class="task-deps">Зависит от: — · Блокирует: 1.7.1</div>
 </div>
@@ -2080,7 +2128,7 @@
 <div class="task">
   <div class="task-title"><span class="task-id">1.7.5</span><span class="task-name">Trial mechanics</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Product+Tech</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Как работает 3-месячный trial — активация, limits, истечение.</p>
+  <p class="task-desc">Как работает 14-дневный trial — активация, limits, истечение. <strong>Mechanics locked в <a href="#fd-billing-trial">§3 Trial period</a> (CONV-24);</strong> эта таска = implementation против фиксированного спека.</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(6)</span></summary>
   <ul>
