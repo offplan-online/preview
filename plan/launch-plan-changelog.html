@@ -304,6 +304,22 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.12 — 2026-05-09 (CONV-30, parking lot for Phase 1.11 sub-plan)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> user input + 5 screenshots от 2026-05-09 — расширение Phase 1.11 / §6 Buyer flow. Параллельно: Roma в CONV-29 (parallel track) реализовал prototype core buyer-profile capture в <code>design-system/sales/02-exterior.html</code> (Skeleton White register) — quick capture form (имя/фамилия/email/phone + preferences bedrooms/bathrooms/aspect/budget) + Switch agent affordance. Spec ratification и backup/restore + Edit-as-Buyer detail'и — отдельный sub-plan. Новый путь creation buyer-record'а параллельно к существующему «email-send» (Variant E2): agent создаёт buyer прямо с sales-page → tokenised URL с already-persisted state (filters + shortlist). Plus admin backup/restore buyer-state, agent-edits-buyer state (open question — dual-login vs Edit-as-Buyer surface vs privileged-token URL).</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Добавлено</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.11 callout — bullet v4.12</strong>: parking-lot pointer на agent-driven buyer onboarding c sales-page + persisted state (filters + shortlist). Touches §6 (второй путь creation), Phase 1.10 (filter persistence), Phase 1.3 (buyer auth), Phase 1.4 (backup/restore audit), §4.2 (permissions для buyer-state edit), §4.6 (Edit-as-Buyer extension if Option B chosen).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто (parking-lot)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Sub-plan <code>plans/buyer-profile-and-presentation.md</code></strong> — full /plan interview deferred до Wave 2 close (Chunks 7.5 + 8). Тогда будет ratify open questions: state schema, auth model для buyer login, edit-as-buyer permission, backup/restore granularity, dual-session collision rules.</li>
+      <li><strong>5 screenshots</strong> сохранены в memory для reference при /plan'ировании.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.11 — 2026-05-08 (CONV-27, Wave 2 Chunk 7)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> deferred-from-CONV-24 deep rewrite Phase 1.7 «Платёжная инфраструктура + Sales Page». Approach C (Hybrid surgical structure changes) — sub-plan <code>plans/landing-pages-by-audience.md</code> владеет 4-audience landing спекой; Phase 1.7 task = pointer-only. План: <code>plans/stage1-chunk-7-phase17-rewrite.md</code>.</p>
 
