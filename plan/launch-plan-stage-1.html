@@ -917,7 +917,7 @@
   <p style="font-size:13px; margin-bottom:6px;"><strong>Единственное отличие от Closed mode:</strong> «Internal pool» юниты видят и могут продать <strong>ВСЕ</strong> Sales Agent'ы с project access, включая members guest organisations. Assigned-to-user и Assigned-to-org остаются exclusive как в Closed mode.</p>
   <p style="font-size:13px; color:var(--text-mid); margin-bottom:14px;"><strong>Use case:</strong> multiple agencies competing на full inventory (broker-style). Bulk «assign all to Agency X» не нужен — все видят всё по дефолту.</p>
 
-  <p style="font-size:13px; color:var(--text-mid); margin-top:8px;"><strong>Bulk operations Stage 1:</strong> filter list view + multi-select checkboxes + dropdown «Assign to» (grouped: organisations / users). CSV import → Phase 1.5.X (AI file upload, MCP wrapper). Range-select на floorplate → Stage 2. <strong>Critical UX в Closed mode</strong> — Sales Manager часто будет делать «дать этой agency 30 юнитов одной кнопкой».</p>
+  <p style="font-size:13px; color:var(--text-mid); margin-top:8px;"><strong>Bulk operations Stage 1:</strong> filter list view + multi-select checkboxes + dropdown «Assign to» (grouped: organisations / users). CSV import → Phase <a href="#phase-1-5">1.5.6</a> (AI file upload endpoint, MCP wrapper). Range-select на floorplate → Stage 2. <strong>Critical UX в Closed mode</strong> — Sales Manager часто будет делать «дать этой agency 30 юнитов одной кнопкой».</p>
   <p style="font-size:13px; color:var(--text-mid); margin-top:8px;"><strong>Cascade при удалении target'а — escalate up, never auto-revert в Internal pool.</strong> User leaves → revert assignments к Sales Manager/Admin Organisation'ы. Guest org removed → revert к Owner-team. Auto-revert в Internal pool rejected — риск нежелательного widening доступа без явного согласия Owner'а.</p>
 
   <details>
@@ -1383,26 +1383,9 @@
 <div id="phase-1-2" class="phase"><span class="phase-num">Фаза 1.2</span><h3>Self-Serve Onboarding + Quick Build <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span></h3><p class="phase-desc">Путь от регистрации до первого опубликованного проекта без обращения в support. Это то, что превращает продукт из «нужно звонить» в SaaS.</p></div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.2.X — Quick Build Object Builder mode</strong> (3-step flow: Exterior + Floor Plans + Gallery; визуальный реф: <a href="../mockups/admin-quick-build-v2.html"><code>admin-quick-build-v2.html</code></a> — Brandbook strict + Calatrava cues)</li>
-    <li><strong>+ 1.2.Y — Slug picker при регистрации</strong> (auto-suggest + custom; subdomain <code>slug.offplan.online</code>)</li>
-    <li><strong>+ 1.2.Z — Tier-aware dashboard layout</strong> (Quick Build only для Free, переключатель Quick Build ↔ Full Admin для Paid)</li>
-    <li><strong>❌ 1.2.4 (demo project) DEPRECATED</strong> — Quick Build режим заменяет демо-проект как механизм онбординга</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Детальные subtasks — в <code>plans/onboarding-trial-mode.md</code> (отдельная /plan-сессия). Связано с ADR 0008 (Tier model + admin mode coupling).</p>
-</div>
-
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.2.W — Free Guest tier signup endpoint</strong> — signup flow для invitee'ев приходящих по reverse invite (Italian developer case). Free tier identity, no project creation rights. Conversion path к paid Organisation tier — lazy on «+ Create project» click. См. <a href="#fd-onboarding">Foundational §2 path B</a> + <a href="#fd-billing">§3</a>.</li>
-    <li><strong>+ 1.2.V — Hybrid login surfaces</strong> — branded <code>{slug}.offplan.online/login</code> (default invitee flow) + central <code>app.offplan.online/login</code> fallback с Organisation switcher. Single auth backend, single session cookie на <code>*.offplan.online</code>. Auto-redirect logic после login (1 Organisation membership = direct, N memberships = switcher). См. <a href="#fd-onboarding">Foundational §2 — login UX</a>.</li>
-    <li><strong>+ 1.2.U — Personal invite flow (E.4)</strong> — Settings → Team → Invite member. Single-use token, 7d expiry, role + scope (org-level default, project-level option). Email mismatch error в Stage 1 (self-service merge → Stage 2). Re-invite после удаления = new invitation, no «restore deleted user» button Stage 1.</li>
-    <li><strong>+ 1.2.T — Organisation switcher UI</strong> — Slack/Linear pattern для Clients с N Organisation memberships. В шапке после login. Включая «Guest organisations» секцию для users invited как guest organisation в чужие проекты.</li>
-    <li><strong>+ 1.2.S — Auth methods</strong> — Google primary + email/password fallback (UAE/MENA market). Min 12 chars password, haveibeenpwned check. Reset = magic link 60 min. 2FA optional Stage 1 для всех Clients с ролями; staff.offplan.online — mandatory.</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Все items зависят от Phase 1.3 (Tenancy ratified). ADR 0009 (Tenancy) + ADR 0005 update (Google-only → Google + email/password) — будут созданы при ratification.</p>
+  <strong>📌 Ratified onboarding decisions (CONV-15 + CONV-17) — детали в sub-plan</strong>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec для Phase 1.2 живёт в <code>plans/onboarding-trial-mode.md</code> (currently stub, awaits /plan ratification). Decisions ratified: Quick Build Object Builder mode (3-step flow) · Slug picker при регистрации · Tier-aware dashboard layout (Free = Quick Build only) · Free Guest tier signup endpoint (reverse invite case, см. <a href="#fd-onboarding">Foundational §2 path B</a> + <a href="#fd-billing">§3</a>) · Hybrid login surfaces (branded <code>{slug}.offplan.online/login</code> + central <code>app.offplan.online/login</code> fallback, single auth backend на <code>*.offplan.online</code>) · Personal invite flow (Settings → Team, single-use token 7d expiry, email mismatch error Stage 1) · Organisation switcher UI (Slack/Linear pattern с Guest orgs section) · Auth methods (Google primary + email/password fallback UAE/MENA, min 12 chars + haveibeenpwned, magic-link reset 60 min, 2FA optional Stage 1 / mandatory для staff). v4.5 (CONV-21) Atelier override callout ниже кодифицирует «Object Builder = onboarding» (supersedes v4.3 demo project pattern).</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Связано с ADR 0008 (Tier model + admin mode coupling), ADR 0009 (Tenancy), ADR 0005 update (Google-only → Google + email/password).</p>
 </div>
 
 <div class="callout" style="background: rgba(184,149,90,0.12); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
@@ -1543,22 +1526,9 @@
 </div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) — авторитативные решения по всем 10 subtasks:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>1.3.1 Entity model</strong> — Client (identity, login) создаёт Organisation (tenant, subscription owner). Multi-select Organisation type (Studio/Agency/Developer). Один email = одна Client identity, Organisation switcher. Buyer = passwordless per-presentation, не Client. См. <a href="#fd-entities">Foundational §1</a>.</li>
-    <li><strong>1.3.2 Permission layers</strong> — 5 ролей (Owner / Admin / Sales Manager / Content Editor / Sales Agent), Sales Manager = объединённая operational роль (Content Editor + stock + buyers). Один Client = одна role per Organisation. Permission matrix + scoping (org-level default, project-level option Stage 1) — см. <a href="#fd-access">Foundational §4.2-4.3</a>. <em>v4.7 (CONV-24):</em> Internal/External SA operational split formalised в <a href="#fd-access">§4.5</a> — RBAC должен экспонировать обе variants через API + UI permissions filter (membership_type derived через <code>organisation_id</code> link).</li>
-    <li><strong>1.3.3 Login / auth multi-role</strong> — Hybrid login (per-Organisation branded <code>{slug}.offplan.online/login</code> + central fallback <code>app.offplan.online/login</code>). Google + email/password (UAE/MENA). 2FA optional Stage 1, mandatory для Owner+Admin Stage 2. Session 30d на <code>*.offplan.online</code>. См. <a href="#fd-onboarding">Foundational §2</a>.</li>
-    <li><strong>1.3.4 Per-unit stock tagging</strong> — <strong>S·1 (Closed pool default + Single allocation, per-project Open mode toggle).</strong> Assignment = exclusivity scope. Targets Stage 1: guest organisation + specific personal user. Default mode: guest orgs видят 0 пока не assign'нули (secure by default). Open mode opt-in: «Internal pool» видят все включая guest orgs (broker-style). Cascade на удаление target'а: escalate up к Sales Manager/Admin, never auto-revert в Internal pool. Bulk operations: filter+checkbox+dropdown (critical UX в Closed mode). См. <a href="#fd-access">Foundational §4.4</a>.</li>
-    <li><strong>1.3.5 Scoped URL routing</strong> — Default subdomain <code>{slug}.offplan.online</code> + custom domain Tier 2+ (CNAME wizard). Project URL: <code>{slug}.offplan.online/projects/{project-slug}</code> (namespaced, безопасно для system pages). Buyer URL: <code>{slug}.offplan.online/projects/{slug}/units/{id}?b=&lt;token&gt;</code> (tokenised query param, не отдельный route).</li>
-    <li><strong>1.3.6 Cross-entity invitations</strong> — Forward (Developer → Studio/Agency, accept lands в guest organisation в собственном identity) + Reverse (Studio → Developer без аккаунта = Free Guest tier signup path, no transfer Stage 1). См. <a href="#fd-access">Foundational §4.1</a>.</li>
-    <li><strong>1.3.7 Invitation token generation</strong> — Opaque random token + DB row (<code>invitations</code>: token, type, client_id, invitee_email, role, scope, status, expires_at). Single-use для Personal invite, multi-use для Organisation invite. Fixed 7 days expiry Stage 1.</li>
-    <li><strong>1.3.8 Organisation type designation</strong> — multi-select при регистрации (Studio / Agency / Developer). Влияет на: (1) default UI sections при логине; (2) default stock-allocation policy при создании проекта; (3) marketing segment. Не влияет на pricing.</li>
-    <li><strong>1.3.9 Content Editor vs Sales Agent role distinction</strong> — Content Editor = content + pricing + переводы (видит всё в проекте, assignment не блокирует); Sales Agent = buyer/presentation flow + меняет status own assigned units. Sales Manager = объединение Content Editor + stock + buyers. См. <a href="#fd-entities">Foundational §1</a> + <a href="#fd-access">§4.2</a>.</li>
-    <li><strong>1.3.10 Referral architecture</strong> — Stage 1 = data model only (<code>referral_codes</code> + <code>referrals</code> tables). Sponsor scope: any user. Attribution: URL param + form input backup, no cookies. Flat single-level, no MLM. Payouts → Phase 4.2. См. <a href="#fd-edges">Foundational §7 — Referral architecture</a>.</li>
-    <li><strong>1.3.11 Signup &amp; tenant data model</strong> — регистрационный flow (email + Google SSO; название/страна deferred в Settings) + multi-tenant DB foundation (organisations, users). Первый экран после регистрации = Object Builder (1.2.4). Перенесено из 1.2.1 (CONV-21).</li>
-    <li><strong>1.3.12 Permission model + team management UI</strong> — реализация 1.3.1-1.3.2 spec: RBAC DB schema, invite flows (уровни 3-5), team management UI, Organisation switcher, seat limits. Перенесено из 1.2.7 (CONV-21).</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Полный design в <code>plans/permission-and-tenancy-model.md</code> (ratified). ADR 0009 (Tenancy &amp; Permission Architecture) + ADR 0010 (Stock allocation strategy) + ADR 0005 update (Google-only → Google + email/password) — будут созданы при ratification сессии.</p>
+  <strong>📌 Ratified permission-and-tenancy decisions (CONV-17 + CONV-24) — детали в sub-plan + numbered tasks ниже</strong>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Authoritative spec — <code>plans/permission-and-tenancy-model.md</code> (status: stub, awaits /plan ratification). Numbered tasks 1.3.1-1.3.12 ниже реализуют ratified decisions: Entity model (Client / Organisation / Buyer split, см. <a href="#fd-entities">Foundational §1</a>) · 5 ролей (Owner / Admin / Sales Manager / Content Editor / Sales Agent), Sales Manager = объединённая operational роль · Hybrid login surfaces (per-Organisation branded + central fallback, Google + email/password UAE/MENA, см. <a href="#fd-onboarding">§2</a>) · S·1 stock allocation (Closed pool default + Open mode opt-in, см. <a href="#fd-access">§4.4</a>) · Scoped URL routing (subdomain + project slug + tokenised buyer URL) · Cross-entity invitations (Forward Developer→Studio + Reverse Studio→Developer = Free Guest tier path, см. <a href="#fd-access">§4.1</a>) · Invitation token generation (opaque + 7d expiry) · Organisation type multi-select (Studio/Agency/Developer) · Content Editor vs Sales Agent distinction · Referral architecture (data model Stage 1, payouts Phase 4.2, см. <a href="#fd-edges">§7</a>) · Signup &amp; tenant data model · Permission model + team management UI. <em>v4.7 (CONV-24):</em> Internal/External SA operational split formalised в <a href="#fd-access">§4.5</a> — RBAC должен экспонировать обе variants через API + UI permissions filter (membership_type derived через <code>organisation_id</code> link).</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">ADR placeholders: 0009 (Tenancy &amp; Permission Architecture), 0010 (Stock allocation strategy), 0005 update (Google-only → Google + email/password). Все будут созданы при sub-plan ratification сессии.</p>
 </div>
 
 <div class="task">
@@ -1705,7 +1675,7 @@
     <li>Remove user (transfer ownership если owner)</li>
     <li>Granular permissions per project — доступ на конкретный проект, не на всю студию</li>
     <li>Seat limit per plan tier (совместимо с 1.7)</li>
-    <li>Organisation switcher UI (Slack pattern) — для Clients с N Organisation memberships (см. 1.2.T)</li>
+    <li>Organisation switcher UI (Slack pattern) — для Clients с N Organisation memberships (детали в <code>plans/onboarding-trial-mode.md</code>)</li>
     <li>Audit: кто изменил что (связано с 3.3.3 Audit log)</li>
   </ul>
 </details>
@@ -1723,25 +1693,10 @@
 <div id="phase-1-4" class="phase"><span class="phase-num">Фаза 1.4</span><h3>Operator Dashboard (staff.offplan.online) — расширение существующей Super Admin Panel</h3><p class="phase-desc"><strong>Контекст (ревизия 2026-04-28):</strong> tech team подтвердила, что Super Admin Panel <strong>уже существует</strong> и работает в продакшене. Текущая панель имеет: список проектов, переключатели feature-флагов на каждый проект (13+ флагов), управление сейлз-менеджерами, загрузку ассетов (логотип, видео), action log. Фаза 1.4 = <strong>надстройка</strong> над этой панелью для multi-tenant управления клиентами-студиями: подписки, платежи, audit log, список клиентов с drawer'ом. <strong>Не строим с нуля.</strong> Поддомен <code>staff.offplan.online</code>, отдельная аутентификация, постоянный баннер "STAFF" в шапке. Визуальный preview (v3): <a href="../mockups/operator-panel-v3.html">operator-panel-v3.html</a>.<br><em style="color:var(--gold-light);">💡 Suggestion: before dev builds the new screens, build a complete HTML/CSS mockup of the operator dashboard together (product owner approves it), then hand off to the tech team to wire up to real data and auth — faster implementation, fewer visual revisions.</em></p></div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <strong>📌 v4.13 (CONV-30 sweep) — Wave 2 operator surface implications:</strong>
   <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.4.X — Fullscreen client card</strong> (replace drawer pattern на полноэкранную карточку клиента — слишком много данных под Organisation, drawer тесен)</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy) — карточка клиента отображает данные multi-tenant модели.</p>
-</div>
-
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.4.Y — Suspension management UI</strong> — operator может suspend / reactivate Organisation. 14d grace period, hybrid block scope (login OK, edit blocked, public site работает 30d потом freeze). Unit статусы не трогаем при suspension. См. <a href="#fd-billing">Foundational §3 — Suspension flow</a>.</li>
-    <li><strong>+ 1.4.AA — GDPR/ADGM erasure processing</strong> — operator manual flow Stage 1 для buyer right-to-erasure. SLA 30 дней. Self-service erasure → Stage 2. См. <a href="#fd-edges">Foundational §7 — GDPR</a>.</li>
-    <li><strong>+ 1.4.CC — Stock allocation conflict reconciliation</strong> — manual UI для разрешения admin-error situations (two Organisations претендующих на один unit, etc.). См. <a href="#fd-edges">Foundational §7 — Conflicts</a>.</li>
-    <li><strong>+ 1.4.DD — Owner lockout recovery</strong> — manual operator MFA reset Stage 1 (email + identity verification). Automated recovery → Stage 2.</li>
-    <li><strong>Reserved subdomain</strong> — <code>staff</code> в blacklist при создании Organisation subdomain (вместе с <code>app</code>, <code>api</code>, <code>admin</code>, etc.).</li>
-    <li><em>v4.7 (CONV-24):</em> <strong>View-as-Agent (<a href="#fd-access">§4.6</a>) — team-level admin tool, ≠ Stage 4 operator impersonation.</strong> Read-only debug surface внутри клиентской админки (Owner / Admin / Sales Manager). Operator impersonation (login as Client от лица staff'а для support escalation) — отдельный flow, deferred to Stage 4.</li>
-    <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected projects visibility в operator dashboard.</strong> Operator может видеть «Project X is PIN-protected» (флаг в Project list / Project drawer) для support troubleshooting (e.g., «client says PIN doesn't work»), но <strong>не видит самого PIN value</strong> (security — operator не должен знать пользовательские secrets, hashed at rest). Anti-brute-force flag — failed PIN attempts &gt;3/час с одного IP highlighted в Project drawer + aggregate counter «N failed-PIN events / 24h» в overview. См. <a href="#fd-visibility-pin">§5.1 audit log</a>.</li>
-    <li><em>v4.9 (CONV-26):</em> <strong>Status-flip audit visibility + reverse-flip email pipeline + channel analytics.</strong> Operator dashboard читает audit log entries для status flips (forward + reverse) per Organisation — для support troubleshooting (e.g., «client claims refund but unit Sold» → operator смотрит timeline). Reverse-flip emails (SA → SM, SM → Admin/Owner) идут через <a href="#phase-1-8">Phase 1.8</a> transactional email infra; operator видит этот класс events как separate event «status-reverse-notification-sent». Anti-abuse aggregate: «Organisation X had &gt;20 reverse-flips в 30 дней» highlighted в overview (фрод-индикатор: фейковые reservations и тут же откаты для commission games). Channel analytics aggregate (Email / WhatsApp / Copy opens по проектам через <code>?ch=</code> URL parameter) — standalone widget в operator overview для product decisions. См. <a href="#fd-buyer-status">§6.1 audit log</a> + <a href="#fd-buyer-channels">§6.2 tracking</a>.</li>
-    <li><em>v4.10 (CONV-27):</em> <strong>Operator visibility для §7 edge cases (deactivation + conflicts + referrals).</strong> Audit log читает self-leave events с distinct actor (<em>«User X self-left Organisation Y»</em> vs <em>«Owner removed user X»</em>) — operator различает trigger в timeline. Suspension state для buyer-tokens — operator видит «Project P has N active read-only tokens (Org suspended)» в Project drawer для support troubleshooting. Visibility-flip с active tokens — operator видит «Visibility changed from X to Y, M existing tokens still bypass to old preset» в Project log. Referrals: aggregate counter «N referrals в <code>ineligible_cycle</code> state» в operator overview — anti-fraud signal для cycle gaming через несколько Organisations. См. <a href="#fd-edges">§7</a>.</li>
+    <li>Operator dashboard читает audit log entries и shows status / suspension / token state per Foundational specs. Implications от Wave 2: (a) <a href="#fd-access">§4.6 View-as-Agent</a> — team-level admin tool ≠ Stage 4 operator impersonation; (b) <a href="#fd-visibility-pin">§5.1 PIN-protected</a> — operator видит «PIN-protected» флаг для support, не PIN value; anti-brute-force aggregate (failed attempts &gt;3/hr); (c) <a href="#fd-buyer-status">§6.1 status-flip audit</a> + <a href="#fd-buyer-channels">§6.2 channel analytics</a> — forward + reverse flip timeline per Organisation, anti-abuse aggregate «&gt;20 reverse-flips/30d», 3-channel send tracking; (d) <a href="#fd-edges">§7 edge cases</a> — self-leave distinct-actor logging, suspension token state, Visibility-flip token bypass, referrals <code>ineligible_cycle</code> counter.</li>
+    <li>v4.3 (CONV-15) + v4.4 (CONV-17) placeholder content → absorbed в numbered tasks 1.4.9-1.4.13 ниже (Fullscreen Org card, Suspension UI, GDPR erasure, Stock allocation conflict, Owner lockout). Reserved subdomain note (<code>staff</code> blacklist) → absorbed в task 1.4.2.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Operator dashboard 2FA mandatory always (внутренний tooling). См. <a href="#fd-onboarding">Foundational §2</a>.</p>
 </div>
@@ -1788,7 +1743,7 @@
   <details>
   <summary class="task-label">Что конкретно нужно сделать (Итерация 1) <span class="count">(5)</span></summary>
   <ul>
-    <li>Поддомен DNS + SSL: <code>staff.offplan.online</code> указывает на тот же деплоймент что и app, но маршрутизируется на staff bundle</li>
+    <li>Поддомен DNS + SSL: <code>staff.offplan.online</code> указывает на тот же деплоймент что и app, но маршрутизируется на staff bundle. <code>staff</code> в reserved-subdomain blacklist при создании Organisation subdomain (вместе с <code>app</code>, <code>api</code>, <code>admin</code>, <code>www</code>, etc.).</li>
     <li>Отдельная таблица operator (не общая с User): <code>id</code>, <code>name</code>, <code>email</code>, <code>password_hash</code>, <code>last_login</code>, <code>status</code> (active/disabled)</li>
     <li>Login flow: email + пароль (базовая аутентификация, без 2FA)</li>
     <li>Session cookie на <code>staff.offplan.online</code> — не передаётся на <code>app.offplan.online</code> и обратно</li>
@@ -1940,6 +1895,69 @@
   <div class="task-deps">Зависит от: 1.4.2 · Блокирует: —</div>
 </div>
 
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.9</span><span class="task-name">Fullscreen Organisation card (replaces drawer pattern)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Drawer pattern из 1.4.4 тесен — слишком много данных под Organisation (Subscription / Payments / Activity / Notes / Users / Projects). Полноэкранная карточка клиента: 7-tab layout, breadcrumb back, action buttons в header (Send password reset, Extend trial, Edit notes, Suspend). Drawer остаётся как quick-peek для overview/list, fullscreen — для deep work. <strong>Source:</strong> CONV-15 Roman call.</p>
+  <div class="task-deps">Зависит от: 1.4.4 (drawer baseline) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.10</span><span class="task-name">Suspension management UI</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Operator может suspend / reactivate Organisation. <strong>14d grace period</strong>, hybrid block scope: login OK, edit blocked, public site работает 30d потом freeze. Unit статусы не трогаем при suspension. См. <a href="#fd-billing">Foundational §3 — Suspension flow</a> + <a href="#fd-edges">§7.4</a> (token read-only behaviour). <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Suspend action button в Organisation card / drawer (Owner/Admin permission gated)</li>
+    <li>Confirmation modal с консеквенциями (login still works, edit disabled, public site countdown 30d)</li>
+    <li>Status badge в Organisations list: <code>Suspended</code> (amber) + grace period countdown</li>
+    <li>Reactivate flow — Owner/Admin one-click, audit log entry</li>
+    <li>Middleware enforcement: edit endpoints возвращают 403 для suspended orgs; public sales-app fallback на read-only banner per §7.4</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.4.1 (subscription status), 1.4.4 (Organisation card) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.11</span><span class="task-name">GDPR/ADGM erasure processing (manual)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Legal</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Operator manual flow Stage 1 для buyer right-to-erasure requests. SLA 30 дней per privacy clauses. Self-service erasure → Stage 2. См. <a href="#fd-edges">Foundational §7 — GDPR</a> + <a href="#phase-1-9">Phase 1.9</a> privacy clauses. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Erasure request inbox (от support@ → operator queue), 30d SLA timer</li>
+    <li>Anonymization process: buyer-record → email/name/phone обнулены, attribution preserved (audit + commission)</li>
+    <li>Cascade: presentation_units / heart actions / contact requests с buyer_id остаются с anonymized buyer reference</li>
+    <li>Audit log entry: «erasure processed for buyer X by operator Y at TIMESTAMP» — sans PII</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.7 (audit log) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.12</span><span class="task-name">Stock allocation conflict reconciliation</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Manual UI для разрешения admin-error situations (two Organisations претендующих на один unit; orphan assignments после Org delete; etc.). См. <a href="#fd-edges">Foundational §7 — Conflicts</a> + <a href="#fd-access">§4.4 stock allocation</a>. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <div class="task-deps">Зависит от: 1.4.1, 1.3.4 (stock allocation model) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.4.13</span><span class="task-name">Owner lockout recovery (manual MFA reset)</span><span class="marker m-opl">[OPL]</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+CS</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Manual operator MFA reset Stage 1 — Owner потерял 2FA / device. Email + identity verification (manual check), затем operator triggers MFA reset. Automated recovery (recovery codes + email confirmation chain) → Stage 2. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Lockout request inbox (от support@ → operator queue)</li>
+    <li>Identity verification checklist (email match + phone callback + ID document если запрашивается)</li>
+    <li>Operator action: «Reset MFA for user X» button → user receives login email, 2FA disabled, must re-enrol</li>
+    <li>Audit log: «MFA reset for user X by operator Y, verification method: [...]»</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.4.1, 1.4.7 · Блокирует: —</div>
+</div>
+
 <div style="margin:18px 0 0; padding:14px 18px; background:var(--sand-100); border:1px solid var(--border); border-radius:8px; font-size:13.5px; color:var(--text-mid);">
   <strong style="color:var(--navy);">Связи с другими фазами:</strong>
   <ul style="margin:8px 0 0; padding-left:20px;">
@@ -1959,14 +1977,6 @@
 
 <div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>MCP Server Wrapper <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc"><strong>Что такое MCP:</strong> открытый стандарт от Anthropic для AI-моделей вызывать внешние API через стандартизированный интерфейс. <strong>MCP wrapper</strong> = тонкий слой над нашим существующим API, превращающий endpoints в "tools" для AI. Студия открывает Claude и говорит «создай новый проект Marina Residences с 80 юнитами 1BR/2BR» — Claude вызывает наши MCP tools, проект создан за 30 секунд. Пользователь открывает <code>marina-residences.offplan.online</code>, sales-app live.</p></div>
 
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.5.X — AI file upload endpoint</strong> (drop folder с PDF флорпланами → AI разбивает каждую страницу в отдельный JPEG, авто-категоризация под Floor Plans / Gallery)</li>
-    <li><strong>+ 1.5.Y — VV API audit</strong> (документировать существующий API surface как basis для MCP wrapper; Илья даёт исходники)</li>
-  </ul>
-</div>
-
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
   <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Подход — две итерации</div>
   <ul style="margin:0; padding-left:22px; font-size:14px; color:var(--text-mid);">
@@ -1978,7 +1988,7 @@
 <div class="task">
   <div class="task-title"><span class="task-id">1.5.1</span><span class="task-name">API audit + scope definition for MCP exposure</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
   <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span><span class="marker m-q">❓</span></div>
-  <p class="task-desc">Полный audit существующих API endpoints, определение какие из них exposить через MCP в первой итерации (read-only) и второй (read+write). Документация в формате tool-friendly.</p>
+  <p class="task-desc">Полный audit существующих API endpoints, определение какие из них exposить через MCP в первой итерации (read-only) и второй (read+write). Документация в формате tool-friendly. <strong>Source:</strong> существующий VV API surface — Илья предоставляет исходники как starting reference (CONV-15 Roman call).</p>
   <details>
   <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
   <ul>
@@ -2101,6 +2111,31 @@
   </ul>
 </details>
   <div class="task-deps">Зависит от: 1.5.2, 1.5.4 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.5.6</span><span class="task-name">AI file upload endpoint (PDF → JPEG splitter)</span><span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Endpoint для drop-folder workflow Phase 1.2 Object Builder — клиент кладёт folder с PDF брошюрами / floor plans / gallery документами → AI разбивает каждую страницу в отдельный JPEG + авто-категоризация под Floor Plans / Gallery / Brochure. Используется Quick Build flow (1.2.4 «Drop a folder — AI tags pages»). <strong>Source:</strong> CONV-15 Roman call.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Multipart upload endpoint (folder = ZIP / multi-file form)</li>
+    <li>PDF page extraction → individual JPEG images per page (Ghostscript / pdf2image / PyMuPDF)</li>
+    <li>AI classifier: floor plan vs render vs brochure vs lifestyle (vision model или metadata heuristics — TBD)</li>
+    <li>Storage: уже-organised в S3 buckets per project + section</li>
+    <li>Progress streaming: WebSocket / SSE для UI feedback во время processing</li>
+  </ul>
+</details>
+  <details>
+  <summary class="task-label">Открытые вопросы <span class="count">(3)</span></summary>
+  <ul>
+    <li>❓ AI classifier — на чьей инфраструктуре (VV backend / OpenAI / Anthropic)? Cost vs accuracy.</li>
+    <li>❓ Manual override — что если AI неправильно категоризовал страницу? (per-page edit UI в Object Builder)</li>
+    <li>❓ Re-run classifier — если studio загрузила новый PDF, можно ли «повторить» tagging?</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.5.2 (read-only baseline), 1.5.3 (write capability) · Блокирует: 1.2.4 (Object Builder Floor Plans drop-folder)</div>
 </div>
 
 <!-- Фаза 1.6 -->
@@ -2550,15 +2585,6 @@
 
 <div id="phase-1-8" class="phase"><span class="phase-num">Фаза 1.8</span><h3>Security &amp; Infrastructure Foundation</h3><p class="phase-desc">Foundation для всего остального — без этой фазы нельзя давать продукт клиентам. Tenant isolation, rate limits, error tracking, backups, DDoS protection, transactional email — параллельный трек tech team с дня один.</p></div>
 
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.8.X — Two-domain email setup</strong> (<code>offplan.online</code> для team-коммуникаций + <code>offplanonline.com</code> для system / transactional emails)</li>
-    <li><strong>+ 1.8.Y — DKIM + SPF + DMARC</strong> для системных рассылок (без этого все наши email'ы в спам)</li>
-    <li><strong>+ 1.8.Z — Hosting cost projection model</strong> (Роман: VV сейчас платит ~$900/мес AWS; нужна модель на 100/500/1000 Organisations до launch для unit economics)</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Связано с ADR 0011 (Email sender architecture).</p>
-</div>
 
 <div class="task">
   <div class="task-title"><span class="task-id">1.8.1</span><span class="task-name">Tenant isolation audit &amp; hardening</span></div>
@@ -2700,6 +2726,56 @@
   <div class="task-deps">Зависит от: — · Блокирует: 1.2.1 (verification email), 1.2.7 (invites), 1.7.5 (trial reminders)</div>
 </div>
 
+<div class="task">
+  <div class="task-title"><span class="task-id">1.8.7</span><span class="task-name">Two-domain email setup</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc"><code>offplan.online</code> — для team-коммуникаций (sergey@, ilya@, support@). <code>offplanonline.com</code> — для system / transactional emails (welcome / verification / password reset / billing / suspension / etc.). Разделение reputation: маркетинговые / спам complaints не убивают transactional deliverability. <strong>Source:</strong> CONV-15 Roman call.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(4)</span></summary>
+  <ul>
+    <li>Регистрация / verification <code>offplanonline.com</code> (если ещё не сделана) — DNS records preparation</li>
+    <li>Configure transactional ESP (per 1.8.6) от <code>noreply@offplanonline.com</code> или per-feature subdomain</li>
+    <li>Team email через <code>offplan.online</code> (Google Workspace / Fastmail / etc.) остаётся primary inbox</li>
+    <li>Documentation: какой email откуда отправляется — для studio support troubleshooting</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.8.6 (transactional infra), 1.8.8 (DKIM/SPF/DMARC) · Блокирует: 1.2.1, 1.2.6, 1.7.5</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.8.8</span><span class="task-name">DKIM + SPF + DMARC для системных рассылок</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Ops</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Без правильно настроенного DKIM + SPF + DMARC всё уйдёт в спам — особенно у Gmail / Outlook (drastic increase в spam classification после Feb 2024 rules). <strong>Source:</strong> CONV-15 Roman call.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>SPF record на <code>offplanonline.com</code>: разрешает только ESP IPs (Postmark / Resend / SES — per 1.8.6)</li>
+    <li>DKIM key generation + DNS publishing (per ESP setup)</li>
+    <li>DMARC policy: <code>p=quarantine</code> initially → <code>p=reject</code> после первой недели monitoring</li>
+    <li>DMARC reporting endpoint (aggregate + forensic) — настроенный inbox или 3rd-party tool (postmark-dmarc / dmarcian)</li>
+    <li>Custom domain emails (Tier 2+) — automated DKIM keypair + DNS records generation per studio (см. <a href="#phase-1-7">1.7.10</a>)</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: 1.8.7 · Блокирует: 1.8.6 (production sending)</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.8.9</span><span class="task-name">Hosting cost projection model</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Finance+Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Финансовая модель hosting расходов на 100 / 500 / 1000 Organisations — для unit economics + tier pricing decisions (ADR 0008). VV сейчас платит ~$900/мес AWS на текущем deployment. Нужна модель «cost per Organisation» на 3 уровнях scale, чтобы pricing tier coverage costs + healthy margin. <strong>Source:</strong> CONV-15 Roman call.</p>
+  <details>
+  <summary class="task-label">Что конкретно нужно сделать <span class="count">(5)</span></summary>
+  <ul>
+    <li>Audit current AWS spend (RDS, EC2/Fargate, S3, CloudFront, Cloudflare, ESP, monitoring)</li>
+    <li>Per-Organisation breakdown: storage (renders/photos avg), DB (rows/queries), bandwidth (sales-app traffic), email (transactional volume)</li>
+    <li>Projection: 100 Orgs / 500 Orgs / 1000 Orgs — fixed costs (DB, monitoring) vs variable (storage, bandwidth, email)</li>
+    <li>Cost per Organisation в каждой scale point — input для ADR 0008 (Tier model pricing)</li>
+    <li>Sensitivity analysis: heavy-user Organisation (e.g., 20 projects, 500 units, 100 buyer-records/мес) vs light user</li>
+  </ul>
+</details>
+  <div class="task-deps">Зависит от: — · Блокирует: ADR 0008 (Tier model pricing finalisation)</div>
+</div>
+
 <div class="callout callout-warn" style="margin-bottom:20px;">
   <strong>Было:</strong> 1.1.6 Secrets management + key rotation (старая нумерация).
   <strong>Перенесено в Стадию 3 — Фаза 3.5.4.</strong>
@@ -2723,26 +2799,9 @@
 </div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.9.X — Permission delegation framework</strong> (правовое основание делегации доступа от A→B; без этого Phase 1.3 нелегальна)</li>
-    <li><strong>+ 1.9.Y — Multi-party access agreement template</strong> (developer ↔ agency ↔ agent цепочка договорённостей)</li>
-    <li><strong>+ 1.9.Z — Data ownership matrix</strong> per actor type (кто владеет данными: проект, юнит, buyer profile, presentation analytics)</li>
-    <li><strong>+ 1.9.AA — Liability allocation</strong> при делегации (если агентство нарушает — кто платит: Organisation / агентство / Sales Agent / offplan?)</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan: <code>plans/legal-multi-party-framework.md</code>. Юристу больше работы — Phase 1.9 растёт с 11 до 15 документов.</p>
-</div>
-
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.9.BB — GDPR/ADGM right-to-erasure for buyer data</strong> — privacy policy clause, 30d SLA, anonymization process. Privacy schema <strong>jurisdiction-agnostic</strong> (Cyprus GDPR / ADGM 2021 / UAE Federal / DIFC — все GDPR-aligned). См. <a href="#fd-edges">Foundational §7 — GDPR</a>.</li>
-    <li><strong>+ 1.9.CC — Reverse invite legal framework</strong> — multi-party access agreement template для Studio → Developer reverse invite (VV → Italian developer case). Free Guest tier participation clauses. Project ownership stays in inviter's tenancy (no transfer Stage 1).</li>
-    <li><strong>+ 1.9.DD — Buyer data export for KYC</strong> — Terms clause: платформа не собирает KYC сама, экспорт buyer-record'ов для Organisation через admin (CSV/JSON). Liability на Organisation за KYC процесс.</li>
-    <li><strong>+ 1.9.EE — Hosting region disclosure</strong> — Privacy clause: EU-DC Stage 1 (AWS Frankfurt / Cloudflare EU). Cross-border data transfer language если ADGM pivot.</li>
-    <li><strong>+ 1.9.FF — Audit log retention notice</strong> — Privacy clause referencing ADR 0004. Anonymized PII retained для tax/anti-fraud purposes per legal requirement.</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Эти clauses — независимо от final jurisdiction (Cyprus vs ADGM). Generic privacy-policy templates Stage 1 (Iubenda / Termly), custom legal review Stage 2.</p>
+  <strong>📌 Ratified legal multi-party + privacy decisions (CONV-15 + CONV-17) — детали в sub-plan</strong>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec — <code>plans/legal-multi-party-framework.md</code> (status: stub, awaits lawyer review + /plan ratification). Ratified additions to Phase 1.9 (4 multi-party documents + 5 privacy clauses): Permission delegation framework (правовое основание делегации A→B, без этого Phase 1.3 нелегальна) · Multi-party access agreement template (developer ↔ agency ↔ agent цепочка) · Data ownership matrix per actor type (project / unit / buyer profile / presentation analytics) · Liability allocation при делегации · GDPR/ADGM right-to-erasure для buyer data (30d SLA, jurisdiction-agnostic, см. <a href="#fd-edges">Foundational §7</a>) · Reverse invite legal framework (Studio → Developer, Free Guest tier clauses, no project transfer Stage 1) · Buyer data export для KYC (платформа не собирает KYC сама, liability на Organisation) · Hosting region disclosure (EU-DC Stage 1: AWS Frankfurt / Cloudflare EU; cross-border language если ADGM pivot) · Audit log retention notice (referencing ADR 0004, anonymized PII для tax/anti-fraud). Phase 1.9 grows from 11 → 15 documents pending lawyer review.</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Privacy schema jurisdiction-agnostic (Cyprus GDPR / ADGM 2021 / UAE Federal / DIFC — все GDPR-aligned). Generic privacy-policy templates Stage 1 (Iubenda / Termly), custom legal review Stage 2.</p>
 </div></div>
 
 <div class="task">
@@ -2958,29 +3017,10 @@
 <div id="phase-1-10" class="phase"><span class="phase-num">Фаза 1.10</span><h3>Sales-app UX redesign — filter-based unit selection <span class="marker m-opl" style="font-size:10px; vertical-align:middle;">[OPL]</span> <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc">Sales-app переходит с хотспотов на филтры (bedrooms + view direction + price + ориентация). Текущий флоу — здание → хотспоты → юниты — ломается на больших проектах (300+ юнитов = 300 точек = хаос). Покупатели не выбирают по тому где квартира на фасаде — выбирают по типу, площади, виду, цене.</p></div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.3 — CONV-15 (Roman call) additions:</strong>
+  <strong>📌 v4.13 (CONV-30 sweep) — Wave 2 sales-app rendering implications:</strong>
   <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.10.X — 3 access modes</strong> для sales page (Public / PIN-code / People-only)</li>
-    <li><strong>+ 1.10.Y — Login button top-right corner</strong> + auth-scoped views (сейлз-агент логинится → видит только свой allocated сток)</li>
-    <li><strong>+ 1.10.Z — 360° rotation на Exterior view</strong> (port из VV если уже есть; если нет — простая интеграция Pannellum/Marzipano)</li>
-    <li><strong>+ 1.10.AA — Simple hotspot navigation между 360° сценами</strong> (базовый walkthrough; full Kuula-replacement — Stage 2 backlog)</li>
-  </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy) — auth-scoped views требуют permission model. Связано с item #6 заметок Сергея (native 360 walkthrough — выбран вариант α: базовый в 1.10).</p>
-</div>
-
-<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
-  <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.10.BB — Buyer-aware unit pages (Variant E2)</strong> — каждая unit-страница должна детектить <code>?b=&lt;buyer_token&gt;</code> query param и адаптировать UI: показывать атрибутированного Sales Agent'а как contact, активировать heart / «Связаться со мной» actions, applying buyer-context attribution к любому action'у. См. <a href="#fd-buyer">Foundational §6</a>.</li>
-    <li><strong>+ 1.10.CC — Anonymous unit pages</strong> — same URL без token = standard public preview per Organisation's Public Visibility preset. Heart / «Связаться со мной» actions disabled, заменены на «Sign in to track favorites» / «Request access» CTAs.</li>
-    <li><strong>+ 1.10.DD — Status badge rendering</strong> — на любой unit-page показ status'а (<code>available</code> / <code>reserved</code> / <code>sold</code>) per current visibility preset (badges hidden в Discovery default, видны в Full sales). При <code>reserved</code>/<code>sold</code> — показать message + alternative units link.</li>
-    <li><strong>+ 1.10.EE — Status change UI</strong> — Sales Agent / Sales Manager / Admin / Owner меняют unit status (<code>available</code> ↔ <code>reserved</code> ↔ <code>sold</code>) вручную в админке per permission matrix. Reason field optional. Audit log per change. <strong>Никаких system-managed timers / locks / <code>reservation_request</code> entity</strong> — Organisation решает когда менять status сама, reservation-процесс ведётся в его external CRM.</li>
-    <li><strong>+ 1.10.FF — Buyer attribution preservation</strong> — даже после expired token (90d), redirect на main project page сохраняет buyer-record attribution. Это влияет на Sales-app routing (token decoder must check expiry status, not just presence).</li>
-    <li><strong>1.10.Y уточнение auth-scoped views</strong> — agent логинится → видит только свой allocated сток per S·1 stock allocation rules (assigned units exclusive). Content Editor видит всё всегда (assignment не блокирует content access). См. <a href="#fd-access">Foundational §4.4</a>.</li>
-    <li><em>v4.7 (CONV-24):</em> <strong>View-as mode rendering</strong> — Sales Agent unit list / authed sales-app views должны поддерживать "view-as" mode когда Sales Manager / Admin инспектирует team-member view (см. <a href="#fd-access">§4.6</a>). Render exactly как target user видит: stock filtered, buyer profiles target user'а, его metrics. Все mutating actions disabled. Top banner «Viewing as Иван — Exit».</li>
-    <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected gate routing</strong> — sales-app middleware на anonymous request в PIN-protected проект делает sequence проверок (least → most invasive): (1) buyer-token (<code>?b=&lt;t&gt;</code>) валиден → bypass PIN → render After-PIN preset; (2) <code>pin_&lt;project_id&gt;</code> cookie валиден → bypass PIN → render After-PIN preset; (3) auth status — logged-in member owning/guest org → bypass PIN; (4) иначе → render content с CSS <code>filter: blur(12-16px)</code> + fixed PIN entry overlay (Email us mailto / Call us tel CTA из contact fields). Submit PIN → server validates → set 30-day cookie → redirect. Owner changes PIN → invalidate all existing cookies. См. <a href="#fd-visibility-pin">§5.1</a>.</li>
-    <li><em>v4.9 (CONV-26):</em> <strong>Status-change verification form UI (D+E unified) + 3-channel buyer-link send.</strong> Form: button-driven status select («Mark as Reserved» / «Mark as Sold» в unit card) + email-required field with smart-match autocomplete + auto-fill name/phone from existing buyer-record + optional notes/file upload. Reverse-direction symmetric per <a href="#fd-access">§4.2</a> with email notification одну ступень выше (SA → SM, SM → Admin/Owner). Buyer-link send modal: 3 channel buttons (Email native via <a href="#phase-1-8">Phase 1.8</a> / WhatsApp via <code>https://wa.me/&lt;phone&gt;?text=...</code> deep-link, открывает SA's own WhatsApp / Copy link clipboard) + <code>?ch=email|wa|link</code> URL parameter tracking. Phone-empty disables WhatsApp button с tooltip. Multi-channel в одну операцию OK (same buyer-token URL, разный <code>?ch=</code>). F-A (buyer browse scope from valid token) — deferred Open Question, две candidate variants documented в <code>plans/stage1-chunk-5-journeys.md</code> для Roman ratification. См. <a href="#fd-buyer-status">§6.1</a> + <a href="#fd-buyer-channels">§6.2</a>.</li>
-    <li><em>v4.10 (CONV-27):</em> <strong>Routing для §7 edge cases.</strong> Status-change form submit в Open pool: server-side optimistic lock (compare-and-swap на <code>unit.status</code>) — first-click пробежал, second-click получает <code>409 Conflict</code> + frontend modal «Только что зарезервировал X в TIMESTAMP — обнови». Suspension Organisation: middleware проверяет <code>organisation.status</code> — если <code>suspended</code>, anonymous + token paths render content read-only (CTA «Связаться со мной» disabled с tooltip), authed paths block с suspension banner. Visibility flip с active tokens: middleware sequence (Phase 1.10 PIN gate routing extended) — buyer-token bypass'ит новую Visibility setting до 90d expiry, anonymous посетители получают новый preset. См. <a href="#fd-edges">§7.4</a>.</li>
+    <li>Sales-app middleware reads visibility / token / auth state и applies rendering per Foundational specs. Implications от Wave 2: (a) <a href="#fd-access">§4.6 View-as mode</a> — render target user's stock-filtered view с persistent banner «Viewing as Иван — Exit»; (b) <a href="#fd-visibility-pin">§5.1 PIN gate routing</a> — least-to-most-invasive sequence (buyer-token / cookie / auth / blur+overlay); (c) <a href="#fd-buyer-status">§6.1 verification form UI</a> + <a href="#fd-buyer-channels">§6.2 3-channel send</a> — button-driven status select with smart-match autocomplete, WhatsApp deep-link / Copy / Email; (d) <a href="#fd-edges">§7.4 routing edges</a> — Open pool optimistic lock 409 Conflict, Org-suspension read-only fallback, Visibility-flip token bypass до 90d.</li>
+    <li>v4.3 (CONV-15) + v4.4 (CONV-17) placeholder content → absorbed в numbered tasks 1.10.8-1.10.14 ниже (360° rotation, Hotspot navigation, Buyer-aware pages, Anonymous pages, Status badge, Status change UI, Buyer attribution preservation). 1.10.X (3 access modes) covered by Phase 1.7.12 + §5 Visibility; 1.10.Y refinement (auth-scoped views per S·1) absorbed в 1.10.0 description.</li>
   </ul>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) и Phase 1.7 (Public Visibility settings). Buyer flow detailed в Phase 1.11 (Sales Presentation Layer).</p>
 </div>
@@ -3010,7 +3050,7 @@
     <li>❓ Должна ли иконка показывать notification badge (новые лиды для Sales Agent / pending invites для Owner)?</li>
   </ul>
 </details>
-  <div class="task-deps">Зависит от: 1.3.3 (auth backend), 1.3.4 (stock tagging), 1.3.5 (auth-scoped routing) · Блокирует: 1.10.BB, 1.10.CC, 1.10.EE</div>
+  <div class="task-deps">Зависит от: 1.3.3 (auth backend), 1.3.4 (stock tagging), 1.3.5 (auth-scoped routing) · Блокирует: 1.10.10, 1.10.11, 1.10.13</div>
 </div>
 
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
@@ -3185,6 +3225,55 @@
   <div class="task-deps">Зависит от: — · Блокирует: —</div>
 </div>
 
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.8</span><span class="task-name">360° rotation на Exterior view (Pannellum / Marzipano)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Native 360° spherical rotation на Exterior view sales-app — port из VV если уже есть, иначе простая интеграция Pannellum или Marzipano (open-source WebGL viewers). Базовый walkthrough flow — full Kuula-replacement отложено в Stage 2 backlog. <strong>Source:</strong> CONV-15 Roman call + Сергей item #6 (вариант α: базовый в 1.10).</p>
+  <div class="task-deps">Зависит от: 1.10.1 (filter MVP) · Блокирует: 1.10.9</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.9</span><span class="task-name">Hotspot navigation между 360° сценами</span></div>
+  <div class="markers"><span class="marker m-medium">Средний</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Базовый walkthrough — admin указывает hotspot pins на 360° сцене → click navigates на следующую сцену (Lobby / Pool Deck / Amenities). Используется в Foundational §5 / Phase 1.10 anchor badges flow. Full Kuula-replacement (transitions, depth, multi-floor navigation) — Stage 2 backlog. <strong>Source:</strong> CONV-15 Roman call.</p>
+  <div class="task-deps">Зависит от: 1.10.8 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.10</span><span class="task-name">Buyer-aware unit pages (Variant E2)</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Каждая unit-страница детектит <code>?b=&lt;buyer_token&gt;</code> query param и адаптирует UI: показывать атрибутированного Sales Agent'а как contact, активировать heart / «Связаться со мной» actions, applying buyer-context attribution к любому action'у. См. <a href="#fd-buyer">Foundational §6</a>. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <div class="task-deps">Зависит от: 1.3 (Tenancy ratified), Phase 1.11 (Buyer Profile) · Блокирует: 1.10.11</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.11</span><span class="task-name">Anonymous unit pages (no token)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Same URL без token = standard public preview per Organisation's Public Visibility preset (см. <a href="#fd-visibility">§5</a>). Heart / «Связаться со мной» actions disabled, заменены на «Sign in to track favorites» / «Request access» CTAs. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <div class="task-deps">Зависит от: 1.10.10, Phase 1.7.12 (Public Visibility config) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.12</span><span class="task-name">Status badge rendering</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">На любой unit-page показ status'а (<code>available</code> / <code>reserved</code> / <code>sold</code>) per current visibility preset. Badges hidden в Discovery default, видны в Full sales. При <code>reserved</code> / <code>sold</code> — показать message + alternative units link. Anonymisable per project (см. 1.10.4 для status indicators design). <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <div class="task-deps">Зависит от: 1.10.4, 1.10.10, 1.10.11 · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.13</span><span class="task-name">Status change UI (manual flips per permission matrix)</span></div>
+  <div class="markers"><span class="marker m-critical">Критично</span><span class="marker m-dept">Tech+Design</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">Sales Agent / Sales Manager / Admin / Owner меняют unit status (<code>available</code> ↔ <code>reserved</code> ↔ <code>sold</code>) вручную в админке per <a href="#fd-access">§4.2</a> permission matrix. Reason field optional. Audit log per change. Verification form UI (button-driven select + email-required + smart-match) — см. <a href="#fd-buyer-status">§6.1</a>. <strong>Никаких system-managed timers / locks / <code>reservation_request</code> entity</strong> — Organisation решает когда менять status сама, reservation-процесс ведётся в его external CRM. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification + CONV-26 verification form.</p>
+  <div class="task-deps">Зависит от: 1.3 (Tenancy + roles), §6.1 (verification form spec) · Блокирует: —</div>
+</div>
+
+<div class="task">
+  <div class="task-title"><span class="task-id">1.10.14</span><span class="task-name">Buyer attribution preservation (expired token redirect)</span></div>
+  <div class="markers"><span class="marker m-high">Высокий</span><span class="marker m-dept">Tech</span><span class="marker m-time">⏱</span></div>
+  <p class="task-desc">После expired token (90d) — redirect на main project page <strong>сохраняет buyer-record attribution</strong>. Token decoder проверяет expiry status, не just presence. Buyer continues browsing as «attributed to Sales Agent X» (видно в admin / commission tracking). См. <a href="#fd-buyer">Foundational §6 — token mechanics</a>. <strong>Source:</strong> CONV-17 permission-and-tenancy ratification.</p>
+  <div class="task-deps">Зависит от: 1.10.10, Phase 1.11 · Блокирует: —</div>
+</div>
+
 <div style="margin:18px 0 0; padding:14px 18px; background:var(--sand-100); border:1px solid var(--border); border-radius:8px; font-size:13.5px; color:var(--text-mid);">
   <strong style="color:var(--navy);">Связи с другими фазами:</strong>
   <ul style="margin:8px 0 0; padding-left:20px;">
@@ -3202,19 +3291,16 @@
 </div>
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
-  <strong>📌 v4.4 — CONV-17 (permission-and-tenancy ratification) additions:</strong>
+  <strong>📌 Ratified buyer-flow decisions (CONV-17 + CONV-24) — детали в sub-plan</strong>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec — <code>plans/buyer-profile-and-presentation.md</code> (status: stub, awaits /plan ratification). Ratified decisions for Phase 1.11.1-1.11.5 (Variant E2 = passwordless per-presentation): Buyer entity creation при отправке email'а Sales Agent'ом (identity = email + name + phone optional, token attribution → reserving SA, no global buyer accounts Stage 1, см. <a href="#fd-buyer">Foundational §6</a>) · Email content composition (auto-summary + agent free-text editable + N tokenised unit-links per liked unit) · Token expiry handling 90d (buyer-record persists post-expiry, expired link redirects на main project page с preserved attribution) · Buyer self-service actions on unit-page (heart additional units + «Связаться со мной» CTA — notification к SA, не lock'ает unit) · Forward email handling (multi-session OK для shared token, rate-limit на «Связаться» submissions, audit log с IP+timestamp) · NO dedicated shortlist page Stage 1 (email = source of truth, central shortlist page → Stage 2) · Buyer schema (email, name, phone, agent_user_id FK, client_id FK, token_hash, created_at, expires_at, source_presentation_id; liked units в <code>presentation_units</code> table). <em>v4.7 (CONV-24):</em> <strong>Preview-as-Buyer</strong> (related but separate from <a href="#fd-access">§4.6</a> View-as-Agent) — кнопка в presentation builder перед «Send», render with тестовым preview-token'ом, heart / «Связаться» disabled (preview-only mode).</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy ratified) — buyer entity model + permissions. Зависит от Phase 1.10 — buyer-aware unit pages.</p>
+</div>
+
+<div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
+  <strong>📌 v4.12 (CONV-30 — parking lot для sub-plan):</strong>
   <ul style="margin: 8px 0 0 20px; font-size: 13.5px; color: var(--text-mid);">
-    <li><strong>+ 1.11.X — Buyer entity = passwordless per-presentation (Variant E2)</strong> — buyer-record создаётся при отправке email'а Sales Agent'ом. Identity = email + name + phone (optional). Token attribution → reserving Sales Agent. Один buyer-record per (Sales Agent, presentation), no global buyer accounts Stage 1. См. <a href="#fd-buyer">Foundational §6</a>.</li>
-    <li><strong>+ 1.11.Y — Email content composition</strong> — auto-generated summary («3 units in Cote project, prices €450K-680K, 2BR») + agent free-text editable перед send'ом + N tokenised unit-links (одна ссылка per «лайкнутая» unit). Шаблон + строка от Sales Agent'а.</li>
-    <li><strong>+ 1.11.Z — Token expiry handling (90 days)</strong> — после expiry token не «умирает», buyer-record остаётся в DB attributed к Sales Agent'у. Expired link redirects на main project page с сохранённой attribution (continue browsing as «attributed to Sales Agent X»).</li>
-    <li><strong>+ 1.11.AA — Buyer self-service actions on unit-page</strong> — heart additional units (расширяет shortlist, Sales Agent видит) + «Связаться со мной» CTA (creates notification к Sales Agent'у, не lock'ает unit, не меняет status). Все actions attributed к token'у.</li>
-    <li><strong>+ 1.11.BB — Forward email handling</strong> — multi-session OK для shared token (жена / партнёр / друг кликают по той же ссылке = тот же buyer-record). Rate-limit на «Связаться со мной» submissions per token (max 1 active, cooldown между) + audit log по token'у с IP+timestamp.</li>
-    <li><strong>+ 1.11.CC — NO dedicated shortlist page</strong> — design-decision: email = source of truth для shortlist'а. Sales Agent добавляет дополнительные units через followup email. Central shortlist page → Stage 2 если попросят.</li>
-    <li><strong>1.11.1 уточнение Buyer schema</strong> — buyer-record fields: email, name, phone, agent_user_id (FK), client_id (FK), token_hash, created_at, expires_at, source_presentation_id. Liked units stored в <code>presentation_units</code> table (presentation_id, unit_id, position, added_at).</li>
-    <li><em>v4.7 (CONV-24):</em> <strong>Preview-as-Buyer (related but separate from <a href="#fd-access">§4.6</a> View-as-Agent)</strong> — кнопка в presentation builder перед «Send» позволяет Sales Agent / Sales Manager посмотреть как выглядит email-презентация для конкретного buyer'а (его tokenised unit-pages, attribution overlay). Render with тестовым preview-token'ом — не consume реальный buyer token, не считается в audit log как «buyer view». Disabled: heart / «Связаться» actions (preview-only mode).</li>
-    <li><em>v4.12 (CONV-30 — parking lot для sub-plan):</em> <strong>Agent-driven buyer onboarding с sales-page + persisted state.</strong> Второй путь buyer-record creation параллельный к существующему «email-send» (Variant E2): agent залогинен на sales-page → форма в panel'е (имя/фамилия/email/phone) → submit генерирует buyer-record + tokenised URL с already-persisted state (filters из Phase 1.10 + shortlist liked units). Buyer-side: открывает свою ссылку — видит filters + shortlist; может отдельно залогиниться (magic-link, расширение 1.11.5). Admin/agent-side: backup/restore buyer-state versions, toggle filters on/off на экране buyer'а, agent edits filters/shortlist уже-зарегистрированного buyer'а — <strong>open question</strong>: dual-login vs «Edit-as-Buyer» surface (extension §4.6 в обратную сторону) vs privileged-token URL. Detailed spec — `plans/buyer-profile-and-presentation.md` (sub-plan, ratify после Wave 2 close). Touches: §6 (второй путь creation), Phase 1.10 (filter persistence), Phase 1.3 (buyer auth), Phase 1.4 (backup/restore audit), §4.2 (permissions для buyer-state edit), §4.6 (Edit-as-Buyer extension if Option B chosen).</li>
+    <li><strong>Agent-driven buyer onboarding с sales-page + persisted state.</strong> Второй путь buyer-record creation параллельный к существующему «email-send» (Variant E2): agent залогинен на sales-page → форма в panel'е (имя/фамилия/email/phone) → submit генерирует buyer-record + tokenised URL с already-persisted state (filters из Phase 1.10 + shortlist liked units). Buyer-side: открывает свою ссылку — видит filters + shortlist; может отдельно залогиниться (magic-link, расширение 1.11.5). Admin/agent-side: backup/restore buyer-state versions, toggle filters on/off на экране buyer'а, agent edits filters/shortlist уже-зарегистрированного buyer'а — <strong>open question</strong>: dual-login vs «Edit-as-Buyer» surface (extension §4.6 в обратную сторону) vs privileged-token URL. Detailed spec — `plans/buyer-profile-and-presentation.md` (sub-plan, ratify после Wave 2 close). Touches: §6 (второй путь creation), Phase 1.10 (filter persistence), Phase 1.3 (buyer auth), Phase 1.4 (backup/restore audit), §4.2 (permissions для buyer-state edit), §4.6 (Edit-as-Buyer extension if Option B chosen).</li>
   </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (ratified) — buyer entity model + permissions. Зависит от Phase 1.10 — buyer-aware unit pages.</p>
 </div>
 
 <div class="task">

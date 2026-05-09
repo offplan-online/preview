@@ -304,6 +304,39 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.13 — 2026-05-09 (CONV-30, Wave 2 Chunk 7.5)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan + /build of <code>plans/stage1-chunk-7.5-callouts-sweep.md</code>. Phase callouts cleanup sweep across 8 фаз Stage 1 (1.2 / 1.3 / 1.4 / 1.5 / 1.8 / 1.9 / 1.10 / 1.11). Hybrid approach: A — re-label sub-plan-pointer callouts (1.2 / 1.3 / 1.9 / 1.11); B — absorb placeholders в numbered tasks (1.4 / 1.5 / 1.8 / 1.10); collapse cross-link pointers v4.7-v4.10 → один summary v4.13 callout (1.4 + 1.10). Phase 1.11 v4.12 parking-lot нетронут.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">A — Re-labelled sub-plan pointers (4 phases)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.2</strong> — v4.3 (CONV-15) + v4.4 (CONV-17) callouts → 1 re-labelled pointer на <code>plans/onboarding-trial-mode.md</code>. v4.5 Atelier callout с inline v4.8 PIN config — preserved (active design canon).</li>
+      <li><strong>Phase 1.3</strong> — v4.4 callout (12 ratified decisions + inline v4.7) → 1 re-labelled pointer на <code>plans/permission-and-tenancy-model.md</code>. Numbered tasks 1.3.1-1.3.12 реализуют spec.</li>
+      <li><strong>Phase 1.9</strong> — v4.3 + v4.4 callouts (4 multi-party docs + 5 privacy clauses) → 1 re-labelled pointer на <code>plans/legal-multi-party-framework.md</code>. Phase 1.9 grows 11→15 documents pending lawyer review.</li>
+      <li><strong>Phase 1.11</strong> — v4.4 callout (6 buyer-flow decisions + v4.7 Preview-as-Buyer) → 1 re-labelled pointer на <code>plans/buyer-profile-and-presentation.md</code>. v4.12 (CONV-30 parking-lot) — preserved as separate standalone callout.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">B — Absorbed placeholders → numbered tasks (4 phases)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Phase 1.4</strong> — v4.3 + v4.4 callouts (5 placeholders) → 5 new numbered tasks: 1.4.9 Fullscreen Org card / 1.4.10 Suspension UI / 1.4.11 GDPR/ADGM erasure / 1.4.12 Stock allocation conflict / 1.4.13 Owner lockout recovery. Reserved subdomain (<code>staff</code> blacklist) note absorbed в 1.4.2 desc. v4.7-v4.10 cross-link pointers collapsed в 1 summary v4.13 callout (links на §4.6 / §5.1 / §6.1 / §6.2 / §7).</li>
+      <li><strong>Phase 1.5</strong> — v4.3 callout (2 placeholders) absorbed: 1.5.X (AI file upload PDF→JPEG) → new task 1.5.6; 1.5.Y (VV API audit) merged в 1.5.1 desc как «Илья provides VV API source as starting reference». Cross-ref в §4.4 обновлён 1.5.X → 1.5.6.</li>
+      <li><strong>Phase 1.8</strong> — v4.3 callout (3 placeholders) → 3 new numbered tasks: 1.8.7 Two-domain email setup / 1.8.8 DKIM+SPF+DMARC / 1.8.9 Hosting cost projection model.</li>
+      <li><strong>Phase 1.10</strong> — v4.3 + v4.4 callouts (9 placeholders, 7 absorbed + 2 deduplicated) → 7 new numbered tasks: 1.10.8 360° rotation Pannellum / 1.10.9 Hotspot navigation / 1.10.10 Buyer-aware unit pages / 1.10.11 Anonymous unit pages / 1.10.12 Status badge rendering / 1.10.13 Status change UI / 1.10.14 Buyer attribution preservation. 1.10.X (3 access modes) covered by Phase 1.7.12 + §5; 1.10.Y refinement absorbed в 1.10.0. v4.7-v4.10 cross-link pointers collapsed в 1 summary v4.13 callout (links на §4.6 / §5.1 / §6.1 / §6.2 / §7.4). Cross-ref в 1.10.0 task-deps обновлён (1.10.BB/CC/EE → 1.10.10/11/13).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Удалено</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>11 v4.3 / v4.4 / v4.7 / v4.8 / v4.9 / v4.10 callouts из 8 фаз — их content либо в numbered tasks (B), либо в re-labelled sub-plan pointers (A), либо в collapsed v4.13 summaries (C).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто (parking-lot, для Wave 2 Chunk 8 + sub-plan ratifications)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Sub-plan ratifications: <code>plans/onboarding-trial-mode.md</code> (P0), <code>plans/permission-and-tenancy-model.md</code> (P0), <code>plans/legal-multi-party-framework.md</code> (P1), <code>plans/buyer-profile-and-presentation.md</code> (P1) — все остаются <code>status: stub</code>.</li>
+      <li>ADR placeholders: 0008 Tier model / 0009 Tenancy / 0010 Stock allocation / 0011 Email sender architecture / 0012 Real-time sync / 0005 v3 update — Chunk 8 candidates.</li>
+      <li>Phase 1.11 v4.12 parking-lot (CONV-30 buyer-profile + agent-driven session handover) — preserved untouched, awaits buyer-profile-and-presentation sub-plan ratification.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.12 — 2026-05-09 (CONV-30, parking lot for Phase 1.11 sub-plan)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> user input + 5 screenshots от 2026-05-09 — расширение Phase 1.11 / §6 Buyer flow. Параллельно: Roma в CONV-29 (parallel track) реализовал prototype core buyer-profile capture в <code>design-system/sales/02-exterior.html</code> (Skeleton White register) — quick capture form (имя/фамилия/email/phone + preferences bedrooms/bathrooms/aspect/budget) + Switch agent affordance. Spec ratification и backup/restore + Edit-as-Buyer detail'и — отдельный sub-plan. Новый путь creation buyer-record'а параллельно к существующему «email-send» (Variant E2): agent создаёт buyer прямо с sales-page → tokenised URL с already-persisted state (filters + shortlist). Plus admin backup/restore buyer-state, agent-edits-buyer state (open question — dual-login vs Edit-as-Buyer surface vs privileged-token URL).</p>
 
