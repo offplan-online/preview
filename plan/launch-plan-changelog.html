@@ -304,6 +304,65 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.15 — 2026-05-09 (CONV-32, Phase 1.3 sub-plan Part 1 ratified)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan session of <code>plans/permission-and-tenancy-model.md</code>. Pack-mode interview (5 разделов через interview + 5 через consolidation) ratified Part 1 (Behavioural Spec, 10 разделов) для Phase 1.3.1-1.3.12 implementation. Sub-plan status: <code>stub</code> → <code>draft</code>. Audience: Roma (scaffold sync) + Ilya (tech estimate). Part 2 (Decision Log, 10 пунктов + Microsoft OAuth inconsistency) — pending separate session. Step 4.4 / 4.5 / workstream creation — после Part 2.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Sub-plan Part 1 — 10 разделов (consolidation 95% + 14 new picks)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>1.1 Signup + onboarding</strong> — 3 paths (A paid / B Free Guest reverse invite / C team invite) consolidation Foundational §2 + 4 new picks (magic link verification / automatic trial / single-use decline tokens / explicit «already member» message).</li>
+      <li><strong>1.2 Login surfaces + auth-scoped views</strong> — 2 точки входа (branded subdomain + central fallback) + маршрутизация + методы аутентификации + 4 viewer states (Foundational §2 + §5) + 2 new picks (generic error на чужой subdomain без хинта на central / single-cookie logout scope `*.offplan.online`).</li>
+      <li><strong>1.3 Workspace switcher</strong> — Organisation switcher (Slack-style, hidden when single-Org, 2 секции Owned + Guest) + Project switcher (1.3.G new — SA visibility = только проекты с ≥1 assigned unit, S·1 consistent). UI deep-spec делегирован в <code>onboarding-trial-mode.md</code>.</li>
+      <li><strong>1.4 Cross-entity invitations</strong> — 4 типа (Personal / Forward Org / Reverse / Buyer) + flows (Foundational §4.1) + 3 new picks (Forward invite Owner+Admin only / re-invite auto-revoke + supersede / self-invite blocked).</li>
+      <li><strong>1.5 Role transitions</strong> — promote/demote + remove + self-leave + ownership transfer + cascade rules (Foundational §7.1 + §3 + §4.4) + 1 new pick (role change с SA-involvement = clear all stock allocation assignments).</li>
+      <li><strong>1.6 Stock assignment</strong> — Closed/Open pool toggle + 3 unit states + bulk UX + S·1 visibility rules (Foundational §4.4 verbatim, ADR 0010 anchor) — pure consolidation, no new picks.</li>
+      <li><strong>1.7 Reserve unit flow + conflict modal</strong> — status transitions (forward + reverse) + smart-match logic + reverse-flip policy + race condition + pessimistic lock (Foundational §6.1 + §7.4 + ADR 0010) + 1 new pick (lock release >500ms = fall through to optimistic conflict modal).</li>
+      <li><strong>1.8 Tier transitions</strong> — trial→paid / trial expired / paid→suspended / suspended→restore / Free Guest→paid (Foundational §3 + ADR 0008) + 1 new pick (tier downgrade с превышением лимитов = explicit block с message «Удалите N projects/team members перед downgrade»).</li>
+      <li><strong>1.9 Internal vs External SA</strong> — operational distinction table (Foundational §4.5 verbatim) + membership_type derivation + 1 new pick (badge «External» рядом с именем external SA в Team list owning Organisation).</li>
+      <li><strong>1.10 Permission matrix</strong> — 5 ролей × 14 actions table (Foundational §4.2 verbatim) + View-as-Agent surface (§4.6) — pure consolidation, single source of truth для RBAC implementation.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">14 new picks (не было в Foundational, surface'нуты в CONV-32 — все ratified)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Magic link verification flow для Path A signup (вместо 6-digit code).</li>
+      <li>Automatic trial activation на signup (без opt-in toggle).</li>
+      <li>Single-use decline для invitation tokens (decline ALSO consumes — clean audit, simpler implementation, convention matches Slack/Linear/Figma).</li>
+      <li>Explicit «You're already a member of {Org Name}» message при invite того, кто уже member target Org (вместо silent skip).</li>
+      <li>Generic error без хинта на центральный login при попытке входа на чужой brandированный subdomain (security minimum — не leak'аем существование аккаунта).</li>
+      <li>Single-cookie logout scope (<code>*.offplan.online</code>) = logout со всех subdomain'ов сразу. Per-subdomain logout «log out from this device only» → Stage 2 Settings → Sessions.</li>
+      <li>Sales Agent видит в Project switcher только проекты с ≥1 assigned unit (S·1 Closed pool consistent — не leak информацию о существовании других проектов Organisation).</li>
+      <li>Forward invite (Developer → Studio/Agency как guest organisation) — только Owner / Admin Developer's Organisation. Sales Manager / Content Editor / Sales Agent — нельзя.</li>
+      <li>Re-invite того же email в ту же роль = previous invite auto-revoked + new supersedes (UX «переотправил если первый потерялся в спаме»). Audit log: «Previous invitation superseded by new».</li>
+      <li>Self-invite (Owner приглашает member своей же Organisation как guest organisation) — заблокировано с error «Cannot invite member of your own Organisation as guest».</li>
+      <li>Role change с участием Sales Agent (CE→SA, SM→SA) = clear все stock allocation assignments автоматически (clean slate per role change). Promote SA→SM сохраняет assignments в DB но они игнорируются (SM bypass-scope); демоут обратно SA — manual reassignment.</li>
+      <li>Badge «External» рядом с именем external SA в Team list owning Organisation (admin UX clarity — кто сотрудник, кто guest-org member).</li>
+      <li>Tier downgrade при превышении лимитов нового tier'а = explicit block с message «Удалите N projects / M team members перед downgrade'ом» (не auto-freeze лишних, не operator-mediated).</li>
+      <li>Pessimistic lock release timeout >500ms (rare) = fall through to optimistic conflict modal (same UX как 1.7.E race — «Только что зарезервировал X в TIMESTAMP — обнови страницу»).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.3 callout updated (launch-plan-stage-1.html line 1530)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Status: <code>stub, awaits /plan ratification</code> → <code>draft — Part 1 ratified CONV-32, Part 2 pending</code>.</li>
+      <li>Inline сводка Part 1 (10 разделов перечислены) + 14 new picks + Part 2 queue + Microsoft OAuth flag — embedded в callout body для traceability без явного чтения sub-plan'а.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Pending для Part 2 (next session)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>10 открытых вопросов queued: workspace switcher mechanics (UI deep-spec — может closure'нуться cross-ref'ом в onboarding-trial-mode) · ownership transfer detail (большую часть закрыли в 1.5.F) · referral attribution rules (data model Stage 1) · audit log scope для Phase 1.3 events · naming finalisation (Sales Manager / Content Editor) · email mismatch wording (фактически verbatim в Foundational §2) · subdomain reservation full list · Free Guest → paid migration (что мигрирует, что новое) · Sales Agent dual-Org membership (Internal в А + External в Б — allowed?) · Open pool mode irreversibility.</li>
+      <li><strong>Microsoft OAuth Stage 1 vs Tier 3 Stage 2 inconsistency</strong> — Foundational §2 line 748 кладёт Microsoft в Stage 1 (consumer OAuth контекст «корпоративные пользователи»); ADR 0005 v3 кладёт Microsoft в Tier 3 Stage 2 (Azure AD / Entra ID enterprise SSO). Разные технические сценарии (consumer Microsoft Account vs enterprise Azure AD SSO) или реальное противоречие — resolve в Part 2.</li>
+      <li>Step 4.4 (Business review — concern agents + scenario traces) после Part 2.</li>
+      <li>Step 4.5 (Ratification sweep против Learnings DB) после Part 2.</li>
+      <li>Workstream <code>phase-1-3-implementation</code> (P0) — создаётся после полного ratification (Part 1 + Part 2 + 4.4 + 4.5).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Sub-plan Part 2 ratification (next session, отдельная /plan continuation).</li>
+      <li>3 sub-plan ratifications в очереди после permission-and-tenancy completion: <code>plans/onboarding-trial-mode.md</code> (P0, anchors ADR 0008 — pricing/limits/naming) → <code>plans/legal-multi-party-framework.md</code> (P1, jurisdiction-dependent — pending Cyprus confirmation) → <code>plans/buyer-profile-and-presentation.md</code> (P1, anchors ADR 0012 + Phase 1.11.1-8).</li>
+      <li>Roma's parallel git activity — git pull required before push в next session.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.14 — 2026-05-09 (CONV-31, Wave 2 Chunk 8 — Wave 2 closed)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan + /build of <code>plans/stage1-chunk-8-adr-placeholders.md</code> (Approach B — Draft-all + single ratification, 3 commits). Wave 2 Chunk 8 — last chunk closes Wave 2 (8/8 chunks done). 5 new ADRs codify ratified architectural decisions из Foundational §1-§5 + Phase 1.3-1.11 deep rewrites; 0005 v3 revision adds Stage 2 Tier 3 SSO scope; ~29 plan callout pointer fixes в Phase callouts/task-deps конвертируют «(pending)» status text + broken hrefs в live links на новые ADR файлы.</p>
 
