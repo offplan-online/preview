@@ -304,6 +304,56 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.14 — 2026-05-09 (CONV-31, Wave 2 Chunk 8 — Wave 2 closed)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan + /build of <code>plans/stage1-chunk-8-adr-placeholders.md</code> (Approach B — Draft-all + single ratification, 3 commits). Wave 2 Chunk 8 — last chunk closes Wave 2 (8/8 chunks done). 5 new ADRs codify ratified architectural decisions из Foundational §1-§5 + Phase 1.3-1.11 deep rewrites; 0005 v3 revision adds Stage 2 Tier 3 SSO scope; ~29 plan callout pointer fixes в Phase callouts/task-deps конвертируют «(pending)» status text + broken hrefs в live links на новые ADR файлы.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">5 new ADRs (docs/decisions/)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong><a href="../decisions/0008-tier-model.md">0008 Tier model + admin mode coupling</a></strong> (Skeleton, ~67 lines) — 4-tier structure (Free Guest / Tier 1 / Tier 2 / Tier 3 Enterprise) + admin mode coupling (Quick Build/Free + Trial → залочен Full Admin) ratified. Pricing / exact limits / naming finalisation (T1/T2/T3 vs Starter/Studio/Agency/Enterprise) / Free Guest expiry / conversion triggers — defer to sub-plan <code>plans/onboarding-trial-mode.md</code>. Status: <code>accepted-structure-pending-numbers</code>.</li>
+      <li><strong><a href="../decisions/0009-tenancy-permission.md">0009 Tenancy &amp; Permission Architecture</a></strong> (Full spec, ~105 lines) — codifies ratified Foundational §1 (Entity model: Client/Organisation/Buyer/Operator) + §2 (Onboarding: 5 Partner roles Owner/Admin/Sales Manager/Content Editor/Sales Agent + hybrid login surfaces) + §4 (Access: auth-scoped views + scoped URL routing + cross-entity invitations Forward/Reverse + Internal/External SA distinction CONV-24). Decisions sufficient для Phase 1.3.1-1.3.12 implementation без дальнейшего sub-plan input.</li>
+      <li><strong><a href="../decisions/0010-stock-allocation.md">0010 Stock allocation strategy — Closed pool default + S·1 visibility</a></strong> (Full spec, ~71 lines) — Closed pool default + per-project Open mode toggle (Foundational §4.4) + S·1 visibility rules (3 sub-rules from CONV-16 Learning) + pessimistic locking on reserve action + bulk allocation UX. Готов к коду.</li>
+      <li><strong><a href="../decisions/0011-email-sender.md">0011 Email sender architecture</a></strong> (Shell, ~44 lines) — 4 architectures с trade-off table (single-domain / per-Org DKIM self-hosted / hybrid / Resend white-label delegation) + 5 decision criteria (deliverability, ops complexity, white-label fidelity, Tier 2 value prop, vendor lock-in). Resolves at Phase 1.8 ratification + Roman cost ceilings + Илья DKIM complexity assessment. Status: <code>shell-pending-architecture</code>.</li>
+      <li><strong><a href="../decisions/0012-realtime-sync.md">0012 Real-time sync architecture (Buyer Remote Presentation)</a></strong> (Shell, ~47 lines) — narrow scope per CONV-31 L3 (только use-case A buyer presentation, не unit-status-sync); 4 architectures с trade-off table (Polling / SSE / WebSocket / Managed: Pusher/Ably/Supabase Realtime) + 4 decision criteria (latency, ops cost, scale, build vs buy). Discussion artefact для Илья + команды. Status: <code>shell-pending-tech-estimate</code>.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">0005 v3 revision (in-place edit)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>«Revision 3 (2026-05-09, CONV-31)» note added at top — Stage 2 Tier 3 SSO scope: Microsoft (Azure AD / Entra ID) OAuth2/OIDC + Custom SSO (SAML 2.0 / OIDC через Okta / Entra ID / generic IdP) accepted as Tier 3 Enterprise gate per <a href="../decisions/0008-tier-model.md">ADR 0008</a>. Stage 1 scope (Google + email/password) unchanged.</li>
+      <li>«Revision 2 (2026-05-07, CONV-17)» note preserved unchanged below — original Google+email/password rationale.</li>
+      <li>New «Stage 2 Tier 3 SSO methods (Revision 3)» subsection в Decision area — provider abstraction note + Tier 3 implementation trigger (after first Tier 3 customer commitment).</li>
+      <li>Alternatives Considered: Microsoft + Custom SSO re-classified «accepted for Stage 2 Tier 3» (вместо «rejected/deferred»).</li>
+      <li>Consequences: Tier 3 gate + Stage 2 implementation trigger added.</li>
+      <li>Frontmatter: <code>revised: 2026-05-07</code> → <code>revised: 2026-05-09</code>.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Plan callout cleanup (~29 fixes в launch-plan-stage-1.html)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Type A (3 broken-pointer fixes на 0005):</strong> lines 753 (Foundational §2 SSO callout) / 1388 (Phase 1.2 callout) / 1531 (Phase 1.3 callout) — стейл «0005 update Google + email/password» + «вторая ревизия pending» phrasing → live links + «ADR 0005 v3 (Microsoft + Custom SSO scope для Tier 3 Stage 2)» wording.</li>
+      <li><strong>Type B (~26 «pending»/plain-text → live links):</strong> Foundational §3 Tier table (788/789/793/807) → ADR 0008 links; §4 ownership transfer (825) → ADR 0009 link; Phase 1.2 (1404) → 0008 link; Phase 1.3 callout + sub-plan ref (1525) → 0009+0010 links; Phase 1.3 task-deps (1538/1574/1648) → 0009 links; Phase 1.7.5 open Q (2323) → 0008 links; Phase 1.7.10 (2510/2515) → 0011 link, drop «pending»; Phase 1.7.11 (2521-2537) → 0008 links, drop «(pending)»/«Will be written в Chunk 8»; Phase 1.8.9 hosting cost (2765/2772/2776) → 0008 link; Phase 1.11 phase-desc (3290) → 0012 link; Phase 1.11.6-7 task-deps (3345/3351/3352) → 0012 links; Cyprus parking-lot (3378) → 0008 link; Pricing tier reminder + naming TBD (3404/3405) → 0008 links.</li>
+      <li><strong>Verification (3 sweeps):</strong> 0 empty href placeholders ✓ · 0 stale «(pending)» / «(placeholder, write в Chunk 8)» / «вторая ревизия pending» status text ✓ · 0 «Will be written в Chunk 8» / «awaiting ADR XXXX» mentions remaining ✓.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Wave 2 closed (8/8 chunks)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>Chunk 1 (Foundational §1+§2 lead-in cleanup) · Chunk 2 (entity model glossary) · Chunk 3 (onboarding 4-path narrative) · Chunk 4 (visibility presets §5) · Chunk 5 (User Journeys §6) · Chunk 6 (Edge cases §7) · Chunk 7 (Phase 1.7 deep rewrite) · Chunk 7.5 (Phase callouts cleanup sweep 8 фаз) · <strong>Chunk 8 (ADR placeholders + 0005 v3 + callout cleanup) ✓ — this entry</strong>.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">После Wave 2 — переход на 4 sub-plan ratifications</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>P0:</strong> <code>plans/permission-and-tenancy-model.md</code> (anchors ADRs 0009 + 0010) → <code>plans/onboarding-trial-mode.md</code> (anchors ADR 0008 pricing/limits/naming).</li>
+      <li><strong>P1:</strong> <code>plans/legal-multi-party-framework.md</code> (jurisdiction-dependent — pending Cyprus confirmation) → <code>plans/buyer-profile-and-presentation.md</code> (anchors ADR 0012 + Phase 1.11.1-8).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>4 sub-plan ratifications (priority order above) — separate /plan sessions.</li>
+      <li>2 stale Learnings flagged для /handoff update: CONV-7 «Multi-level access 5-tier model» (superseded by Org-based RBAC per ADR 0009); CONV-16 «S·1 Shared default» (reshaped to Closed pool default per CONV-18 + ADR 0010).</li>
+      <li>Cyprus jurisdiction confirmation остаётся unresolved (memory says «decided 2026-04-30», CONV-27 user reopened); все ADRs jurisdiction-agnostic.</li>
+      <li>Brandbook reconciliation (Sergey atelier vs Roma Skeleton White из CONV-29 parallel track) — отдельная сессия после HTML plan polish.</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.13 — 2026-05-09 (CONV-30, Wave 2 Chunk 7.5)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan + /build of <code>plans/stage1-chunk-7.5-callouts-sweep.md</code>. Phase callouts cleanup sweep across 8 фаз Stage 1 (1.2 / 1.3 / 1.4 / 1.5 / 1.8 / 1.9 / 1.10 / 1.11). Hybrid approach: A — re-label sub-plan-pointer callouts (1.2 / 1.3 / 1.9 / 1.11); B — absorb placeholders в numbered tasks (1.4 / 1.5 / 1.8 / 1.10); collapse cross-link pointers v4.7-v4.10 → один summary v4.13 callout (1.4 + 1.10). Phase 1.11 v4.12 parking-lot нетронут.</p>
 
