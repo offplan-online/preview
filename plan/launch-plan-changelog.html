@@ -304,6 +304,49 @@
 <div class="wrap">
 
   <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
+    <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.16 — 2026-05-11 (CONV-33, Phase 1.3 sub-plan Part 2 ratified + business review)</div>
+    <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan session of <code>plans/permission-and-tenancy-model.md</code> (pack-ratify Part 2 Decision Log + Step 4.4 business review + Step 4.5 ratification sweep + Step 5 workstream). Sub-plan status: <code>draft</code> → <strong>ratified</strong>. Part 2 closed 11 разделов (8 real design + 3 cross-ref closures); 6 new picks consolidated с Foundational §7.5 + §6.1 + §4.2 + §3 + ADR 0004/0005 v3. Workstream <code>phase-1-3-implementation</code> (P0) — created. 21 HIGH findings из business review (6 concern agents — Studios / Sales motion / Customer Success / Legal+Compliance / Security / Finance+Billing) flagged как SPEC-AMEND для CONV-34 patch session.</p>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Sub-plan Part 2 — 11 разделов (Decision Log)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>2.1 Workspace switcher mechanics</strong> — closed as cross-ref (Part 1 § 1.3 + UI deep-spec → <code>plans/onboarding-trial-mode.md</code>).</li>
+      <li><strong>2.2 Ownership transfer detail</strong> — closed as cross-ref (Part 1 § 1.5.F + Foundational §3 lines 811-826).</li>
+      <li><strong>2.3 Referral attribution rules</strong> — 6 new picks (dual-condition credit accrual: referee upgrade + sponsor paid; lazy 6-char base32 code generation; `?ref=` URL param wins on form-field conflict; Free Guest sees disabled referral surface для upgrade motivation; cycle detection server-side at Org creation; payout_amount Phase 4.2).</li>
+      <li><strong>2.4 Audit log scope для Phase 1.3 events</strong> — 9 event categories × 5 roles visibility matrix; storage spec (append-only `audit_events` table tenant-scoped via org_id); retention per ADR 0004 (12mo active + indefinite archive); UI surfaces (Org Settings / Project Settings / SA «My activity»).</li>
+      <li><strong>2.5 Naming finalisation</strong> — closed без изменений (Sales Manager + Content Editor ratified в v4.7).</li>
+      <li><strong>2.6 Email mismatch wording</strong> — closed as verbatim (Foundational §2 line 765).</li>
+      <li><strong>2.7 Subdomain reservation list</strong> — 58 entries across 5 categories (Платформа / Инфра / Environments / Functional+brand / Brand+vendor typosquat) + validation rules + storage в `config/reserved-subdomains.json`.</li>
+      <li><strong>2.8 Free Guest → paid conversion</strong> — dual trigger (lazy «+ Create project» + explicit Settings → Billing); migration split (preserved vs activated); backwards = only auto (trial expired / suspension), self-trigger downgrade Tier 1+ → Free Guest blocked.</li>
+      <li><strong>2.9 SA dual-Org membership</strong> — allowed combinations confirmed (Internal SA в А + External SA в Б OK; two roles per same Org blocked); home_org_id formalisation (set once at first membership, never changes); `home_org_orphaned: true` flag для orphan cases; membership_type derived from `org_id` link.</li>
+      <li><strong>2.10 Open/Closed pool reversibility</strong> — both directions allowed; Owner/Admin/SM permission; audit + email на Open → Closed flip; NO auto-assign; Variant A для Reserved-by-External-SA edge case (status preserved + visibility lost, admin manual handover).</li>
+      <li><strong>2.11 Microsoft OAuth resolution</strong> — ADR 0005 v3 wins; Foundational §2 patched (Microsoft bullet removed, section retitled «Google + email/password (4)»); Part 1 § 1.2.D table updated (Microsoft + Custom SSO → Stage 2 Tier 3 gate row).</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Business review — 21 HIGH SPEC-AMEND findings (4 themes для CONV-34 patch session)</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Token mechanics hardening</strong> — reverse-invite TTL 7d → 30d (Developer B2B cycles); buyer token ≥128-bit opaque + scope-to-unit + rotate on SA removal + noindex headers; invite token entropy spec + rate-limit + constant-time compare.</li>
+      <li><strong>Session/permission re-eval policy</strong> — role-change must invalidate session records cross-subdomain; permission check on every privileged action (не cached); ownership transfer billing boundary tied к target's first_successful_payment_at (не actor's).</li>
+      <li><strong>Audit immutability + GDPR-compliant retention</strong> — append-only DB role + monthly hash-chain seal + off-box archive shipping; pseudonymise actor_user_id post-12mo; PII classification на JSONB metadata; ADR 0004 amendment.</li>
+      <li><strong>Ownership transfer + billing handover precision</strong> — Stripe customer record management для Free Guest auto-downgrade; T2 → T1 proration policy (new ADR); referral payout retroactive eligibility cap 12mo; SLA + identity-verification protocol для post-payment support transfers.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Phase 1.3 callout + Foundational §2 patches applied</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li><strong>Foundational §2 lines 745-753</strong> — section retitled «Auth methods — Google + Microsoft + email/password (5)» → «Auth methods — Google + email/password (4)»; Microsoft bullet removed; footer note expanded с Microsoft + Custom SSO Stage 2 Tier 3 gate + revenue trigger language.</li>
+      <li><strong>Phase 1.3 callout</strong> — sub-plan status flip <code>draft (Part 1 ratified)</code> → <code>ratified CONV-33 — Part 1 + Part 2 closed</code>; Part 2 inline summary added; ADR 0004 reference added.</li>
+      <li><strong>Workstream <code>phase-1-3-implementation</code></strong> — P0, tags: architecture / ux / security / domain.</li>
+    </ul>
+
+    <div style="font-weight:600; color:var(--navy); margin-bottom:6px; margin-top:14px;">Не закрыто</div>
+    <ul style="margin:0; padding-left:22px; font-size:13.5px; color:var(--text-mid);">
+      <li>21 HIGH SPEC-AMEND tickets для CONV-34 patch session (~2-3h, 4 themes выше).</li>
+      <li>2 stale Learnings deprecation в Notion (CONV-7 5-tier model + CONV-?? «Invite клиента» VV legacy) — carry-over CONV-31 / CONV-32 / CONV-33.</li>
+      <li>3 sub-plans pending в очереди: <code>onboarding-trial-mode.md</code> (P0, ADR 0008 numbers) · <code>legal-multi-party-framework.md</code> (P1, jurisdiction-dependent) · <code>buyer-profile-and-presentation.md</code> (P1, ADR 0012 + Phase 1.11.1-8).</li>
+      <li>Cyprus jurisdiction — active review (не re-ask, wait для user signal).</li>
+    </ul>
+  </div>
+
+  <div style="margin:24px 0; padding:24px 28px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--gold); border-radius:8px;">
     <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px;">v4.15 — 2026-05-09 (CONV-32, Phase 1.3 sub-plan Part 1 ratified)</div>
     <p style="font-size:14px; color:var(--text-mid); margin-bottom:14px;"><strong>Источники:</strong> /plan session of <code>plans/permission-and-tenancy-model.md</code>. Pack-mode interview (5 разделов через interview + 5 через consolidation) ratified Part 1 (Behavioural Spec, 10 разделов) для Phase 1.3.1-1.3.12 implementation. Sub-plan status: <code>stub</code> → <code>draft</code>. Audience: Roma (scaffold sync) + Ilya (tech estimate). Part 2 (Decision Log, 10 пунктов + Microsoft OAuth inconsistency) — pending separate session. Step 4.4 / 4.5 / workstream creation — после Part 2.</p>
 
