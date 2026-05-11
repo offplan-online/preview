@@ -294,7 +294,7 @@
   <h1>offplan<span class="brand-dot">.</span>online — Launch Plan</h1>
   <p class="subtitle">План вывода self-serve SaaS-продукта в лайв. 4 стадии, 25 фаз, ~170 подзадач.
   Для обсуждения менеджментом: product team + tech team + Legal.</p>
-  <div class="hero-meta">Версия 4.4 · 2026-05-06 · Статус: draft (Phase 1.3 ratified) · <a href="launch-plan-changelog.html" style="color:rgba(255,255,255,.7);text-decoration:underline;">Revision history →</a></div>
+  <div class="hero-meta">Версия 4.18 · 2026-05-11 · Статус: draft (Phase 1.3 ratified + SPEC-AMEND closed CONV-34) · <a href="launch-plan-changelog.html" style="color:rgba(255,255,255,.7);text-decoration:underline;">Revision history →</a></div>
 </div>
 
 <nav class="topnav">
@@ -323,7 +323,7 @@
 
     <a href="../mockups/operator-panel-v3.html" class="doc-card c-navy">
       <div class="doc-card-icon">🏢</div>
-      <div class="doc-card-name">Operator Panel v1</div>
+      <div class="doc-card-name">Operator Panel v3</div>
       <div class="doc-card-desc">Интерфейс управления для оператора: проекты, настройки, feature-флаги, платёжный провайдер</div>
       <div class="doc-card-link">Открыть →</div>
     </a>
@@ -566,7 +566,7 @@
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 
 <div id="foundational-decisions" style="margin:0 0 40px; padding:28px 32px; background:linear-gradient(135deg, var(--sand-200) 0%, var(--sand-100) 100%); border:1px solid var(--border-mid); border-left:6px solid var(--gold); border-radius:12px;">
-  <div style="font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px;">📚 Foundational decisions · v4.4 · CONV-17 · 2026-05-06</div>
+  <div style="font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px;">📚 Foundational decisions · v4.4 · CONV-17 · 2026-05-06 (обновлялось CONV-33 / CONV-34 — см. callouts ниже)</div>
   <h2 style="border:none; padding:0; margin:0 0 14px; font-size:22px; color:var(--navy);">Tenancy, permissions, onboarding &amp; access — read this first</h2>
   <p style="font-size:14.5px; color:var(--text-mid); margin-bottom:16px;">Эта секция — synthesis закрытого <code>/plan permission-and-tenancy-model</code> interview (Blocks A-G). Её решения — <strong>cross-cutting</strong>: применяются в Фазах 1.2, 1.3, 1.4, 1.7, 1.9, 1.10, 1.11. Прочитайте её до того как уйдёте в детали отдельных фаз — она объясняет «кто есть кто», «как работает подписка», «как раздаются доступы», «что видят разные люди». Каждая Фаза ниже ссылается на конкретные пункты этой секции через CONV-17 callouts.</p>
   <div style="display:flex; gap:10px; flex-wrap:wrap; font-size:12.5px;">
@@ -1196,7 +1196,7 @@
   <ul>
     <li><strong>Active sessions:</strong> immediate logout (security paramount).</li>
     <li><strong>Assignments cascade:</strong> escalate up к Sales Manager/Admin owning Organisation + audit + email notification (см. секция 4.4).</li>
-    <li><strong>Audit log retention:</strong> per ADR 0004.</li>
+    <li><strong>Audit log retention:</strong> per <a href="../decisions/0004-audit-log-retention.md">ADR 0004 v2</a> (12mo active + 7yr Cyprus archive + pseudonymisation post-12mo + insert-only DB role + monthly hash-chain seal).</li>
     <li><strong>Re-invite после удаления:</strong> new invitation flow (single-use token, full personal-invite process). «Restore deleted user» button → Stage 2. <strong>При re-invite того же email</strong> → fresh membership; assignments и buyer-records <strong>НЕ auto-restore</strong> (manual reassignment by Sales Manager / Admin) — защита от accidental restore'ов после подозрительных деактиваций.</li>
     <li><strong>Buyer-records деактивированного Sales Agent'а:</strong> остаются в DB, attribution к SA preserved (commission через handoff к другому SA per CONV-22 attribution rules). Link не воидится — удаление только через GDPR erasure (см. <a href="#fd-edges">§7.2</a>).</li>
     <li><strong>Login attempt после deactivation:</strong> деактивированный = анонимный посетитель. Логин fail'ится generic'ом («не получилось войти», без причины — security: не leak'аем «kicked by colleague»). Прямые ссылки на проекты работают по правилам Public Visibility per <a href="#fd-visibility">§5</a> (Private = 404, Discovery = limited, Full sales = full, PIN-protected = PIN gate). Никаких спецбаннеров про suspension.</li>
@@ -1208,7 +1208,7 @@
   <summary class="task-label">GDPR / ADGM right-to-erasure (Buyer data) <span class="count">(4)</span></summary>
   <ul>
     <li><strong>Что удаляется immediately:</strong> PII (email, name) anonymized to placeholder; magic link tokens revoked + deleted; buyer-record sets to anonymized stub.</li>
-    <li><strong>Что retain'им (legal basis):</strong> reservation history (если deal completed — anti-fraud + tax requirement); audit log entries (anonymized PII, kept по ADR 0004); aggregate analytics без PII.</li>
+    <li><strong>Что retain'им (legal basis):</strong> reservation history (если deal completed — anti-fraud + tax requirement); audit log entries (pseudonymised actor_user_id post-12mo, kept до 7yr Cyprus statutory limitation по <a href="../decisions/0004-audit-log-retention.md">ADR 0004 v2</a>); aggregate analytics без PII.</li>
     <li><strong>Erasure flow:</strong> email request → operator manual processing Stage 1. Self-service «Privacy → Delete my data» button → Stage 2.</li>
     <li><strong>SLA:</strong> 30 дней (GDPR + ADGM требование совпадают). Privacy schema <strong>jurisdiction-agnostic</strong> — работает в Cyprus / ADGM / UAE Federal / DIFC, никаких переписываний при смене jurisdiction'а.</li>
   </ul>
@@ -1400,7 +1400,7 @@
     <li><strong>❌ 1.2.5 (demo-project vs empty-state) DEPRECATED</strong> — Live Preview в правой панели даёт time-to-first-value без шаблонного demo-проекта.</li>
     <li><em>v4.8 (CONV-25):</em> <strong>PIN-protected preset config — 4 conditional поля</strong> в Object Builder (и Project Settings). Когда Owner / Admin выбирает Public Visibility = «PIN-protected» — разворачиваются: PIN (required, free-format string min 4 char), After-PIN view (Discovery | Full sales), Contact email (required, default = Owner email), Contact phone (optional). См. <a href="#fd-visibility-pin">§5.1</a> для полного UX flow + <a href="#fd-visibility">§5</a> для preset table.</li>
   </ul>
-  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan <code>plans/onboarding-trial-mode.md</code> нужно обновить с учётом Atelier model. Связано с <a href="../decisions/0008-tier-model.md">ADR 0008</a> (Tier model + admin mode coupling, Skeleton — pricing/limits defer to sub-plan).</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Sub-plan <code>plans/onboarding-trial-mode.md</code> нужно обновить с учётом Atelier model. Связано с <a href="../decisions/0008-tier-model.md">ADR 0008</a> (Tier model + admin mode coupling, Skeleton — pricing/limits defer to sub-plan). <strong>CONV-34 v4.17 cross-link:</strong> auth / invitation token entropy spec теперь живёт в <code>plans/permission-and-tenancy-model.md</code> § 1.4.D (≥128-bit CSPRNG + hashed storage + constant-time compare + per-IP rate-limit) — Phase 1.2 onboarding flows используют этот же token primitive.</p>
 </div>
 
 <div class="task">
@@ -1975,6 +1975,11 @@
 </div>
 
 <div id="phase-1-5" class="phase"><span class="phase-num">Фаза 1.5</span><h3>MCP Server Wrapper <span class="marker m-bl" style="font-size:10px; vertical-align:middle;">[BL]</span></h3><p class="phase-desc"><strong>Что такое MCP:</strong> открытый стандарт от Anthropic для AI-моделей вызывать внешние API через стандартизированный интерфейс. <strong>MCP wrapper</strong> = тонкий слой над нашим существующим API, превращающий endpoints в "tools" для AI. Студия открывает Claude и говорит «создай новый проект Marina Residences с 80 юнитами 1BR/2BR» — Claude вызывает наши MCP tools, проект создан за 30 секунд. Пользователь открывает <code>marina-residences.offplan.online</code>, sales-app live.</p></div>
+
+<div class="callout" style="background: rgba(220,80,80,0.06); border-left: 4px solid var(--red); padding: 16px 20px; margin: 16px 0;">
+  <strong>⚠️ Implementation gate (CONV-34): Phase 1.5.6 — MCP wrapper auth + prompt-injection sanitisation — blocked до full ratification <a href="../decisions/0014-mcp-wrapper-auth.md">ADR 0014</a></strong>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">ADR 0014 placeholder shell ratified CONV-34 — security gate явно зафиксирован, но full spec deferred к dedicated <code>/plan</code> session. Risks (per Phase 1.3 sub-plan § Architectural risks): (1) cross-tenant data leak через connection-scoped auth — каждый MCP tool call должен resolve <code>org_id</code> per-call, не из connection state; (2) prompt-injection laundering — user-controlled content (project names, unit descriptions, buyer notes, audit entries) returned through MCP может быть interpreted as LLM instruction. Tech team может включать <code>org_id</code> propagation interface в общий scaffold (Phase 1.3.2 multi-tenant scoping), но actual MCP wrapper code = blocked до ratification. См. Phase 1.3 sub-plan <code>plans/permission-and-tenancy-model.md</code> § Architectural risks + Learning «MCP wrapper prerequisites: tenant isolation + prompt-injection sanitisation» (2026-04-27).</p>
+</div>
 
 <div style="margin:0 0 18px; padding:18px 22px; background:var(--sand-50); border:1px solid var(--border); border-radius:8px;">
   <div style="font-weight:600; color:var(--navy); margin-bottom:8px;">Подход — две итерации</div>
@@ -2799,7 +2804,8 @@
 
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
   <strong>📌 Ratified legal multi-party + privacy decisions (CONV-15 + CONV-17) — детали в sub-plan</strong>
-  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec — <code>plans/legal-multi-party-framework.md</code> (status: stub, awaits lawyer review + /plan ratification). Ratified additions to Phase 1.9 (4 multi-party documents + 5 privacy clauses): Permission delegation framework (правовое основание делегации A→B, без этого Phase 1.3 нелегальна) · Multi-party access agreement template (developer ↔ agency ↔ agent цепочка) · Data ownership matrix per actor type (project / unit / buyer profile / presentation analytics) · Liability allocation при делегации · GDPR/ADGM right-to-erasure для buyer data (30d SLA, jurisdiction-agnostic, см. <a href="#fd-edges">Foundational §7</a>) · Reverse invite legal framework (Studio → Developer, Free Guest tier clauses, no project transfer Stage 1) · Buyer data export для KYC (платформа не собирает KYC сама, liability на Organisation) · Hosting region disclosure (EU-DC Stage 1: AWS Frankfurt / Cloudflare EU; cross-border language если ADGM pivot) · Audit log retention notice (referencing ADR 0004, anonymized PII для tax/anti-fraud). Phase 1.9 grows from 11 → 15 documents pending lawyer review.</p>
+  <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec — <code>plans/legal-multi-party-framework.md</code> (status: stub, awaits lawyer review + /plan ratification). Ratified additions to Phase 1.9 (4 multi-party documents + 5 privacy clauses): Permission delegation framework (правовое основание делегации A→B, без этого Phase 1.3 нелегальна) · Multi-party access agreement template (developer ↔ agency ↔ agent цепочка) · Data ownership matrix per actor type (project / unit / buyer profile / presentation analytics) · Liability allocation при делегации · GDPR/ADGM right-to-erasure для buyer data (30d SLA, jurisdiction-agnostic, см. <a href="#fd-edges">Foundational §7</a>) · Reverse invite legal framework (Studio → Developer, Free Guest tier clauses, no project transfer Stage 1) · Buyer data export для KYC (платформа не собирает KYC сама, liability на Organisation) · Hosting region disclosure (EU-DC Stage 1: AWS Frankfurt / Cloudflare EU; cross-border language если ADGM pivot) · Audit log retention notice (referencing <a href="../decisions/0004-audit-log-retention.md">ADR 0004 v2</a> — 12mo active + 7yr Cyprus archive + pseudonymised actor_user_id для tax/anti-fraud + PII classification на JSONB metadata + insert-only DB role + monthly hash-chain seal). Phase 1.9 grows from 11 → 15 documents pending lawyer review.</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;"><strong>CONV-34 v4.17 / v4.18 sub-plan gates anchored в legal sub-plan:</strong> (1) <strong>Reverse-invite legal basis</strong> (§ 1.4.C в permission-and-tenancy sub-plan) — ToS warranty-of-rights clause + rate-limit + mandatory unsubscribe footer + takedown route <code>abuse@offplan.online</code>; (2) <strong>Buyer joint-controller framework</strong> (§ 2.4.C <code>controller_org_id</code> annotation в audit_events) — GDPR Art. 26 joint-controller agreement template для developer ↔ agency ↔ agent цепочки.</p>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Privacy schema jurisdiction-agnostic (Cyprus GDPR / ADGM 2021 / UAE Federal / DIFC — все GDPR-aligned). Generic privacy-policy templates Stage 1 (Iubenda / Termly), custom legal review Stage 2.</p>
 </div></div>
 
@@ -3292,6 +3298,7 @@
 <div class="callout" style="background: rgba(184,149,90,0.08); border-left: 4px solid var(--gold); padding: 16px 20px; margin: 16px 0;">
   <strong>📌 Ratified buyer-flow decisions (CONV-17 + CONV-24) — детали в sub-plan</strong>
   <p style="margin: 8px 0 0; font-size: 13.5px; color: var(--text-mid);">Полная spec — <code>plans/buyer-profile-and-presentation.md</code> (status: stub, awaits /plan ratification). Ratified decisions for Phase 1.11.1-1.11.5 (Variant E2 = passwordless per-presentation): Buyer entity creation при отправке email'а Sales Agent'ом (identity = email + name + phone optional, token attribution → reserving SA, no global buyer accounts Stage 1, см. <a href="#fd-buyer">Foundational §6</a>) · Email content composition (auto-summary + agent free-text editable + N tokenised unit-links per liked unit) · Token expiry handling 90d (buyer-record persists post-expiry, expired link redirects на main project page с preserved attribution) · Buyer self-service actions on unit-page (heart additional units + «Связаться со мной» CTA — notification к SA, не lock'ает unit) · Forward email handling (multi-session OK для shared token, rate-limit на «Связаться» submissions, audit log с IP+timestamp) · NO dedicated shortlist page Stage 1 (email = source of truth, central shortlist page → Stage 2) · Buyer schema (email, name, phone, agent_user_id FK, client_id FK, token_hash, created_at, expires_at, source_presentation_id; liked units в <code>presentation_units</code> table). <em>v4.7 (CONV-24):</em> <strong>Preview-as-Buyer</strong> (related but separate from <a href="#fd-access">§4.6</a> View-as-Agent) — кнопка в presentation builder перед «Send», render with тестовым preview-token'ом, heart / «Связаться» disabled (preview-only mode).</p>
+  <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;"><strong>CONV-34 v4.17 buyer token security spec (§ 1.7.J в permission-and-tenancy sub-plan):</strong> ≥128-bit opaque CSPRNG token, hashed storage; <strong>scope = single (buyer, unit) pair</strong> (one row per unit, N units = N URLs, no org-wide / multi-unit tokens); 90d sliding window; <strong>forced rotation</strong> on SA loss / unit re-attribution / buyer email change / manual revoke; HTTP headers на buyer page response: <code>X-Robots-Tag: noindex, nofollow, noarchive, nosnippet</code> + <code>Referrer-Policy: no-referrer</code> + <code>Cache-Control: private, no-store</code> + <code>Content-Security-Policy: frame-ancestors 'none'</code>; buyer cookie scoped к single (buyer_id, org_id) request — никогда <code>*.offplan.online</code>; rate-limit 30 invalid hits / 10min per IP + burst alert. Suspension state: read-only до expiry, CTA disabled. Полная spec анкорена в <code>plans/permission-and-tenancy-model.md</code> § 1.7.J.</p>
   <p style="margin-top: 10px; font-size: 12px; color: var(--text-mid); font-style: italic;">Зависит от Phase 1.3 (Tenancy ratified) — buyer entity model + permissions. Зависит от Phase 1.10 — buyer-aware unit pages.</p>
 </div>
 
@@ -3363,9 +3370,9 @@
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 
 <div id="open-questions-v44" style="margin:50px 0 32px; padding:28px 32px; background:linear-gradient(135deg, var(--sand-200) 0%, var(--sand-100) 100%); border:1px solid var(--border-mid); border-left:6px solid var(--amber); border-radius:12px;">
-  <div style="font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--amber); font-weight:700; margin-bottom:10px;">⚠️ Open questions · v4.4 · CONV-17</div>
+  <div style="font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:var(--amber); font-weight:700; margin-bottom:10px;">⚠️ Open questions · v4.18 · CONV-34 (обновлено · 3 из 7 tech-questions resolved)</div>
   <h2 style="border:none; padding:0; margin:0 0 14px; font-size:22px; color:var(--navy);">Нерешённые вопросы — для обсуждения с Романом и Ильёй</h2>
-  <p style="font-size:14px; color:var(--text-mid); margin-bottom:16px;">Эти вопросы <strong>не блокируют</strong> ratification Phase 1.3 (foundational decisions закрыты), но требуют решения до final tech-estimate'а от Ильи и до launch'а Stage 1.</p>
+  <p style="font-size:14px; color:var(--text-mid); margin-bottom:16px;">Эти вопросы <strong>не блокируют</strong> ratification Phase 1.3 (foundational decisions закрыты + SPEC-AMEND v4.17/v4.18 closed CONV-34), но требуют решения до final tech-estimate'а от Ильи и до launch'а Stage 1. Resolved вопросы помечены ✅ ниже с указанием куда ушла spec.</p>
 </div>
 
 <!-- ─── Parked product question — Cyprus vs Abu Dhabi ─── -->
@@ -3379,21 +3386,22 @@
 
 <!-- ─── Tech questions для Ильи ─── -->
 <div style="margin:0 0 24px; padding:22px 26px; background:#fff; border:1px solid var(--border-mid); border-left:4px solid var(--amber); border-radius:10px;">
-  <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--amber); font-weight:700; margin-bottom:8px;">TECH · 7 unknowns для Ильи (требуются до final estimate)</div>
+  <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--amber); font-weight:700; margin-bottom:8px;">TECH · 7 unknowns для Ильи · обновлено CONV-34 (3 resolved · 4 остаются)</div>
   <h3 style="border:none; padding:0; margin:0 0 10px; color:var(--navy);">Tech architecture questions для Ильи</h3>
-  <p style="margin-bottom:12px;">Это <strong>не product decisions</strong>, а технические development unknowns. Эти 7 вопросов нужно ответить Ильe до того как он сможет дать reliable estimate на Phase 1.3 (10 subtasks). Для Романа — это контекст того что осталось согласовать на tech-side.</p>
+  <p style="margin-bottom:12px;">Это <strong>не product decisions</strong>, а технические development unknowns. Изначально 7 вопросов от CONV-17; после ratification Phase 1.3 sub-plan (CONV-32/33) + SPEC-AMEND v4.17/v4.18 (CONV-34) — 3 из 7 имеют spec и помечены <strong>✅ resolved</strong> ниже. Оставшиеся 4 нужны Ильe до final estimate'а на Phase 1.3.</p>
   <table style="margin:8px 0; font-size:13.5px;">
     <thead><tr><th style="width:40px;">#</th><th>Вопрос</th><th>Влияет на</th></tr></thead>
     <tbody>
       <tr><td><strong>1</strong></td><td>Wildcard SSL для <code>*.offplan.online</code> — Cloudflare-managed или AWS ACM?</td><td>D.1 custom domain setup (CNAME + SSL provisioning per-Organisation)</td></tr>
-      <tr><td><strong>2</strong></td><td>Multi-tenant DB strategy — single DB с <code>client_id</code> columns + Row-Level Security, или DB-per-tenant?</td><td>Cost / performance / data isolation (Phase 1.8 tenant isolation)</td></tr>
-      <tr><td><strong>3</strong></td><td>Token storage / hashing strategy — bcrypt? plain в DB? Different для invitations vs buyer-tokens?</td><td>Security surface, all token-based flows</td></tr>
-      <tr><td><strong>4</strong></td><td>Magic-link email delivery — какой transactional email provider (SendGrid / Postmark / SES)?</td><td>Domain rep / DKIM setup / Phase 1.7 custom domain feature</td></tr>
+      <tr style="background:rgba(80,180,80,0.06);"><td><strong>2 ✅</strong></td><td><s>Multi-tenant DB strategy — single DB с <code>client_id</code> columns + Row-Level Security, или DB-per-tenant?</s> <strong>Resolved CONV-31:</strong> single DB с <code>org_id</code> scoping per <a href="../decisions/0009-tenancy-permission.md">ADR 0009</a> (Tenancy &amp; Permission Architecture, Full spec). Row-Level Security рекомендуется на query layer.</td><td>Phase 1.8 tenant isolation — теперь spec'd</td></tr>
+      <tr style="background:rgba(80,180,80,0.06);"><td><strong>3 ✅</strong></td><td><s>Token storage / hashing strategy — bcrypt? plain в DB? Different для invitations vs buyer-tokens?</s> <strong>Resolved CONV-34 v4.17:</strong> opaque ≥128-bit CSPRNG, **hashed (SHA-256)** в DB column `token_hash`; raw token только в email URL; constant-time hash compare на lookup; per-IP rate-limit. Spec: <code>plans/permission-and-tenancy-model.md</code> § 1.4.D (invite tokens) + § 1.7.J (buyer tokens — отличаются scope-to-(buyer,unit) + forced rotation rules).</td><td>Security surface — spec'd</td></tr>
+      <tr><td><strong>4</strong></td><td>Magic-link email delivery — какой transactional email provider (SendGrid / Postmark / SES / Resend)?</td><td>Domain rep / DKIM setup / Phase 1.7 custom domain feature. См. <a href="../decisions/0011-email-sender.md">ADR 0011</a> Shell — 4 architectures с trade-off table.</td></tr>
       <tr><td><strong>5</strong></td><td>Existing Super Admin Panel — на каком стеке? Reuse его auth-логику для operator dashboard, или строим новую?</td><td>Phase 1.4 dependency, влияет на 1.3.3 (multi-role auth) estimate</td></tr>
-      <tr><td><strong>6</strong></td><td>Real-time sync для unit status (available ↔ reserved ↔ sold) между Sales Agent'ами — WebSocket / polling / Pusher?</td><td>Phase 1.10 / 1.11, влияет на UX precision когда несколько Sales Agent'ов работают одновременно (видят актуальный status сразу или с lag'ом)</td></tr>
+      <tr style="background:rgba(80,180,80,0.06);"><td><strong>6 ✅</strong></td><td><s>Real-time sync для unit status (available ↔ reserved ↔ sold) между Sales Agent'ами — WebSocket / polling / Pusher?</s> <strong>Resolved CONV-31:</strong> 4 architectures расписаны в <a href="../decisions/0012-realtime-sync.md">ADR 0012</a> Shell для discussion с Илья + командой. Conflict UX (first-click-wins + pessimistic lock 500ms timeout fall-through) — spec'd в § 1.7.E + § 1.7.F. Implementation choice остаётся за тех-командой.</td><td>Phase 1.10 / 1.11 — UX поведение spec'd, transport layer открыт</td></tr>
       <tr><td><strong>7</strong></td><td>Existing VV API — какие endpoints мы инхеритим, какие переписываем для multi-tenant модели?</td><td>Foundational scope question, всегда у Ильи</td></tr>
     </tbody>
   </table>
+  <p style="margin-top:12px; font-size:13px; color:var(--text-mid); font-style:italic;"><strong>Новые вопросы CONV-34 v4.18:</strong> (8) Stripe customer object retention policy при Free Guest auto-downgrade (см. <a href="../decisions/0013-proration-policy.md">ADR 0013</a> proration + § 1.8.B Stripe customer cleanup); (9) Audit log monthly hash-chain seal performance at scale (1.8-7.3M rows/year — см. Phase 1.3 sub-plan § Architectural risks); (10) MCP wrapper auth + prompt-injection sanitisation full spec (<a href="../decisions/0014-mcp-wrapper-auth.md">ADR 0014</a> placeholder — Phase 1.5.6 implementation gate).</p>
 </div>
 
 <!-- ─── Pricing / tier reminder ─── -->
