@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>offplan.online — что построено</title>
+<meta name="description" content="Обзор продукта offplan.online: панель оператора, дашборд студии, страница объекта для покупателя.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --ground: #F4F6F9;
+    --surface: #FFFFFF;
+    --surface-2: #EDF0F5;
+    --line: #D6DCE6;
+    --line-soft: #E6EAF1;
+    --ink: #101724;
+    --ink-2: #414B5E;
+    --ink-3: #6B7689;
+    --accent: #2B5F8A;
+    --accent-soft: #E3EDF5;
+    --live: #1B6B4F;
+    --live-bg: #DEF0E7;
+    --shadow: 0 1px 2px rgba(16,23,36,.06), 0 8px 24px -16px rgba(16,23,36,.28);
+    --sans: "Helvetica Neue", Helvetica, ui-sans-serif, system-ui, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0C1017; --surface: #141A24; --surface-2: #1B222E;
+      --line: #2A3341; --line-soft: #212936;
+      --ink: #E7ECF3; --ink-2: #B2BCCB; --ink-3: #7D8899;
+      --accent: #74A9D4; --accent-soft: #1A2836;
+      --live: #6BC79E; --live-bg: #14301F;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.9);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0C1017; --surface: #141A24; --surface-2: #1B222E;
+    --line: #2A3341; --line-soft: #212936;
+    --ink: #E7ECF3; --ink-2: #B2BCCB; --ink-3: #7D8899;
+    --accent: #74A9D4; --accent-soft: #1A2836;
+    --live: #6BC79E; --live-bg: #14301F;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.9);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: 15px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+
+  .masthead { padding: 56px 0 28px; border-bottom: 1px solid var(--line); }
+  .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px; }
+  h1 { margin: 0 0 14px; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.04;
+    letter-spacing: -.028em; font-weight: 700; text-wrap: balance; }
+  .standfirst { margin: 0; max-width: 62ch; color: var(--ink-2); font-size: 16.5px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px;
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+
+  .scale { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px; margin-top: 28px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .scale > div { background: var(--surface); padding: 14px 16px; }
+  .scale .num { display: block; font-size: 26px; font-weight: 700; letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums; color: var(--accent); line-height: 1.1; }
+  .scale em { font-style: normal; font-size: 12.5px; color: var(--ink-3); }
+
+  nav.jump { position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); margin-bottom: 40px; }
+  nav.jump ul { max-width: 1080px; margin: 0 auto; padding: 0 24px; list-style: none;
+    display: flex; gap: 4px; overflow-x: auto; }
+  nav.jump a { display: block; padding: 13px 12px; font-size: 13px; font-weight: 500;
+    color: var(--ink-2); text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent; }
+  nav.jump a:hover { color: var(--ink); border-bottom-color: var(--line); }
+  nav.jump a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  nav.jump .n { font-family: var(--mono); color: var(--ink-3); margin-right: 6px; font-size: 11px; }
+
+  section { margin-bottom: 64px; scroll-margin-top: 62px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .sec-num { font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: var(--accent); letter-spacing: .1em; }
+  h2 { margin: 0; font-size: 25px; letter-spacing: -.02em; font-weight: 700; text-wrap: balance; }
+  .sec-sub { margin: 0 0 24px; color: var(--ink-3); font-size: 14px; max-width: 68ch; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    box-shadow: var(--shadow); margin-bottom: 18px; overflow: hidden; }
+  .card > h3 { margin: 0; padding: 13px 18px; font-size: 12px; font-weight: 600;
+    font-family: var(--mono); letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3); background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .card-body { padding: 18px; }
+  .card-body > :first-child { margin-top: 0; }
+  .card-body > :last-child { margin-bottom: 0; }
+
+  .tw { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+    padding: 10px 18px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  td { padding: 10px 18px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .det td:first-child { font-weight: 600; white-space: nowrap; }
+  .det td:last-child { color: var(--ink-2); font-size: 13px; }
+  .chipline { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .chip { font-family: var(--mono); font-size: 10.5px; padding: 2px 6px;
+    background: var(--surface-2); border: 1px solid var(--line-soft);
+    border-radius: 3px; color: var(--ink-2); white-space: nowrap; }
+
+  code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2);
+    padding: 1px 5px; border-radius: 3px; color: var(--ink); word-break: break-word; }
+  a { color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  .linkrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 11px 18px; border-bottom: 1px solid var(--line-soft); }
+  .linkrow:last-child { border-bottom: none; }
+  .linkrow a { font-family: var(--mono); font-size: 13px; font-weight: 500; text-decoration: none; }
+  .linkrow a:hover { text-decoration: underline; }
+  .linkrow .note { color: var(--ink-3); font-size: 12.5px; margin-left: auto; text-align: right; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; font-weight: 600;
+    padding: 3px 8px; border-radius: 3px; white-space: nowrap;
+    color: var(--live); background: var(--live-bg); }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  ul.tight { margin: 0; padding-left: 18px; }
+  ul.tight li { margin-bottom: 7px; }
+  ul.tight li:last-child { margin-bottom: 0; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .flag { border-left: 3px solid var(--live); background: var(--live-bg);
+    padding: 13px 16px; border-radius: 0 4px 4px 0; font-size: 13.5px;
+    color: var(--ink-2); margin: 16px 0; }
+  .flag strong { color: var(--ink); }
+
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); line-height: 1.7; }
+
+  @media (max-width: 640px) {
+    .masthead { padding-top: 36px; }
+    .linkrow .note { margin-left: 0; width: 100%; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="kicker">offplan.online · обзор продукта</p>
+    <h1>Что построено: панель оператора, дашборд студии, страница объекта</h1>
+    <p class="standfirst">Три поверхности одного продукта. Студия собирает проект в дашборде, покупатель смотрит готовую страницу объекта, мы ведём клиентов из панели оператора.</p>
+    <div class="meta">
+      <span>Обновлено 11 августа 2026</span>
+      <span>Обзор возможностей</span>
+    </div>
+
+    <div class="scale">
+      <div><span class="num">64k</span><em>строк в двух панелях</em></div>
+      <div><span class="num">84</span><em>ручки API</em></div>
+      <div><span class="num">11</span><em>экранов оператора + хаб на 8 вкладок</em></div>
+      <div><span class="num">17</span><em>экранов дашборда + два мастера</em></div>
+    </div>
+  </header>
+</div>
+
+<nav class="jump">
+  <ul>
+    <li><a href="#dash"><span class="n">01</span>Дашборд студии</a></li>
+    <li><a href="#buyer"><span class="n">02</span>Страница объекта</a></li>
+    <li><a href="#operator"><span class="n">03</span>Панель оператора</a></li>
+    <li><a href="#live"><span class="n">04</span>Живые примеры</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- ═══ 01 DASHBOARD ═══ -->
+  <section id="dash">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Дашборд студии</h2></div>
+    <p class="sec-sub">Рабочее место клиента: собрать проект — здания, этажи, планировки, юниты, галереи, туры — и опубликовать его на своём адресе.</p>
+
+    <div class="card">
+      <h3>Путь клиента: семь шагов до публикации</h3>
+      <div class="card-body">
+        <p style="margin-top:0;color:var(--ink-2)">На главной висит трекер, который ведёт студию по цепочке и показывает, сколько шагов из скольких пройдено:</p>
+        <div class="chipline" style="margin:12px 0">
+          <span class="chip">Здания</span><span class="chip">→</span><span class="chip">Этажи</span><span class="chip">→</span><span class="chip">Планировки</span><span class="chip">→</span><span class="chip">Юниты</span><span class="chip">→</span><span class="chip">Галерея</span><span class="chip">→</span><span class="chip">360° тур</span><span class="chip">→</span><span class="chip">Публикация</span>
+        </div>
+        <p style="margin-bottom:0;color:var(--ink-2)">Восьмой узел — <strong>инвентарь</strong> с меткой Premium — стоит рядом, но в знаменатель не считается: это дополнение к тарифу, а не невыполненный шаг. Иначе клиент на младшем тарифе вечно видел бы «0 из 4» там, где четвёртое ему просто не продано.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Экраны</h3>
+      <div class="tw">
+        <table class="det">
+          <thead><tr><th>Экран</th><th>Что на нём</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Главная</td>
+              <td>Карточки проектов со статусом, трекер запуска, переход на страницу продаж. Создание проекта — выбор пакета прямо в диалоге: <strong>Starter $250</strong> (поддомен, 1 тур) или <strong>Premium $900</strong> (свой домен, до 5 туров). Адрес поддомена проверяется на лету: занят, зарезервирован, свободен.</td>
+            </tr>
+            <tr>
+              <td>Юниты</td>
+              <td>Сердце инвентаря. Поля юнита:
+                <div class="chipline"><span class="chip">номер</span><span class="chip">этаж</span><span class="chip">тип</span><span class="chip">площадь</span><span class="chip">цена</span><span class="chip">статус</span><span class="chip">сторона света</span><span class="chip">планировка</span><span class="chip">тур</span><span class="chip">вид из окна</span><span class="chip">позиция</span></div>
+                Массовые операции, без которых 300 квартир руками не завести: <strong>добавить пачкой · перенумеровать · проставить сторону света · привязать планировку</strong>. Фильтры по статусу, планировке и стороне.</td>
+            </tr>
+            <tr>
+              <td>Планировки</td>
+              <td>Тип, спальни, санузлы, парковочные места, <strong>внутренняя / внешняя / озеленённая площадь</strong>, многофункциональная комната, чертёж, привязанный 3D-тур и список юнитов, где планировка используется.</td>
+            </tr>
+            <tr>
+              <td>Этажи</td>
+              <td>Тип плиты, диапазон этажей, сколько этажей покрывает, юнитов на этаже, схема плиты — загрузка перетаскиванием. Один тип покрывает много одинаковых уровней.</td>
+            </tr>
+            <tr>
+              <td>Туры</td>
+              <td>Редактор 360°: зоны и точки перехода, расстановка пинов, куда ведёт пин, привязка к планировкам и обратная ссылка «где используется» — чтобы не удалить тур, на котором висят юниты.</td>
+            </tr>
+            <tr>
+              <td>Здания</td>
+              <td>Название, тип, изображение, видео, ракурсы. Заводится полноэкранным мастером из пяти шагов с живым превью; повторный вход редактирует созданное.</td>
+            </tr>
+            <tr>
+              <td>Справочники</td>
+              <td>Инфраструктура («бассейн, спортзал, лобби»), виды с этажа, виды из квартиры с диапазоном этажей («восток · море — этажи 1–5»). Везде поиск и подсказки примерами.</td>
+            </tr>
+            <tr><td>Галереи</td><td>Именованные коллекции изображений — рендеры, брошюры — с лайтбоксом и перелистыванием.</td></tr>
+            <tr><td>Локация</td><td>Аэрофотоснимок для блока локации на странице объекта.</td></tr>
+            <tr><td>Команда</td><td>Участники рабочего пространства.</td></tr>
+            <tr><td>Активность</td><td>Журнал действий за последние 90 дней с фильтрами по типу события, категории и времени, поиском и выгрузкой в CSV. Срок хранения подписан прямо на экране.</td></tr>
+            <tr><td>Настройки</td><td>Организация, идентичность, домены, тариф и оплата, видимость, тема, раздел для разработчика.</td></tr>
+            <tr><td>Партнёрская программа</td><td>Привести другую студию или запросить условия партнёрства.</td></tr>
+            <tr><td>Быстрая сборка</td><td>Мастер на весь экран для первого проекта: имя, адрес, наполнение, публикация. Второй режим — дозаполнить уже оплаченный пустой черновик.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 02 BUYER ═══ -->
+  <section id="buyer">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Страница объекта</h2></div>
+    <p class="sec-sub">Конечный продукт всей цепочки — то, ради чего студия заполняет дашборд. Открывается по своему адресу, работает в браузере без установки.</p>
+
+    <div class="card">
+      <div class="card-body">
+        <p style="margin-top:0;color:var(--ink-2)"><strong>Как смотрит покупатель.</strong> Внешний вид здания и ракурсы → выбор этажа по схеме плиты → выбор квартиры на этаже → карточка юнита с планировкой, площадями, ценой, статусом, видом из окна и 3D-туром. Плюс галереи, инфраструктура и локация.</p>
+        <p style="margin-bottom:0;color:var(--ink-2)">Каждый из этих блоков можно выключить у конкретного проекта — например, если студия не хочет показывать цены или ещё не сняла туры.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 OPERATOR ═══ -->
+  <section id="operator">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Панель оператора</h2></div>
+    <p class="sec-sub">Внутренний пульт: все студии, их проекты, подписки, домены, журнал действий. Отдельное приложение со своим входом по одноразовой ссылке на почту.</p>
+
+    <div class="card">
+      <h3>Экраны</h3>
+      <div class="tw">
+        <table class="det">
+          <thead><tr><th>Экран</th><th>Что на нём</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Главная</td>
+              <td>Все клиенты, разложенные по состояниям — каждая плитка кликается в отфильтрованный список.
+                <div class="chipline"><span class="chip">всего клиентов</span><span class="chip">здоровы</span><span class="chip">триал заканчивается</span><span class="chip">триал истёк</span><span class="chip">просрочка</span><span class="chip">платёж не прошёл</span><span class="chip">подписка закончилась</span><span class="chip">отменяют</span><span class="chip">заморожены</span><span class="chip">застряли на онбординге</span><span class="chip">почта не подтверждена</span><span class="chip">проблемы с доменом</span><span class="chip">тихие · платят</span></div>
+              </td>
+            </tr>
+            <tr><td>Студии</td><td>Таблица всех клиентов: тариф и состояние, проекты, здоровье, онбординг, источник, дата регистрации, последняя активность. Поиск и фильтр по тегу.</td></tr>
+            <tr>
+              <td>Хаб студии</td>
+              <td>Карточка клиента с выручкой и таймлайном жизненного цикла — <em>создан аккаунт → почта подтверждена → первый проект → первый загруженный файл → проект опубликован</em>. Восемь вкладок: обзор, проекты, подписка, домены, пользователи, активность, статус, заметки.</td>
+            </tr>
+            <tr>
+              <td>↳ Проекты студии</td>
+              <td>Здесь оператор включает и выключает блоки конкретного проекта:
+                <div class="chipline"><span class="chip">экстерьер</span><span class="chip">планировки</span><span class="chip">галереи</span><span class="chip">инвентарь</span><span class="chip">приветственный экран</span><span class="chip">подписи и условия</span></div>
+                Плюс заморозка проекта с пояснением, которое увидит клиент.</td>
+            </tr>
+            <tr><td>Домены</td><td>Самый большой экран консоли: поддомены и собственные домены клиентов, состояние проверки DNS, домены, требующие внимания, и история освобождённых адресов.</td></tr>
+            <tr>
+              <td>Журнал действий</td>
+              <td>Кто из сотрудников что сделал — событиями человеческим языком, а не кодами. Приглашения, смена ролей, отключение сотрудника, заморозка проекта, переименование домена, возвраты, ручные платежи. Фильтры по сотруднику и по клиенту.</td>
+            </tr>
+            <tr><td>Операторы</td><td>Список сотрудников, приглашения, роли и матрица прав: пять ролей против действий — видно не только что роль может, но и чего не может.</td></tr>
+            <tr><td>Пользователи студий</td><td>Сквозной список по всем клиентам с фильтром по состоянию.</td></tr>
+            <tr><td>Подписки</td><td>Оплаты и списания с переключением месяцев.</td></tr>
+            <tr><td>Активность · Статус · Настройки</td><td>Общая лента событий клиентов, аптайм с инцидентами, теги студий и системные настройки.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Вход и роли</h3>
+        <div class="card-body">
+          <ul class="tight">
+            <li>Вход по одноразовой ссылке на почту — без пароля и без внешних аккаунтов. Именно это делает панель пригодной для внешней команды.</li>
+            <li>Пять ролей с разными правами. Роль администратора не может выдать права выше своих.</li>
+            <li>Приглашение живёт сутки и срабатывает один раз; принятие сразу активирует сотрудника.</li>
+            <li>Отключение действует немедленно — права перечитываются на каждом запросе, ждать истечения сессии не нужно.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Действия над клиентом</h3>
+        <div class="card-body">
+          <p style="margin-top:0;color:var(--ink-2)">Приостановить · возобновить · удалить с окном на восстановление · восстановить · удалить окончательно · продлить триал · отправить сброс пароля.</p>
+          <p style="margin-bottom:0;color:var(--ink-2)">Причина обязательна и выбирается из списка, плюс свободный комментарий. Это не формальность: категория влияет на то, сколько у клиента остаётся времени на восстановление. Каждое действие попадает в журнал.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 LIVE ═══ -->
+  <section id="live">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Живые примеры</h2></div>
+    <p class="sec-sub">Открываются без входа.</p>
+
+    <div class="card">
+      <div class="linkrow">
+        <span class="pill">открыто</span>
+        <a href="https://weekk.offplan.online/">weekk.offplan.online</a>
+        <span class="note">страница объекта клиента — весь путь покупателя целиком</span>
+      </div>
+      <div class="linkrow">
+        <span class="pill">открыто</span>
+        <a href="https://apx.offplan.online/">apx.offplan.online</a>
+        <span class="note">ещё один опубликованный проект</span>
+      </div>
+      <div class="linkrow">
+        <span class="pill">открыто</span>
+        <a href="https://design-system.offplan.online/preview/">design-system.offplan.online</a>
+        <span class="note">дизайн-система: токены, типографика, компоненты, знак</span>
+      </div>
+    </div>
+
+    <div class="flag">
+      <strong>Про тарифы.</strong> Starter — $250, поддомен и один 360° тур. Premium — $900, собственный домен, до пяти туров и инвентарь юнитов. Пробный период 14 дней, один на студию: второй проект стартует уже платным.
+    </div>
+  </section>
+
+  <footer>
+    offplan.online — программное обеспечение для продажи недвижимости на стадии строительства.<br>
+    Обзор возможностей, обновлено 11 августа 2026.
+  </footer>
+</div>
+
+</body>
+</html>
